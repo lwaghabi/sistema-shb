@@ -1,5 +1,5 @@
 [History]
-1=#P0#=mb	#P1#=txtPU_LostFocus	#P2#=SHB/frmNotaFiscalEntrada/txtPU_LostFocus	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20230829151214	#P7#=0	#P8#=2	.
+1=#P0#=mb	#P1#=txtPU_LostFocus	#P2#=SHB/frmNotaFiscalEntrada/txtPU_LostFocus	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20230829152123	#P7#=0	#P8#=3	.
 2=#P0#=mb	#P1#=Form_Load	#P2#=SHB/frmNotaFiscalEntrada/Form_Load	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20230829133443	#P7#=0	#P8#=94	.
 3=#P0#=mb	#P1#=Rotina_Execucao_Mensal	#P2#=SHB/frmAbre_Fecha/Rotina_Execucao_Mensal	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20230829123225	#P7#=0	#P8#=39	.
 4=#P0#=mb	#P1#=Rotina_Nota_Fiscal	#P2#=SHB/frmAbre_Fecha/Rotina_Nota_Fiscal	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20230829122600	#P7#=0	#P8#=176	.
