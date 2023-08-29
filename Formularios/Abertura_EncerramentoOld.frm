@@ -102,7 +102,7 @@ Begin VB.Form frmNotaFiscalEntrada
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Format          =   319881217
+            Format          =   244187137
             CurrentDate     =   44603
          End
          Begin VB.OptionButton optPaga 
@@ -175,7 +175,7 @@ Begin VB.Form frmNotaFiscalEntrada
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Format          =   319881217
+            Format          =   244121601
             CurrentDate     =   43882
          End
          Begin MSFlexGridLib.MSFlexGrid GridDesdobr 
@@ -3358,9 +3358,6 @@ Call FechaDB
 End Sub
 
 Private Sub txtPU_LostFocus()
-
-'TESTE DO GIT
-'TESTE 2
 
 If txtPU = "" Then
    MsgBox ("PU não Informado")

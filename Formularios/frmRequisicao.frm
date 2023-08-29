@@ -502,9 +502,25 @@ End Sub
 Private Sub cmdJogaNaLista_Click()
    Call Rotina_AbrirBanco
    rs.Open "SELECT chPessoa FROM supRequisicao WHERE id = ('" & cmbIdReq & "')", db, 3, 3
-   If rs!chPessoa = glbUsuario Then
+   
+   If Not rs.EOF Then
+      
+      If rs!chPessoa = glbUsuario Then
+         
+         tblProdutos.AddItem cmbProduto & vbTab & txtQtdProd
+      
+      Else
+      
+         MsgBox ("Acesso permitido somente ao requisitante."), vbInformation
+      
+      End If
+   
+   Else
+       
       tblProdutos.AddItem cmbProduto & vbTab & txtQtdProd
+      
    End If
+   
    rs.Close
    FechaDB
 End Sub
