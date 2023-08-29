@@ -1,0 +1,6 @@
+Line 142: Class MSComCtl2.DTPicker of control txtDataComp was not a loaded control class.
+Line 201: Class MSComCtl2.DTPicker of control txtDataConsulta was not a loaded control class.
+Line 224: Class MSMask.MaskEdBox of control txtDataHoje was not a loaded control class.
+Line 283: Class MSFlexGridLib.MSFlexGrid of control GridPendentes was not a loaded control class.
+Line 326: Class MSFlexGridLib.MSFlexGrid of control GridConfirmados was not a loaded control class.
+Line 369: Class MSFlexGridLib.MSFlexGrid of control GridAtrasados was not a loaded control class.

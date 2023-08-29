@@ -1,0 +1,16 @@
+Line 15: Class ComctlLib.ProgressBar of control pbCopiaArquivos was not a loaded control class.
+Line 26: Class MSComCtl2.DTPicker of control txtHoje was not a loaded control class.
+Line 176: Class MSComCtl2.DTPicker of control txtDataEvento was not a loaded control class.
+Line 21: The property name _ExtentX in pbCopiaArquivos is invalid.
+Line 22: The property name _ExtentY in pbCopiaArquivos is invalid.
+Line 23: The property name _Version in pbCopiaArquivos is invalid.
+Line 32: The property name _ExtentX in txtHoje is invalid.
+Line 33: The property name _ExtentY in txtHoje is invalid.
+Line 34: The property name _Version in txtHoje is invalid.
+Line 35: The property name Format in txtHoje is invalid.
+Line 36: The property name CurrentDate in txtHoje is invalid.
+Line 182: The property name _ExtentX in txtDataEvento is invalid.
+Line 183: The property name _ExtentY in txtDataEvento is invalid.
+Line 184: The property name _Version in txtDataEvento is invalid.
+Line 185: The property name Format in txtDataEvento is invalid.
+Line 186: The property name CurrentDate in txtDataEvento is invalid.

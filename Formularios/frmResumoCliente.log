@@ -1,0 +1,6 @@
+Line 113: Class TabDlg.SSTab of control SSTab1 was not a loaded control class.
+Line 489: Class MSComCtl2.DTPicker of control txtFatFim was not a loaded control class.
+Line 501: Class MSComCtl2.DTPicker of control txtFatIni was not a loaded control class.
+Line 547: Class MSMask.MaskEdBox of control txtDataMaiorFat was not a loaded control class.
+Line 1175: Class MSComCtl2.DTPicker of control txtDataFinal was not a loaded control class.
+Line 1187: Class MSComCtl2.DTPicker of control txtDataInicio was not a loaded control class.

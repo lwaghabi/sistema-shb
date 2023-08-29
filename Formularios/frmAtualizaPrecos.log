@@ -1,0 +1,7 @@
+Line 13: Class MSMask.MaskEdBox of control txtHoje was not a loaded control class.
+Line 19: The property name _ExtentX in txtHoje is invalid.
+Line 20: The property name _ExtentY in txtHoje is invalid.
+Line 21: The property name _Version in txtHoje is invalid.
+Line 22: The property name MaxLength in txtHoje is invalid.
+Line 32: The property name Mask in txtHoje is invalid.
+Line 33: The property name PromptChar in txtHoje is invalid.

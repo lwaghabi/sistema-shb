@@ -1,0 +1,5 @@
+Line 16: Class MSMask.MaskEdBox of control txtDataHoje was not a loaded control class.
+Line 70: Class MSComCtl2.DTPicker of control txtDataVencito was not a loaded control class.
+Line 82: Class MSFlexGridLib.MSFlexGrid of control GridDesdobr was not a loaded control class.
+Line 453: Class MSFlexGridLib.MSFlexGrid of control GridProduto was not a loaded control class.
+Line 724: Class MSComCtl2.DTPicker of control txtDataEmissao was not a loaded control class.
