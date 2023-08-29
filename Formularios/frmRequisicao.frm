@@ -35,7 +35,7 @@ Begin VB.Form frmRequisicao
       Width           =   975
    End
    Begin VB.CommandButton cmdGeraRequisicao 
-      Caption         =   "Gera Requisição"
+      Caption         =   "Gera RequisiÃ§Ã£o"
       Height          =   855
       Left            =   12000
       TabIndex        =   12
@@ -290,7 +290,7 @@ Begin VB.Form frmRequisicao
       Width           =   1575
    End
    Begin VB.Label Label1 
-      Caption         =   "Requisição ao Estoque"
+      Caption         =   "RequisiÃ§Ã£o ao Estoque"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   18
@@ -322,7 +322,7 @@ Private Sub cmbClasse_LostFocus()
 
          If pes.EOF Then
       
-            MsgBox ("Não existem produtos para essa classe")
+            MsgBox ("NÃ£o existem produtos para essa classe")
             FechaDB
             cmdSair.SetFocus
             Exit Sub
@@ -351,7 +351,7 @@ Private Sub cmbGrupo_LostFocus()
 
    If pes.EOF Then
 
-      MsgBox ("Não existem classes para esse grupo")
+      MsgBox ("NÃ£o existem classes para esse grupo")
       FechaDB
       Exit Sub
    
@@ -494,7 +494,7 @@ Private Sub cmdGeraRequisicao_Click()
    Loop
    db.CommitTrans
    
-   MsgBox ("Código para retirada de produtos: " & codigo), vbInformation
+   MsgBox ("CÃ³digo para retirada de produtos: " & codigo), vbInformation
    
    FechaDB
 End Sub
@@ -512,6 +512,11 @@ Private Sub cmdJogaNaLista_Click()
       Else
       
          MsgBox ("Acesso permitido somente ao requisitante."), vbInformation
+         'TESTE
+         'TESTE
+         'TESTE
+         'TESTE
+         'TESTE
       
       End If
    
@@ -605,7 +610,7 @@ Private Sub Form_Load()
    
    If rs.EOF Then
    
-      MsgBox ("Não há requisições "), vbInformation
+      MsgBox ("NÃ£o hÃ¡ requisiÃ§Ãµes "), vbInformation
       FechaDB
       Exit Sub
      
@@ -639,7 +644,7 @@ Private Sub Form_Load()
 
    If rs.EOF Then
 
-      MsgBox ("Não existem grupo registrados")
+      MsgBox ("NÃ£o existem grupo registrados")
       FechaDB
       Exit Sub
    
@@ -660,7 +665,7 @@ Private Sub Form_Load()
    
    If rs.EOF Then
    
-      MsgBox ("Não existem unidades operacionais cadastradas"), vbInformation
+      MsgBox ("NÃ£o existem unidades operacionais cadastradas"), vbInformation
       FechaDB
       Exit Sub
       
