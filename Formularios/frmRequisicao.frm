@@ -290,7 +290,7 @@ Begin VB.Form frmRequisicao
       Width           =   1575
    End
    Begin VB.Label Label1 
-      Caption         =   "RequisiÃ§Ã£o ao Estoque"
+      Caption         =   "Requisição ao Estoque"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   18
@@ -322,7 +322,7 @@ Private Sub cmbClasse_LostFocus()
 
          If pes.EOF Then
       
-            MsgBox ("NÃ£o existem produtos para essa classe")
+            MsgBox ("Não existem produtos para essa classe")
             FechaDB
             cmdSair.SetFocus
             Exit Sub
@@ -351,7 +351,7 @@ Private Sub cmbGrupo_LostFocus()
 
    If pes.EOF Then
 
-      MsgBox ("NÃ£o existem classes para esse grupo")
+      MsgBox ("Não existem classes para esse grupo")
       FechaDB
       Exit Sub
    
@@ -494,7 +494,7 @@ Private Sub cmdGeraRequisicao_Click()
    Loop
    db.CommitTrans
    
-   MsgBox ("CÃ³digo para retirada de produtos: " & codigo), vbInformation
+   MsgBox ("Código para retirada de produtos: " & codigo), vbInformation
    
    FechaDB
 End Sub
@@ -610,7 +610,7 @@ Private Sub Form_Load()
    
    If rs.EOF Then
    
-      MsgBox ("NÃ£o hÃ¡ requisiÃ§Ãµes "), vbInformation
+      MsgBox ("Não há requisições "), vbInformation
       FechaDB
       Exit Sub
      
@@ -644,7 +644,7 @@ Private Sub Form_Load()
 
    If rs.EOF Then
 
-      MsgBox ("NÃ£o existem grupo registrados")
+      MsgBox ("Não existem grupo registrados")
       FechaDB
       Exit Sub
    
@@ -665,7 +665,7 @@ Private Sub Form_Load()
    
    If rs.EOF Then
    
-      MsgBox ("NÃ£o existem unidades operacionais cadastradas"), vbInformation
+      MsgBox ("Não existem unidades operacionais cadastradas"), vbInformation
       FechaDB
       Exit Sub
       
