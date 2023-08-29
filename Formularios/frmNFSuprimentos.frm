@@ -127,7 +127,7 @@ Begin VB.Form frmNFSuprimentos
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   481886209
+         Format          =   243269633
          CurrentDate     =   45149
       End
       Begin VB.CommandButton cmdAlterarNumFaturas 

@@ -158,7 +158,7 @@ Begin VB.Form frmPedido
             Strikethrough   =   0   'False
          EndProperty
          CalendarBackColor=   16777215
-         Format          =   481951745
+         Format          =   244056065
          CurrentDate     =   44656
       End
       Begin MSComCtl2.DTPicker dtInicioMedicao 
@@ -179,7 +179,7 @@ Begin VB.Form frmPedido
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   481951745
+         Format          =   244056065
          CurrentDate     =   44656
       End
       Begin VB.ComboBox cmbContrato 
@@ -226,7 +226,7 @@ Begin VB.Form frmPedido
          _ExtentX        =   2355
          _ExtentY        =   661
          _Version        =   393216
-         Format          =   481951745
+         Format          =   244056065
          CurrentDate     =   43969
       End
       Begin MSComCtl2.DTPicker txtDataProc 
@@ -239,7 +239,7 @@ Begin VB.Form frmPedido
          _ExtentX        =   2355
          _ExtentY        =   661
          _Version        =   393216
-         Format          =   481951745
+         Format          =   244056065
          CurrentDate     =   43967
       End
       Begin MSComCtl2.DTPicker txtDataPedido 
@@ -262,7 +262,7 @@ Begin VB.Form frmPedido
          EndProperty
          CalendarBackColor=   12648447
          CalendarForeColor=   0
-         Format          =   481951745
+         Format          =   244056065
          CurrentDate     =   43902
       End
       Begin MSMask.MaskEdBox txtCNPJCPF 
@@ -1473,7 +1473,7 @@ Begin VB.Form frmPedido
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   480903169
+         Format          =   319029249
          CurrentDate     =   44268
       End
       Begin MSComCtl2.DTPicker dtInicio 
@@ -1494,7 +1494,7 @@ Begin VB.Form frmPedido
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   480903169
+         Format          =   319029249
          CurrentDate     =   44268
       End
       Begin VB.ComboBox txtUnidade 

@@ -56,7 +56,7 @@ Begin VB.Form frmAjustaCobranca
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   242745345
+         Format          =   243531777
          CurrentDate     =   44649
       End
       Begin VB.Frame Frame2 
