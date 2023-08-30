@@ -132,6 +132,7 @@ Designer=Relatorios\drOrdemDeCompra.Dsr
 Form=Formularios\frmProdutoFornecedor.frm
 Form=Formularios\frmRequisicao.frm
 Designer=Relatorios\drCentroDeCusto.Dsr
+Form=Formularios\frmReqCompra.frm
 IconForm="mdiSHB"
 Startup="mdiSHB"
 HelpFile=""

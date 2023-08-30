@@ -35,7 +35,7 @@ Begin VB.Form frmRequisicao
       Width           =   975
    End
    Begin VB.CommandButton cmdGeraRequisicao 
-      Caption         =   "Gera RequisiÃ§Ã£o"
+      Caption         =   "Gera Requisição"
       Height          =   855
       Left            =   12000
       TabIndex        =   12
