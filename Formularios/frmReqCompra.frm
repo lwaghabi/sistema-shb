@@ -206,8 +206,13 @@ Attribute VB_Exposed = False
 
 Private Sub tblProdutos_Click()
    If tblProdutos.Col = 1 Then
-      
-      frmEspTec.Show
+      Call Rotina_AbrirBanco
+      rs.Open "SELECT especificacaoTecnica,descricao FROM supproduto WHERE nomeProd = ('" & tblProdutos.TextMatrix(tblProdutos.Row, 0) & "')", db, 3, 3
+         frmEspecTec.txtEspecificacaoTecnica = rs!especificacaoTecnica
+         frmEspecTec.txtDescricao = rs!Descricao
+      rs.Close
+      FechaDB
+      frmEspecTec.Show
    
    Else
    
