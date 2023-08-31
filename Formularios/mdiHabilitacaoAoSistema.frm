@@ -487,6 +487,9 @@ Begin VB.MDIForm mdiSHB
          Begin VB.Menu mdiReqMateriais 
             Caption         =   "Requisição de Materiais"
          End
+         Begin VB.Menu mdiReqCompra 
+            Caption         =   "Requisição de Compras"
+         End
          Begin VB.Menu mdiAcordoComercial 
             Caption         =   "Registro de Acordo Comercial"
          End
@@ -659,6 +662,10 @@ End Sub
 
 Private Sub mdiRecebeMateriais_Click()
 frmRecebProdutos.Show
+End Sub
+
+Private Sub mdiReqCompra_Click()
+frmReqCompra.Show
 End Sub
 
 Private Sub mdiReqMateriais_Click()

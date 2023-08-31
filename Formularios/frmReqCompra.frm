@@ -212,12 +212,41 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
+Private Sub Form_Load()
+   Call Rotina_AbrirBanco
+   
+   rs.Open "SELECT * FROM supRequisicaoCompra WHERE status = 0", db, 3, 3
+   
+   If rs.EOF Then
+   
+      MsgBox ("Não há requisição de compra"), vbInformation
+      FechaDB
+      Exit Sub
+   
+   End If
+   
+   rs.MoveFirst
+   tblProdutos.Rows = 1
+   
+   Do While Not rs.EOF
+   
+      tblProdutos.AddItem rs!nomeProd & vbTab & "" & vbTab & rs!qtdEmEstoque & vbTab & rs!qtdPendente & vbTab & rs!estoqueMaximo & vbTab & rs!idRequisicao & vbTab & "buscar requisitante" & vbTab & rs!qtdComprar
+      rs.MoveNext
+   
+   Loop
+   
+   rs.Close
+   FechaDB
+End Sub
+
 Private Sub tblProdutos_Click()
    If tblProdutos.Col = 1 Then
       Call Rotina_AbrirBanco
-      rs.Open "SELECT especificacaoTecnica,descricao FROM supproduto WHERE nomeProd = ('" & tblProdutos.TextMatrix(tblProdutos.Row, 0) & "')", db, 3, 3
+      rs.Open "SELECT * FROM supproduto WHERE nomeProd = ('" & tblProdutos.TextMatrix(tblProdutos.Row, 0) & "')", db, 3, 3
+      If Not rs.EOF Then
          frmEspecTec.txtEspecificacaoTecnica = rs!especificacaoTecnica
          frmEspecTec.txtDescricao = rs!Descricao
+      End If
       rs.Close
       FechaDB
       frmEspecTec.Show

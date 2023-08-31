@@ -43,9 +43,3 @@ Private Sub cmdSair_Click()
    Unload Me
 End Sub
 
-Private Sub Form_Load()
-   Call Rotina_AbrirBanco
-   
-   
-   FechaDB
-End Sub

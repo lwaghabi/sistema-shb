@@ -121,3 +121,70 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+Private Sub cmdEntrega_Click()
+   Call Rotina_AbrirBanco
+   Dim i As Integer
+   
+   i = 1
+   
+   db.BeginTrans
+   
+   Do While i < tblProdutos.Rows
+      Prod.Open "SELECT grupo,classe,codProd FROM supProduto WHERE nomeProd = ('" & tblProdutos.TextMatrix(i, 0) & "')", db, 3, 3
+      rs.Open "SELECT * FROM supRequisicaoDetalhe WHERE id = ('" & txtNumReq & "') and codigo = ('" & txtCodBaixa & "') and grupo = ('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd = ('" & Prod!codProd & "')", db, 3, 3
+      
+         If rs!quantidade = rs!quantidadeAtendida Then
+         
+            rs!Status = 1
+            rs!dataProcessamento = Date
+            rs.Update
+         
+         End If
+         
+      rs.Close
+      rs.Open "SELECT * FROM supEstoque WHERE grupo = ('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd = ('" & Prod!codProd & "')", db, 3, 3
+      Prod.Close
+         
+         rs!qtdEmEstoque = rs!qtdEmEstoque - tblProdutos.TextMatrix(i, 2)
+         rs!qtdReservado = rs!qtdReservado - tblProdutos.TextMatrix(i, 2)
+         rs!dataUltimaAtualizacao = Date
+         rs!dataUltimaRequisicao = Date
+         If rs!qtdReservado = 0 And rs!qtdEmEstoque <= rs!estoqueMinimo Then
+         
+            Call geraRequisicaoCompra(tblProdutos.TextMatrix(i, 0), tblProdutos.TextMatrix(i, 1), rs!qtdEmEstoque, tblProdutos.TextMatrix(i, 2), rs!estoqueMaximo)
+         
+         End If
+         rs.Update
+      rs.Close
+      i = i + 1
+   
+   Loop
+   
+   db.CommitTrans
+   
+   FechaDB
+End Sub
+
+Public Sub geraRequisicaoCompra(produto As String, qtdRequisitada As Integer, qtdEstoque As Integer, qtdAtendida As Integer, estoqueMaximo As Integer)
+   
+   pes.Open "SELECT * FROM supRequisicaoCompra WHERE nomeProd = ('" & produto & "') and idRequisicao = ('" & txtNumReq & "')", db, 3, 3
+   
+   If pes.EOF Then
+   
+      pes.AddNew
+      
+   End If
+   
+   pes!nomeProd = produto
+   pes!idRequisicao = txtNumReq
+   pes!qtdRequisitada = qtdRequisitada
+   pes!qtdEmEstoque = qtdEstoque
+   pes!qtdPendente = qtdRequisitada - qtdAtendida
+   pes!estoqueMaximo = estoqueMaximo
+   pes!qtdComprar = estoqueMaximo + pes!qtdPendente
+   pes!Status = 0
+   pes.Update
+   
+   pes.Close
+
+End Sub
