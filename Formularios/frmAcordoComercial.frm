@@ -332,7 +332,7 @@ Begin VB.Form frmAcordoComercial
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   319881217
+      Format          =   415367169
       CurrentDate     =   45139
    End
    Begin MSComCtl2.DTPicker dtDataInicio 
@@ -353,7 +353,7 @@ Begin VB.Form frmAcordoComercial
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   319881217
+      Format          =   415367169
       CurrentDate     =   45139
    End
    Begin VB.ComboBox cmbFornecedores 

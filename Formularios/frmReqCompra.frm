@@ -10,6 +10,14 @@ Begin VB.Form frmReqCompra
    ScaleHeight     =   8175
    ScaleWidth      =   14220
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton cmdAtualizaLista 
+      Caption         =   "Atualiza Lista"
+      Height          =   615
+      Left            =   10920
+      TabIndex        =   19
+      Top             =   1440
+      Width           =   1335
+   End
    Begin VB.TextBox txtRequisitante 
       Height          =   375
       Left            =   8040
@@ -216,11 +224,24 @@ Private Sub tblProdutos_Click()
    
    Else
    
-      If tblProdutos.TextMatrix(tblProdutos.Row, 9) = "OK" Then
-         tblProdutos.TextMatrix(tblProdutos.Row, 9) = Empty
-      Else
-         tblProdutos.TextMatrix(tblProdutos.Row, 9) = "OK"
-      End If
+      txtProduto = tblProdutos.TextMatrix(tblProdutos.Row, 0)
+      txtEstoque = tblProdutos.TextMatrix(tblProdutos.Row, 1)
+      txtReqPend = tblProdutos.TextMatrix(tblProdutos.Row, 2)
+      txtEstMax = tblProdutos.TextMatrix(tblProdutos.Row, 3)
+      txtRequisicao = tblProdutos.TextMatrix(tblProdutos.Row, 4)
+      txtRequisitante = tblProdutos.TextMatrix(tblProdutos.Row, 5)
+      txtQtdComprar = tblProdutos.TextMatrix(tblProdutos.Row, 6)
+      
    
    End If
+End Sub
+
+Private Sub tblProdutos_DblClick()
+
+   If tblProdutos.TextMatrix(tblProdutos.Row, 9) = "OK" Then
+      tblProdutos.TextMatrix(tblProdutos.Row, 9) = Empty
+   Else
+      tblProdutos.TextMatrix(tblProdutos.Row, 9) = "OK"
+   End If
+
 End Sub

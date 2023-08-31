@@ -497,6 +497,12 @@ Begin VB.MDIForm mdiSHB
             Caption         =   "Recebimento de Materiais"
          End
       End
+      Begin VB.Menu mdiAlmoxarifado 
+         Caption         =   "Almoxarifado"
+         Begin VB.Menu mdiBaixaReqEstoque 
+            Caption         =   "Entrega"
+         End
+      End
       Begin VB.Menu mdiParameto 
          Caption         =   "Parâmetros"
          Begin VB.Menu mdiUnidadeEmbalagem 
@@ -583,6 +589,12 @@ End Sub
 
 Private Sub mdiAcordoComercial_Click()
 frmAcordoComercial.Show
+End Sub
+
+
+
+Private Sub mdiBaixaReqEstoque_Click()
+frmBaixaReqEstoque.Show
 End Sub
 
 Private Sub mdiEndereco_Click()

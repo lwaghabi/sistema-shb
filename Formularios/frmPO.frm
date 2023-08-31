@@ -64,7 +64,7 @@ Begin VB.Form frmPO
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   243597313
+      Format          =   242286593
       CurrentDate     =   45125
    End
    Begin VB.ComboBox cmbEndEntrega 
@@ -123,7 +123,7 @@ Begin VB.Form frmPO
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   243597313
+         Format          =   242286593
          CurrentDate     =   45155
       End
       Begin VB.CommandButton cmdEmitePO 

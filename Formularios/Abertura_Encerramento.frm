@@ -32,7 +32,7 @@ Begin VB.Form frmAbre_Fecha
       _ExtentX        =   2355
       _ExtentY        =   661
       _Version        =   393216
-      Format          =   122486785
+      Format          =   415432705
       CurrentDate     =   43883
    End
    Begin VB.Frame Frame3 
@@ -53,21 +53,21 @@ Begin VB.Form frmAbre_Fecha
          Height          =   375
          Left            =   120
          TabIndex        =   20
-         Top             =   2640
+         Top             =   2160
          Width           =   2415
       End
       Begin VB.TextBox txtProcessaCtaReceber 
          Height          =   375
          Left            =   120
          TabIndex        =   19
-         Top             =   2160
+         Top             =   1680
          Width           =   2415
       End
       Begin VB.TextBox txtProcessaCtaPagar 
          Height          =   375
          Left            =   120
          TabIndex        =   18
-         Top             =   1680
+         Top             =   2640
          Width           =   2415
       End
       Begin VB.TextBox txtProcessaPedido 
@@ -182,7 +182,7 @@ Begin VB.Form frmAbre_Fecha
          _ExtentX        =   2355
          _ExtentY        =   661
          _Version        =   393216
-         Format          =   122945537
+         Format          =   415367169
          CurrentDate     =   43883
       End
       Begin VB.TextBox txtHoraEvento 
@@ -595,51 +595,36 @@ frmAbre_Fecha.Refresh
    frmAbre_Fecha.Refresh
    Call Rotina_Processa_Pedido
    If Erro = 0 Then
-      'Call Rotina_Gera_Estatistica_regiao
       txtProcessaPedido = "Pedido Processado"
       txtProcessaPedido.BackColor = vbCyan
-      txtProcessaCtaPagar = "Processando Contas a Pagar"
-      txtProcessaCtaPagar.BackColor = vbRed
+      txtProcessaCtaReceber = "Processando Contas a Receber"
+      txtProcessaCtaReceber.BackColor = vbRed
       frmAbre_Fecha.Refresh
-'      Call Rotina_Processa_Contas_Pagar
+      Call Rotina_Processa_Contas_Receber
       If Erro = 0 Then
-         txtProcessaCtaPagar = "Contas a Pagar Processado"
-         txtProcessaCtaPagar.BackColor = vbCyan
-         txtProcessaCtaReceber = "Processando Contas a Receber"
-         txtProcessaCtaReceber.BackColor = vbRed
+         txtProcessaCtaReceber = "Contas a Receber Processado"
+         txtProcessaCtaReceber.BackColor = vbCyan
          frmAbre_Fecha.Refresh
-         Call Rotina_Processa_Contas_Receber
+         txtNotaFiscal = "Processando Nota Fiscal"
+         txtNotaFiscal.BackColor = vbRed
+         frmAbre_Fecha.Refresh
+         Call Rotina_Nota_Fiscal
          If Erro = 0 Then
-            txtProcessaCtaReceber = "Contas a Receber Processado"
-            txtProcessaCtaReceber.BackColor = vbCyan
+            txtNotaFiscal = "Nota Fiscal Processado"
+            txtNotaFiscal.BackColor = vbCyan
             frmAbre_Fecha.Refresh
-            txtNotaFiscal = "Processando Nota Fiscal"
-            txtNotaFiscal.BackColor = vbRed
-            frmAbre_Fecha.Refresh
-            Call Rotina_Nota_Fiscal
             If Erro = 0 Then
-               txtNotaFiscal = "Nota Fiscal Processado"
-               txtNotaFiscal.BackColor = vbCyan
+               txtProcessaCtaPagar = "Processando Contas a Pagar"
+               txtProcessaCtaPagar.BackColor = vbRed
                frmAbre_Fecha.Refresh
                Call Rotina_Processa_Contas_Pagar
-               txtEstoqueGeral = "Fim da Rotina Mensal"
-               txtEstoqueGeral.BackColor = vbCyan
-               frmAbre_Fecha.Refresh
-               'If Erro = 0 Then
-               '   Call Rotina_Atualiza_Calendario
-  '                If Erro = 0 Then
-  '                   Call Rotina_Estoque_Geral
-  '                   txtEstoqueGeral = "Estoque Geral Processado"
-  '                   txtEstoqueGeral.BackColor = vbCyan
-  '                   frmAbre_Fecha.Refresh
-  '                   txtRelApos = "Emissão de Relatórios Após"
-  '                   txtRelApos.BackColor = vbRed
-  '                   frmAbre_Fecha.Refresh
-  '                   'ImpNegUF.Show
-  '                   txtRelApos = "Fim da Rotina Mensal"
-  '                   txtRelApos.BackColor = vbCyan
-  '                End If
-               'End If
+               txtProcessaCtaPagar = "Contas a Pagar Processado"
+               txtProcessaCtaPagar.BackColor = vbCyan
+               If Erro = 0 Then
+                  txtEstoqueGeral = "Fim da Rotina Mensal"
+                  txtEstoqueGeral.BackColor = vbCyan
+                  frmAbre_Fecha.Refresh
+               End If
             End If
          End If
       End If
@@ -899,14 +884,14 @@ Do While fim = 0
    hctp.AddNew
    hctp!chFabricante = ctp!chFabricante
    hctp!chPessoa = ctp!chPessoa
-   hctp!chNotaFiscal = ctp!chNotaFiscal
+   hctp!chNotafiscal = ctp!chNotafiscal
    hctp!chFatura = ctp!chFatura
    hctp!chDataVencito = ctp!chDataVencito
    'hctp!ctpDataBanco =  ctp!ctpDataBanco
    hctp!ctpDataVencOriginal = ctp!ctpDataVencOriginal
    hctp!ctpDataEmissao = ctp!ctpDataEmissao
    hctp!ctpDataLanc = ctp!ctpDataLanc
-   hctp!ctpDescricaoOperacao = ctp!ctpDescricaoOperacao
+   hctp!ctpdescricaooperacao = ctp!ctpdescricaooperacao
    hctp!ctpValorLart = ctp!ctpValorLart
    hctp!ctpValorMerco = ctp!ctpValorMerco
    hctp!ctpValorDaBoleta = ctp!ctpValorDaBoleta
@@ -921,7 +906,7 @@ Do While fim = 0
    hctp!chCodBcoLart = ctp!chCodBcoLart
    hctp!ctpTipoLancamento = ctp!ctpTipoLancamento
    hctp!ctpTipoLancamentoDesc = ctp!ctpTipoLancamentoDesc
-   UltimoRegistro = ctp!chPessoa & " - " & ctp!chNotaFiscal & " - " & ctp!chFatura
+   UltimoRegistro = ctp!chPessoa & " - " & ctp!chNotafiscal & " - " & ctp!chFatura
    hctp.Update
    
    ctp.Delete
@@ -963,7 +948,7 @@ Do While fim = 0
       hctr.AddNew
       hctr!chFabricante = ctr!chFabricante
       hctr!chPessoa = ctr!chPessoa
-      hctr!chNotaFiscal = ctr!chNotaFiscal
+      hctr!chNotafiscal = ctr!chNotafiscal
       hctr!chFatura = ctr!chFatura
       hctr!ctrDataEmissao = ctr!ctrDataEmissao
       hctr!ctrDataVencito = ctr!ctrDataVencito
@@ -990,7 +975,7 @@ Do While fim = 0
       hctr!ctrGrupoCentroDeCusto = ctr!ctrGrupoCentroDeCusto
       hctr!ctrSubGrupoCentroDeCusto = ctr!ctrSubGrupoCentroDeCusto
       
-      UltimoRegistro = ctr!chPessoa & " - " & ctr!chNotaFiscal & " - " & ctr!chFatura
+      UltimoRegistro = ctr!chPessoa & " - " & ctr!chNotafiscal & " - " & ctr!chFatura
       
       hctr.Update
      
@@ -1067,7 +1052,7 @@ Do While FimNfe = 0
          hnfd!chNotaFiscalEntrada = nfd!chNotaFiscalEntrada
          hnfd!chDataVencimento = nfd!chDataVencimento
          hnfd!nfdDataVencoriginal = nfd!nfdDataVencoriginal
-         hnfd!nfdDataPagamento = nfd!nfdDataPagamento
+         hnfd!nfddatapagamento = nfd!nfddatapagamento
          hnfd!nfdFaturaNumero = nfd!nfdFaturaNumero
          hnfd!nfdValorDaFatura = nfd!nfdValorDaFatura
          hnfd!nfdStatus = nfd!nfdStatus
@@ -1190,7 +1175,7 @@ Else
       hdnfe!nfdSubGrupoCentroDeCusto = dnfe!nfdSubGrupoCentroDeCusto
       
       If Encontrei = 1 Then
-         hdnfe!nfdDataPagamento = ctp!ctpDataPagamento
+         hdnfe!nfddatapagamento = ctp!ctpDataPagamento
       End If
 
       UltimoRegistro = "Rotina Grava Det Produto. - " & dnfe!chPessoa & " - " & dnfe!chNotaFiscalEntrada & " - " & dnfe!chCodProduto & " - " & dnfe!chProdutoFabrica

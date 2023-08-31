@@ -189,7 +189,7 @@ Dim banco As String
 Dim erroDriver As Boolean
 
 On Error GoTo Erro
-Inicio:
+inicio:
 server = "mysql.sistemaos.com.br;"
 banco = "sistemaos03;"
 usuario = banco
@@ -228,7 +228,7 @@ Erro:
 
 130   If Not tentou Then
          MsgBox ("Vou tentar maiis uma vez")
-         erroDriver = True: GoTo Inicio
+         erroDriver = True: GoTo inicio
       Else
          MsgBox Err.Description
       End If
@@ -245,7 +245,7 @@ Public Function Rotina_AbrirBanco() As Boolean
       Dim tentou As Boolean
       
 10 Mouse: On Error GoTo ConnectMQ_Error
-Inicio:
+inicio:
 20    Driver = "Driver={MySQL ODBC 3.51 Driver};"
 
 30    If erroDriver Then
@@ -272,7 +272,7 @@ End If
 140 MouseOff:    Exit Function
 ConnectMQ_Error:
 'Se não encontrou o Driver 3.51 tenta com o 5.1 (apenas uma vez)
-150   If Not tentou Then erroDriver = True: GoTo Inicio
+150   If Not tentou Then erroDriver = True: GoTo inicio
 160   Rotina_AbrirBanco = False
 End Function
 Public Sub FechaDB()

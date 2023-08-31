@@ -477,6 +477,8 @@ Private Sub cmdGeraRequisicao_Click()
       
       rs!quantidade = tblProdutos.TextMatrix(i, 1)
       
+      rs!quantidadeAtendida = tblProdutos.TextMatrix(i, 2)
+      
       If CInt(tblProdutos.TextMatrix(i, 2)) > 0 Then
       
          rs!codigo = codigo
@@ -602,7 +604,7 @@ Private Sub cmdVerificaEstoque_Click()
 End Sub
 
 Private Sub Form_Load()
-   
+      
    Call Rotina_AbrirBanco
    Dim id As Integer
    

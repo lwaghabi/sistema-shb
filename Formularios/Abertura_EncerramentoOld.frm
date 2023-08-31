@@ -102,7 +102,7 @@ Begin VB.Form frmNotaFiscalEntrada
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Format          =   244187137
+            Format          =   245891073
             CurrentDate     =   44603
          End
          Begin VB.OptionButton optPaga 
@@ -175,7 +175,7 @@ Begin VB.Form frmNotaFiscalEntrada
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Format          =   244121601
+            Format          =   244711425
             CurrentDate     =   43882
          End
          Begin MSFlexGridLib.MSFlexGrid GridDesdobr 
@@ -1210,7 +1210,7 @@ Begin VB.Form frmNotaFiscalEntrada
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Format          =   319881217
+            Format          =   121896961
             CurrentDate     =   43882
          End
          Begin VB.TextBox txtValorDaNotaFiscal 
@@ -2824,7 +2824,7 @@ db.BeginTrans
    nfd!nfdValorDaFatura = txtValorFatura
    nfd!nfdIPTE = txtIPTE
    If optPaga = True Then
-      nfd!nfdDataPagamento = dtDataPagamento
+      nfd!nfddatapagamento = dtDataPagamento
       nfd!nfdStatus = 1
    End If
     
@@ -3088,7 +3088,7 @@ Do While Not fpag.EOF
 Loop
   
 Option1 = False
-OptNao = True
+optNao = True
 
 Call FechaDB
   
@@ -3405,7 +3405,7 @@ cmbBanco.ListIndex = nfe!chCodBcoLart
 If nfe!nfeNF_Boleto = 1 Then
    Option1.SetFocus
 Else
-   OptNao.SetFocus
+   optNao.SetFocus
 End If
 
 
@@ -3714,8 +3714,8 @@ Do While Not nfd.EOF
    GridDesdobr.TextMatrix(Ind, 1) = nfd!chDataVencimento
    GridDesdobr.TextMatrix(Ind, 2) = Format$(nfd!nfdValorDaFatura, "###,##0.00")
    GridDesdobr.TextMatrix(Ind, 3) = nfd!nfdIPTE
-   If Not IsNull(nfd!nfdDataPagamento) Then
-      GridDesdobr.TextMatrix(Ind, 4) = nfd!nfdDataPagamento
+   If Not IsNull(nfd!nfddatapagamento) Then
+      GridDesdobr.TextMatrix(Ind, 4) = nfd!nfddatapagamento
    Else
       GridDesdobr.TextMatrix(Ind, 4) = "NORMAL"
    End If
@@ -3757,8 +3757,8 @@ Else
       If Not IsNull(nfd!nfdIPTE) Then
          GridDesdobr.TextMatrix(Ind, 3) = nfd!nfdIPTE
       End If
-      If Not IsNull(nfd!nfdDataPagamento) Then
-         GridDesdobr.TextMatrix(Ind, 4) = nfd!nfdDataPagamento
+      If Not IsNull(nfd!nfddatapagamento) Then
+         GridDesdobr.TextMatrix(Ind, 4) = nfd!nfddatapagamento
       Else
          GridDesdobr.TextMatrix(Ind, 4) = "NORMAL"
       End If
@@ -3810,7 +3810,7 @@ nfe!nfeValorIPI = txtValorIPI
 nfe!nfeValorDaNota = txtValorDaNotaFiscal
 ValorAnterior = txtValorDaNotaFiscal
 nfe!nfeDesdobramento = txtQtdFaturas
-If OptSim = True Then
+If optSim = True Then
    nfe!nfeNF_Boleto = 1
 Else
    nfe!nfeNF_Boleto = 2
