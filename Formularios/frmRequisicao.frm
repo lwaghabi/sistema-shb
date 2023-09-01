@@ -479,6 +479,15 @@ Private Sub cmdGeraRequisicao_Click()
       
       rs!quantidadeAtendida = tblProdutos.TextMatrix(i, 2)
       
+      rs!qtdEntregue = rs!qtdEntregue + tblProdutos.TextMatrix(i, 2)
+      
+      pes.Open "SELECT * FROM supEstoque WHERE grupo=('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd=('" & Prod!codProd & "')", db, 3, 3
+      
+         pes!qtdReservado = pes!qtdReservado + tblProdutos.TextMatrix(i, 2)
+         pes.Update
+         
+      pes.Close
+
       If CInt(tblProdutos.TextMatrix(i, 2)) > 0 Then
       
          rs!codigo = codigo
@@ -514,11 +523,7 @@ Private Sub cmdJogaNaLista_Click()
       Else
       
          MsgBox ("Acesso permitido somente ao requisitante."), vbInformation
-         'TESTE
-         'TESTE
-         'TESTE
-         'TESTE
-         'TESTE
+
       
       End If
    
@@ -555,50 +560,43 @@ End Sub
 
 Private Sub cmdVerificaEstoque_Click()
    Call Rotina_AbrirBanco
-   
    Dim i As Integer
    
    i = 1
    
-   db.BeginTrans
-   
    Do While i < tblProdutos.Rows
-   Prod.Open "SELECT * FROM supProduto WHERE nomeProd=('" & tblProdutos.TextMatrix(i, 0) & "')", db, 3, 3
-   rs.Open "SELECT * FROM supEstoque WHERE grupo=('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd=('" & Prod!codProd & "')", db, 3, 3
-   
-   If rs.EOF Then
-   
-      MsgBox ("Estoque de produto inexistente"), vbInformation
-      tblProdutos.TextMatrix(i, 2) = 0
-      tblProdutos.TextMatrix(i, 3) = tblProdutos.TextMatrix(i, 1)
+      Prod.Open "SELECT grupo,classe,codProd FROM supProduto WHERE nomeProd = ('" & tblProdutos.TextMatrix(i, 0) & "')", db, 3, 3
+      rs.Open "SELECT * FROM supEstoque WHERE grupo = ('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd = ('" & Prod!codProd & "')", db, 3, 3
       
-   Else
       
-      If (rs!qtdEmEstoque - rs!qtdReservado) - CInt(tblProdutos.TextMatrix(i, 1)) >= 0 Then
+         If rs.EOF Then
+         
+            MsgBox ("Produto não existente no estoque"), vbInformation
+            tblProdutos.TextMatrix(i, 2) = 0
+            tblProdutos.TextMatrix(i, 3) = tblProdutos.TextMatrix(i, 1)
+         
+         Else
+         
+            If (rs!qtdEmEstoque - rs!qtdReservado) >= CInt(tblProdutos.TextMatrix(i, 1) - (tblProdutos.TextMatrix(i, 2))) Then
+               
+               tblProdutos.TextMatrix(i, 2) = tblProdutos.TextMatrix(i, 1) - (tblProdutos.TextMatrix(i, 2))
+               tblProdutos.TextMatrix(i, 3) = 0
+               
+            Else
+            
+               tblProdutos.TextMatrix(i, 2) = (rs!qtdEmEstoque - rs!qtdReservado)
+               tblProdutos.TextMatrix(i, 3) = CInt(tblProdutos.TextMatrix(i, 1) - tblProdutos.TextMatrix(i, 2))
+               
+            End If
+            
+         End If
       
-         tblProdutos.TextMatrix(i, 2) = tblProdutos.TextMatrix(i, 1)
-         tblProdutos.TextMatrix(i, 3) = 0
-         rs!qtdReservado = rs!qtdReservado + tblProdutos.TextMatrix(i, 1)
-      
-      Else
-          
-         tblProdutos.TextMatrix(i, 2) = rs!qtdEmEstoque - rs!qtdReservado
-         tblProdutos.TextMatrix(i, 3) = CInt(tblProdutos.TextMatrix(i, 1)) - (rs!qtdEmEstoque - rs!qtdReservado)
-         rs!qtdReservado = rs!qtdEmEstoque
-      
-      End If
-      
-      rs.Update
-      
-   End If
-   
-   rs.Close
-   Prod.Close
-   i = i + 1
+      Prod.Close
+      rs.Close
+      i = i + 1
    
    Loop
    
-   db.CommitTrans
    
    FechaDB
 End Sub
@@ -613,8 +611,6 @@ Private Sub Form_Load()
    If rs.EOF Then
    
       MsgBox ("Não há requisições "), vbInformation
-      FechaDB
-      Exit Sub
      
    End If
 

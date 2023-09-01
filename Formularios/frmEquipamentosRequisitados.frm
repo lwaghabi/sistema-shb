@@ -133,13 +133,14 @@ Private Sub cmdEntrega_Click()
       Prod.Open "SELECT grupo,classe,codProd FROM supProduto WHERE nomeProd = ('" & tblProdutos.TextMatrix(i, 0) & "')", db, 3, 3
       rs.Open "SELECT * FROM supRequisicaoDetalhe WHERE id = ('" & txtNumReq & "') and codigo = ('" & txtCodBaixa & "') and grupo = ('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd = ('" & Prod!codProd & "')", db, 3, 3
       
-         If rs!quantidade = rs!quantidadeAtendida Then
+         If rs!quantidade = rs!QtdEntregue Then
          
             rs!Status = 1
             rs!dataProcessamento = Date
             rs.Update
          
          End If
+         
          
       rs.Close
       rs.Open "SELECT * FROM supEstoque WHERE grupo = ('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd = ('" & Prod!codProd & "')", db, 3, 3
@@ -162,12 +163,15 @@ Private Sub cmdEntrega_Click()
    
    db.CommitTrans
    
+   MsgBox ("Entrega processada"), vbInformation
+   Unload Me
+   
    FechaDB
 End Sub
 
-Public Sub geraRequisicaoCompra(produto As String, qtdRequisitada As Integer, qtdEstoque As Integer, qtdAtendida As Integer, estoqueMaximo As Integer)
+Public Sub geraRequisicaoCompra(Produto As String, qtdRequisitada As Integer, qtdEstoque As Integer, qtdAtendida As Integer, estoqueMaximo As Integer)
    
-   pes.Open "SELECT * FROM supRequisicaoCompra WHERE nomeProd = ('" & produto & "') and idRequisicao = ('" & txtNumReq & "')", db, 3, 3
+   pes.Open "SELECT * FROM supRequisicaoCompra WHERE nomeProd = ('" & Produto & "') and idRequisicao = ('" & txtNumReq & "')", db, 3, 3
    
    If pes.EOF Then
    
@@ -175,7 +179,7 @@ Public Sub geraRequisicaoCompra(produto As String, qtdRequisitada As Integer, qt
       
    End If
    
-   pes!nomeProd = produto
+   pes!nomeProd = Produto
    pes!idRequisicao = txtNumReq
    pes!qtdRequisitada = qtdRequisitada
    pes!qtdEmEstoque = qtdEstoque
@@ -188,3 +192,4 @@ Public Sub geraRequisicaoCompra(produto As String, qtdRequisitada As Integer, qt
    pes.Close
 
 End Sub
+

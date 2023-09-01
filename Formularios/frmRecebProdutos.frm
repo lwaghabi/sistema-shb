@@ -302,7 +302,7 @@ Begin VB.Form frmRecebProdutos
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   113377281
+      Format          =   243859457
       CurrentDate     =   45145
    End
    Begin VB.TextBox txtNotaFiscal 
@@ -620,12 +620,13 @@ Private Sub txtNumPO_LostFocus()
    
    rs.Open "Select status from suppedidodecompra where id=('" & txtNumPO & "')", db, 3, 3
    
-      If Not rs.EOF And rs!Status = 1 Then
+      If Not rs.EOF Then
+         If rs!Status = 1 Then
       
-         MsgBox ("PO encerrada!"), vbInformation
-         FechaDB
-         Exit Sub
-      
+            MsgBox ("PO encerrada!"), vbInformation
+            FechaDB
+            Exit Sub
+         End If
       End If
       
    rs.Close
