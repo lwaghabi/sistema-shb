@@ -52,9 +52,9 @@ Begin VB.Form frmRequisicao
       _ExtentY        =   4260
       _Version        =   393216
       Rows            =   1
-      Cols            =   5
+      Cols            =   6
       FixedCols       =   0
-      FormatString    =   "Produto                                                |Qtd Solic|Qtd Atend|Saldo Req|Codigo"
+      FormatString    =   "Produto                                                |Qtd Solic|Qtd Atend|Saldo Req|Codigo|"
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
          Size            =   13.5
@@ -500,6 +500,31 @@ Private Sub cmdGeraRequisicao_Click()
       
       Prod.Close
       
+      If tblProdutos.TextMatrix(i, 5) = 1 And tblProdutos.TextMatrix(i, 2) = 0 Then
+      
+         rs.Open "SELECT * FROM suprequisicaocompra WHERE nomeProd = ('" & tblProdutos.TextMatrix(i, 0) & "') and idRequisicao=('" & cmbIdReq & "')", db, 3, 3
+         
+            If rs.EOF Then
+            
+               rs.AddNew
+            
+            End If
+         
+            rs!nomeProd = tblProdutos.TextMatrix(i, 0)
+            rs!idRequisicao = cmbIdReq
+            rs!qtdRequisitada = tblProdutos.TextMatrix(i, 1)
+            rs!qtdEmEstoque = tblProdutos.TextMatrix(i, 2)
+            rs!qtdPendente = tblProdutos.TextMatrix(i, 3)
+            Prod.Open "SELECT estoqueMaximo FROM supestoque inner join supproduto on supproduto.grupo = supestoque.grupo and supproduto.classe = supestoque.classe and supproduto.codProd = supestoque.codProd WHERE supProduto.nomeProd = ('" & tblProdutos.TextMatrix(i, 0) & "')", db, 3, 3
+            rs!estoqueMaximo = Prod!estoqueMaximo
+            Prod.Close
+            rs!qtdComprar = rs!estoqueMaximo + rs!qtdPendente
+            rs.Update
+            
+         rs.Close
+      
+      End If
+      
       i = i + 1
    
    Loop
@@ -529,7 +554,7 @@ Private Sub cmdJogaNaLista_Click()
    
    Else
        
-      tblProdutos.AddItem cmbProduto & vbTab & txtQtdProd
+      tblProdutos.AddItem cmbProduto & vbTab & txtQtdProd & vbTab & 0 & vbTab & 0
       
    End If
    
@@ -540,15 +565,17 @@ End Sub
 Private Sub cmdRetiraDaLista_Click()
    Call Rotina_AbrirBanco
    rs.Open "SELECT chPessoa FROM supRequisicao WHERE id = ('" & cmbIdReq & "')", db, 3, 3
-   If rs!chPessoa = glbUsuario Then
-      Prod.Open "SELECT grupo,classe,codProd FROM supProduto WHERE nomeProd=('" & tblProdutos.TextMatrix(tblProdutos.Row, 0) & "')", db, 3, 3
-      If CInt(tblProdutos.TextMatrix(tblProdutos.Row, 2)) > 0 Then
-         db.Execute ("UPDATE supEstoque SET qtdReservado = (qtdReservado - tblProdutos.TextMatrix(tblProdutos.row,2) WHERE grupo = ('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd = ('" & Prod!codProd & "'))")
-         db.Close
+   If Not rs.EOF Then
+      If rs!chPessoa = glbUsuario Then
+         Prod.Open "SELECT grupo,classe,codProd FROM supProduto WHERE nomeProd=('" & tblProdutos.TextMatrix(tblProdutos.Row, 0) & "')", db, 3, 3
+         If CInt(tblProdutos.TextMatrix(tblProdutos.Row, 2)) > 0 Then
+            db.Execute ("UPDATE supEstoque SET qtdReservado = (qtdReservado - tblProdutos.TextMatrix(tblProdutos.row,2) WHERE grupo = ('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd = ('" & Prod!codProd & "'))")
+            db.Close
+         End If
+         db.Execute ("DELETE FROM supRequisicaoDetalhe WHERE id = ('" & cmbIdReq & "') and grupo = ('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd = ('" & Prod!codProd & "')")
+         Prod.Close
+         tblProdutos.RemoveItem (tblProdutos.Row)
       End If
-      db.Execute ("DELETE FROM supRequisicaoDetalhe WHERE id = ('" & cmbIdReq & "') and grupo = ('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd = ('" & Prod!codProd & "')")
-      Prod.Close
-      tblProdutos.RemoveItem (tblProdutos.Row)
    End If
    rs.Close
    FechaDB
@@ -567,7 +594,7 @@ Private Sub cmdVerificaEstoque_Click()
    Do While i < tblProdutos.Rows
       Prod.Open "SELECT grupo,classe,codProd FROM supProduto WHERE nomeProd = ('" & tblProdutos.TextMatrix(i, 0) & "')", db, 3, 3
       rs.Open "SELECT * FROM supEstoque WHERE grupo = ('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd = ('" & Prod!codProd & "')", db, 3, 3
-      
+      If tblProdutos.TextMatrix(i, 5) <> "1" Then
       
          If rs.EOF Then
          
@@ -590,6 +617,10 @@ Private Sub cmdVerificaEstoque_Click()
             End If
             
          End If
+      
+         tblProdutos.TextMatrix(i, 5) = "1"
+      
+      End If
       
       Prod.Close
       rs.Close

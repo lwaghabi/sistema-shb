@@ -64,7 +64,7 @@ Begin VB.Form frmPO
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   242286593
+      Format          =   243007489
       CurrentDate     =   45125
    End
    Begin VB.ComboBox cmbEndEntrega 
@@ -123,7 +123,7 @@ Begin VB.Form frmPO
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   242286593
+         Format          =   243073025
          CurrentDate     =   45155
       End
       Begin VB.CommandButton cmdEmitePO 
@@ -1247,8 +1247,10 @@ Private Sub cmbNumPO_LostFocus()
       
          cmbFornecedor = rs!Fornecedor
          cmbEndEntrega = rs!localEntrega
-         dtDataPrevista = rs!dataPrevistaDeEntrega
-         cmbFormaPagto = rs!formaDePagamento
+         dtDataPrevista = Date
+         If Not IsNull(rs!formaDePagamento) Then
+            cmbFormaPagto = rs!formaDePagamento
+         End If
          If IsNull(rs!desconto) Then
             txtDesconto = 0
          Else
@@ -1266,7 +1268,11 @@ Private Sub cmbNumPO_LostFocus()
          Else
             cmbMetodoPagto = rs!metodoPagamento
          End If
-         cmbMoeda = rs!moeda
+         
+         If Not IsNull(rs!moeda) Then
+            cmbMoeda = rs!moeda
+         End If
+         
          If IsNull(rs!valorPagoBrl) Then
             txtValorPgo = 0
          Else
@@ -1331,7 +1337,7 @@ Private Sub cmbNumPO_LostFocus()
             tblEquipamentos.TextMatrix(Linha, 2) = rs!Unidade
             tblEquipamentos.TextMatrix(Linha, 3) = Format$(rs!valorUnitario, "##,##0.00")
             tblEquipamentos.TextMatrix(Linha, 4) = Format$(rs!ValorTotal, "##,##0.00")
-            tblEquipamentos.TextMatrix(Linha, 5) = rs!dataEntregaProd
+            tblEquipamentos.TextMatrix(Linha, 5) = Date
             pes.Open "SELECT descricao FROM supgrupoclasse WHERE grupo = ('" & rs!grupo & "') and classe = '000'", db, 3, 3
             tblEquipamentos.TextMatrix(Linha, 6) = pes!Descricao
             pes.Close
@@ -1422,7 +1428,6 @@ Private Sub cmdJogaNaLista_Click()
    If tblEquipamentos.Rows > 1 Then
       Do While i < tblEquipamentos.Rows
          If cmbDescricao = tblEquipamentos.TextMatrix(i, 0) Then
-            MsgBox ("Item já cadastado"), vbInformation
             tblEquipamentos.TextMatrix(i, 1) = txtQtd
             tblEquipamentos.TextMatrix(i, 2) = txtUnid
             tblEquipamentos.TextMatrix(i, 3) = Format$(txtValorUnid, "##,##0.00")
@@ -1430,10 +1435,13 @@ Private Sub cmdJogaNaLista_Click()
             tblEquipamentos.TextMatrix(i, 5) = dtDataEntregaProd
             tblEquipamentos.TextMatrix(i, 9) = cmbAcordo
             FechaDB
+            Call limparCamposDetalhe
+            Call calculaTotal
             Exit Sub
          End If
          i = i + 1
       Loop
+      
    End If
    
    If cmbGrupo <> Empty And cmbClasse <> Empty And cmbDescricao <> Empty And txtQtd <> Empty And txtUnid <> Empty And txtValorUnid <> Empty And txtValorTotal <> Empty Then
@@ -1817,6 +1825,22 @@ Private Sub txtPercPagMoeda_LostFocus()
    End If
 End Sub
 
+Private Sub txtQtd_LostFocus()
+   Dim qtd As Integer
+      
+   If cmbDescricao <> Empty Then
+      
+      qtd = verificaEstoque(cmbDescricao)
+      
+      If txtQtd > qtd Then
+      
+         MsgBox ("Valor informado maior que estoque máximo: " & qtd), vbInformation
+      
+      End If
+   
+   End If
+End Sub
+
 Private Sub txtValorUnid_LostFocus()
 On Error GoTo Erro:
    
@@ -1949,7 +1973,9 @@ Public Sub calculaTotal()
    i = 1
    
    Do While i < tblEquipamentos.Rows
-      total = total + tblEquipamentos.TextMatrix(i, 4)
+      If tblEquipamentos.TextMatrix(i, 4) <> Empty Then
+         total = total + tblEquipamentos.TextMatrix(i, 4)
+      End If
       i = i + 1
    Loop
    
@@ -1958,3 +1984,15 @@ Public Sub calculaTotal()
    txtTotal = Format$(total * (1 - txtDesconto / 100), "##,##0.00")
 
 End Sub
+
+Public Function verificaEstoque(produto As String) As Integer
+   Dim quantidade As Integer
+   
+   Call Rotina_AbrirBanco
+      
+   rs.Open "SELECT estoqueMaximo FROM supEstoque INNER JOIN supProduto ON supProduto.grupo = supEstoque.grupo AND supProduto.classe = supEstoque.classe AND supProduto.codProd = supEstoque.codProd WHERE nomeProd = ('" & produto & "')", db, 3, 3
+   quantidade = rs!estoqueMaximo
+   rs.Close
+   verificaEstoque = quantidade
+   
+End Function

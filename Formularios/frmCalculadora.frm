@@ -18,6 +18,14 @@ Begin VB.Form frmCalculadora
    ScaleHeight     =   7950
    ScaleWidth      =   14340
    StartUpPosition =   2  'CenterScreen
+   Begin VB.CommandButton Command25 
+      Caption         =   "VERIFICA DETPROD"
+      Height          =   975
+      Left            =   11400
+      TabIndex        =   51
+      Top             =   6720
+      Width           =   1815
+   End
    Begin VB.CommandButton Command24 
       Caption         =   "Ajustar Centro de Custo de Int Para Varchar"
       Height          =   975
@@ -1456,6 +1464,93 @@ Do While Not ctr.EOF
    ctr.MoveNext
 Loop
 MsgBox ("Fim de Serviço")
+End Sub
+
+Private Sub Command25_Click()
+Dim FimDet As Integer
+Dim NotaFiscalAnterior As String
+Dim PessoaAnterior As String
+Dim Encontrei As Integer
+
+Call Rotina_AbrirBanco
+
+dnfe.Open "select * from NotaFiscalDetProd", db, 3, 3
+If dnfe.EOF Then
+   'MsgBox ("Nota Fiscal sem Detalhe."), vbInformation
+   FimDet = 1
+Else
+   FimDet = 0
+   NotaFiscalAnterior = Empty
+   PessoaAnterior = Empty
+   dnfe.MoveFirst
+   Do While FimDet = 0
+'      If dnfe!chPessoa = "PROTCAP" Then
+'         MsgBox "PROTCAP"
+'      End If
+      If Not (dnfe!chPessoa = PessoaAnterior And dnfe!chNotaFiscalEntrada = NotaFiscalAnterior) Then
+         
+         PessoaAnterior = dnfe!chPessoa
+         NotaFiscalAnterior = dnfe!chNotaFiscalEntrada
+         If ctp.State = 1 Then
+            ctp.Close: Set ctp = Nothing
+         End If
+         ctp.Open "Select * from Contas_A_Pagar where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscal = ('" & dnfe!chNotaFiscalEntrada & "') and ctpStatus = 0", db, 3, 3
+         If ctp.EOF Then
+            Encontrei = 0
+         Else
+            Encontrei = 1
+         End If
+      End If
+      
+      If hdnfe.State = 1 Then
+         hdnfe.Close: Set hdnfe = Nothing
+      End If
+      hdnfe.Open "Select * from HistoricoNotaFiscalDetProd where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscalEntrada = ('" & dnfe!chNotaFiscalEntrada & "') and chCodProduto = ('" & dnfe!chCodProduto & "')", db, 3, 3
+      If hdnfe.EOF Then
+         hdnfe.AddNew
+      End If
+      hdnfe!chPessoa = dnfe!chPessoa
+      hdnfe!chNotaFiscalEntrada = dnfe!chNotaFiscalEntrada
+      hdnfe!chCodProduto = dnfe!chCodProduto
+      hdnfe!chProdutoFabrica = dnfe!chProdutoFabrica
+      hdnfe!nfdQtd = dnfe!nfdQtd
+      hdnfe!nfdPU = dnfe!nfdPU
+      hdnfe!nfdValorDaCompra = dnfe!nfdValorDaCompra
+      hdnfe!nfdQtdParcelas = dnfe!nfdQtdParcelas
+      hdnfe!nfdValorParcela = dnfe!nfdValorParcela
+      hdnfe!nfdCentroDeCusto = dnfe!nfdCentroDeCusto
+      hdnfe!nfdGrupoCentroDeCusto = dnfe!nfdGrupoCentroDeCusto
+      hdnfe!nfdSubGrupoCentroDeCusto = dnfe!nfdSubGrupoCentroDeCusto
+      
+      If Encontrei = 1 Then
+         hdnfe!nfddatapagamento = ctp!ctpDataPagamento
+      End If
+
+      UltimoRegistro = "Rotina Grava Det Produto. - " & dnfe!chPessoa & " - " & dnfe!chNotaFiscalEntrada & " - " & dnfe!chCodProduto & " - " & dnfe!chProdutoFabrica
+
+      hdnfe.Update
+      
+      If Encontrei = 0 Then
+         dnfe.Delete
+      End If
+
+'O encontrei = 0 significa que não há mais contas a pagar para este cliente nota fiscal.
+'O registro em DetProd tem que ficar tanto no mes quanto no historico.
+'Será retirado do mes qdo não hover mais o financeiro do mes.
+
+      dnfe.MoveNext
+      If dnfe.EOF Then
+         FimDet = 1
+      End If
+   Loop
+End If
+         
+'db.CommitTrans
+
+Call FechaDB
+
+Exit Sub
+
 End Sub
 
 Private Sub Command9_Click()

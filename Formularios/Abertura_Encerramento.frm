@@ -32,7 +32,7 @@ Begin VB.Form frmAbre_Fecha
       _ExtentX        =   2355
       _ExtentY        =   661
       _Version        =   393216
-      Format          =   415432705
+      Format          =   243204097
       CurrentDate     =   43883
    End
    Begin VB.Frame Frame3 
@@ -182,7 +182,7 @@ Begin VB.Form frmAbre_Fecha
          _ExtentX        =   2355
          _ExtentY        =   661
          _Version        =   393216
-         Format          =   415367169
+         Format          =   121700353
          CurrentDate     =   43883
       End
       Begin VB.TextBox txtHoraEvento 
@@ -1146,7 +1146,7 @@ Else
          If ctp.State = 1 Then
             ctp.Close: Set ctp = Nothing
          End If
-         ctp.Open "Select * from Contas_A_Pagar where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscal = ('" & dnfe!chNotaFiscalEntrada & "') and ctpStatus = 1", db, 3, 3
+         ctp.Open "Select * from Contas_A_Pagar where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscal = ('" & dnfe!chNotaFiscalEntrada & "') and ctpStatus = 0", db, 3, 3
          If ctp.EOF Then
             Encontrei = 0
          Else

@@ -100,7 +100,7 @@ Private Sub txtCodReq_LostFocus()
    
    Do While Not rs.EOF
    
-      frmEquipamentosRequisitados.tblProdutos.AddItem rs!nomeProd & vbTab & rs!quantidade & vbTab & rs!quantidadeAtendida & vbTab & rs!qtdReservado
+      frmEquipamentosRequisitados.tblProdutos.AddItem rs!nomeProd & vbTab & rs!quantidade & vbTab & rs!quantidadeAtendida
       rs.MoveNext
    
    Loop
