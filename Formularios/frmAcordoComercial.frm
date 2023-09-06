@@ -332,7 +332,7 @@ Begin VB.Form frmAcordoComercial
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   415367169
+      Format          =   122290177
       CurrentDate     =   45139
    End
    Begin MSComCtl2.DTPicker dtDataInicio 
@@ -353,7 +353,7 @@ Begin VB.Form frmAcordoComercial
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   415367169
+      Format          =   122290177
       CurrentDate     =   45139
    End
    Begin VB.ComboBox cmbFornecedores 
@@ -577,7 +577,7 @@ Private Sub cmbIdentificador_LostFocus()
    
    Do While Not rs.EOF
       pes.Open "Select nomeProd from supproduto where grupo=('" & rs!grupo & "') and classe=('" & rs!classe & "') and codProd=('" & rs!codProd & "')", db, 3, 3
-      tblProdutosAcordo.AddItem pes!nomeProd & vbTab & rs!qtdTotal - rs!qtdEntregue & vbTab & Format$(rs!precoUnit, "##,##0.00") & vbTab & Format$(rs!ValorTotalProduto, "##,##0.00"), tblProdutosAcordo.Rows
+      tblProdutosAcordo.AddItem pes!nomeProd & vbTab & rs!qtdTotal - rs!QtdEntregue & vbTab & Format$(rs!precoUnit, "##,##0.00") & vbTab & Format$(rs!ValorTotalProduto, "##,##0.00"), tblProdutosAcordo.Rows
       pes.Close
       rs.MoveNext
    

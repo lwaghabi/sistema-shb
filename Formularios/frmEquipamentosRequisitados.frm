@@ -10,6 +10,23 @@ Begin VB.Form frmEquipamentosRequisitados
    ScaleHeight     =   6780
    ScaleWidth      =   7470
    StartUpPosition =   3  'Windows Default
+   Begin VB.CommandButton Command1 
+      Caption         =   "Sair"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   975
+      Left            =   5640
+      TabIndex        =   6
+      Top             =   5760
+      Width           =   1575
+   End
    Begin VB.CommandButton cmdEntrega 
       Caption         =   "Confirma Entrega"
       BeginProperty Font 
@@ -22,7 +39,7 @@ Begin VB.Form frmEquipamentosRequisitados
          Strikethrough   =   0   'False
       EndProperty
       Height          =   975
-      Left            =   5760
+      Left            =   3840
       TabIndex        =   5
       Top             =   5760
       Width           =   1575
@@ -193,3 +210,6 @@ Public Sub geraRequisicaoCompra(Produto As String, qtdRequisitada As Integer, qt
 
 End Sub
 
+Private Sub Command1_Click()
+Unload Me
+End Sub

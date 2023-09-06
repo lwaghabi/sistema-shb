@@ -1389,7 +1389,7 @@ AcumulaNaoProcessado = 0
 neg.Open "Select * from Negociacao", db, 3, 3
 If neg.EOF Then
    txtLocacaoNaoProcessada = Format$(0, "0.00")
-   txtSaldoGeralProjetado = Format$(lblSaldoProjetado, "0.00")
+   txtSaldoGeralProjetado = Format$((lblSaldoProjetado + AcumulaNaoProcessado + AcumAtrasados), "##,##0.00")
    Exit Sub
 End If
 
@@ -1417,8 +1417,8 @@ Do While Not neg.EOF
    
 Loop
       
-txtLocacaoNaoProcessada = Format$(AcumulaNaoProcessado, "0,000.00")
-txtSaldoGeralProjetado = Format$((lblSaldoProjetado + AcumulaNaoProcessado + AcumAtrasados), "0,000.00")
+txtLocacaoNaoProcessada = Format$(AcumulaNaoProcessado, "##,##0.00")
+txtSaldoGeralProjetado = Format$((lblSaldoProjetado + AcumulaNaoProcessado + AcumAtrasados), , "##,##0.00")
       
 
 'txtLocacaoNaoProcessada.ForeColor = vbBlue
@@ -1572,4 +1572,5 @@ Dim nomeCompleto As String
    
 FechaDB
 End Sub
+
 

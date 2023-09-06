@@ -8,7 +8,7 @@ Begin VB.Form frmEspecTec
    LinkTopic       =   "Form1"
    ScaleHeight     =   3135
    ScaleWidth      =   9810
-   StartUpPosition =   3  'Windows Default
+   StartUpPosition =   2  'CenterScreen
    Begin VB.TextBox txtEspecificacaoTecnica 
       Height          =   1575
       Left            =   360

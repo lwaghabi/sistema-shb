@@ -64,7 +64,7 @@ Begin VB.Form frmPO
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   243007489
+      Format          =   382795777
       CurrentDate     =   45125
    End
    Begin VB.ComboBox cmbEndEntrega 
@@ -123,11 +123,20 @@ Begin VB.Form frmPO
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   243073025
+         Format          =   382795777
          CurrentDate     =   45155
       End
       Begin VB.CommandButton cmdEmitePO 
          Caption         =   "Imprimir Ordem de Compra"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   615
          Left            =   19080
          TabIndex        =   58
@@ -553,6 +562,15 @@ Begin VB.Form frmPO
       End
       Begin VB.CommandButton cmdSair 
          Caption         =   "Sair"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   13.5
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   615
          Left            =   19080
          TabIndex        =   30
@@ -583,6 +601,15 @@ Begin VB.Form frmPO
       End
       Begin VB.CommandButton cmdSalvar 
          Caption         =   "Salvar"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   615
          Left            =   19080
          TabIndex        =   14
@@ -591,6 +618,15 @@ Begin VB.Form frmPO
       End
       Begin VB.CommandButton cmdExcluiDaLista 
          Caption         =   "Exclui da Lista"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   615
          Left            =   19080
          TabIndex        =   13
@@ -599,6 +635,15 @@ Begin VB.Form frmPO
       End
       Begin VB.CommandButton cmdJogaNaLista 
          Caption         =   "Joga na Lista"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   615
          Left            =   19080
          TabIndex        =   12
@@ -935,7 +980,7 @@ Begin VB.Form frmPO
          Width           =   3480
       End
    End
-   Begin VB.Label Label24 
+   Begin VB.Label lblHoje 
       Caption         =   "07/08/2023"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -947,9 +992,9 @@ Begin VB.Form frmPO
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   17040
+      Left            =   18600
       TabIndex        =   57
-      Top             =   720
+      Top             =   600
       Width           =   1695
    End
    Begin VB.Label Label23 
@@ -964,9 +1009,9 @@ Begin VB.Form frmPO
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   17520
+      Left            =   19080
       TabIndex        =   56
-      Top             =   240
+      Top             =   120
       Width           =   975
    End
    Begin VB.Label Label11 
@@ -1662,6 +1707,7 @@ End Sub
 
 Private Sub Form_Load()
    
+   lblHoje = Date
    dtDataEntregaProd = Date
    
    cmbFrete.AddItem "CIF"
@@ -1671,7 +1717,7 @@ Private Sub Form_Load()
    cmbFrete.AddItem "RODOVIARIO"
    cmbFrete.AddItem "RETIRADA NO FORNECEDOR"
    
-   Label24 = Date
+   lblHoje = Date
 
    dtDataPrevista = Date
 
@@ -1985,12 +2031,12 @@ Public Sub calculaTotal()
 
 End Sub
 
-Public Function verificaEstoque(produto As String) As Integer
+Public Function verificaEstoque(Produto As String) As Integer
    Dim quantidade As Integer
    
    Call Rotina_AbrirBanco
       
-   rs.Open "SELECT estoqueMaximo FROM supEstoque INNER JOIN supProduto ON supProduto.grupo = supEstoque.grupo AND supProduto.classe = supEstoque.classe AND supProduto.codProd = supEstoque.codProd WHERE nomeProd = ('" & produto & "')", db, 3, 3
+   rs.Open "SELECT estoqueMaximo FROM supEstoque INNER JOIN supProduto ON supProduto.grupo = supEstoque.grupo AND supProduto.classe = supEstoque.classe AND supProduto.codProd = supEstoque.codProd WHERE nomeProd = ('" & Produto & "')", db, 3, 3
    quantidade = rs!estoqueMaximo
    rs.Close
    verificaEstoque = quantidade

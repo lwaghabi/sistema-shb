@@ -479,7 +479,7 @@ Begin VB.MDIForm mdiSHB
             Caption         =   "Classificação de Produtos em Estoque"
          End
          Begin VB.Menu mdiFornecProduto 
-            Caption         =   "Fornecedores/Produtos "
+            Caption         =   "Registro e Atualização de Produtos e Equipamentos"
          End
       End
       Begin VB.Menu mdiConsultaMateriais 

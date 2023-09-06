@@ -11,8 +11,17 @@ Begin VB.Form frmBaixaReqEstoque
    StartUpPosition =   3  'Windows Default
    Begin VB.CommandButton cmdSair 
       Caption         =   "Sair"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   615
-      Left            =   8640
+      Left            =   8400
       TabIndex        =   3
       Top             =   4680
       Width           =   1215
@@ -79,6 +88,14 @@ Private Sub cmdSair_Click()
 End Sub
 
 Private Sub txtCodReq_LostFocus()
+   
+      
+   If txtCodReq = Empty Then
+      MsgBox ("Codigo de retirada não informado"), vbInformation
+      cmdSair.SetFocus
+      Exit Sub
+   End If
+   
    Call Rotina_AbrirBanco
    
    rs.Open "SELECT * FROM supRequisicaoDetalhe inner join supProduto on supProduto.grupo = supRequisicaoDetalhe.grupo and supProduto.classe = supRequisicaoDetalhe.classe and supProduto.codProd = supRequisicaoDetalhe.codProd WHERE codigo = ('" & txtCodReq & "')", db, 3, 3

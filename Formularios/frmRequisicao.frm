@@ -5,11 +5,29 @@ Begin VB.Form frmRequisicao
    ClientHeight    =   6870
    ClientLeft      =   60
    ClientTop       =   405
-   ClientWidth     =   13230
+   ClientWidth     =   13425
    LinkTopic       =   "Form1"
    ScaleHeight     =   6870
-   ScaleWidth      =   13230
+   ScaleWidth      =   13425
    StartUpPosition =   2  'CenterScreen
+   Begin VB.TextBox txtHoje 
+      Alignment       =   2  'Center
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   495
+      Left            =   11280
+      TabIndex        =   21
+      Text            =   "Text1"
+      Top             =   600
+      Width           =   2055
+   End
    Begin VB.ComboBox cmbUnidOper 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -21,31 +39,49 @@ Begin VB.Form frmRequisicao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   480
-      Left            =   6720
-      TabIndex        =   15
+      Left            =   8040
+      TabIndex        =   6
       Top             =   3840
       Width           =   1935
    End
    Begin VB.CommandButton cmdSair 
       Caption         =   "Sair"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   12
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   855
       Left            =   12000
-      TabIndex        =   13
+      TabIndex        =   11
       Top             =   5880
-      Width           =   975
+      Width           =   1335
    End
    Begin VB.CommandButton cmdGeraRequisicao 
       Caption         =   "Gera Requisição"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   855
       Left            =   12000
-      TabIndex        =   12
+      TabIndex        =   10
       Top             =   4920
-      Width           =   975
+      Width           =   1335
    End
    Begin MSFlexGridLib.MSFlexGrid tblProdutos 
       Height          =   2415
       Left            =   480
-      TabIndex        =   11
+      TabIndex        =   17
       Top             =   4440
       Width           =   11415
       _ExtentX        =   20135
@@ -77,9 +113,9 @@ Begin VB.Form frmRequisicao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   480
-      Left            =   6720
-      TabIndex        =   10
-      Top             =   2640
+      Left            =   6360
+      TabIndex        =   5
+      Top             =   3840
       Width           =   1575
    End
    Begin VB.ComboBox cmbProduto 
@@ -94,7 +130,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   480
       Left            =   480
-      TabIndex        =   8
+      TabIndex        =   4
       Top             =   3840
       Width           =   5850
    End
@@ -110,7 +146,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   480
       Left            =   480
-      TabIndex        =   7
+      TabIndex        =   3
       Top             =   2880
       Width           =   3495
    End
@@ -126,7 +162,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   480
       Left            =   480
-      TabIndex        =   6
+      TabIndex        =   2
       Top             =   1920
       Width           =   3375
    End
@@ -157,35 +193,80 @@ Begin VB.Form frmRequisicao
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   2415
-      Left            =   8880
-      TabIndex        =   16
-      Top             =   1920
+      Height          =   2535
+      Left            =   10080
+      TabIndex        =   19
+      Top             =   1800
       Width           =   1575
       Begin VB.CommandButton cmdVerificaEstoque 
          Caption         =   "Verifica Estoque"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   615
-         Left            =   480
-         TabIndex        =   19
-         Top             =   1680
+         Left            =   360
+         TabIndex        =   9
+         Top             =   1800
          Width           =   855
       End
       Begin VB.CommandButton cmdRetiraDaLista 
          Caption         =   "Retira da lista"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   615
-         Left            =   480
-         TabIndex        =   18
-         Top             =   960
+         Left            =   360
+         TabIndex        =   8
+         Top             =   1080
          Width           =   855
       End
       Begin VB.CommandButton cmdJogaNaLista 
          Caption         =   "Jogar na lista"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   615
-         Left            =   480
-         TabIndex        =   17
-         Top             =   240
+         Left            =   360
+         TabIndex        =   7
+         Top             =   360
          Width           =   855
       End
+   End
+   Begin VB.Label Label8 
+      Alignment       =   2  'Center
+      Caption         =   "Hoje"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   11280
+      TabIndex        =   20
+      Top             =   120
+      Width           =   1935
    End
    Begin VB.Label Label7 
       Caption         =   "Unidade Operacional"
@@ -199,8 +280,8 @@ Begin VB.Form frmRequisicao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   615
-      Left            =   6720
-      TabIndex        =   14
+      Left            =   8040
+      TabIndex        =   18
       Top             =   3240
       Width           =   1815
    End
@@ -216,9 +297,9 @@ Begin VB.Form frmRequisicao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   6720
-      TabIndex        =   9
-      Top             =   2280
+      Left            =   6360
+      TabIndex        =   16
+      Top             =   3480
       Width           =   1455
    End
    Begin VB.Label Label5 
@@ -234,7 +315,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   495
       Left            =   480
-      TabIndex        =   5
+      TabIndex        =   15
       Top             =   3480
       Width           =   3735
    End
@@ -251,7 +332,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   495
       Left            =   480
-      TabIndex        =   4
+      TabIndex        =   14
       Top             =   2520
       Width           =   2295
    End
@@ -268,7 +349,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   495
       Left            =   480
-      TabIndex        =   3
+      TabIndex        =   13
       Top             =   1560
       Width           =   2535
    End
@@ -285,7 +366,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   375
       Left            =   480
-      TabIndex        =   2
+      TabIndex        =   12
       Top             =   720
       Width           =   1575
    End
@@ -479,7 +560,7 @@ Private Sub cmdGeraRequisicao_Click()
       
       rs!quantidadeAtendida = tblProdutos.TextMatrix(i, 2)
       
-      rs!qtdEntregue = rs!qtdEntregue + tblProdutos.TextMatrix(i, 2)
+      rs!QtdEntregue = rs!QtdEntregue + tblProdutos.TextMatrix(i, 2)
       
       pes.Open "SELECT * FROM supEstoque WHERE grupo=('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd=('" & Prod!codProd & "')", db, 3, 3
       
@@ -633,6 +714,8 @@ Private Sub cmdVerificaEstoque_Click()
 End Sub
 
 Private Sub Form_Load()
+      
+   txtHoje = Date
       
    Call Rotina_AbrirBanco
    Dim id As Integer
