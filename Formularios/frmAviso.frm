@@ -118,7 +118,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Dim ColaboradorAnterior As String
-Dim PessoaAnterior As String
+Dim pessoaAnterior As String
 Dim DataAnterior As Date
 Dim DataBase As String
 Dim DataDias As Date
@@ -126,8 +126,8 @@ Dim DataInvertida As String
 Dim DataHojeInvertida As String
 
 Dim Dia As Integer
-Dim Mes As Integer
-Dim Ano As Integer
+Dim mes As Integer
+Dim ano As Integer
 Dim DiaDb As Integer
 Dim MesDb As Integer
 Dim AnoDb As Integer
@@ -144,9 +144,9 @@ End If
 
 Call Rotina_AbrirBanco
 
-usu.Open "Select * from Usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
+usu.Open "Select * from usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
 If usu.EOF Then
-   MsgBox ("Erro no acesso a Usuario na rotina de atualização de mostrar aviso. Comunicar Analista responsável"), vbCritical
+   MsgBox ("Erro no acesso a usuario na rotina de atualização de mostrar aviso. Comunicar Analista responsável"), vbCritical
    End
 End If
 
@@ -169,15 +169,15 @@ ColaboradorAnterior = Empty
 DataAnterior = Empty
 optAviso = False
 
-Ano = Year(Date)
-Mes = Month(Date)
+ano = Year(Date)
+mes = Month(Date)
 Dia = Day(Date)
 
-DataHojeInvertida = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataHojeInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 Call Rotina_AbrirBanco
 
-usu.Open "Select * from Usuario where  chNome = ('" & glbUsuario & "')", db, 3, 3
+usu.Open "Select * from usuario where  chNome = ('" & glbUsuario & "')", db, 3, 3
 If usu.EOF Then
    MsgBox ("Usuário inexistente. Comunicar ao analista responsável."), vbCritical
    Call FechaDB
@@ -192,7 +192,7 @@ End If
 
 Call LimpaGridAviso
 
-asoa.Open "Select * from AsoAgenda where asoaStatus = ('" & 0 & "')", db, 3, 3
+asoa.Open "Select * from asoagenda where asoaStatus = ('" & 0 & "') and status = ('" & 1 & "')", db, 3, 3
 If asoa.EOF Then
    Call FechaDB
    Exit Sub
@@ -203,14 +203,14 @@ Linha = 1
 asoa.MoveFirst
 
 Do While Not asoa.EOF
-   If Not asoa!chPessoa = PessoaAnterior Then
-      PessoaAnterior = asoa!chPessoa
+   If Not asoa!chPessoa = pessoaAnterior Then
+      pessoaAnterior = asoa!chPessoa
       If pes.State = 1 Then
          pes.Close: Set pes = Nothing
       End If
-      pes.Open "Select * from Pessoa where pesRazaoSocial = ('" & asoa!chPessoa & "')", db, 3, 3
+      pes.Open "Select * from pessoa where pesRazaoSocial = ('" & asoa!chPessoa & "')", db, 3, 3
       If pes.EOF Then
-         MsgBox ("Registro em Agenda não encontrado em Pessoa."), vbInformation
+         MsgBox ("Registro em Agenda não encontrado em pessoa."), vbInformation
          Call FechaDB
          Exit Sub
       End If
@@ -221,32 +221,32 @@ Do While Not asoa.EOF
          asoe.Close: Set asoe = Nothing
       End If
       
-      asoe.Open "Select * from AsoExame where chNomeExame = ('" & asoa!chNomeExame & "')", db, 3, 3
+      asoe.Open "Select * from asoexame where chNomeExame = ('" & asoa!chNomeExame & "')", db, 3, 3
       If Not asoe.EOF Then
          If asoe!exmUnidTempo = 0 Then
             DataDias = Date + asoe!exmPrazoAviso
-            Ano = Year(DataDias)
-            Mes = Month(DataDias)
+            ano = Year(DataDias)
+            mes = Month(DataDias)
             Dia = Day(DataDias)
-            DataBase = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+            DataBase = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
          Else
             If asoe!exmUnidTempo = 1 Then
-               Ano = Year(Date)
-               Mes = Month(Date)
-               Mes = Mes + asoe!exmPrazoAviso
-               If Mes > 12 Then
-                  Ano = Year(Date)
-                  Ano = Ano + 1
-                  Mes = Mes - 12
+               ano = Year(Date)
+               mes = Month(Date)
+               mes = mes + asoe!exmPrazoAviso
+               If mes > 12 Then
+                  ano = Year(Date)
+                  ano = ano + 1
+                  mes = mes - 12
                End If
                Dia = Day(Date)
-               DataBase = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+               DataBase = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
             Else
-               Ano = Year(Date)
-               Ano = Ano + asoe!exmPrazoAviso
-               Mes = Month(Date)
+               ano = Year(Date)
+               ano = ano + asoe!exmPrazoAviso
+               mes = Month(Date)
                Dia = Day(Date)
-               DataBase = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+               DataBase = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
             End If
          End If
       End If

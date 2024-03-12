@@ -56,7 +56,7 @@ Begin VB.Form frmAjustaCobranca
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   243269633
+         Format          =   238813185
          CurrentDate     =   44649
       End
       Begin VB.Frame Frame2 
@@ -481,7 +481,7 @@ Dim PercentCorrecao As Integer
 Dim ValorCorrecao As Currency
 Dim ValorDaBoleta As Currency
 Dim ano As String
-Dim Mes As String
+Dim mes As String
 Dim Dia As String
 Dim NumPedido As String
 Dim NumPedidoComp As String
@@ -517,7 +517,7 @@ Private Sub Confirma_Click()
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & txtCliente & "') and chNotaFiscal = ('" & txtNotaFiscal & "') and chFatura = ('" & txtFatura & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & txtCliente & "') and chNotaFiscal = ('" & txtNotaFiscal & "') and chFatura = ('" & txtFatura & "')", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Erro na abertura do contas a receber"), vbCritical
    Call FechaDB
@@ -664,7 +664,7 @@ Public Sub Rotina_070_Gera_Parcelamento()
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & Cliente & "') and chNotaFiscal = ('" & NotaFiscal & "') and chFatura = ('" & Fatura & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & Cliente & "') and chNotaFiscal = ('" & NotaFiscal & "') and chFatura = ('" & Fatura & "')", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Erro na abertura do contas a receber"), vbCritical
    Call FechaDB
@@ -691,7 +691,7 @@ ctr!ctrvalorcorrecao = 0
 ctr!ctrValorMerco = ValorMerco
 
 ctr!chAno = ano
-ctr!chMes = Mes
+ctr!chMes = mes
 ctr!chDia = Dia
 ctr!chNumPedido = NumPedido
 ctr!chNumPedidoComp = NumPedidoComp
@@ -723,7 +723,7 @@ ValorCorrecao = ctr!ctrvalorcorrecao
 ValorMerco = ctr!ctrValorMerco
 ValorDaBoleta = ctr!ctrValorDaBoleta
 ano = ctr!chAno
-Mes = ctr!chMes
+mes = ctr!chMes
 Dia = ctr!chDia
 NumPedido = ctr!chNumPedido
 NumPedidoComp = ctr!chNumPedidoComp

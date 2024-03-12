@@ -5,11 +5,44 @@ Begin VB.Form frmTreinamentos
    ClientHeight    =   8820
    ClientLeft      =   60
    ClientTop       =   405
-   ClientWidth     =   13695
+   ClientWidth     =   17355
    LinkTopic       =   "Form1"
    ScaleHeight     =   8820
-   ScaleWidth      =   13695
+   ScaleWidth      =   17355
    StartUpPosition =   2  'CenterScreen
+   Begin VB.ComboBox cmbStatus 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   480
+      Left            =   12600
+      TabIndex        =   20
+      Text            =   "Combo1"
+      Top             =   2040
+      Width           =   2295
+   End
+   Begin VB.ComboBox cmbIncidencia 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   480
+      Left            =   10680
+      TabIndex        =   17
+      Top             =   2040
+      Width           =   1815
+   End
    Begin VB.TextBox lblHoje 
       Alignment       =   2  'Center
       BeginProperty Font 
@@ -22,7 +55,7 @@ Begin VB.Form frmTreinamentos
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   11520
+      Left            =   15000
       TabIndex        =   9
       Text            =   "Text1"
       Top             =   360
@@ -90,10 +123,10 @@ Begin VB.Form frmTreinamentos
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   10200
+      Left            =   9720
       TabIndex        =   3
       Top             =   2040
-      Width           =   975
+      Width           =   855
    End
    Begin VB.Frame Frame1 
       Caption         =   "Comandos"
@@ -107,7 +140,7 @@ Begin VB.Form frmTreinamentos
          Strikethrough   =   0   'False
       EndProperty
       Height          =   2175
-      Left            =   11400
+      Left            =   15000
       TabIndex        =   8
       Top             =   960
       Width           =   2175
@@ -174,13 +207,13 @@ Begin VB.Form frmTreinamentos
       Left            =   0
       TabIndex        =   7
       Top             =   3240
-      Width           =   13695
-      _ExtentX        =   24156
+      Width           =   17295
+      _ExtentX        =   30506
       _ExtentY        =   9551
       _Version        =   393216
-      Cols            =   5
+      Cols            =   7
       FixedCols       =   0
-      FormatString    =   "Nome do Curso/Treinamento                                                   |Cntrl de Prazo|Validade|Avisar em |Unid. Tempo"
+      FormatString    =   $"frmTreinamentos.frx":0000
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
          Size            =   12
@@ -190,6 +223,40 @@ Begin VB.Form frmTreinamentos
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
+   End
+   Begin VB.Label Label9 
+      Caption         =   "Status"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   12600
+      TabIndex        =   19
+      Top             =   1560
+      Width           =   1815
+   End
+   Begin VB.Label Label8 
+      Caption         =   "Incidência"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   495
+      Left            =   10680
+      TabIndex        =   18
+      Top             =   1560
+      Width           =   1575
    End
    Begin VB.Label Label7 
       Caption         =   "Dias"
@@ -203,7 +270,7 @@ Begin VB.Form frmTreinamentos
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   10320
+      Left            =   9840
       TabIndex        =   16
       Top             =   2520
       Width           =   735
@@ -238,7 +305,7 @@ Begin VB.Form frmTreinamentos
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   11520
+      Left            =   15000
       TabIndex        =   14
       Top             =   0
       Width           =   1815
@@ -280,7 +347,7 @@ Begin VB.Form frmTreinamentos
    End
    Begin VB.Label Label5 
       Alignment       =   2  'Center
-      Caption         =   "Validade"
+      Caption         =   "Valid."
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   13.5
@@ -291,10 +358,10 @@ Begin VB.Form frmTreinamentos
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   8400
+      Left            =   8520
       TabIndex        =   11
       Top             =   1560
-      Width           =   1455
+      Width           =   1215
    End
    Begin VB.Label Label6 
       Alignment       =   2  'Center
@@ -309,7 +376,7 @@ Begin VB.Form frmTreinamentos
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   10200
+      Left            =   9720
       TabIndex        =   10
       Top             =   1560
       Width           =   855
@@ -332,10 +399,18 @@ cmbTipoPrazo.AddItem "QTD MESES"
 cmbTipoPrazo.AddItem "QTD ANOS"
 cmbTipoPrazo.ListIndex = 0
 
+cmbIncidencia.AddItem "Administrativo"
+cmbIncidencia.AddItem "Operacional"
+cmbIncidencia.AddItem "Adm/Oper"
+
 'cmbUnidTempo.AddItem "Dia"
 'cmbUnidTempo.AddItem "Mês"
 'cmbUnidTempo.AddItem "Hora"
 'cmbUnidTempo.ListIndex = 0
+
+cmbStatus.AddItem "Descontinuado"
+cmbStatus.AddItem "Ativo"
+cmbStatus.ListIndex = 1
 
 Call CargaGridCursos
 
@@ -352,11 +427,18 @@ End If
 
 Call Rotina_AbrirBanco
 
-cto.Open "Select * from Treinamento where chNomeCurso = ('" & txtNomeCurso & "')", db, 3, 3
+cto.Open "Select * from treinamento where chNomeCurso = ('" & txtNomeCurso & "')", db, 3, 3
 If cto.EOF Then
    MsgBox ("Curso/Treinamento inexistente"), vbCritical
    Call FechaDB
    Exit Sub
+Else
+   rs.Open "SELECT * FROM treinamentoagenda WHERE chNomeCurso = ('" & txtNomeCurso & "')", db, 3, 3
+   If Not rs.EOF Then
+      MsgBox ("Treinamento não pod ser excluído da tabela por existir em Agenda de Treinamento de Funcionários."), vbInformation
+      Call FechaDB
+      Exit Sub
+   End If
 End If
    
 cto.Delete
@@ -395,7 +477,7 @@ If txtAvisoEm = Empty Then
    Exit Sub
 End If
 
-cto.Open "Select * from Treinamento where chNomeCurso = ('" & txtNomeCurso & "')", db, 3, 3
+cto.Open "Select * from treinamento where chNomeCurso = ('" & txtNomeCurso & "')", db, 3, 3
 If cto.EOF Then
    cto.AddNew
 End If
@@ -404,8 +486,20 @@ cto!chNomeCurso = txtNomeCurso
 cto!chTipoPrazo = cmbTipoPrazo.ListIndex
 cto!chPrazoValidade = txtPrazoValidade
 cto!ctoAvisoEm = txtAvisoEm
+cto!incidencia = cmbIncidencia.ListIndex
+cto!Status = cmbStatus.ListIndex
 
 cto.Update
+
+rs.Open "SELECT * FROM treinamentoagenda WHERE chNomeCurso = ('" & txtNomeCurso & "')", db, 3, 3
+If Not rs.EOF Then
+   rs.MoveFirst
+   Do While Not rs.EOF
+      rs!Status = cmbStatus.ListIndex
+      rs.Update
+      rs.MoveNext
+   Loop
+End If
 
 Call FechaDB
 
@@ -423,10 +517,7 @@ txtNomeCurso.SetFocus
 
 End Sub
 
-
-
-
-Private Sub grdCursos_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub grdCursos_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 
 Limite = grdCursos.Rows
 
@@ -442,6 +533,8 @@ cmbTipoPrazo = grdCursos.TextMatrix(IndLinha, 1)
 txtPrazoValidade = grdCursos.TextMatrix(IndLinha, 2)
 txtAvisoEm = grdCursos.TextMatrix(IndLinha, 3)
 'cmbUnidTempo = grdCursos.TextMatrix(IndLinha, 4)
+cmbIncidencia = grdCursos.TextMatrix(IndLinha, 5)
+cmbStatus = grdCursos.TextMatrix(IndLinha, 6)
 
 txtNomeCurso.SetFocus
 
@@ -453,7 +546,7 @@ Dim IndLinha As Integer
 
 Call Rotina_AbrirBanco
 
-cto.Open "Select * from Treinamento", db, 3, 3
+cto.Open "Select * from treinamento", db, 3, 3
 If cto.EOF Then
    MsgBox ("Tabela de Cursos Vazia."), vbCritical
    Call FechaDB
@@ -466,6 +559,8 @@ grdCursos.TextMatrix(1, 1) = Empty
 grdCursos.TextMatrix(1, 2) = Empty
 grdCursos.TextMatrix(1, 3) = Empty
 'grdCursos.TextMatrix(1, 4) = Empty
+grdCursos.TextMatrix(1, 5) = Empty
+grdCursos.TextMatrix(1, 6) = Empty
 IndLinha = 0
 
 cto.MoveFirst
@@ -479,10 +574,16 @@ Do While Not cto.EOF
    grdCursos.TextMatrix(IndLinha, 2) = cto!chPrazoValidade
    grdCursos.TextMatrix(IndLinha, 3) = cto!ctoAvisoEm
    grdCursos.TextMatrix(IndLinha, 4) = "Dias"
-   
+   cmbIncidencia.ListIndex = cto!incidencia
+   grdCursos.TextMatrix(IndLinha, 5) = cmbIncidencia
+   If cto!Status = 1 Then
+      grdCursos.TextMatrix(IndLinha, 6) = "Ativo"
+   Else
+      grdCursos.TextMatrix(IndLinha, 6) = "Descontinuado"
+   End If
+      
    cto.MoveNext
-   
-   
+    
 Loop
 
 'grdCursos.Sort = 1

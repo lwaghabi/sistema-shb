@@ -6,11 +6,27 @@ Begin VB.Form frmAsoAgenda
    ClientHeight    =   9855
    ClientLeft      =   60
    ClientTop       =   405
-   ClientWidth     =   18645
+   ClientWidth     =   20355
    LinkTopic       =   "Form1"
    ScaleHeight     =   9855
-   ScaleWidth      =   18645
+   ScaleWidth      =   20355
    StartUpPosition =   2  'CenterScreen
+   Begin VB.ComboBox cmbIncidencia 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   480
+      Left            =   120
+      TabIndex        =   18
+      Top             =   1560
+      Width           =   2055
+   End
    Begin VB.Frame Frame2 
       Caption         =   "Tipo Process."
       BeginProperty Font 
@@ -23,12 +39,12 @@ Begin VB.Form frmAsoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1575
-      Left            =   13440
+      Left            =   15600
       TabIndex        =   17
       Top             =   960
-      Width           =   2415
+      Width           =   2535
       Begin VB.OptionButton optStatusRealizado 
-         Caption         =   "Status Realizado"
+         Caption         =   "Periodo Encerrado"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   9.75
@@ -42,10 +58,10 @@ Begin VB.Form frmAsoAgenda
          Left            =   120
          TabIndex        =   3
          Top             =   360
-         Width           =   2175
+         Width           =   2295
       End
       Begin VB.OptionButton optGeral 
-         Caption         =   "Geral"
+         Caption         =   "Carregar Todos"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   9.75
@@ -59,10 +75,10 @@ Begin VB.Form frmAsoAgenda
          Left            =   120
          TabIndex        =   5
          Top             =   1080
-         Width           =   1815
+         Width           =   2055
       End
       Begin VB.OptionButton optNormal 
-         Caption         =   "Normal"
+         Caption         =   "Atualizar Cada"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   9.75
@@ -76,12 +92,12 @@ Begin VB.Form frmAsoAgenda
          Left            =   120
          TabIndex        =   4
          Top             =   720
-         Width           =   1815
+         Width           =   2295
       End
    End
    Begin MSFlexGridLib.MSFlexGrid grdAgenda 
       Height          =   6975
-      Left            =   240
+      Left            =   2400
       TabIndex        =   16
       Top             =   2640
       Width           =   17895
@@ -113,10 +129,10 @@ Begin VB.Form frmAsoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1695
-      Left            =   15840
+      Left            =   18120
       TabIndex        =   15
       Top             =   840
-      Width           =   2175
+      Width           =   2055
       Begin VB.CommandButton cmdSair 
          BackColor       =   &H0080FFFF&
          Caption         =   "Sair"
@@ -187,15 +203,15 @@ Begin VB.Form frmAsoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   15840
+      Left            =   18240
       TabIndex        =   14
       Text            =   "Text1"
       Top             =   360
-      Width           =   2175
+      Width           =   1935
    End
    Begin MSComCtl2.DTPicker dtDataExame 
       Height          =   420
-      Left            =   11520
+      Left            =   13680
       TabIndex        =   2
       Top             =   1560
       Width           =   1935
@@ -211,7 +227,7 @@ Begin VB.Form frmAsoAgenda
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   247595009
+      Format          =   241762305
       CurrentDate     =   44667
    End
    Begin VB.ComboBox cmbNomeExame 
@@ -225,7 +241,7 @@ Begin VB.Form frmAsoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   480
-      Left            =   6120
+      Left            =   8280
       Style           =   2  'Dropdown List
       TabIndex        =   1
       Top             =   1560
@@ -242,12 +258,29 @@ Begin VB.Form frmAsoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   480
-      Left            =   240
+      Left            =   2400
       Sorted          =   -1  'True
       Style           =   2  'Dropdown List
       TabIndex        =   0
       Top             =   1560
       Width           =   5895
+   End
+   Begin VB.Label Label6 
+      Caption         =   "Incidência"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   120
+      TabIndex        =   19
+      Top             =   1200
+      Width           =   2055
    End
    Begin VB.Label Label5 
       Alignment       =   2  'Center
@@ -262,7 +295,7 @@ Begin VB.Form frmAsoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   15960
+      Left            =   18120
       TabIndex        =   13
       Top             =   0
       Width           =   1815
@@ -280,7 +313,7 @@ Begin VB.Form frmAsoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   11520
+      Left            =   13680
       TabIndex        =   12
       Top             =   1200
       Width           =   1815
@@ -297,7 +330,7 @@ Begin VB.Form frmAsoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   6120
+      Left            =   8280
       TabIndex        =   11
       Top             =   1200
       Width           =   3615
@@ -314,7 +347,7 @@ Begin VB.Form frmAsoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   240
+      Left            =   2400
       TabIndex        =   10
       Top             =   1200
       Width           =   4455
@@ -349,8 +382,8 @@ Dim DataExameInv As String
 Dim DataProxExame As Date
 Dim DataProxExameInv As String
 Dim Dia As Integer
-Dim Mes As Integer
-Dim Ano As Integer
+Dim mes As Integer
+Dim ano As Integer
 Dim IndLinha As Integer
 Dim IndCol As Integer
 Dim ColaboradorAnterior As String
@@ -359,8 +392,102 @@ Dim IndExame As Integer
 Dim Ind As Integer
 Dim IndCmb As Integer
 Dim Encontrei As Integer
-Dim PessoaCmb(50) As String
+Dim pessoaCmb(50) As String
 Dim PrazoAvisoExame As Integer
+
+Private Sub cmbIncidencia_LostFocus()
+
+   Dim tipoPes As Integer
+   
+    grdAgenda.Rows = 1
+   
+   If cmbIncidencia.ListIndex = 0 Then
+      tipoPes = 7
+   Else
+      tipoPes = 6
+   End If
+   
+   Call Rotina_AbrirBanco
+
+   cmbPessoa.Clear
+
+   pes.Open "Select * from pessoa where pesRazaoSocial > ('" & Empty & "') and pesTipoPessoa = ('" & tipoPes & "') and pesStatusPessoa = ('" & 0 & "')", db, 3, 3
+   If pes.EOF Then
+      MsgBox ("Cadastro pessoa sem funcionário cadastrado."), vbInformation
+      Call FechaDB
+      Exit Sub
+   End If
+   
+   pes.MoveFirst
+   
+   Ind = 0
+   IndCmb = 0
+   
+   Encontrei = 0
+   
+   Do While Encontrei = 0
+      If pessoaCmb(Ind) = Empty Then
+         Encontrei = 1
+      Else
+         pessoaCmb(Ind) = Empty
+         Ind = Ind + 1
+      End If
+   Loop
+   
+   Encontrei = 0
+   
+   Do While Not pes.EOF
+      
+      For IndCmb = 0 To Ind
+          If pes!pesRazaoSocial = pessoaCmb(IndCmb) Then
+             Encontrei = 1
+             IndCmb = Ind
+          Else
+             If pessoaCmb(IndCmb) = Empty Then
+                pessoaCmb(IndCmb) = pes!pesRazaoSocial
+                Encontrei = 0
+                IndCmb = Ind
+             End If
+          End If
+      Next
+      If Encontrei = 1 Then
+         Encontrei = 0
+      Else
+         cmbPessoa.AddItem pes!pesRazaoSocial
+         Ind = Ind + 1
+      End If
+   
+      pes.MoveNext
+      
+   Loop
+   
+   cmbNomeExame.Clear
+
+   asoe.Open "Select * from asoexame WHERE (incidencia = " & cmbIncidencia.ListIndex & " or incidencia = 2) and status = 1", db, 3, 3
+   If asoe.EOF Then
+      MsgBox ("Cadastro Exames vazio."), vbInformation
+      Call FechaDB
+      Exit Sub
+   End If
+   
+   IndExame = 0
+   
+   asoe.MoveFirst
+   
+   Do While Not asoe.EOF
+      cmbNomeExame.AddItem asoe!chNomeExame
+      asoe.MoveNext
+      IndExame = IndExame + 1
+   Loop
+   
+   cmbNomeExame.ListIndex = 0
+   cmbPessoa.ListIndex = 0
+   
+   Call FechaDB
+   
+   grdAgenda.Rows = 1
+
+End Sub
 
 Private Sub cmbPessoa_LostFocus()
 NomeExame = cmbNomeExame
@@ -370,7 +497,7 @@ optGeral = False
 
 Call Rotina_AbrirBanco
 
-asoa.Open "Select * from AsoAgenda where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
+asoa.Open "Select * from asoagenda where chPessoa = ('" & cmbPessoa & "') and status = 1", db, 3, 3
 If Not asoa.EOF Then
    Call CarregaGridAgenda
 Else
@@ -406,12 +533,12 @@ DataExame = dtDataExame
 NomeExame = cmbNomeExame
 
 Dia = Day(DataExame)
-Mes = Month(DataExame)
-Ano = Year(DataExame)
+mes = Month(DataExame)
+ano = Year(DataExame)
 
-DataExameInv = (Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00"))
+DataExameInv = (ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00"))
 
-asoa.Open "Select * from AsoAgenda where chPessoa = ('" & cmbPessoa & "') and chDataExame = ('" & DataExameInv & "') and chNomeExame = ('" & NomeExame & "')", db, 3, 3
+asoa.Open "Select * from asoagenda where chPessoa = ('" & cmbPessoa & "') and chDataExame = ('" & DataExameInv & "') and chNomeExame = ('" & NomeExame & "')", db, 3, 3
 If asoa.EOF Then
    asoa.AddNew
 Else
@@ -431,7 +558,7 @@ If asoe.State = 1 Then
    asoe.Close: Set asoe = Nothing
 End If
 
-asoe.Open "Select * from AsoExame where chNomeExame = ('" & NomeExame & "')", db, 3, 3
+asoe.Open "Select * from asoexame where chNomeExame = ('" & NomeExame & "')", db, 3, 3
 If asoe.EOF Then
    MsgBox ("Exame não encontrado. Erro grave. Avisar  ao analista responsável."), vbCritical
    Call FechaDB
@@ -442,20 +569,20 @@ If asoe!exmTipoPrazo = 0 Then
    DataProxExameInv = DataExame + asoe!exmPrazoValidade
 Else
    If asoe!exmTipoPrazo = 1 Then
-      Mes = Mes + asoe!exmPrazoValidade
-      If Mes > 12 Then
-         Mes = Format$(Mes - 12, "00")
-         Ano = Format$(Ano + 1, "00")
+      mes = mes + asoe!exmPrazoValidade
+      If mes > 12 Then
+         mes = Format$(mes - 12, "00")
+         ano = Format$(ano + 1, "00")
       End If
    Else
-      Ano = Ano + asoe!exmPrazoValidade
+      ano = ano + asoe!exmPrazoValidade
    End If
   
    If Dia > 28 Then
       Call CriticaData
    End If
       
-   DataProxExame = (Ano & "/" & Format$(Mes, "00") & "/" & Format$(Dia, "00"))
+   DataProxExame = (ano & "/" & Format$(mes, "00") & "/" & Format$(Dia, "00"))
    
 End If
 
@@ -480,12 +607,12 @@ Call Rotina_AbrirBanco
 DataExame = dtDataExame
 
 Dia = Day(DataExame)
-Mes = Month(DataExame)
-Ano = Year(DataExame)
+mes = Month(DataExame)
+ano = Year(DataExame)
 
-DataExameInv = (Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00"))
+DataExameInv = (ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00"))
 
-asoa.Open "Select * from AsoAgenda where chPessoa = ('" & cmbPessoa & "') and chDataExame = ('" & DataExameInv & "') and chNomeExame = ('" & cmbNomeExame & "')", db, 3, 3
+asoa.Open "Select * from asoagenda where chPessoa = ('" & cmbPessoa & "') and chDataExame = ('" & DataExameInv & "') and chNomeExame = ('" & cmbNomeExame & "')", db, 3, 3
 If asoa.EOF Then
    MsgBox ("Exclusão inválida. Registro não consta da lista."), vbCritical
    Call FechaDB
@@ -511,6 +638,9 @@ End Sub
 
 Private Sub Form_Load()
 
+cmbIncidencia.AddItem "Administrativo"
+cmbIncidencia.AddItem "Operacional"
+
 txtHoje = Date
 dtDataExame = Date
 ColaboradorAnterior = Empty
@@ -518,85 +648,6 @@ ColaboradorAnterior = Empty
 optStatusRealizado = False
 optNormal = True
 optGeral = False
-
-cmbPessoa.Clear
-
-Call Rotina_AbrirBanco
-
-pes.Open "Select * from Pessoa where pesRazaoSocial > ('" & Empty & "') and pesTipoPessoa = ('" & 6 & "') and pesStatusPessoa = ('" & 0 & "')", db, 3, 3
-If pes.EOF Then
-   MsgBox ("Cadastro Pessoa sem funcionário cadastrado."), vbInformation
-   Call FechaDB
-   Exit Sub
-End If
-
-pes.MoveFirst
-
-Ind = 0
-IndCmb = 0
-
-Encontrei = 0
-
-Do While Encontrei = 0
-   If PessoaCmb(Ind) = Empty Then
-      Encontrei = 1
-   Else
-      PessoaCmb(Ind) = Empty
-      Ind = Ind + 1
-   End If
-Loop
-
-Encontrei = 0
-
-Do While Not pes.EOF
-   
-   For IndCmb = 0 To Ind
-       If pes!pesRazaoSocial = PessoaCmb(IndCmb) Then
-          Encontrei = 1
-          IndCmb = Ind
-       Else
-          If PessoaCmb(IndCmb) = Empty Then
-             PessoaCmb(IndCmb) = pes!pesRazaoSocial
-             Encontrei = 0
-             IndCmb = Ind
-          End If
-       End If
-   Next
-   If Encontrei = 1 Then
-      Encontrei = 0
-   Else
-      cmbPessoa.AddItem pes!pesRazaoSocial
-      Ind = Ind + 1
-   End If
-
-   pes.MoveNext
-   
-Loop
-
-cmbNomeExame.Clear
-
-
-asoe.Open "Select * from AsoExame", db, 3, 3
-If asoe.EOF Then
-   MsgBox ("Cadastro Exames vazio."), vbInformation
-   Call FechaDB
-   Exit Sub
-End If
-
-IndExame = 0
-
-asoe.MoveFirst
-
-Do While Not asoe.EOF
-   cmbNomeExame.AddItem asoe!chNomeExame
-   asoe.MoveNext
-   IndExame = IndExame + 1
-Loop
-
-cmbNomeExame.ListIndex = 0
-cmbPessoa.ListIndex = 0
-
-Call FechaDB
 
 End Sub
 
@@ -606,7 +657,7 @@ Call LimpaGrid
 
 Call Rotina_AbrirBanco
 
-asoa.Open "Select * from AsoAgenda where chPessoa = ('" & cmbPessoa & "') and asoaStatus = ('" & 0 & "')", db, 3, 3
+asoa.Open "Select * from asoagenda where chPessoa = ('" & cmbPessoa & "') and asoaStatus = ('" & 0 & "') and status = ('" & 1 & "')", db, 3, 3
 If asoa.EOF Then
    Call FechaDB
    Exit Sub
@@ -632,7 +683,7 @@ Do While Not asoa.EOF
       asoe.Close: Set asoe = Nothing
    End If
 
-   asoe.Open "Select * from AsoExame where chNomeExame = ('" & asoa!chNomeExame & "')", db, 3, 3
+   asoe.Open "Select * from asoexame where chNomeExame = ('" & asoa!chNomeExame & "')", db, 3, 3
    If asoe.EOF Then
       MsgBox ("Exame não encontrado. Erro grave. Avisar  ao analista responsável."), vbCritical
       Call FechaDB
@@ -678,7 +729,7 @@ If asoe.State = 1 Then
    asoe.Close: Set asoe = Nothing
 End If
 
-asoe.Open "Select * from AsoExame", db, 3, 3
+asoe.Open "Select * from asoexame where status = 1", db, 3, 3
 If asoe.EOF Then
    MsgBox ("Tabela de Exames vazia."), vbCritical
    Call FechaDB
@@ -691,7 +742,7 @@ Do While Not asoe.EOF
    If asoa.State = 1 Then
       asoa.Close: Set asoa = Nothing
    End If
-   asoa.Open "Select * from AsoAgenda where chPessoa = ('" & cmbPessoa & "') and chNomeExame = ('" & asoe!chNomeExame & "') and AsoaStatus = ('" & 0 & "')", db, 3, 3
+   asoa.Open "Select * from asoagenda where chPessoa = ('" & cmbPessoa & "') and chNomeExame = ('" & asoe!chNomeExame & "') and AsoaStatus = ('" & 0 & "')", db, 3, 3
    If asoa.EOF Then
       IndLinha = IndLinha + 1
       grdAgenda.Rows = IndLinha + 1
@@ -721,7 +772,7 @@ Public Sub LimpaGrid()
    grdAgenda.TextMatrix(1, 4) = Empty
  End Sub
  
-Private Sub grdAgenda_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub grdAgenda_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
 
 IndLinha = grdAgenda.Row
 IndCol = grdAgenda.Col
@@ -757,16 +808,16 @@ Public Sub SalvarGeral()
 DataExame = dtDataExame
 
 Dia = Day(DataExame)
-Mes = Month(DataExame)
-Ano = Year(DataExame)
+mes = Month(DataExame)
+ano = Year(DataExame)
 
-DataExameInv = (Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00"))
+DataExameInv = (ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00"))
 
 If asoa.State = 1 Then
    asoa.Close: Set asoa = Nothing
 End If
 
-asoa.Open "Select * from AsoAgenda where chPessoa = ('" & cmbPessoa & "') and chDataExame = ('" & DataExameInv & "') and chNomeExame = ('" & NomeExame & "')", db, 3, 3
+asoa.Open "Select * from asoagenda where chPessoa = ('" & cmbPessoa & "') and chDataExame = ('" & DataExameInv & "') and chNomeExame = ('" & NomeExame & "')", db, 3, 3
 If asoa.EOF Then
    asoa.AddNew
 End If
@@ -776,7 +827,7 @@ If asoe.State = 1 Then
    asoe.Close: Set asoe = Nothing
 End If
 
-asoe.Open "Select * from AsoExame where chNomeExame = ('" & NomeExame & "')", db, 3, 3
+asoe.Open "Select * from asoexame where chNomeExame = ('" & NomeExame & "')", db, 3, 3
 If asoe.EOF Then
    MsgBox ("Exame não encontrado. Erro grave. Avisar  ao analista responsável."), vbCritical
    Call FechaDB
@@ -787,22 +838,22 @@ If asoe!exmTipoPrazo = 0 Then
    DataProxExame = DataExame + asoe!exmPrazoValidade
 Else
    If asoe!exmTipoPrazo = 1 Then
-      Mes = Mes + asoe!exmPrazoValidade
-      If Mes > 12 Then
-         Mes = Format$(Mes - 12, "00")
-         Ano = Format$(Ano + 1, "00")
+      mes = mes + asoe!exmPrazoValidade
+      If mes > 12 Then
+         mes = Format$(mes - 12, "00")
+         ano = Format$(ano + 1, "00")
       'Else
       '   DataProxExame = "00:00:0000"
       End If
    Else
-      Ano = Ano + asoe!exmPrazoValidade
+      ano = ano + asoe!exmPrazoValidade
    End If
    
    If Dia > 28 Then
       Call CriticaData
    End If
    
-   DataProxExame = (Format$(Dia, "00") & "/" & (Format$(Mes, "00") & "/" & Ano))
+   DataProxExame = (Format$(Dia, "00") & "/" & (Format$(mes, "00") & "/" & ano))
    
 End If
 
@@ -818,21 +869,22 @@ End Sub
 
 Public Sub CriticaData()
 
-If Not Mes = 2 Then
+If Not mes = 2 Then
    If Dia = 31 Then
-      If Mes = 4 Or Mes = 6 Or Mes = 9 Or Mes = 11 Then
+      If mes = 4 Or mes = 6 Or mes = 9 Or mes = 11 Then
          Dia = Dia - 1
       End If
    End If
 Else
    If Dia > 28 Then
-      Mes = Mes + 1
+      mes = mes + 1
       Dia = 1
-      DataProxExame = (Format$(Dia, "00") & "/" & Format$(Mes, "00") & "/" & Ano)
+      DataProxExame = (Format$(Dia, "00") & "/" & Format$(mes, "00") & "/" & ano)
       DataProxExame = DataProxExame - 1
       Dia = Day(DataProxExame)
-      Mes = Month(DataProxExame)
+      mes = Month(DataProxExame)
    End If
 End If
 
 End Sub
+

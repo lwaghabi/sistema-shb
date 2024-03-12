@@ -46,7 +46,7 @@ Begin VB.Form frmOS
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   92864513
+      Format          =   242941953
       CurrentDate     =   45101
    End
    Begin VB.ComboBox cmbNumOs 
@@ -388,7 +388,7 @@ Begin VB.Form frmOS
       Left            =   3240
       TabIndex        =   20
       Top             =   2040
-      Width           =   1215
+      Width           =   1815
    End
    Begin VB.Label Label6 
       Caption         =   "Local de Entrega"
@@ -516,15 +516,15 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Dim Sql As String
-Dim rel As Object
+Dim sql As String
+Dim Rel As Object
 Dim Relatorio As String
 Dim NumOrdemSevico As Integer
 
 Private Sub cmbCliente_LostFocus()
    cmbProposta.Clear
    Call Rotina_AbrirBanco
-      rs.Open "Select numProposta from Proposta where cliente = ('" & cmbCliente & "') and status=1", db, 3, 3
+      rs.Open "Select numProposta from proposta where cliente = ('" & cmbCliente & "') and status=1", db, 3, 3
       If rs.EOF Then
          MsgBox ("Erro: Não existem propostas para este cliente")
          FechaDB
@@ -540,7 +540,7 @@ Private Sub cmbCliente_LostFocus()
    
    rs.Close
    
-   pes.Open "Select chUnidadeOperacional from UnidadeOperacional where chPessoa = ('" & cmbCliente & "')", db, 3, 3
+   pes.Open "Select chUnidadeOperacional from unidadeoperacional where chPessoa = ('" & cmbCliente & "')", db, 3, 3
    If pes.EOF Then
       MsgBox ("Erro: Unidade Operacional não cadastrada para este cliente, favor cadastra-la"), vbInformation
       FechaDB
@@ -560,13 +560,14 @@ End Sub
 Private Sub cmbNumOs_LostFocus()
    If cmbNumOS <> "Nova OS" Then
       Call Rotina_AbrirBanco
-      rs.Open "Select * from OrdemServico where numOS=('" & cmbNumOS & "') and numProposta = ('" & cmbProposta & "')", db, 3, 3
+      rs.Open "Select * from ordemservico where numOS=('" & cmbNumOS & "') and numProposta = ('" & cmbProposta & "')", db, 3, 3
       cmbPlataforma = rs!plataforma
       txtRespComercial = rs!responsavelCliente
       txtContrato = rs!Contrato
       txtCompContrato = rs!complementoContrato
       txtLocalEntrega = rs!localEntrega
       dtPrevisaoDeEntrega = rs!dataPrevistaEntrega
+      txtNumPO = rs!numPO
       Call FechaDB
    Else
       cmbPlataforma = Empty
@@ -579,14 +580,14 @@ End Sub
 
 Private Sub cmbProposta_LostFocus()
    Call Rotina_AbrirBanco
-   rs.Open "Select empNumOrdemDeServico from Empresa ", db, 3, 3
+   rs.Open "Select empNumOrdemDeServico from empresa ", db, 3, 3
    If rs.EOF Then
          MsgBox ("Erro: Falha ao gerar número da O.S")
          FechaDB
          Exit Sub
    End If
 
-   Prod.Open "Select numOS from OrdemServico where numProposta = ('" & cmbProposta & "')", db, 3, 3
+   Prod.Open "Select numOS from ordemservico where numProposta = ('" & cmbProposta & "')", db, 3, 3
    
    cmbNumOS.Clear
    cmbNumOS.AddItem "Nova OS"
@@ -614,50 +615,60 @@ End Sub
 
 Private Sub cmdGeraOS_Click()
 
+On Error GoTo Erro
+
 Call Rotina_AbrirBanco
 
-rs.Open "Select * from OrdemServico where numProposta=('" & cmbProposta & "') and numOS=('" & cmbNumOS & "')", db, 3, 3
+db.BeginTrans
+
+rs.Open "Select * from ordemservico where numProposta=('" & cmbProposta & "') and numOS=('" & cmbNumOS & "')", db, 3, 3
 If rs.EOF Then
    rs.AddNew
 End If
 
-Prod.Open "Select emailResp,revisao,anoProposta from Proposta where numProposta=('" & cmbProposta & "') and status = 1", db, 3, 3
-   
-If cmbNumOS = "Nova OS" Then
-   Emp.Open "Select * from Empresa where chPessoa = 'SHB Brasil'", db, 3, 3
-   If Emp.EOF Then
-      MsgBox ("ERRO: Erro sistema"), vbCritical
-      Call FechaDB
-      Exit Sub
+Prod.Open "Select emailResp,revisao,anoProposta from proposta where numProposta=('" & cmbProposta & "') and status = 1", db, 3, 3
+If Not Prod.EOF Then
+   If cmbNumOS = "Nova OS" Then
+      Emp.Open "Select * from empresa where chPessoa = 'SHB Brasil'", db, 3, 3
+      If Emp.EOF Then
+         MsgBox ("ERRO: Erro sistema"), vbCritical
+         Call FechaDB
+         Exit Sub
+      End If
+      NumOrdemSevico = Emp!empNumOrdemDeServico + 1
+      Emp!empNumOrdemDeServico = NumOrdemSevico
+      Emp.Update
+      cmbNumOS = NumOrdemSevico
    End If
-   NumOrdemSevico = Emp!empNumOrdemDeServico + 1
-   Emp!empNumOrdemDeServico = NumOrdemSevico
-   Emp.Update
-   cmbNumOS = NumOrdemSevico
+   rs!NumOS = cmbNumOS
+   rs!numProposta = cmbProposta
+   rs!dataOS = txtDataEntrega
+   rs!dataPrevistaEntrega = dtPrevisaoDeEntrega
+   rs!Cliente = cmbCliente
+   rs!Contrato = txtContrato
+   rs!numPO = txtNumPO
+   rs!responsavelCliente = txtRespComercial
+   rs!plataforma = cmbPlataforma
+   rs!localEntrega = txtLocalEntrega
+   rs!Contato = Prod!emailResp
+   rs!revisaoProposta = Prod!revisao
+   rs!ano = Prod!anoProposta
+   rs!complementoContrato = txtCompContrato
+   rs.Update
 End If
-rs!NumOS = cmbNumOS
-rs!numProposta = cmbProposta
-rs!dataOS = txtDataEntrega
-rs!dataPrevistaEntrega = dtPrevisaoDeEntrega
-rs!Cliente = cmbCliente
-rs!Contrato = txtContrato
-rs!responsavelCliente = txtRespComercial
-rs!plataforma = cmbPlataforma
-rs!localEntrega = txtLocalEntrega
-rs!Contato = Prod!emailResp
-rs!revisaoProposta = Prod!revisao
-rs!ano = Prod!anoProposta
-rs!complementoContrato = txtCompContrato
-rs.Update
+
+db.CommitTrans
 
 Call FechaDB
 
-Call mandaEmail
+'Call mandaEmail
 
-Set rel = drOrdemDeServicoNew
-Sql = "Select os.numOS, os.cliente, os.numProposta, os.revisaoProposta, os.dataPrevistaEntrega, os.dataOS, os.contrato, os.complementoContrato, os.responsavelCliente, os.plataforma, os.contato, os.localEntrega, pd.quantidade, pd.areaTotal, pd.equipamento, pd.dimensoes from OrdemServico os, PropostaDetalhe pd where os.numOS = ('" & cmbNumOS & "') and pd.numProposta = os.numProposta"
-AbrirRelatorio Sql, rel
-
+Set Rel = drOrdemDeServicoNew
+sql = "Select os.numOS, os.cliente, os.numProposta, os.numPo, os.revisaoProposta, os.dataPrevistaEntrega, os.dataOS, os.contrato, os.complementoContrato, os.responsavelCliente, os.plataforma, os.contato, os.localEntrega, pd.quantidade, pd.areaTotal, pd.equipamento, pd.dimensoes from ordemservico os, propostadetalhe pd where os.numOS = ('" & cmbNumOS & "') and pd.numProposta = os.numProposta"
+AbrirRelatorio sql, Rel
+Exit Sub
+Erro: MsgBox ("Erro ao gerar OS: " & Err.Description), vbInformation
+db.RollbackTrans
 End Sub
 
 Private Sub cmdSair_Click()
@@ -667,7 +678,7 @@ End Sub
 Private Sub cmdValidaOS_Click()
    Call Rotina_AbrirBanco
    
-   rs.Open "Select * from OrdemServico where numOS = ('" & cmbNumOS & "')", db, 3, 3
+   rs.Open "Select * from ordemservico where numOS = ('" & cmbNumOS & "')", db, 3, 3
    If rs.EOF Then
    
       MsgBox ("OS inexistente, gerar OS antes de validar"), vbInformation
@@ -694,7 +705,7 @@ Private Sub Form_Load()
    dtPrevisaoDeEntrega = Date
    
    Call Rotina_AbrirBanco
-      rs.Open "Select distinct cliente from Proposta where status=1", db, 3, 3
+      rs.Open "Select distinct cliente from proposta where status=1", db, 3, 3
       
       If rs.EOF Then
          MsgBox ("Erro: Clientes não possuem propostas aprovadas")
@@ -711,7 +722,7 @@ Private Sub Form_Load()
    
    rs.Close
    
-   pes.Open "Select chPessoa from Pessoa where pesTipoPessoa=7 and pesStatusPessoa=0", db, 3, 3
+   pes.Open "Select chPessoa from pessoa where pesTipoPessoa=7 and pesStatusPessoa=0", db, 3, 3
       
       If pes.EOF Then
          MsgBox ("Erro: Clientes não Registrados")
@@ -728,7 +739,7 @@ Private Sub Form_Load()
    
    pes.Close
    
-   Prod.Open "Select empAnoOrdemDeServico,empNumOrdemDeServico from Empresa", db, 3, 3
+   Prod.Open "Select * from empresa WHERE chPessoa = 'SHB Brasil'", db, 3, 3
    If Not Prod.EOF Then
       If Prod!empAnoOrdemDeServico < ano Then
          Prod!empNumOrdemDeServico = 0
@@ -743,7 +754,7 @@ End Sub
 Public Sub carga_grid()
 Dim Linha As Integer
    Call Rotina_AbrirBanco
-   rs.Open "Select * from PropostaDetalhe where numProposta=('" & cmbProposta & "')", db, 3, 3
+   rs.Open "Select * from propostadetalhe where numProposta=('" & cmbProposta & "')", db, 3, 3
    If Not rs.EOF Then
       rs.MoveFirst
       Linha = 1
@@ -751,7 +762,7 @@ Dim Linha As Integer
          grdDetProp.Rows = Linha + 1
          grdDetProp.TextMatrix(Linha, 0) = rs!quantidade
          grdDetProp.TextMatrix(Linha, 1) = rs!equipamento
-         grdDetProp.TextMatrix(Linha, 2) = rs!Unidade
+         grdDetProp.TextMatrix(Linha, 2) = rs!unidade
          grdDetProp.TextMatrix(Linha, 3) = Format$(rs!precoUnit, "##,##0.00")
          grdDetProp.TextMatrix(Linha, 4) = rs!areaTotal
          grdDetProp.TextMatrix(Linha, 5) = Format$(rs!diaria, "##,#0.00")
@@ -772,16 +783,16 @@ Public Sub mandaEmail()
    
    Call Rotina_AbrirBanco
    
-   'rs.Open "Select numOS,numProposta from OrdemServico where numOS=(Select MAX(numOS) from OrdemServico)", db, 3, 3
-   rs.Open "Select numOS,numProposta from OrdemServico where numOS = ('" & cmbNumOS & "')", db, 3, 3
-   pes.Open "Select pesEmail from Pessoa where chPessoa = ('" & cmbColaborador & "')", db, 3, 3
+   'rs.Open "Select numOS,numProposta from ordemservico where numOS=(Select MAX(numOS) from ordemservico)", db, 3, 3
+   rs.Open "Select numOS,numProposta from ordemservico where numOS = ('" & cmbNumOS & "')", db, 3, 3
+   pes.Open "Select pesEmail from pessoa where chPessoa = ('" & cmbColaborador & "')", db, 3, 3
    
    If pes.EOF Then
       MsgBox ("Registro não encontrado")
       Call FechaDB
       Exit Sub
    ElseIf IsNull(pes!pesEmail) Then
-      MsgBox ("Cadastrar email no Pessoa e retornar a esta função")
+      MsgBox ("Cadastrar email no pessoa e retornar a esta função")
       Call FechaDB
       Exit Sub
    End If

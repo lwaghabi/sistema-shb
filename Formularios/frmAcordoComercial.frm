@@ -6,10 +6,10 @@ Begin VB.Form frmAcordoComercial
    ClientHeight    =   8745
    ClientLeft      =   60
    ClientTop       =   405
-   ClientWidth     =   12645
+   ClientWidth     =   16980
    LinkTopic       =   "Form1"
    ScaleHeight     =   8745
-   ScaleWidth      =   12645
+   ScaleWidth      =   16980
    StartUpPosition =   2  'CenterScreen
    Begin VB.ComboBox cmbClasse 
       BeginProperty Font 
@@ -22,10 +22,10 @@ Begin VB.Form frmAcordoComercial
          Strikethrough   =   0   'False
       EndProperty
       Height          =   480
-      Left            =   3240
+      Left            =   4440
       TabIndex        =   25
       Top             =   2640
-      Width           =   2295
+      Width           =   5895
    End
    Begin VB.ComboBox cmbGrupo 
       BeginProperty Font 
@@ -41,7 +41,7 @@ Begin VB.Form frmAcordoComercial
       Left            =   480
       TabIndex        =   24
       Top             =   2640
-      Width           =   2655
+      Width           =   3735
    End
    Begin VB.CommandButton cmdSalvar 
       Caption         =   "Salvar"
@@ -55,7 +55,7 @@ Begin VB.Form frmAcordoComercial
          Strikethrough   =   0   'False
       EndProperty
       Height          =   855
-      Left            =   8160
+      Left            =   12480
       TabIndex        =   10
       Top             =   7800
       Width           =   1215
@@ -72,7 +72,7 @@ Begin VB.Form frmAcordoComercial
          Strikethrough   =   0   'False
       EndProperty
       Height          =   855
-      Left            =   9720
+      Left            =   14040
       TabIndex        =   11
       Top             =   7800
       Width           =   1215
@@ -105,7 +105,7 @@ Begin VB.Form frmAcordoComercial
          Strikethrough   =   0   'False
       EndProperty
       Height          =   855
-      Left            =   11280
+      Left            =   15600
       TabIndex        =   12
       Top             =   7800
       Width           =   1215
@@ -113,10 +113,10 @@ Begin VB.Form frmAcordoComercial
    Begin VB.Frame frameDetalhe 
       Caption         =   "Produtos"
       Height          =   4455
-      Left            =   240
+      Left            =   480
       TabIndex        =   17
       Top             =   3120
-      Width           =   12255
+      Width           =   16335
       Begin VB.CommandButton cmdRetirarDaLista 
          Caption         =   "Retirar da Lista"
          BeginProperty Font 
@@ -128,11 +128,11 @@ Begin VB.Form frmAcordoComercial
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   855
-         Left            =   8760
+         Height          =   975
+         Left            =   15120
          TabIndex        =   9
-         Top             =   2160
-         Width           =   1215
+         Top             =   240
+         Width           =   975
       End
       Begin VB.CommandButton cmdIncluirNaLista 
          Caption         =   "Incluir na Lista"
@@ -145,11 +145,11 @@ Begin VB.Form frmAcordoComercial
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   855
-         Left            =   8760
+         Height          =   975
+         Left            =   14160
          TabIndex        =   8
-         Top             =   1080
-         Width           =   1215
+         Top             =   240
+         Width           =   975
       End
       Begin VB.TextBox txtValotUnit 
          BeginProperty Font 
@@ -162,10 +162,10 @@ Begin VB.Form frmAcordoComercial
             Strikethrough   =   0   'False
          EndProperty
          Height          =   480
-         Left            =   5160
+         Left            =   13020
          TabIndex        =   7
          Top             =   720
-         Width           =   1095
+         Width           =   1110
       End
       Begin VB.TextBox txtQtdTotalProd 
          BeginProperty Font 
@@ -178,23 +178,23 @@ Begin VB.Form frmAcordoComercial
             Strikethrough   =   0   'False
          EndProperty
          Height          =   480
-         Left            =   4080
+         Left            =   11880
          TabIndex        =   6
          Top             =   720
-         Width           =   1095
+         Width           =   1150
       End
       Begin MSFlexGridLib.MSFlexGrid tblProdutosAcordo 
-         Height          =   2295
+         Height          =   2655
          Left            =   360
          TabIndex        =   13
          Top             =   1200
-         Width           =   8175
-         _ExtentX        =   14420
-         _ExtentY        =   4048
+         Width           =   15855
+         _ExtentX        =   27966
+         _ExtentY        =   4683
          _Version        =   393216
          Cols            =   4
          FixedCols       =   0
-         FormatString    =   "Descrição                        | Qtd     | P. Unit| Valor Total"
+         FormatString    =   $"frmAcordoComercial.frx":0000
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   13.5
@@ -219,7 +219,7 @@ Begin VB.Form frmAcordoComercial
          Left            =   360
          TabIndex        =   5
          Top             =   720
-         Width           =   3735
+         Width           =   11550
       End
       Begin VB.Label txtTotal 
          Alignment       =   1  'Right Justify
@@ -237,16 +237,16 @@ Begin VB.Form frmAcordoComercial
          EndProperty
          ForeColor       =   &H80000008&
          Height          =   375
-         Left            =   6960
+         Left            =   14205
          TabIndex        =   23
-         Top             =   3480
-         Width           =   1455
+         Top             =   3960
+         Width           =   1770
       End
       Begin VB.Label Label11 
-         Caption         =   "Total"
+         Caption         =   "Total do Acordo"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
-            Size            =   12
+            Size            =   13.5
             Charset         =   0
             Weight          =   700
             Underline       =   0   'False
@@ -254,10 +254,10 @@ Begin VB.Form frmAcordoComercial
             Strikethrough   =   0   'False
          EndProperty
          Height          =   375
-         Left            =   6120
+         Left            =   11880
          TabIndex        =   22
-         Top             =   3480
-         Width           =   735
+         Top             =   3960
+         Width           =   2295
       End
       Begin VB.Label Label9 
          Alignment       =   2  'Center
@@ -272,7 +272,7 @@ Begin VB.Form frmAcordoComercial
             Strikethrough   =   0   'False
          EndProperty
          Height          =   375
-         Left            =   5400
+         Left            =   13200
          TabIndex        =   20
          Top             =   360
          Width           =   1215
@@ -289,7 +289,7 @@ Begin VB.Form frmAcordoComercial
             Strikethrough   =   0   'False
          EndProperty
          Height          =   615
-         Left            =   4200
+         Left            =   12000
          TabIndex        =   19
          Top             =   120
          Width           =   1215
@@ -332,7 +332,7 @@ Begin VB.Form frmAcordoComercial
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   122290177
+      Format          =   392298497
       CurrentDate     =   45139
    End
    Begin MSComCtl2.DTPicker dtDataInicio 
@@ -353,7 +353,7 @@ Begin VB.Form frmAcordoComercial
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   122290177
+      Format          =   392298497
       CurrentDate     =   45139
    End
    Begin VB.ComboBox cmbFornecedores 
@@ -372,6 +372,42 @@ Begin VB.Form frmAcordoComercial
       Top             =   1560
       Width           =   4815
    End
+   Begin VB.Label lblHoje 
+      Alignment       =   2  'Center
+      Caption         =   "Label6"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   495
+      Left            =   15000
+      TabIndex        =   29
+      Top             =   600
+      Width           =   1575
+   End
+   Begin VB.Label Label5 
+      Alignment       =   2  'Center
+      Caption         =   "Hoje"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   15000
+      TabIndex        =   28
+      Top             =   120
+      Width           =   1335
+   End
    Begin VB.Label Label13 
       Caption         =   "Classe"
       BeginProperty Font 
@@ -384,7 +420,7 @@ Begin VB.Form frmAcordoComercial
          Strikethrough   =   0   'False
       EndProperty
       Height          =   255
-      Left            =   3240
+      Left            =   4440
       TabIndex        =   27
       Top             =   2280
       Width           =   2295
@@ -478,7 +514,7 @@ Begin VB.Form frmAcordoComercial
       Caption         =   "Registro de Acordo Comercial"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
-         Size            =   18
+         Size            =   22.5
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -489,7 +525,7 @@ Begin VB.Form frmAcordoComercial
       Left            =   720
       TabIndex        =   0
       Top             =   480
-      Width           =   6015
+      Width           =   6735
    End
 End
 Attribute VB_Name = "frmAcordoComercial"
@@ -530,14 +566,16 @@ Private Sub cmbClasse_LostFocus()
 End Sub
 
 Private Sub cmbGrupo_LostFocus()
+   Call Rotina_AbrirBanco
    Call carregaClasse
+   Call FechaDB
 End Sub
 
 Private Sub cmbIdentificador_LostFocus()
 
    Call Rotina_AbrirBanco
-   Dim classe As Integer
-   Dim grupo As Integer
+   Dim Classe As Integer
+   Dim Grupo As Integer
    
    rs.Open "Select * from supacordocomercial where id = ('" & cmbIdentificador & "')", db, 3, 3
    
@@ -551,15 +589,15 @@ Private Sub cmbIdentificador_LostFocus()
    
    End If
    
-   cmbFornecedores = rs!Fornecedor
+   cmbFornecedores = rs!fornecedor
    dtDataInicio = rs!dataInicio
    dtDataFim = rs!dataFim
    txtTotal = Format$(rs!ValorTotal, "##,##0.00")
-   grupo = rs!grupo
-   classe = rs!classe
-   cmbGrupo.ListIndex = grupo - 1
+   Grupo = rs!Grupo
+   Classe = rs!Classe
+   cmbGrupo.ListIndex = Grupo - 1
    Call carregaClasse
-   cmbClasse.ListIndex = classe - 1
+   cmbClasse.ListIndex = Classe - 1
    
    rs.Close
    
@@ -576,7 +614,7 @@ Private Sub cmbIdentificador_LostFocus()
    tblProdutosAcordo.Rows = 1
    
    Do While Not rs.EOF
-      pes.Open "Select nomeProd from supproduto where grupo=('" & rs!grupo & "') and classe=('" & rs!classe & "') and codProd=('" & rs!codProd & "')", db, 3, 3
+      pes.Open "Select nomeProd from supproduto where grupo=('" & rs!Grupo & "') and classe=('" & rs!Classe & "') and codProd=('" & rs!codProd & "')", db, 3, 3
       tblProdutosAcordo.AddItem pes!nomeProd & vbTab & rs!qtdTotal - rs!QtdEntregue & vbTab & Format$(rs!precoUnit, "##,##0.00") & vbTab & Format$(rs!ValorTotalProduto, "##,##0.00"), tblProdutosAcordo.Rows
       pes.Close
       rs.MoveNext
@@ -593,13 +631,16 @@ End Sub
 Private Sub cmdEncerrar_Click()
    Call Rotina_AbrirBanco
    On Error GoTo Erro
-   db.Execute ("UPDATE supAcordoComercial SET status = 0,dataEncerramento=('" & Format$(Date, "yyyy-MM-dd") & "') WHERE id = ('" & cmbIdentificador & "')")
+   db.BeginTrans
+   db.Execute ("UPDATE supacordocomercial SET status = 0,dataEncerramento=('" & Format$(Date, "yyyy-MM-dd") & "') WHERE id = ('" & cmbIdentificador & "')")
    MsgBox ("Acordo encerrado"), vbInformation
-   
+   db.CommitTrans
    FechaDB
 Exit Sub
 
 Erro: MsgBox ("Erro ao encerrar acordo"), vbCritical
+db.RollbackTrans
+FechaDB
 
 End Sub
 
@@ -648,7 +689,7 @@ Private Sub cmdSalvar_Click()
    
    On Error GoTo Erro
    
-   rs.Open "Select * from supAcordoComercial where id = ('" & cmbIdentificador & "')", db, 3, 3
+   rs.Open "Select * from supacordocomercial where id = ('" & cmbIdentificador & "')", db, 3, 3
    
    If rs.EOF Then
    
@@ -656,14 +697,14 @@ Private Sub cmdSalvar_Click()
    
    End If
    
-   rs!id = cmbIdentificador
-   rs!Fornecedor = cmbFornecedores
+   rs!Id = cmbIdentificador
+   rs!fornecedor = cmbFornecedores
    rs!dataInicio = dtDataInicio
    rs!dataFim = dtDataFim
    rs!ValorTotal = txtTotal
    rs!Status = 1
-   rs!grupo = Format$(cmbGrupo.ListIndex + 1, "00")
-   rs!classe = Format$(cmbClasse.ListIndex + 1, "000")
+   rs!Grupo = Format$(cmbGrupo.ListIndex + 1, "00")
+   rs!Classe = Format$(cmbClasse.ListIndex + 1, "000")
    rs.Update
    
    rs.Close
@@ -672,18 +713,18 @@ Private Sub cmdSalvar_Click()
    
    db.BeginTrans
    
-   db.Execute ("DELETE FROM supAcordoComercialDetalhe WHERE id=('" & cmbIdentificador & "')")
+   db.Execute ("DELETE FROM supacordocomercialdetalhe WHERE id=('" & cmbIdentificador & "')")
 
    Do While i < tblProdutosAcordo.Rows
-      rs.Open "SELECT codProd from supProduto where grupo = ('" & Format$(cmbGrupo.ListIndex + 1, "00") & "') and classe = ('" & Format$(cmbClasse.ListIndex + 1, "000") & "') and nomeProd = ('" & tblProdutosAcordo.TextMatrix(i, 0) & "')", db, 3, 3
-      Prod.Open "SELECT * FROM supAcordoComercialDetalhe WHERE id = ('" & cmbIdentificador & "') and codProd=('" & rs!codProd & "')", db, 3, 3
+      rs.Open "SELECT codProd from supproduto where grupo = ('" & Format$(cmbGrupo.ListIndex + 1, "00") & "') and classe = ('" & Format$(cmbClasse.ListIndex + 1, "000") & "') and nomeProd = ('" & tblProdutosAcordo.TextMatrix(i, 0) & "')", db, 3, 3
+      Prod.Open "SELECT * FROM supacordocomercialdetalhe WHERE id = ('" & cmbIdentificador & "') and codProd=('" & rs!codProd & "')", db, 3, 3
       If Prod.EOF Then
       
          Prod.AddNew
       
       End If
       
-      Prod!id = cmbIdentificador
+      Prod!Id = cmbIdentificador
       Prod!codProd = rs!codProd
       Prod!qtdTotal = tblProdutosAcordo.TextMatrix(i, 1)
       Prod!precoUnit = tblProdutosAcordo.TextMatrix(i, 2)
@@ -700,9 +741,9 @@ Private Sub cmdSalvar_Click()
    
 FechaDB
 Exit Sub
-
 Erro: MsgBox ("Erro ao salvar"), vbCritical
-
+db.RollbackTrans
+FechaDB
 End Sub
 
 Private Sub cmdSair_Click()
@@ -719,7 +760,7 @@ Private Sub Form_Load()
 
    dtDataFim = Date
    dtDataInicio = Date
-   
+   lblHoje = Date
    Call Rotina_AbrirBanco
    
    tblProdutosAcordo.Rows = 1
@@ -737,14 +778,14 @@ Private Sub Form_Load()
       
          Do While Not rs.EOF
          
-            cmbIdentificador.AddItem rs!id
+            cmbIdentificador.AddItem rs!Id
             rs.MoveNext
          
          Loop
          
          pes.Open "SELECT MAX(id) as id FROM supacordocomercial", db, 3, 3
          
-         cmbIdentificador.AddItem pes!id + 1
+         cmbIdentificador.AddItem pes!Id + 1
          
          pes.Close
          
@@ -755,7 +796,7 @@ Private Sub Form_Load()
       
       rs.Close
    
-      pes.Open "Select chPessoa from Pessoa where pesTipoPessoa=2", db, 3, 3
+      pes.Open "Select chPessoa from pessoa where pesTipoPessoa=2", db, 3, 3
    
       If pes.EOF Then
    
@@ -820,15 +861,12 @@ End Sub
 
 Public Sub carregaClasse()
    
-   Call Rotina_AbrirBanco
-   
-   
    pes.Open "Select descricao from supgrupoclasse where grupo = ('" & Format$((cmbGrupo.ListIndex + 1), "00") & "') and classe != 0", db, 3, 3
 
    If pes.EOF Then
 
       MsgBox ("Não existem classes para esse grupo")
-      FechaDB
+      pes.Close
       Exit Sub
    
    End If

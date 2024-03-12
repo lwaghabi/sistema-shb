@@ -212,7 +212,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Dim Ind As Integer
-Dim Coluna As Integer
+Dim coluna As Integer
 Dim Linha As Integer
 Dim ValorTotal As Currency
 
@@ -222,7 +222,7 @@ Dim Resp As String
 
 Call Rotina_AbrirBanco
 
-rs.Open "Select * from IndenizEquip where descEquip = ('" & txtEquipamento & "')", db, 3, 3
+rs.Open "Select * from indenizequip where descEquip = ('" & txtEquipamento & "')", db, 3, 3
 If rs.EOF Then
    MsgBox ("Comando para exclusão de registro inexistente."), vbCritical
    Call FechaDB
@@ -263,7 +263,7 @@ If txtValorIndenizacao = Empty Then
    Exit Sub
 End If
    
-rs.Open "Select * from IndenizEquip WHERE descEquip = ('" & txtEquipamento & "')", db, 3, 3
+rs.Open "Select * from indenizequip WHERE descEquip = ('" & txtEquipamento & "')", db, 3, 3
 If rs.EOF Then
    rs.AddNew
 End If
@@ -297,7 +297,7 @@ Public Sub CarregaGrid()
 
 Call Rotina_AbrirBanco
 
-rs.Open "Select * from IndenizEquip", db, 3, 3
+rs.Open "Select * from indenizequip", db, 3, 3
 If Not rs.EOF Then
    Ind = 1
    rs.MoveFirst
@@ -320,7 +320,7 @@ txtValorIndenizacao = Empty
 End Sub
 
 Private Sub grdIndenizacao_Click()
-Coluna = grdIndenizacao.Col
+coluna = grdIndenizacao.Col
 Linha = grdIndenizacao.Row
 
 If Linha > grdIndenizacao.Rows Then
@@ -343,8 +343,13 @@ End Sub
 Public Sub GerarExcelWord()
 
         Dim CaminhoNew As String
-                
-        CaminhoNew = "C:\Meus Documentos\SISTEMA SHB" & "\docPadrao\"
+        On Error GoTo Erro
+        
+        Call Rotina_AbrirBanco
+        
+        rs.Open "SELECT * FROM usuario WHERE chNome = ('" & glbUsuario & "')", db, 3, 3
+        CaminhoNew = rs!usuEnderecoOneDrive & "Sistema\PROPOSTA MODELO\"
+        rs.Close
         
         Dim oApp As Excel.Application
         Dim oWB As Excel.Workbook
@@ -353,7 +358,7 @@ Public Sub GerarExcelWord()
         Set Ex = CreateObject("Excel.Application")
 
         i = 3
-         On Error GoTo Erro
+         
             'Create an Excel instance.
 50          Set oApp = New Excel.Application
 
@@ -368,8 +373,7 @@ Public Sub GerarExcelWord()
 100         Set oWB = oApp.Workbooks.Open(FileName:=CaminhoNew & "ModelExcelWord.xlsx")
             
             'Do any modifications to the workbook.
-            Rotina_AbrirBanco
-            rs.Open "SELECT * FROM IndenizEquip", db, 3, 3
+            rs.Open "SELECT * FROM indenizequip", db, 3, 3
             Do Until rs.EOF
                oApp.Cells(i, 1) = rs!descEquip
                oApp.Cells(i, 2) = rs!valor
@@ -389,10 +393,13 @@ Public Sub GerarExcelWord()
 400       Ex.Workbooks.Open (CaminhoNew & "ExcelWord.xlsx")
 410       Ex.Visible = True
 
+         MsgBox ("Excel de indenização atualizado!"), vbInformation
+
 Exit Sub
 Erro:
 MsgBox "Ocorreu o seguinte erro:" + vbNewLine & _
         Err.Description + vbNewLine & "Na linha: " & Erl
+        FechaDB
 End Sub
 
 

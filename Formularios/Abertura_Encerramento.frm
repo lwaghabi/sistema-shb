@@ -32,7 +32,7 @@ Begin VB.Form frmAbre_Fecha
       _ExtentX        =   2355
       _ExtentY        =   661
       _Version        =   393216
-      Format          =   243204097
+      Format          =   243793921
       CurrentDate     =   43883
    End
    Begin VB.Frame Frame3 
@@ -42,7 +42,7 @@ Begin VB.Form frmAbre_Fecha
       TabIndex        =   15
       Top             =   1680
       Width           =   2655
-      Begin VB.TextBox txtEstoqueGeral 
+      Begin VB.TextBox txtSuprimento 
          Height          =   375
          Left            =   120
          TabIndex        =   22
@@ -182,7 +182,7 @@ Begin VB.Form frmAbre_Fecha
          _ExtentX        =   2355
          _ExtentY        =   661
          _Version        =   393216
-         Format          =   121700353
+         Format          =   243859457
          CurrentDate     =   43883
       End
       Begin VB.TextBox txtHoraEvento 
@@ -296,7 +296,7 @@ Dim DataLogin As Double
 Dim DataInvertida As String
 
 Dim ano As Integer
-Dim Mes As Integer
+Dim mes As Integer
 Dim Dia As Integer
 
 Dim FSys As New FileSystemObject
@@ -311,7 +311,7 @@ Dim Data_Hoje As Date
 Dim Data_Anterior As Date
 Dim StatusSistema As Byte
 Dim Resp As String
-Dim fim As Byte
+Dim Fim As Byte
 Dim Fim_Detalhe As Byte
 Dim Chave_Gira_mes As Byte
 Dim DataProdCli As Integer
@@ -326,11 +326,11 @@ Dim ClienteAnterior As String
 Dim GuardaPessoa As String
 Dim QtdAnterior As Currency
 Dim FaturaAnterior As Currency
-Dim PessoaAnterior As String
+Dim pessoaAnterior As String
 Dim NotaFiscalAnterior As String
 Dim Encontrei As Byte
 
-Dim Qtd As Currency
+Dim qtd As Currency
 Dim Fatura As Currency
 
 Dim Origem As String
@@ -387,7 +387,7 @@ Public Sub AberturaDoSistema()
    
 Call Rotina_AbrirBanco
      
-glb.Open "select * from Global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
+glb.Open "select * from global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
 acGlb = acGlb + 1
 If glb.EOF Then
    glb.AddNew
@@ -443,10 +443,10 @@ SistemaEncerrado = 0
 
 Call Rotina_AbrirBanco
      
-glb.Open "select * from Global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
+glb.Open "select * from global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
 acGlb = acGlb + 1
 If glb.EOF Then
-   MsgBox ("Não encontrado o Global na rotina de encerramento"), vbCritical
+   MsgBox ("Não encontrado o global na rotina de encerramento"), vbCritical
 Else
    
    db.BeginTrans
@@ -478,7 +478,7 @@ If SistemaEncerrado = 1 Then
 
       'Origem = "C:\Meus Documentos\SISTEMA SHB\dbSHB.mdb" 'Novo
       'destino = DriveDestino & ":\Meus Documentos\Projeto SHB Backups\dbSHB" & (Year(Date) & Format$(Month(Date), "00") & Format$(Day(Date), "00") & "_" & Hora & ".mdb") 'Novo
-      ''pbCopiaArquivos.Value = CopiarArquivos(Origem, destino)
+      'pbCopiaArquivos.Value = CopiarArquivos(Origem, destino)
       ' Call CopiarArquivos(Origem, destino)
        MsgBox ("Backup realizado com sucesso"), vbInformation
     End If
@@ -498,7 +498,7 @@ txtHoraEvento = Time()
 Call Rotina_AbrirBanco
    
  
-glb.Open "select * from Global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
+glb.Open "select * from global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
 acGlb = acGlb + 1
 If glb.EOF Then
    StatusSistema = 0
@@ -524,7 +524,7 @@ Private Sub optAbre_Click()
 
 Call Rotina_AbrirBanco
 
-glb.Open "select * from Global", db, 3, 3
+glb.Open "select * from global", db, 3, 3
 acGlb = acGlb + 1
 If glb.EOF Then
    MsgBox ("Global sem registro"), vbCritical
@@ -621,9 +621,18 @@ frmAbre_Fecha.Refresh
                txtProcessaCtaPagar = "Contas a Pagar Processado"
                txtProcessaCtaPagar.BackColor = vbCyan
                If Erro = 0 Then
-                  txtEstoqueGeral = "Fim da Rotina Mensal"
-                  txtEstoqueGeral.BackColor = vbCyan
+                  txtProcessaCtaPagar = "Processando Suprimento Mensal"
+                  txtSuprimento.BackColor = vbRed
                   frmAbre_Fecha.Refresh
+                  db.Execute ("INSERT INTO supestoquehist SELECT grupo,classe,codProd,qtdEmEstoque,qtdReservado,estoqueMinimo,estoqueMaximo,CURDATE() FROM supestoque")
+                  txtSuprimento = "Suprimento Mensal Processado"
+                  txtSuprimento.BackColor = vbCyan
+            
+                  If Erro = 0 Then
+                     txtSuprimento = "Fim da Rotina Mensal"
+                     txtSuprimento.BackColor = vbCyan
+                     frmAbre_Fecha.Refresh
+                  End If
                End If
             End If
          End If
@@ -687,11 +696,11 @@ Public Sub Rotina_Processa_Pedido()
 On Error GoTo ErroPedido
 
 Fim_Detalhe = 0
-fim = 0
+Fim = 0
 
 Call Rotina_AbrirBanco
      
-neg.Open "select * from Negociacao where negStatus = ('" & 1 & "')", db, 3, 3
+neg.Open "select * from negociacao where negStatus = ('" & 1 & "')", db, 3, 3
 acNeg = acNeg + 1
 If neg.EOF Then
    MsgBox ("Não há movimento em Negociação"), vbInformation
@@ -699,7 +708,7 @@ If neg.EOF Then
    Exit Sub
 End If
 
-dneg.Open "select * from DetalheNegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
+dneg.Open "select * from detalhenegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
 acdNeg = acdNeg + 1
 If dneg.EOF Then
    MsgBox ("Negociação sem Detalhe"), vbCritical
@@ -707,7 +716,7 @@ If dneg.EOF Then
    Exit Sub
 End If
 
-pes.Open "select * from Pessoa where chPessoa = ('" & neg!chPessoa & "')", db, 3, 3
+pes.Open "select * from pessoa where chPessoa = ('" & neg!chPessoa & "')", db, 3, 3
 acPes = acPes + 1
 If pes.EOF Then
    MsgBox ("Erro no acesso a pessoa"), vbCritical
@@ -715,14 +724,14 @@ If pes.EOF Then
    End
 End If
 
-hneg.Open "select * from HistoricoNegociacao", db, 3, 3
+hneg.Open "select * from historiconegociacao", db, 3, 3
 achNeg = achNeg + 1
 'If hneg.EOF Then
 '   MsgBox ("Historico Negociação Vazio"), vbInformation
 'End If
 
 
-hdneg.Open "select * from HistoricoDetalheNegociacao", db, 3, 3
+hdneg.Open "select * from historicodetalhenegociacao", db, 3, 3
 achdNeg = achdNeg + 1
 'If hdneg.EOF Then
 '   MsgBox ("Historico Detalhe Negociação Vazio"), vbInformation
@@ -731,7 +740,7 @@ achdNeg = achdNeg + 1
 
 db.BeginTrans
 
-Do While fim = 0
+Do While Fim = 0
 
    hdneg.AddNew
    hdneg!chPessoa = pes!chPessoa
@@ -753,7 +762,7 @@ Do While fim = 0
         
    hdneg.Update
    
-   UltimoRegistro = "Grava Hist Neg - " & pes!chPessoa & " - " & dneg!chNumPedido & " - " & dneg!chNumPedidoComp & " - " & dneg!chDataInicio & " - " & dneg!chDataFim
+   ultimoRegistro = "Grava Hist Neg - " & pes!chPessoa & " - " & dneg!chNumPedido & " - " & dneg!chNumPedidoComp & " - " & dneg!chDataInicio & " - " & dneg!chDataFim
    
   dneg.Delete
    
@@ -765,12 +774,12 @@ Do While fim = 0
       neg.MoveNext
       acdNeg = acdNeg + 1
       If neg.EOF Then
-         fim = 1
+         Fim = 1
       Else
          If dneg.State = 1 Then
             dneg.Close: Set dneg = Nothing
             acdNeg = 0
-            dneg.Open "select * from DetalheNegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
+            dneg.Open "select * from detalhenegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
             acdNeg = acdNeg + 1
             If dneg.EOF Then
                MsgBox ("Negociação sem Detalhe"), vbCritical
@@ -780,7 +789,7 @@ Do While fim = 0
             If pes.State = 1 Then
                pes.Close: Set pes = Nothing
                acPes = 0
-               pes.Open "select * from Pessoa where chPessoa = ('" & neg!chPessoa & "')", db, 3, 3
+               pes.Open "select * from pessoa where chPessoa = ('" & neg!chPessoa & "')", db, 3, 3
                acPes = acPes + 1
                If pes.EOF Then
                   MsgBox ("Erro no acesso a pessoa"), vbCritical
@@ -803,7 +812,7 @@ Exit Sub
 
 ErroPedido:
 
-    MsgBox UltimoRegistro
+    MsgBox ultimoRegistro
     Erro = Erro + 1
     MsgBox Err.Description
 
@@ -870,18 +879,20 @@ On Error GoTo ErroContasPagar
 
 Call Rotina_AbrirBanco
 
-ctp.Open "select * from Contas_A_Pagar where ctpstatus = 1", db, 3, 3
-hctp.Open "select * from HistoricoContasPagar", db, 3, 3
+ctp.Open "select * from contas_a_pagar where ctpstatus = 1", db, 3, 3
 
 If ctp.EOF Then
-   fim = 1
+   Fim = 1
 Else
-   fim = 0
+   Fim = 0
 End If
 
-Do While fim = 0
+Do While Fim = 0
 
-   hctp.AddNew
+   hctp.Open "select * from historicocontaspagar where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscal = ('" & ctp!chNotafiscal & "') and chFatura = ('" & ctp!chFatura & "')", db, 3, 3
+   If hctp.EOF Then
+      hctp.AddNew
+   End If
    hctp!chFabricante = ctp!chFabricante
    hctp!chPessoa = ctp!chPessoa
    hctp!chNotafiscal = ctp!chNotafiscal
@@ -906,16 +917,18 @@ Do While fim = 0
    hctp!chCodBcoLart = ctp!chCodBcoLart
    hctp!ctpTipoLancamento = ctp!ctpTipoLancamento
    hctp!ctpTipoLancamentoDesc = ctp!ctpTipoLancamentoDesc
-   UltimoRegistro = ctp!chPessoa & " - " & ctp!chNotafiscal & " - " & ctp!chFatura
+   ultimoRegistro = ctp!chPessoa & " - " & ctp!chNotafiscal & " - " & ctp!chFatura
    hctp.Update
+   
+   hctp.Close
    
    ctp.Delete
 
    ctp.MoveNext
    If ctp.EOF Then
-      fim = 1
+      Fim = 1
    Else
-      fim = 0
+      Fim = 0
    End If
 Loop
 
@@ -923,7 +936,7 @@ Exit Sub
 
 ErroContasPagar:
 
-    MsgBox UltimoRegistro
+    MsgBox ultimoRegistro
     Erro = Erro + 1
     MsgBox Err.Description
     
@@ -934,16 +947,16 @@ On Error GoTo ErroContasReceber
 
 Call Rotina_AbrirBanco
 
-hctr.Open "select * from HistoricoContasReceber", db, 3, 3
+hctr.Open "select * from historicocontasreceber", db, 3, 3
 
-ctr.Open "select * from Contas_A_Receber where ctrstatus = 1", db, 3, 3
+ctr.Open "select * from contas_a_receber where ctrstatus = 1", db, 3, 3
 If ctr.EOF Then
-   fim = 1
+   Fim = 1
 Else
-   fim = 0
+   Fim = 0
 End If
 
-Do While fim = 0
+Do While Fim = 0
 
       hctr.AddNew
       hctr!chFabricante = ctr!chFabricante
@@ -975,7 +988,7 @@ Do While fim = 0
       hctr!ctrGrupoCentroDeCusto = ctr!ctrGrupoCentroDeCusto
       hctr!ctrSubGrupoCentroDeCusto = ctr!ctrSubGrupoCentroDeCusto
       
-      UltimoRegistro = ctr!chPessoa & " - " & ctr!chNotafiscal & " - " & ctr!chFatura
+      ultimoRegistro = ctr!chPessoa & " - " & ctr!chNotafiscal & " - " & ctr!chFatura
       
       hctr.Update
      
@@ -983,9 +996,9 @@ Do While fim = 0
       
       ctr.MoveNext
       If ctr.EOF Then
-         fim = 1
+         Fim = 1
       Else
-         fim = 0
+         Fim = 0
       End If
 Loop
 
@@ -994,7 +1007,7 @@ Exit Sub
 
 ErroContasReceber:
 
-    MsgBox UltimoRegistro
+    MsgBox ultimoRegistro
     Erro = Erro + 1
     MsgBox Err.Description
 
@@ -1006,7 +1019,7 @@ Public Sub Rotina_Nota_Fiscal()
 On Error GoTo ErroNotaFiscal
 
 Dim Encontrei As Byte
-Dim fim As Byte
+Dim Fim As Byte
 Dim FimNfe As Byte
 Dim FimNfd As Byte
 Dim FimDet As Byte
@@ -1014,45 +1027,51 @@ Dim ContaDelDesdob As Long
 Dim ContaDelDet As Long
 Dim ContaDelNF As Long
 Dim ContaPendente As Long
+Dim WsStatus As Integer
 
 ContaDelDesdob = 0
 ContaDelDet = 0
 ContaDelNF = 0
 
 'db.begintrans
+
 Call Rotina_AbrirBanco
 
    
-nfe.Open "select * from NotaFiscalEntrada where nfeStatus = 1", db, 3, 3
+nfe.Open "select * from notafiscalentrada where nfeStatus = 1", db, 3, 3
 If nfe.EOF Then
-   fim = 1
+   Fim = 1
    Exit Sub
 End If
    
-fim = 0
+Fim = 0
 FimNfe = 0
 nfe.MoveFirst
 
 ' nfd = Nota Fiscal Desdobramento.
 
 Do While FimNfe = 0
-   nfd.Open "select * from NotaFiscalDesdobramento where chPessoa = ('" & nfe!chPessoa & "') and chNotaFiscalEntrada = ('" & nfe!chNotaFiscalEntrada & "')", db, 3, 3
+   nfd.Open "select * from notafiscaldesdobramento where chPessoa = ('" & nfe!chPessoa & "') and chNotaFiscalEntrada = ('" & nfe!chNotaFiscalEntrada & "')", db, 3, 3
    If nfd.EOF Then
-      MsgBox ("Não há Notas Fiscais de Entrada - Desdobramento"), vbInformation
+      MsgBox ("Não há Notas Fiscais de Entrada - Desdobramento") & nfe!chPessoa & " - " & nfe!chNotaFiscalEntrada, vbInformation
       FimNfd = 1
    Else
       FimNfd = 0
       nfd.MoveFirst
       Do While FimNfd = 0
-         hnfd.Open "Select * from HistoricoNotaFiscalDesdobramento where chPessoa = ('" & nfd!chPessoa & "') and chNotaFiscalEntrada = ('" & nfd!chNotaFiscalEntrada & "') and chDataVencimento = ('" & nfd!chDataVencimento & "')", db, 3, 3
+'         If nfd!chPessoa = "VIVO TEL" Then
+'            MsgBox ("Chegou"), vbInformation
+'         End If
+         
+         hnfd.Open "Select * from historiconotafiscaldesdobramento where chPessoa = ('" & nfd!chPessoa & "') and chNotaFiscalEntrada = ('" & nfd!chNotaFiscalEntrada & "') and chDataVencimento = ('" & nfd!chDataVencimento & "')", db, 3, 3
          If hnfd.EOF Then
             hnfd.AddNew
          End If
          hnfd!chPessoa = nfd!chPessoa
          hnfd!chNotaFiscalEntrada = nfd!chNotaFiscalEntrada
          hnfd!chDataVencimento = nfd!chDataVencimento
-         hnfd!nfdDataVencoriginal = nfd!nfdDataVencoriginal
-         hnfd!nfddatapagamento = nfd!nfddatapagamento
+         hnfd!nfdDataVencOriginal = nfd!nfdDataVencOriginal
+         hnfd!nfdDataPagamento = nfd!nfdDataPagamento
          hnfd!nfdFaturaNumero = nfd!nfdFaturaNumero
          hnfd!nfdValorDaFatura = nfd!nfdValorDaFatura
          hnfd!nfdStatus = nfd!nfdStatus
@@ -1060,7 +1079,7 @@ Do While FimNfe = 0
          hnfd!nfdOrdemBoleto = nfd!nfdOrdemBoleto
          hnfd!nfdIPTE = nfd!nfdIPTE
           
-         UltimoRegistro = "Rotina Grava NF Desdobram. - " & nfd!chPessoa & " - " & nfd!chNotaFiscalEntrada & " - " & nfd!chDataVencimento
+         ultimoRegistro = "Rotina Grava NF Desdobram. - " & nfd!chPessoa & " - " & nfd!chNotaFiscalEntrada & " - " & nfd!chDataVencimento
           
          hnfd.Update
           
@@ -1076,11 +1095,17 @@ Do While FimNfe = 0
          hnfd.Close: Set hnfd = Nothing
       Loop
    End If
+'   If nfe!chPessoa = "VIVO TEL" Then
+'      MsgBox ("Chegou"), vbInformation
+'   End If
    
-   hnfe.Open "Select * from HistoricoNotaFiscalEntrada where chPessoa = ('" & nfe!chPessoa & "') and chNotaFiscalEntrada = ('" & nfe!chNotaFiscalEntrada & "')", db, 3, 3
+   hnfe.Open "Select * from historiconotafiscalentrada where chPessoa = ('" & nfe!chPessoa & "') and chNotaFiscalEntrada = ('" & nfe!chNotaFiscalEntrada & "')", db, 3, 3
    If hnfe.EOF Then
       hnfe.AddNew
    End If
+'   If nfe!chPessoa = "VIVO TEL" Then
+'      MsgBox ("Chegou"), vbInformation
+'   End If
    hnfe!chPessoa = nfe!chPessoa
    hnfe!chNotaFiscalEntrada = nfe!chNotaFiscalEntrada
    hnfe!nfelartmerco = nfe!nfelartmerco
@@ -1097,7 +1122,7 @@ Do While FimNfe = 0
    hnfe!nfeTipoLancamento = nfe!nfeTipoLancamento
    hnfe!nfeStatus = nfe!nfeStatus
         
-   UltimoRegistro = "Rotina Grava Nota Fiscal Entrada. - " & nfe!chPessoa & " - " & nfe!chNotaFiscalEntrada & " - " & nfe!nfelartmerco
+   ultimoRegistro = "Rotina Grava Nota Fiscal Entrada. - " & nfe!chPessoa & " - " & nfe!chNotaFiscalEntrada & " - " & nfe!nfelartmerco
          
    hnfe.Update
    
@@ -1129,67 +1154,70 @@ Loop
  'dnfe = Detalhe Nota Fiscal de Entrada - Produtos.
       
 
-dnfe.Open "select * from NotaFiscalDetProd", db, 3, 3
+dnfe.Open "select * from notafiscaldetprod", db, 3, 3
 If dnfe.EOF Then
    'MsgBox ("Nota Fiscal sem Detalhe."), vbInformation
    FimDet = 1
 Else
    FimDet = 0
    NotaFiscalAnterior = Empty
-   PessoaAnterior = Empty
+   pessoaAnterior = Empty
    dnfe.MoveFirst
    Do While FimDet = 0
-      
-      If Not (dnfe!chPessoa = PessoaAnterior And dnfe!chNotaFiscalEntrada = NotaFiscalAnterior) Then
-         PessoaAnterior = dnfe!chPessoa
+      If Not (dnfe!chPessoa = pessoaAnterior And dnfe!chNotaFiscalEntrada = NotaFiscalAnterior) Then
+         pessoaAnterior = dnfe!chPessoa
          NotaFiscalAnterior = dnfe!chNotaFiscalEntrada
          If ctp.State = 1 Then
             ctp.Close: Set ctp = Nothing
          End If
-         ctp.Open "Select * from Contas_A_Pagar where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscal = ('" & dnfe!chNotaFiscalEntrada & "') and ctpStatus = 0", db, 3, 3
+         ctp.Open "Select * from contas_a_pagar where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscal = ('" & dnfe!chNotaFiscalEntrada & "')", db, 3, 3
          If ctp.EOF Then
+            WsStatus = 0
             Encontrei = 0
          Else
             Encontrei = 1
+            WsStatus = ctp!ctpStatus
          End If
       End If
       
-      If hdnfe.State = 1 Then
-         hdnfe.Close: Set hdnfe = Nothing
-      End If
-      hdnfe.Open "Select * from HistoricoNotaFiscalDetProd where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscalEntrada = ('" & dnfe!chNotaFiscalEntrada & "') and chCodProduto = ('" & dnfe!chCodProduto & "')", db, 3, 3
-      If hdnfe.EOF Then
-         hdnfe.AddNew
-      End If
-      hdnfe!chPessoa = dnfe!chPessoa
-      hdnfe!chNotaFiscalEntrada = dnfe!chNotaFiscalEntrada
-      hdnfe!chCodProduto = dnfe!chCodProduto
-      hdnfe!chProdutoFabrica = dnfe!chProdutoFabrica
-      hdnfe!nfdQtd = dnfe!nfdQtd
-      hdnfe!nfdPU = dnfe!nfdPU
-      hdnfe!nfdValorDaCompra = dnfe!nfdValorDaCompra
-      hdnfe!nfdQtdParcelas = dnfe!nfdQtdParcelas
-      hdnfe!nfdValorParcela = dnfe!nfdValorParcela
-      hdnfe!nfdCentroDeCusto = dnfe!nfdCentroDeCusto
-      hdnfe!nfdGrupoCentroDeCusto = dnfe!nfdGrupoCentroDeCusto
-      hdnfe!nfdSubGrupoCentroDeCusto = dnfe!nfdSubGrupoCentroDeCusto
-      
-      If Encontrei = 1 Then
-         hdnfe!nfddatapagamento = ctp!ctpDataPagamento
-      End If
-
-      UltimoRegistro = "Rotina Grava Det Produto. - " & dnfe!chPessoa & " - " & dnfe!chNotaFiscalEntrada & " - " & dnfe!chCodProduto & " - " & dnfe!chProdutoFabrica
-
-      hdnfe.Update
-      
-      If Encontrei = 0 Then
+      If Encontrei = 1 And WsStatus = 1 Then
+     
+         If hdnfe.State = 1 Then
+            hdnfe.Close: Set hdnfe = Nothing
+         End If
+   
+         hdnfe.Open "Select * from historiconotafiscaldetprod where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscalEntrada = ('" & dnfe!chNotaFiscalEntrada & "') and chCodProduto = ('" & dnfe!chCodProduto & "')", db, 3, 3
+         If hdnfe.EOF Then
+            hdnfe.AddNew
+         End If
+'         If dnfe!chPessoa = "VIVO TEL" Then
+'            MsgBox ("Chegou"), vbInformation
+'         End If
+         hdnfe!chPessoa = dnfe!chPessoa
+         hdnfe!chNotaFiscalEntrada = dnfe!chNotaFiscalEntrada
+         hdnfe!chCodProduto = dnfe!chCodProduto
+         hdnfe!chProdutoFabrica = dnfe!chProdutoFabrica
+         hdnfe!nfdQtd = dnfe!nfdQtd
+         hdnfe!nfdPU = dnfe!nfdPU
+         hdnfe!nfdValorDaCompra = dnfe!nfdValorDaCompra
+         hdnfe!nfdQtdParcelas = dnfe!nfdQtdParcelas
+         hdnfe!nfdValorParcela = dnfe!nfdValorParcela
+         hdnfe!nfdCentroDeCusto = dnfe!nfdCentroDeCusto
+         hdnfe!nfdGrupoCentroDeCusto = dnfe!nfdGrupoCentroDeCusto
+         hdnfe!nfdSubGrupoCentroDeCusto = dnfe!nfdSubGrupoCentroDeCusto
+         
+         If Encontrei = 1 And WsStatus = 1 Then
+            hdnfe!nfdDataPagamento = ctp!ctpDataPagamento
+         End If
+   
+         ultimoRegistro = "Rotina Grava Det Produto. - " & dnfe!chPessoa & " - " & dnfe!chNotaFiscalEntrada & " - " & dnfe!chCodProduto & " - " & dnfe!chProdutoFabrica
+   
+         hdnfe.Update
+         
          dnfe.Delete
+                  
       End If
-
-'O encontrei = 0 significa que não há mais contas a pagar para este cliente nota fiscal.
-'O registro em DetProd tem que ficar tanto no mes quanto no historico.
-'Será retirado do mes qdo não hover mais o financeiro do mes.
-
+      
       dnfe.MoveNext
       If dnfe.EOF Then
          FimDet = 1
@@ -1205,7 +1233,7 @@ Exit Sub
 
 ErroNotaFiscal:
 
-    MsgBox UltimoRegistro
+    MsgBox ultimoRegistro
     Erro = Erro + 1
     MsgBox Err.Description
 End Sub
@@ -1228,7 +1256,7 @@ End Sub
 'tabCalendario("mes12") = 1 & "/" & Month(Date) & "/" & Year(Date)
 'tabCalendario("mes12") = 1 & "/" & Month(Data_Anterior) & "/" & Year(Data_Anterior)
 
-'UltimoRegistro = "Rotina Calendario - " & tabCalendario("mes2")
+'UltimoRegistro = "Rotina calendario - " & tabCalendario("mes2")
 
 'tabCalendario.Update
 
@@ -1279,7 +1307,7 @@ End Sub
  '              TabEstatisticaUF("valornoperiodo") = TabEstatisticaUF("valornoperiodo") + TabAnualCliente("apsfaturatotal")
  '           End If
  '
- '           UltimoRegistro = "Rotina de Estatistica Regiao - " & Tabpessoa("chuf") & " - " & Tabpessoa("pesregiao") & " - " & TabAnualCliente("chproduto")
+ '           UltimoRegistro = "Rotina de Estatistica regiao - " & Tabpessoa("chuf") & " - " & Tabpessoa("pesregiao") & " - " & TabAnualCliente("chproduto")
  '
  '           TabEstatisticaUF.Update
  '        End If
@@ -1340,7 +1368,7 @@ Close F1
 Close F2
 CopiarArquivos = FSize
 
-MsgBox "Backups realizados com Sucesso", vbInformation, "Sistema e Banco de Dados"
+MsgBox "Backups realizados com Sucesso", vbInformation, "Sistema e banco de Dados"
 
 'pbCopiaArquivos.Value = 0
 pbCopiaArquivos = 0

@@ -41,8 +41,8 @@ Public Sub ExportarContabilidade()
             
             'Do any modifications to the workbook.
             Rotina_AbrirBanco
-            rs.Open "SELECT * FROM ContabilidadePagto ORDER BY DataPagamento," & _
-                    "Categoria", db, 2, 4
+            rs.Open "SELECT * FROM contabilidadepagto ORDER BY DataPagamento," & _
+                    "Categoria", db, 3, 3
             Do Until rs.EOF
                oApp.Cells(i, 1) = rs(0)
                oApp.Cells(i, 2) = rs(1)
@@ -52,6 +52,8 @@ Public Sub ExportarContabilidade()
                oApp.Cells(i, 6) = "' " & rs(5)
                oApp.Cells(i, 7) = rs(6)
                oApp.Cells(i, 8) = rs(7)
+               oApp.Cells(i, 9) = rs(8)
+               oApp.Cells(i, 10) = rs(9)
                rs.MoveNext
                i = i + 1
             Loop

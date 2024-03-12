@@ -397,7 +397,7 @@ ChaveGrupo = Verifica
 
 Call Rotina_AbrirBanco
 
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ChaveGrupo & "') and chSubGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ChaveGrupo & "') and chSubGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("ERRO: Carga de subgrupo em Cad de centro de custo."), vbCritical
    Call FechaDB
@@ -424,7 +424,7 @@ ChaveGrupo = Verifica
 
 Call Rotina_AbrirBanco
 
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ChaveGrupo & "') and chSubGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ChaveGrupo & "') and chSubGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("ERRO: Carga de subgrupo em Cad de centro de custo."), vbCritical
    Call FechaDB
@@ -467,7 +467,7 @@ End Sub
 '
 'Call Rotina_AbrirBanco
 '
-'ProdTerc.Open "Select * from ProdutoTerceiros where chTipoProduto = ('" & txtDescGrupoCentroDeCusto & "')", db, 3, 3
+'ProdTerc.Open "Select * from produtoterceiros where chTipoProduto = ('" & txtDescGrupoCentroDeCusto & "')", db, 3, 3
 'If ProdTerc.EOF Then
 '   MsgBox ("Centro de custo inexistente"), vbCritical
 '   Call FechaDB
@@ -515,7 +515,7 @@ If ccc.State = 1 Then
    ccc.Close: Set ccc = Nothing
 End If
 
-ccc.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ChaveGrupo & "') and chSubGrupoCentroDeCusto = ('" & ChaveSubGrupo & "')", db, 3, 3
+ccc.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ChaveGrupo & "') and chSubGrupoCentroDeCusto = ('" & ChaveSubGrupo & "')", db, 3, 3
 If ccc.EOF Then
    MsgBox ("Centro de custo destino não existe."), vbCritical
    Call FechaDB
@@ -528,12 +528,12 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
 
-Prod.Open "Select * from ProdutoFornecedor where chTipoProduto = ('" & ChaveProduto & "')", db, 3, 3
+Prod.Open "Select * from produtofornecedor where chTipoProduto = ('" & ChaveProduto & "')", db, 3, 3
 If Prod.EOF Then
    If Prod.State = 1 Then
       Prod.Close: Set Prod = Nothing
    End If
-   Prod.Open "Select * from ProdutoFornecedor where chProdutoFabrica= ('" & ChaveProduto & " ')", db, 3, 3
+   Prod.Open "Select * from produtofornecedor where chProdutoFabrica= ('" & ChaveProduto & " ')", db, 3, 3
    If Prod.EOF Then
       MsgBox ("ERRO: Centro de custo de origem não existe. Comunicar ao analista responsável."), vbCritical
       Call FechaDB
@@ -551,7 +551,7 @@ Do While Not Prod.EOF
    Prod.MoveNext
 Loop
 
-nfd.Open "Select * from NotaFiscalDetProd where chCodProduto = ('" & ChaveProduto & "')", db, 3, 3
+nfd.Open "Select * from notafiscaldetprod where chCodProduto = ('" & ChaveProduto & "')", db, 3, 3
 If nfd.EOF Then
    MsgBox ("ERRO: Não encontrado o detalhe da noota fiscal em alteração de centro de custo"), vbInformation
    Call FechaDB
@@ -589,7 +589,7 @@ Private Sub Form_Load()
 
 Call Rotina_AbrirBanco
 
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto > ('" & "00" & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto > ('" & "00" & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("ERRO: Comunicar ao analista responsável."), vbCritical
    Call FechaDB
@@ -634,7 +634,7 @@ ChaveSubGrupo = Verifica
 
 ChaveProduto = grdProd.TextMatrix(IndLinha, 0)
 
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ChaveGrupo & "') and chSubGrupoCentroDeCusto = ('" & ChaveSubGrupo & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ChaveGrupo & "') and chSubGrupoCentroDeCusto = ('" & ChaveSubGrupo & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("ERRO: Carga de subgrupo em gridcusto de centro de custo."), vbCritical
    Call FechaDB
@@ -665,7 +665,7 @@ ChaveSubGrupo = Verifica
 ContaFornecedor = 0
 ContaDespesa = 0
 
-Prod.Open "Select * from ProdutoEntrada where pinCentroDeCusto = ('" & "2" & "') and pinGrupoCentroDeCusto = ('" & ChaveGrupo & "') and pinSubGrupoCentroDeCusto = ('" & ChaveSubGrupo & "')", db, 3, 3
+Prod.Open "Select * from produtoentrada where pinCentroDeCusto = ('" & "2" & "') and pinGrupoCentroDeCusto = ('" & ChaveGrupo & "') and pinSubGrupoCentroDeCusto = ('" & ChaveSubGrupo & "')", db, 3, 3
 If Not Prod.EOF Then
 
    Prod.MoveFirst
@@ -708,7 +708,7 @@ End If
 
 ContaDespesa = 0
 
-Prod.Open "Select * from ProdutoFornecedor where pinCentroDeCusto = ('" & "2" & "') and pinGrupoCentroDeCusto = ('" & ChaveGrupo & "') and pinSubGrupoCentroDeCusto = ('" & ChaveSubGrupo & "')", db, 3, 3
+Prod.Open "Select * from produtofornecedor where pinCentroDeCusto = ('" & "2" & "') and pinGrupoCentroDeCusto = ('" & ChaveGrupo & "') and pinSubGrupoCentroDeCusto = ('" & ChaveSubGrupo & "')", db, 3, 3
 If Not Prod.EOF Then
 
    Prod.MoveFirst
@@ -766,7 +766,7 @@ grdProd.Row = 0
 grdProd.RowSel = 0
 grdProd.Sort = 7
 
-'MsgBox ("Total Fornecedor - ") & ContaFornecedor
+'MsgBox ("Total fornecedor - ") & ContaFornecedor
 'MsgBox ("Total Despesa    - ") & ContaDespesa
 
 End Sub

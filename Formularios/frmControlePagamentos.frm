@@ -334,7 +334,7 @@ Begin VB.Form frmControlePagamentos
                Strikethrough   =   0   'False
             EndProperty
             CalendarBackColor=   16777194
-            Format          =   122159105
+            Format          =   392757249
             CurrentDate     =   38203
          End
       End
@@ -392,7 +392,7 @@ Begin VB.Form frmControlePagamentos
                Strikethrough   =   0   'False
             EndProperty
             CalendarBackColor=   16777194
-            Format          =   122159105
+            Format          =   392757249
             CurrentDate     =   43907
          End
       End
@@ -785,7 +785,7 @@ Attribute VB_Exposed = False
 
 Option Explicit
 Dim Linha As Single
-Dim Coluna As Single
+Dim coluna As Single
 Dim Ind As Single
 Dim IndPend As Byte
 Dim IndAtra As Byte
@@ -832,14 +832,14 @@ For IndConf = 1 To IndPendlimite
        C = GridPendentes.TextMatrix(IndConf, 1)
        D = GridPendentes.TextMatrix(IndConf, 3)
        E = GridPendentes.TextMatrix(IndConf, 0)
-       If A = Empty Then
-          MsgBox ("Clicar com o mouse apenas em linhas com conteúdo")
-          GridPendentes.TextMatrix(IndConf, 7) = Empty
-          cmdSair.SetFocus
-          Exit Sub
-       End If
+ '      If A = Empty Then
+ '         MsgBox ("Clicar com o mouse apenas em linhas com conteúdo")
+ '         GridPendentes.TextMatrix(IndConf, 7) = Empty
+ '         cmdSair.SetFocus
+ '         Exit Sub
+ '      End If
         
-       ctp.Open "Select * from Contas_A_Pagar where chFabricante = ('" & A & "') and chPessoa = ('" & B & "') and chNotaFiscal = ('" & C & "') and chFatura = ('" & D & "')", db, 3, 3
+       ctp.Open "Select * from contas_a_pagar where chFabricante = ('" & A & "') and chPessoa = ('" & B & "') and chNotaFiscal = ('" & C & "') and chFatura = ('" & D & "')", db, 3, 3
        
        If ctp.EOF Then
           MsgBox ("Erro no acesso para atualizacao de Conta a Pagar 1."), vbCritical
@@ -849,19 +849,19 @@ For IndConf = 1 To IndPendlimite
        
        ctp!ctpStatus = 1
        ctp!ctpDataPagamento = txtDataComp
-       ctp!ctpdataproc = Date
+       ctp!ctpDataProc = Date
+       
+       ctp.Update
               
        DataInvertida = Year(ctp!chDataVencito) & Format$(Month(ctp!chDataVencito), "00") & Format$(Day(ctp!chDataVencito), "00")
-       nfd.Open "Select * from NotaFiscalDesdobramento where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "') and chDataVencimento = ('" & DataInvertida & "')", db, 3, 3
+       nfd.Open "Select * from notafiscaldesdobramento where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "') and chDataVencimento = ('" & DataInvertida & "')", db, 3, 3
        If nfd.EOF Then
           IndConf = IndConf
        Else
-          nfd!nfdstatuspagto = 1
-          nfd!nfddatapagamento = Date
+          nfd!nfdStatusPagto = 1
+          nfd!nfdDataPagamento = Date
           nfd.Update
        End If
-             
-       ctp.Update
     Else
        If GridPendentes.TextMatrix(IndConf, 0) = Empty Then
           IndConf = 250
@@ -891,7 +891,7 @@ For IndConf = 1 To IndAtraLimite
           Exit Sub
        End If
        
-       ctp.Open "Select * from Contas_A_Pagar where chFabricante = ('" & A & "') and chPessoa = ('" & B & "') and chNotaFiscal = ('" & C & "') and chFatura = ('" & D & "')", db, 3, 3
+       ctp.Open "Select * from contas_a_pagar where chFabricante = ('" & A & "') and chPessoa = ('" & B & "') and chNotaFiscal = ('" & C & "') and chFatura = ('" & D & "')", db, 3, 3
        
        If ctp.EOF Then
           MsgBox ("Erro no acesso para atualizacao de Conta a Pagar 1."), vbCritical
@@ -900,14 +900,14 @@ For IndConf = 1 To IndAtraLimite
        End If
        ctp!ctpStatus = 1
        ctp!ctpDataPagamento = txtDataComp
-       ctp!ctpdataproc = Date
+       ctp!ctpDataProc = Date
        
        DataInvertida = Year(ctp!chDataVencito) & Format$(Month(ctp!chDataVencito), "00") & Format$(Day(ctp!chDataVencito), "00")
        
-       nfd.Open "Select * from NotaFiscalDesdobramento where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "') and chDataVencimento = ('" & DataInvertida & "')", db, 3, 3
+       nfd.Open "Select * from notafiscaldesdobramento where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "') and chDataVencimento = ('" & DataInvertida & "')", db, 3, 3
        If Not nfd.EOF Then
-          nfd!nfdstatuspagto = 1
-          nfd!nfddatapagamento = Date
+          nfd!nfdStatusPagto = 1
+          nfd!nfdDataPagamento = Date
           nfd.Update
        End If
              
@@ -942,7 +942,7 @@ For IndConf = 1 To IndConfLimite
           Exit Sub
        End If
        
-       ctp.Open "Select * from Contas_A_Pagar where chFabricante = ('" & A & "') and chPessoa = ('" & B & "') and chNotaFiscal = ('" & C & "') and chFatura = ('" & D & "')", db, 3, 3
+       ctp.Open "Select * from contas_a_pagar where chFabricante = ('" & A & "') and chPessoa = ('" & B & "') and chNotaFiscal = ('" & C & "') and chFatura = ('" & D & "')", db, 3, 3
        
        If ctp.EOF Then
           MsgBox ("Erro no acesso para atualizacao de Conta a Pagar 2."), vbCritical
@@ -951,13 +951,13 @@ For IndConf = 1 To IndConfLimite
        End If
        ctp!ctpStatus = 0
        ctp!ctpDataPagamento = Empty
-       ctp!ctpdataproc = Empty
+       ctp!ctpDataProc = Empty
        
        DataInvertida = Year(ctp!chDataVencito) & Format$(Month(ctp!chDataVencito), "00") & Format$(Day(ctp!chDataVencito), "00")
        
-       nfd.Open "Select * from NotaFiscalDesdobramento where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "') and chDataVencimento = ('" & DataInvertida & "')", db, 3, 3
+       nfd.Open "Select * from notafiscaldesdobramento where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "') and chDataVencimento = ('" & DataInvertida & "')", db, 3, 3
        If Not nfd.EOF Then
-          nfd!nfdstatuspagto = 0
+          nfd!nfdStatusPagto = 0
           nfd.Update
        End If
              
@@ -1054,7 +1054,7 @@ optNao = False
 
 Call Rotina_AbrirBanco
 
-Bco.Open "Select * from Banco", db, 3, 3
+Bco.Open "Select * from banco", db, 3, 3
 If Bco.EOF Then
    MsgBox ("Tabela de bancos está vazia."), vbCritical
    Call FechaDB
@@ -1132,7 +1132,7 @@ End Sub
 
 Public Sub Rotina_020_Gerencia_Grid()
 
-Dim Indice As Byte
+Dim indice As Byte
 Dim DataAcesso As Date
 
 IndPend = 0
@@ -1143,7 +1143,7 @@ DataWS = txtDataConsulta
 
 Call Rotina_AbrirBanco
 
-ctp.Open "Select * from Contas_A_Pagar", db, 3, 3
+ctp.Open "Select * from contas_a_pagar", db, 3, 3
 If ctp.EOF Then
    MsgBox ("Não há contas a pagar. "), vbInformation
    Call FechaDB
@@ -1156,7 +1156,7 @@ DataAcesso = Date
  
 Do While Not ctp.EOF
    
-   Indice = cmbFiltro.ListIndex
+   indice = cmbFiltro.ListIndex
    
    If (cmbFiltro = "Geral") Or (cmbFiltro = ctp!chCodBcoLart) Then
       If ctp!chDataVencito = txtDataConsulta Then
@@ -1222,7 +1222,7 @@ If ctp!ctpTipoLancamentoDesc = "BOLETO" Then
    If nfd.State = 1 Then
       nfd.Close: Set nfd = Nothing
    End If
-   nfd.Open "Select * from NotaFiscalDesdobramento where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "') and nfdFaturaNumero = ('" & ctp!chFatura & "')", db, 3, 3
+   nfd.Open "Select * from notafiscaldesdobramento where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "') and nfdFaturaNumero = ('" & ctp!chFatura & "')", db, 3, 3
    If Not nfd.EOF Then
       If Not nfd!nfdIPTE = "" Then
          GridPendentes.TextMatrix(IndPend, 4) = (ctp!ctpTipoLancamentoDesc & " C Barra")
@@ -1233,7 +1233,7 @@ If ctp!ctpTipoLancamentoDesc = "BOLETO" Then
       If nfd.State = 1 Then
          nfd.Close: Set nfd = Nothing
       End If
-      nfd.Open "Select * from HistoricoNotaFiscalDesdobramento where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "') and nfdFaturaNumero = ('" & ctp!chFatura & "')", db, 3, 3
+      nfd.Open "Select * from historiconotafiscaldesdobramento where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "') and nfdFaturaNumero = ('" & ctp!chFatura & "')", db, 3, 3
       If Not nfd.EOF Then
          If Not nfd!nfdIPTE = "" Then
             GridPendentes.TextMatrix(IndPend, 4) = (ctp!ctpTipoLancamentoDesc & " C Barra")
@@ -1334,12 +1334,12 @@ If Not GridPendentes.TextMatrix(GridPendentes.Row, 7) = "Ok." Then
           nfd.Close: Set nfd = Nothing
        End If
 
-       nfd.Open "Select * from NotaFiscalDesdobramento where chPessoa = ('" & GridPendentes.TextMatrix(GridPendentes.Row, 2) & "') and chNotaFiscalEntrada = ('" & GridPendentes.TextMatrix(GridPendentes.Row, 1) & "') and nfdfaturanumero = ('" & GridPendentes.TextMatrix(GridPendentes.Row, 3) & "')", db, 3, 3
+       nfd.Open "Select * from notafiscaldesdobramento where chPessoa = ('" & GridPendentes.TextMatrix(GridPendentes.Row, 2) & "') and chNotaFiscalEntrada = ('" & GridPendentes.TextMatrix(GridPendentes.Row, 1) & "') and nfdfaturanumero = ('" & GridPendentes.TextMatrix(GridPendentes.Row, 3) & "')", db, 3, 3
        If nfd.EOF Then
           If nfd.State = 1 Then
              nfd.Close: Set nfd = Nothing
           End If
-          nfd.Open "Select * from HistoricoNotaFiscalDesdobramento where chPessoa = ('" & GridPendentes.TextMatrix(GridPendentes.Row, 2) & "') and chNotaFiscalEntrada = ('" & GridPendentes.TextMatrix(GridPendentes.Row, 1) & "') and nfdfaturanumero = ('" & GridPendentes.TextMatrix(GridPendentes.Row, 3) & "')", db, 3, 3
+          nfd.Open "Select * from historiconotafiscaldesdobramento where chPessoa = ('" & GridPendentes.TextMatrix(GridPendentes.Row, 2) & "') and chNotaFiscalEntrada = ('" & GridPendentes.TextMatrix(GridPendentes.Row, 1) & "') and nfdfaturanumero = ('" & GridPendentes.TextMatrix(GridPendentes.Row, 3) & "')", db, 3, 3
           If nfd.EOF Then
              MsgBox ("Desdobramento não encontrado."), vbCritical
              Call FechaDB
@@ -1363,18 +1363,18 @@ End Sub
 
 Public Sub ClassificaAtrasados()
 Linha = GridAtrasados.Rows
-Coluna = GridAtrasados.Col
+coluna = GridAtrasados.Col
 
-If Coluna = 4 Then
-   Coluna = 8
+If coluna = 4 Then
+   coluna = 8
 Else
-   If Coluna = 5 Then
-      Coluna = 9
+   If coluna = 5 Then
+      coluna = 9
    End If
 End If
 
-GridAtrasados.Col = Coluna
-GridAtrasados.ColSel = Coluna
+GridAtrasados.Col = coluna
+GridAtrasados.ColSel = coluna
      
 GridAtrasados.Row = 1
 GridAtrasados.RowSel = Linha - 1
@@ -1389,14 +1389,14 @@ End Sub
 
 Public Sub ClassificaPendentes()
 Linha = GridPendentes.Rows
-Coluna = GridPendentes.Col
+coluna = GridPendentes.Col
 
-If Coluna = 5 Then
-   Coluna = 8
+If coluna = 5 Then
+   coluna = 8
 End If
 
-GridPendentes.Col = Coluna
-GridPendentes.ColSel = Coluna
+GridPendentes.Col = coluna
+GridPendentes.ColSel = coluna
      
 GridPendentes.Row = 1
 GridPendentes.RowSel = Linha - 1
@@ -1411,18 +1411,18 @@ End Sub
 
 Public Sub ClassificaConfirmados()
 Linha = GridConfirmados.Rows
-Coluna = GridConfirmados.Col
+coluna = GridConfirmados.Col
 
-If Coluna = 4 Then
-   Coluna = 8
+If coluna = 4 Then
+   coluna = 8
 Else
-   If Coluna = 5 Then
-      Coluna = 9
+   If coluna = 5 Then
+      coluna = 9
    End If
 End If
 
-GridConfirmados.Col = Coluna
-GridConfirmados.ColSel = Coluna
+GridConfirmados.Col = coluna
+GridConfirmados.ColSel = coluna
      
 GridConfirmados.Row = 1
 GridConfirmados.RowSel = Linha - 1

@@ -2,14 +2,31 @@ VERSION 5.00
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
 Begin VB.Form frmRequisicao 
    Caption         =   "frmRequisicao"
-   ClientHeight    =   6870
+   ClientHeight    =   9120
    ClientLeft      =   60
    ClientTop       =   405
-   ClientWidth     =   13425
+   ClientWidth     =   17550
    LinkTopic       =   "Form1"
-   ScaleHeight     =   6870
-   ScaleWidth      =   13425
+   ScaleHeight     =   9120
+   ScaleWidth      =   17550
    StartUpPosition =   2  'CenterScreen
+   Begin VB.CommandButton cmdCancelaRequisicao 
+      Caption         =   "Cancela Requisição"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   735
+      Left            =   16080
+      TabIndex        =   22
+      Top             =   7440
+      Width           =   1335
+   End
    Begin VB.TextBox txtHoje 
       Alignment       =   2  'Center
       BeginProperty Font 
@@ -22,7 +39,7 @@ Begin VB.Form frmRequisicao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   11280
+      Left            =   15360
       TabIndex        =   21
       Text            =   "Text1"
       Top             =   600
@@ -39,10 +56,10 @@ Begin VB.Form frmRequisicao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   480
-      Left            =   8040
-      TabIndex        =   6
-      Top             =   3840
-      Width           =   1935
+      Left            =   2160
+      TabIndex        =   2
+      Top             =   1080
+      Width           =   4575
    End
    Begin VB.CommandButton cmdSair 
       Caption         =   "Sair"
@@ -55,14 +72,15 @@ Begin VB.Form frmRequisicao
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   855
-      Left            =   12000
+      Height          =   615
+      Left            =   16080
       TabIndex        =   11
-      Top             =   5880
+      Top             =   8280
       Width           =   1335
    End
    Begin VB.CommandButton cmdGeraRequisicao 
       Caption         =   "Gera Requisição"
+      Enabled         =   0   'False
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   9.75
@@ -72,25 +90,25 @@ Begin VB.Form frmRequisicao
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   855
-      Left            =   12000
+      Height          =   735
+      Left            =   16080
       TabIndex        =   10
-      Top             =   4920
+      Top             =   6600
       Width           =   1335
    End
    Begin MSFlexGridLib.MSFlexGrid tblProdutos 
-      Height          =   2415
+      Height          =   4575
       Left            =   480
       TabIndex        =   17
       Top             =   4440
-      Width           =   11415
-      _ExtentX        =   20135
-      _ExtentY        =   4260
+      Width           =   15495
+      _ExtentX        =   27331
+      _ExtentY        =   8070
       _Version        =   393216
       Rows            =   1
       Cols            =   6
       FixedCols       =   0
-      FormatString    =   "Produto                                                |Qtd Solic|Qtd Atend|Saldo Req|Codigo|"
+      FormatString    =   $"frmRequisicao.frx":0000
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
          Size            =   13.5
@@ -113,10 +131,10 @@ Begin VB.Form frmRequisicao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   480
-      Left            =   6360
-      TabIndex        =   5
+      Left            =   10080
+      TabIndex        =   6
       Top             =   3840
-      Width           =   1575
+      Width           =   1335
    End
    Begin VB.ComboBox cmbProduto 
       BeginProperty Font 
@@ -130,9 +148,9 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   480
       Left            =   480
-      TabIndex        =   4
+      TabIndex        =   5
       Top             =   3840
-      Width           =   5850
+      Width           =   9570
    End
    Begin VB.ComboBox cmbClasse 
       BeginProperty Font 
@@ -146,9 +164,9 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   480
       Left            =   480
-      TabIndex        =   3
+      TabIndex        =   4
       Top             =   2880
-      Width           =   3495
+      Width           =   4455
    End
    Begin VB.ComboBox cmbGrupo 
       BeginProperty Font 
@@ -162,7 +180,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   480
       Left            =   480
-      TabIndex        =   2
+      TabIndex        =   3
       Top             =   1920
       Width           =   3375
    End
@@ -194,10 +212,10 @@ Begin VB.Form frmRequisicao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   2535
-      Left            =   10080
+      Left            =   16080
       TabIndex        =   19
-      Top             =   1800
-      Width           =   1575
+      Top             =   3720
+      Width           =   1335
       Begin VB.CommandButton cmdVerificaEstoque 
          Caption         =   "Verifica Estoque"
          BeginProperty Font 
@@ -263,13 +281,13 @@ Begin VB.Form frmRequisicao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   11280
+      Left            =   15360
       TabIndex        =   20
       Top             =   120
       Width           =   1935
    End
    Begin VB.Label Label7 
-      Caption         =   "Unidade Operacional"
+      Caption         =   "Unid Oper"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   12
@@ -279,10 +297,10 @@ Begin VB.Form frmRequisicao
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   615
-      Left            =   8040
+      Height          =   375
+      Left            =   2160
       TabIndex        =   18
-      Top             =   3240
+      Top             =   720
       Width           =   1815
    End
    Begin VB.Label Label6 
@@ -297,7 +315,7 @@ Begin VB.Form frmRequisicao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   6360
+      Left            =   9840
       TabIndex        =   16
       Top             =   3480
       Width           =   1455
@@ -399,7 +417,7 @@ Dim codigo As String
 Private Sub cmbClasse_LostFocus()
    Call Rotina_AbrirBanco
       
-         pes.Open "Select nomeProd from supproduto where grupo = ('" & Format$((cmbGrupo.ListIndex + 1), "00") & "') and classe = ('" & Format$((cmbClasse.ListIndex + 1), "000") & "') order by codProd", db, 3, 3
+         pes.Open "Select nomeProd from supproduto where grupo = ('" & Format$((cmbGrupo.ListIndex + 1), "00") & "') and classe = ('" & Format$((cmbClasse.ListIndex + 1), "000") & "') order by nomeProd", db, 3, 3
 
          If pes.EOF Then
       
@@ -453,10 +471,15 @@ Private Sub cmbGrupo_LostFocus()
    FechaDB
 End Sub
 
-Private Sub cmbIdReq_LostFocus()
+Private Sub cmbIdReq_Click()
+   
+   cmdJogaNaLista.Enabled = False
+   cmdRetiraDaLista.Enabled = False
+   'cmdVerificaEstoque.Enabled = False
+   
    Call Rotina_AbrirBanco
    
-   rs.Open "SELECT unidadeOperacional FROM suprequisicao WHERE id = ('" & cmbIdReq & "')", db, 3, 3
+   rs.Open "SELECT unidadeoperacional FROM suprequisicao WHERE id = ('" & cmbIdReq & "')", db, 3, 3
    
    If Not rs.EOF Then
    
@@ -466,7 +489,7 @@ Private Sub cmbIdReq_LostFocus()
    
    rs.Close
    
-   rs.Open "SELECT * FROM supRequisicaoDetalhe inner join supRequisicao on supRequisicaoDetalhe.id = supRequisicao.id WHERE supRequisicao.id = ('" & cmbIdReq & "')", db, 3, 3
+   rs.Open "SELECT * FROM suprequisicaodetalhe inner join suprequisicao on suprequisicaodetalhe.id = suprequisicao.id WHERE suprequisicao.id = ('" & cmbIdReq & "')", db, 3, 3
    
       If rs.EOF Then
       
@@ -481,7 +504,7 @@ Private Sub cmbIdReq_LostFocus()
       Do While Not rs.EOF
          
          If rs!Status = 0 Then
-            Prod.Open "SELECT nomeProd FROM supproduto WHERE grupo = ('" & rs!grupo & "') AND classe = ('" & rs!classe & "') AND codProd = ('" & rs!codProd & "')", db, 3, 3
+            Prod.Open "SELECT nomeProd FROM supproduto WHERE grupo = ('" & rs!Grupo & "') AND classe = ('" & rs!Classe & "') AND codProd = ('" & rs!codProd & "')", db, 3, 3
             
             If rs!chPessoa = glbUsuario Then
                
@@ -504,15 +527,76 @@ Private Sub cmbIdReq_LostFocus()
    FechaDB
 End Sub
 
+Private Sub cmbUnidOper_LostFocus()
+   Call Rotina_AbrirBanco
+   
+   rs.Open "SELECT * FROM suprequisicao WHERE id = ('" & cmbIdReq & "') ", db, 3, 3
+   If Not rs.EOF Then
+      
+      rs!unidadeOperacional = cmbUnidOper
+      rs.Update
+      
+   End If
+   rs.Close
+   FechaDB
+End Sub
+
+Private Sub cmdCancelaRequisicao_Click()
+   
+   On Error GoTo Erro
+   
+   Call Rotina_AbrirBanco
+   
+   db.BeginTrans
+   
+   rs.Open "SELECT * FROM suprequisicaodetalhe WHERE id = ('" & cmbIdReq & "')", db, 3, 3
+   
+   If Not rs.EOF Then
+   
+   rs.MoveFirst
+   
+   Do While Not rs.EOF
+   
+      Prod.Open "SELECT * FROM supestoque WHERE grupo = ('" & rs!Grupo & "') and classe = ('" & rs!Classe & "') and codProd = ('" & rs!codProd & "')", db, 3, 3
+      If Not Prod.EOF Then
+         If (Prod!qtdReservado - rs!quantidade) >= 0 Then
+            Prod!qtdReservado = Prod!qtdReservado - rs!quantidade
+         Else
+            Prod!qtdReservado = 0
+         End If
+         Prod.Update
+      End If
+      Prod.Close
+      rs.MoveNext
+   
+   Loop
+   
+   End If
+   
+   rs.Close
+   
+   db.Execute ("DELETE FROM suprequisicao WHERE id=('" & cmbIdReq & "')")
+   
+   db.CommitTrans
+   
+   MsgBox ("Requisição cancelada com sucesso!"), vbInformation
+   
+   FechaDB
+Exit Sub
+Erro: MsgBox ("Ocorreu um erro ao cancelar a requisição : " & Err.Description), vbInformation
+FechaDB
+End Sub
+
 Private Sub cmdGeraRequisicao_Click()
    Call Rotina_AbrirBanco
    
    Dim i As Integer
+   Dim flagCod As Integer
    
    
    db.BeginTrans
    
-   rs.Open "SELECT * from supRequisicao WHERE id=('" & cmbIdReq & "')", db, 3, 3
+   rs.Open "SELECT * from suprequisicao WHERE id=('" & cmbIdReq & "')", db, 3, 3
    
    If rs.EOF Then
    
@@ -520,7 +604,7 @@ Private Sub cmdGeraRequisicao_Click()
    
    End If
    
-   rs!id = cmbIdReq
+   rs!Id = cmbIdReq
    rs!chPessoa = glbUsuario
    rs!maquina = glbMaquina
    rs!dataReq = Date
@@ -533,13 +617,13 @@ Private Sub cmdGeraRequisicao_Click()
    
    i = 1
    
-   Call geraCodigo
+   On Error GoTo Erro:
    
    Do While i < tblProdutos.Rows
       
-      Prod.Open "SELECT * FROM supProduto WHERE nomeProd=('" & tblProdutos.TextMatrix(i, 0) & "')", db, 3, 3
+      Prod.Open "SELECT * FROM supproduto WHERE nomeProd=('" & tblProdutos.TextMatrix(i, 0) & "')", db, 3, 3
       
-      rs.Open "SELECT * FROM supRequisicaoDetalhe WHERE id=('" & cmbIdReq & "') and grupo=('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd=('" & Prod!codProd & "')", db, 3, 3
+      rs.Open "SELECT * FROM suprequisicaodetalhe WHERE id=('" & cmbIdReq & "') and grupo=('" & Prod!Grupo & "') and classe = ('" & Prod!Classe & "') and codProd=('" & Prod!codProd & "')", db, 3, 3
       
       If rs.EOF Then
       
@@ -548,11 +632,11 @@ Private Sub cmdGeraRequisicao_Click()
       End If
       
       
-      rs!id = cmbIdReq
+      rs!Id = cmbIdReq
       
-      rs!grupo = Prod!grupo
+      rs!Grupo = Prod!Grupo
       
-      rs!classe = Prod!classe
+      rs!Classe = Prod!Classe
       
       rs!codProd = Prod!codProd
       
@@ -562,16 +646,23 @@ Private Sub cmdGeraRequisicao_Click()
       
       rs!QtdEntregue = rs!QtdEntregue + tblProdutos.TextMatrix(i, 2)
       
-      pes.Open "SELECT * FROM supEstoque WHERE grupo=('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd=('" & Prod!codProd & "')", db, 3, 3
+      pes.Open "SELECT * FROM supestoque WHERE grupo=('" & Prod!Grupo & "') and classe = ('" & Prod!Classe & "') and codProd=('" & Prod!codProd & "')", db, 3, 3
       
+      If Not pes.EOF Then
+         
          pes!qtdReservado = pes!qtdReservado + tblProdutos.TextMatrix(i, 2)
          pes.Update
-         
-      pes.Close
-
-      If CInt(tblProdutos.TextMatrix(i, 2)) > 0 Then
       
+      End If
+         
+
+      If CInt(tblProdutos.TextMatrix(i, 2)) > 0 And tblProdutos.TextMatrix(i, 4) = Empty Then
+         If flagCod = 0 Then
+            Call geraCodigo
+            flagCod = 1
+         End If
          rs!codigo = codigo
+         rs!statusEntrega = 0
       
       End If
       
@@ -579,9 +670,7 @@ Private Sub cmdGeraRequisicao_Click()
       
       rs.Close
       
-      Prod.Close
-      
-      If tblProdutos.TextMatrix(i, 5) = 1 And tblProdutos.TextMatrix(i, 2) = 0 Then
+      If tblProdutos.TextMatrix(i, 5) = 1 And tblProdutos.TextMatrix(i, 2) = 0 And Prod!Status = 1 And CInt(tblProdutos.TextMatrix(i, 3)) > 0 Then
       
          rs.Open "SELECT * FROM suprequisicaocompra WHERE nomeProd = ('" & tblProdutos.TextMatrix(i, 0) & "') and idRequisicao=('" & cmbIdReq & "')", db, 3, 3
          
@@ -596,29 +685,33 @@ Private Sub cmdGeraRequisicao_Click()
             rs!qtdRequisitada = tblProdutos.TextMatrix(i, 1)
             rs!qtdEmEstoque = tblProdutos.TextMatrix(i, 2)
             rs!qtdPendente = tblProdutos.TextMatrix(i, 3)
-            Prod.Open "SELECT estoqueMaximo FROM supestoque inner join supproduto on supproduto.grupo = supestoque.grupo and supproduto.classe = supestoque.classe and supproduto.codProd = supestoque.codProd WHERE supProduto.nomeProd = ('" & tblProdutos.TextMatrix(i, 0) & "')", db, 3, 3
             rs!estoqueMaximo = Prod!estoqueMaximo
-            Prod.Close
             rs!qtdComprar = rs!estoqueMaximo + rs!qtdPendente
             rs.Update
             
          rs.Close
       
       End If
-      
+      pes.Close
       i = i + 1
-   
+      Prod.Close
    Loop
    db.CommitTrans
    
-   MsgBox ("Código para retirada de produtos: " & codigo), vbInformation
+   If flagCod = 1 Then
+      MsgBox ("Código para retirada de produtos: " & codigo), vbInformation
+   End If
+   
+   cmdGeraRequisicao.Enabled = False
    
    FechaDB
+Exit Sub
+Erro: MsgBox ("Erro ao gerar requisição ao estoque: " & Err.Description), vbInformation
 End Sub
 
 Private Sub cmdJogaNaLista_Click()
    Call Rotina_AbrirBanco
-   rs.Open "SELECT chPessoa FROM supRequisicao WHERE id = ('" & cmbIdReq & "')", db, 3, 3
+   rs.Open "SELECT chPessoa FROM suprequisicao WHERE id = ('" & cmbIdReq & "')", db, 3, 3
    
    If Not rs.EOF Then
       
@@ -634,9 +727,15 @@ Private Sub cmdJogaNaLista_Click()
       End If
    
    Else
-       
-      tblProdutos.AddItem cmbProduto & vbTab & txtQtdProd & vbTab & 0 & vbTab & 0
-      
+      If tblProdutos.Rows > 1 Then
+         If tblProdutos.TextMatrix(tblProdutos.Row, 0) = cmbProduto Then
+            tblProdutos.TextMatrix(tblProdutos.Row, 1) = txtQtdProd
+         Else
+            tblProdutos.AddItem cmbProduto & vbTab & txtQtdProd & vbTab & 0 & vbTab & 0
+         End If
+      Else
+         tblProdutos.AddItem cmbProduto & vbTab & txtQtdProd & vbTab & 0 & vbTab & 0
+      End If
    End If
    
    rs.Close
@@ -645,19 +744,29 @@ End Sub
 
 Private Sub cmdRetiraDaLista_Click()
    Call Rotina_AbrirBanco
-   rs.Open "SELECT chPessoa FROM supRequisicao WHERE id = ('" & cmbIdReq & "')", db, 3, 3
+   rs.Open "SELECT chPessoa FROM suprequisicao WHERE id = ('" & cmbIdReq & "')", db, 3, 3
+   
    If Not rs.EOF Then
+      
       If rs!chPessoa = glbUsuario Then
-         Prod.Open "SELECT grupo,classe,codProd FROM supProduto WHERE nomeProd=('" & tblProdutos.TextMatrix(tblProdutos.Row, 0) & "')", db, 3, 3
-         If CInt(tblProdutos.TextMatrix(tblProdutos.Row, 2)) > 0 Then
-            db.Execute ("UPDATE supEstoque SET qtdReservado = (qtdReservado - tblProdutos.TextMatrix(tblProdutos.row,2) WHERE grupo = ('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd = ('" & Prod!codProd & "'))")
-            db.Close
-         End If
-         db.Execute ("DELETE FROM supRequisicaoDetalhe WHERE id = ('" & cmbIdReq & "') and grupo = ('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd = ('" & Prod!codProd & "')")
-         Prod.Close
-         tblProdutos.RemoveItem (tblProdutos.Row)
+         
+         tblProdutos.RemoveItem tblProdutos.Row
+      
+      Else
+      
+         MsgBox ("Acesso permitido somente ao requisitante."), vbInformation
+
+      
+      End If
+   
+   Else
+      If tblProdutos.Rows = 2 Then
+         tblProdutos.Rows = 1
+      Else
+         tblProdutos.RemoveItem tblProdutos.Row
       End If
    End If
+   
    rs.Close
    FechaDB
 End Sub
@@ -667,15 +776,21 @@ Private Sub cmdSair_Click()
 End Sub
 
 Private Sub cmdVerificaEstoque_Click()
+   
+   If tblProdutos.Rows < 2 Then
+      MsgBox ("Não há produtos na requisição, adicione produtos antes de verificar o estoque"), vbInformation
+      Exit Sub
+   End If
+   
    Call Rotina_AbrirBanco
    Dim i As Integer
    
    i = 1
    
    Do While i < tblProdutos.Rows
-      Prod.Open "SELECT grupo,classe,codProd FROM supProduto WHERE nomeProd = ('" & tblProdutos.TextMatrix(i, 0) & "')", db, 3, 3
-      rs.Open "SELECT * FROM supEstoque WHERE grupo = ('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd = ('" & Prod!codProd & "')", db, 3, 3
-      If tblProdutos.TextMatrix(i, 5) <> "1" Then
+      Prod.Open "SELECT grupo,classe,codProd FROM supproduto WHERE nomeProd = ('" & tblProdutos.TextMatrix(i, 0) & "')", db, 3, 3
+      rs.Open "SELECT * FROM supestoque WHERE grupo = ('" & Prod!Grupo & "') and classe = ('" & Prod!Classe & "') and codProd = ('" & Prod!codProd & "')", db, 3, 3
+      If tblProdutos.TextMatrix(i, 5) <> "1" And tblProdutos.TextMatrix(i, 4) = Empty Then
       
          If rs.EOF Then
          
@@ -709,6 +824,7 @@ Private Sub cmdVerificaEstoque_Click()
    
    Loop
    
+   cmdGeraRequisicao.Enabled = True
    
    FechaDB
 End Sub
@@ -718,9 +834,9 @@ Private Sub Form_Load()
    txtHoje = Date
       
    Call Rotina_AbrirBanco
-   Dim id As Integer
+   Dim Id As Integer
    
-   rs.Open "SELECT id from suprequisicao", db, 3, 3
+   rs.Open "SELECT id from suprequisicao where status=0 and id>0 ", db, 3, 3
    
    If rs.EOF Then
    
@@ -729,7 +845,7 @@ Private Sub Form_Load()
    End If
 
    Do While Not rs.EOF
-      cmbIdReq.AddItem rs!id
+      cmbIdReq.AddItem rs!Id
       rs.MoveNext
    Loop
       
@@ -740,15 +856,15 @@ Private Sub Form_Load()
    
    If IsNull(rs!novoId) Then
    
-      id = 1
+      Id = 1
    
    Else
        
-      id = CInt(rs!novoId) + 1
+      Id = CInt(rs!novoId) + 1
    
    End If
    
-   cmbIdReq = id
+   cmbIdReq = Id
    
    rs.Close
    
@@ -773,7 +889,7 @@ Private Sub Form_Load()
 
    rs.Close
 
-   rs.Open "SELECT chUnidadeOperacional FROM unidadeOperacional", db, 3, 3
+   rs.Open "SELECT chUnidadeOperacional FROM unidadeoperacional", db, 3, 3
    
    If rs.EOF Then
    
@@ -784,6 +900,8 @@ Private Sub Form_Load()
    End If
    
    rs.MoveFirst
+   cmbUnidOper.Clear
+   cmbUnidOper.AddItem "BASE"
    
    Do While Not rs.EOF
    
@@ -833,4 +951,24 @@ Public Sub geraCodigo()
    Randomize (dt)
    result = Rnd() * 1000
    codigo = cmbIdReq & alfa(result Mod 26) & Format$(result, "000")
+End Sub
+
+
+
+Public Sub limpaCampos()
+   cmbGrupo = Empty
+   cmbClasse = Empty
+   cmbProduto = Empty
+   tblProdutos.Rows = 1
+   txtQtdProd = Empty
+   cmbUnidOper = Empty
+End Sub
+
+Private Sub tblProdutos_Click()
+   Call Rotina_AbrirBanco
+   
+   cmbProduto = tblProdutos.TextMatrix(tblProdutos.Row, 0)
+   txtQtdProd = tblProdutos.TextMatrix(tblProdutos.Row, 1)
+   
+   FechaDB
 End Sub

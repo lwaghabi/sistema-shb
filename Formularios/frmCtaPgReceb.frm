@@ -65,7 +65,7 @@ Begin VB.Form frmCtaReceb
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   243007489
+         Format          =   246743041
          CurrentDate     =   44290
       End
       Begin MSComCtl2.DTPicker dtInicio 
@@ -86,7 +86,7 @@ Begin VB.Form frmCtaReceb
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   243007489
+         Format          =   246743041
          CurrentDate     =   44290
       End
       Begin VB.Label Label 
@@ -532,7 +532,7 @@ Dim IndConf As Integer
 Dim AcumulaRecebidas As Currency
 Dim AcumulaPagas As Currency
 Dim TotalCentroDeCusto As Currency
-Dim Indice As Byte
+Dim indice As Byte
 Dim DataAcesso As Date
 Dim PrimeiraVez As Byte
 
@@ -556,8 +556,8 @@ Dim DataFinalInvertida As String
 Dim DataHoje As Date
 Dim Relatorio As String
 
-Dim Sql As String
-Dim rel As Object
+Dim sql As String
+Dim Rel As Object
 
 Private Sub cmdConsulta_Click()
 
@@ -567,7 +567,7 @@ Call RotinaInverterData
 
 Call Rotina_AbrirBanco
 
-hctr.Open "Select * from HistoricoContasReceber where ctrDataRecebimento > ('" & DataInicioInvertida & "') and ctrDataRecebimento < ('" & DataFinalInvertida & "')", db, 3, 3
+hctr.Open "Select * from historicocontasreceber where ctrDataRecebimento > ('" & DataInicioInvertida & "') and ctrDataRecebimento < ('" & DataFinalInvertida & "')", db, 3, 3
 If hctr.EOF Then
    MsgBox ("Sem Lançamentos a credito confirmados no período informado"), vbInformation
 Else
@@ -575,7 +575,7 @@ Else
    Call GerenciaContasRecebidasPeriodo
 End If
 
-hctp.Open "Select * from HistoricoContasPagar where ctpDataPagamento > ('" & DataInicioInvertida & "') and ctpDataPagamento < ('" & DataFinalInvertida & "') and ctpStatus = 1", db, 3, 3
+hctp.Open "Select * from historicocontaspagar where ctpDataPagamento > ('" & DataInicioInvertida & "') and ctpDataPagamento < ('" & DataFinalInvertida & "') and ctpStatus = 1", db, 3, 3
 If hctp.EOF Then
    MsgBox ("Sem Lançamentos a débito confirmados no período informado"), vbInformation
 Else
@@ -605,7 +605,7 @@ If optMesAtual = True Then
    Call Rotina_AbrirBanco
    Relatorio = "drCtaRecebidas"
    db.BeginTrans
-   gge.Open "Select * from GeradorGeral where chAlfaNumerica = ('" & Relatorio & " ')", db, 3, 3
+   gge.Open "Select * from geradorgeral where chAlfaNumerica = ('" & Relatorio & " ')", db, 3, 3
    If gge.EOF Then
       gge.AddNew
    End If
@@ -618,14 +618,14 @@ If optMesAtual = True Then
 
    db.CommitTrans
 
-   Set rel = drCtaRecebidas
-   Sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctr.ctrDataRecebimento, ctr.chNotaFiscal, pes.pesRazaoSocial, ctr.ctrValorDaBoleta "
-   Sql = Sql & " From Contas_A_Receber ctr, GeradorGeral gge, Pessoa pes "
-   Sql = Sql & "WHERE ctr.ctrStatus = 1 and gge.chAlfaNumerica = ('" & Relatorio & "') and ctr.chPessoa = pes.chPessoa order by ctr.ctrDataRecebimento"
+   Set Rel = drCtaRecebidas
+   sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctr.ctrDataRecebimento, ctr.chNotaFiscal, pes.pesRazaoSocial, ctr.ctrValorDaBoleta "
+   sql = sql & " From contas_a_receber ctr, geradorgeral gge, pessoa pes "
+   sql = sql & "WHERE ctr.ctrStatus = 1 and gge.chAlfaNumerica = ('" & Relatorio & "') and ctr.chPessoa = pes.chPessoa order by ctr.ctrDataRecebimento"
 Else
    Call Rotina_AbrirBanco
    Relatorio = "drCtaRecebidas"
-   gge.Open "Select * from GeradorGeral where chAlfaNumerica = ('" & Relatorio & " ')", db, 3, 3
+   gge.Open "Select * from geradorgeral where chAlfaNumerica = ('" & Relatorio & " ')", db, 3, 3
    If gge.EOF Then
       gge.AddNew
    End If
@@ -637,19 +637,19 @@ Else
    gge.Update
 
    Call RotinaInverterData
-   Set rel = drCtaRecebidas
-   Sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctr.ctrDataRecebimento, ctr.chNotaFiscal, ctr.ctrValorDaBoleta, pes.pesRazaoSocial "
-   Sql = Sql & " From GeradorGeral gge, HistoricoContasReceber ctr, Pessoa pes  "
-   Sql = Sql & "WHERE ctr.ctrDataRecebimento > ('" & DataInicioInvertida & "') and ctr.ctrDataRecebimento < ('" & DataFinalInvertida & "') and gge.chAlfaNumerica = ('" & Relatorio & "') and ctr.chPessoa = pes.chPessoa order by ctr.ctrDataRecebimento"
+   Set Rel = drCtaRecebidas
+   sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctr.ctrDataRecebimento, ctr.chNotaFiscal, ctr.ctrValorDaBoleta, pes.pesRazaoSocial "
+   sql = sql & " From geradorgeral gge, historicocontasreceber ctr, pessoa pes  "
+   sql = sql & "WHERE ctr.ctrDataRecebimento > ('" & DataInicioInvertida & "') and ctr.ctrDataRecebimento < ('" & DataFinalInvertida & "') and gge.chAlfaNumerica = ('" & Relatorio & "') and ctr.chPessoa = pes.chPessoa order by ctr.ctrDataRecebimento"
 End If
 
-AbrirRelatorio Sql, rel
+AbrirRelatorio sql, Rel
  
 End Sub
 
 Private Sub cmdImpCtaPagas_Click()
-Dim Sql As String
-Dim rel As Object
+Dim sql As String
+Dim Rel As Object
 Dim Sec As Integer
 
 Sec = 0
@@ -659,9 +659,9 @@ Call Rotina_AbrirBanco
 DataHoje = Date
 Call GeraDataInicioDataFim
 
-usu.Open "Select * from Usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
+usu.Open "Select * from usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
 If usu.EOF Then
-   MsgBox ("Erro no acesso a Usuario."), vbCritical
+   MsgBox ("Erro no acesso a usuario."), vbCritical
    Exit Sub
 End If
    
@@ -676,34 +676,34 @@ db.BeginTrans
 If optMesAtual = True Then
    'Call GeraDataInicioDataFim
    
-   db.Execute ("DELETE FROM GeradorGeral WHERE chAlfaNumerica = 'drCtaPagas'")
-   db.Execute ("INSERT INTO GeradorGeral (chAlfaNumerica, ggeDataHoje,ggeDataIni, ggeDataFim) " & _
+   db.Execute ("DELETE FROM geradorgeral WHERE chAlfaNumerica = 'drCtaPagas'")
+   db.Execute ("INSERT INTO geradorgeral (chAlfaNumerica, ggeDataHoje,ggeDataIni, ggeDataFim) " & _
   "VALUES('drCtaPagas', '" & Format(DataHoje, "yyyy-MM-dd") & "','" & DataInicioInvertida & "','" & DataFinalInvertida & "')")
 
-   Set rel = drCtaPagas
-   Sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctp.ctpDataPagamento, ctp.chNotaFiscal, ctp.chPessoa, nfd.chCodProduto, nfd.nfdValorParcela, nfd.chProdutoFabrica "
-   Sql = Sql & " FROM GeradorGeral gge, Contas_A_Pagar ctp, NotaFiscalDetProd nfd "
-   Sql = Sql & "WHERE gge.chAlfaNumerica = 'drCtaPagas' AND ctp.ctpStatus = 1 AND ctp.chPessoa = nfd.chPessoa " & _
+   Set Rel = drCtaPagas
+   sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctp.ctpDataPagamento, ctp.chNotaFiscal, ctp.chPessoa, nfd.chCodProduto, nfd.nfdValorParcela, nfd.chProdutoFabrica "
+   sql = sql & " FROM geradorgeral gge, contas_a_pagar ctp, notafiscaldetprod nfd "
+   sql = sql & "WHERE gge.chAlfaNumerica = 'drCtaPagas' AND ctp.ctpStatus = 1 AND ctp.chPessoa = nfd.chPessoa " & _
                "AND ctp.chNotaFiscal = nfd.chNotaFiscalEntrada ORDER BY ctp.ctpDataPagamento, ctp.chPessoa"
    'MsgBox ("finalizei o Sql")
 Else
    Relatorio = "drCtaPagas"
-   db.Execute ("DELETE FROM GeradorGeral WHERE chAlfaNumerica = 'drCtaPagas'")
-   db.Execute ("INSERT INTO GeradorGeral (chAlfaNumerica, ggeDataHoje, ggeDataIni, ggeDataFim) " & _
+   db.Execute ("DELETE FROM geradorgeral WHERE chAlfaNumerica = 'drCtaPagas'")
+   db.Execute ("INSERT INTO geradorgeral (chAlfaNumerica, ggeDataHoje, ggeDataIni, ggeDataFim) " & _
    "VALUES('drCtaPagas', '" & Format(DataHoje, "yyyy-MM-dd") & "','" & Format(dtInicio, "yyyy-MM-dd") & "','" & Format(dtFim, "yyyy-MM-dd") & "')")
    
    Call RotinaInverterData
-   Set rel = drCtaPagas
-   Sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctp.ctpDataPagamento, ctp.chNotaFiscal, ctp.chPessoa, nfd.chCodProduto, nfd.nfdValorParcela, nfd.chProdutoFabrica "
-   Sql = Sql & " From HistoricoContasPagar ctp, HistoricoNotaFiscalDetProd nfd, GeradorGeral gge "
-   Sql = Sql & "WHERE ctp.ctpDataPagamento > ('" & DataInicioInvertida & "') and ctp.ctpDataPagamento < ('" & DataFinalInvertida & "') "
-   Sql = Sql & "and gge.chAlfaNumerica = ('" & Relatorio & "') and (ctp.chPessoa = nfd.chPessoa "
-   Sql = Sql & " and ctp.chNotaFiscal = nfd.chNotaFiscalEntrada) order by ctp.ctpDataPagamento, ctp.chPessoa"
+   Set Rel = drCtaPagas
+   sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctp.ctpDataPagamento, ctp.chNotaFiscal, ctp.chPessoa, nfd.chCodProduto, nfd.nfdValorParcela, nfd.chProdutoFabrica "
+   sql = sql & " From historicocontaspagar ctp, historiconotafiscaldetprod nfd, geradorgeral gge "
+   sql = sql & "WHERE ctp.ctpDataPagamento > ('" & DataInicioInvertida & "') and ctp.ctpDataPagamento < ('" & DataFinalInvertida & "') "
+   sql = sql & "and gge.chAlfaNumerica = ('" & Relatorio & "') and (ctp.chPessoa = nfd.chPessoa "
+   sql = sql & " and ctp.chNotaFiscal = nfd.chNotaFiscalEntrada) order by ctp.ctpDataPagamento, ctp.chPessoa"
 End If
 
 db.CommitTrans
 
-AbrirRelatorio Sql, rel
+AbrirRelatorio sql, Rel
 
 'MsgBox ("Relatorio")
 Call FechaDB
@@ -747,7 +747,7 @@ Call LimpaTabela
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber where ctrStatus = ('" & 1 & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where ctrStatus = ('" & 1 & "')", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Sem Lançamentos a credito confirmados até a presente data"), vbInformation
 Else
@@ -755,7 +755,7 @@ Else
    Call GerenciaContasRecebidas
 End If
 
-ctp.Open "Select * from Contas_A_Pagar where ctpStatus = ('" & 1 & "')", db, 3, 3
+ctp.Open "Select * from contas_a_pagar where ctpStatus = ('" & 1 & "')", db, 3, 3
 If ctp.EOF Then
    MsgBox ("Sem Lançamentos a débito confirmados até a presente data"), vbInformation
 Else
@@ -880,9 +880,9 @@ End If
 
 TotalCentroDeCusto = 0
 
-For Indice = 1 To 15
-    tabDesc(Indice) = Empty
-    tabValor(Indice) = 0
+For indice = 1 To 15
+    tabDesc(indice) = Empty
+    tabValor(indice) = 0
 Next
 
 gridCtaPagas.Col = 0
@@ -931,7 +931,7 @@ Call LimparGrid
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber where ctrStatus = ('" & 1 & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where ctrStatus = ('" & 1 & "')", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Sem Lançamentos a credito confirmados até a presente data"), vbInformation
 Else
@@ -939,7 +939,7 @@ Else
    Call GerenciaContasRecebidas
 End If
 
-ctp.Open "Select * from Contas_A_Pagar where ctpStatus = ('" & 1 & "')", db, 3, 3
+ctp.Open "Select * from contas_a_pagar where ctpStatus = ('" & 1 & "')", db, 3, 3
 If ctp.EOF Then
    MsgBox ("Sem Lançamentos a débito confirmados até a presente data"), vbInformation
 Else
@@ -1081,15 +1081,15 @@ End Sub
 Public Sub GeraDataInicioDataFim()
 Dim MesProximo As Integer
 
-Mes = Format$(Month(Date), "00")
+mes = Format$(Month(Date), "00")
 ano = Year(Date)
 Dia = Format$(1, "00")
 
-DataInicioInvertida = Format$(ano & "-" & Mes & "-" & Dia, "yyyy-mm-dd")
+DataInicioInvertida = Format$(ano & "-" & mes & "-" & Dia, "yyyy-mm-dd")
 
-MesProximo = Format$(Mes, "00")
+MesProximo = Format$(mes, "00")
 DataHoje = Date
-Do While Mes = MesProximo
+Do While mes = MesProximo
    DataHoje = DataHoje + 1
    MesProximo = Format$(Month(DataHoje), "00")
 Loop
@@ -1100,9 +1100,9 @@ DataHoje = Date
 End Sub
 
 Public Sub LimpaTabela()
-For Indice = 1 To 15
-    tabValor(Indice) = 0
-    tabDesc(Indice) = Empty
+For indice = 1 To 15
+    tabValor(indice) = 0
+    tabDesc(indice) = Empty
 Next
 End Sub
 
@@ -1115,31 +1115,31 @@ db.BeginTrans
 If optMesAtual = True Then
    'Call GeraDataInicioDataFim
    
-   db.Execute ("DELETE FROM GeradorGeral WHERE chAlfaNumerica = 'drCtaPagas1'")
-   db.Execute ("INSERT INTO GeradorGeral (chAlfaNumerica, ggeDataHoje,ggeDataIni, ggeDataFim) " & _
+   db.Execute ("DELETE FROM geradorgeral WHERE chAlfaNumerica = 'drCtaPagas1'")
+   db.Execute ("INSERT INTO geradorgeral (chAlfaNumerica, ggeDataHoje,ggeDataIni, ggeDataFim) " & _
   "VALUES('drCtaPagas1', '" & Format(DataHoje, "yyyy-MM-dd") & "','" & DataInicioInvertida & "','" & DataFinalInvertida & "')")
 
-   Set rel = drCtaPagas1
-   Sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctp.ctpDataPagamento, ctp.chNotaFiscal, ctp.chPessoa, ctp.ctpDescricaoOperacao, ctp.ctpValorDaBoleta "
-   Sql = Sql & " FROM GeradorGeral gge, Contas_A_Pagar ctp "
-   Sql = Sql & "WHERE gge.chAlfaNumerica = 'drCtaPagas1' AND ctp.ctpStatus = 1 ORDER BY ctp.ctpDataPagamento, ctp.chPessoa"
+   Set Rel = drCtaPagas1
+   sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctp.ctpDataPagamento, ctp.chNotaFiscal, ctp.chPessoa, ctp.ctpDescricaoOperacao, ctp.ctpValorDaBoleta "
+   sql = sql & " FROM geradorgeral gge, contas_a_pagar ctp "
+   sql = sql & "WHERE gge.chAlfaNumerica = 'drCtaPagas1' AND ctp.ctpStatus = 1 ORDER BY ctp.ctpDataPagamento, ctp.chPessoa"
    'MsgBox ("finalizei o Sql")
 Else
    Relatorio = "drCtaPagas1"
-   db.Execute ("DELETE FROM GeradorGeral WHERE chAlfaNumerica = 'drCtaPagas1'")
-   db.Execute ("INSERT INTO GeradorGeral (chAlfaNumerica, ggeDataHoje, ggeDataIni, ggeDataFim) " & _
+   db.Execute ("DELETE FROM geradorgeral WHERE chAlfaNumerica = 'drCtaPagas1'")
+   db.Execute ("INSERT INTO geradorgeral (chAlfaNumerica, ggeDataHoje, ggeDataIni, ggeDataFim) " & _
    "VALUES('drCtaPagas1', '" & Format(DataHoje, "yyyy-MM-dd") & "','" & Format(dtInicio, "yyyy-MM-dd") & "','" & Format(dtFim, "yyyy-MM-dd") & "')")
    
    Call RotinaInverterData
-   Set rel = drCtaPagas1
-   Sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctp.ctpDataPagamento, ctp.chNotaFiscal, ctp.chPessoa, ctp.ctpDescricaoOperacao, ctp.ctpValorDaBoleta "
-   Sql = Sql & " From HistoricoContasPagar ctp, GeradorGeral gge "
-   Sql = Sql & "WHERE ctp.ctpDataPagamento > ('" & DataInicioInvertida & "') and ctp.ctpDataPagamento < ('" & DataFinalInvertida & "') "
-   Sql = Sql & "and gge.chAlfaNumerica = ('" & Relatorio & "') "
-   Sql = Sql & " order by ctp.ctpDataPagamento, ctp.chPessoa"
+   Set Rel = drCtaPagas1
+   sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctp.ctpDataPagamento, ctp.chNotaFiscal, ctp.chPessoa, ctp.ctpDescricaoOperacao, ctp.ctpValorDaBoleta "
+   sql = sql & " From historicocontaspagar ctp, geradorgeral gge "
+   sql = sql & "WHERE ctp.ctpDataPagamento > ('" & DataInicioInvertida & "') and ctp.ctpDataPagamento < ('" & DataFinalInvertida & "') "
+   sql = sql & "and gge.chAlfaNumerica = ('" & Relatorio & "') "
+   sql = sql & " order by ctp.ctpDataPagamento, ctp.chPessoa"
 End If
 
 db.CommitTrans
 
-AbrirRelatorio Sql, rel
+AbrirRelatorio sql, Rel
 End Sub

@@ -164,7 +164,7 @@ Begin VB.Form frmSerieHistoricaMedicao
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   245563393
+         Format          =   117571585
          CurrentDate     =   44750
       End
       Begin MSComCtl2.DTPicker dtFinalPesquisa 
@@ -185,7 +185,7 @@ Begin VB.Form frmSerieHistoricaMedicao
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   245563393
+         Format          =   117309441
          CurrentDate     =   44750
       End
       Begin VB.Label Label5 
@@ -278,8 +278,8 @@ Dim DataInicioInvertida As String
 Dim DataFinalInvertida As String
 Dim InicioPesquisa As Date
 Dim FinalPesquisa As Date
-Dim Ano As Integer
-Dim Mes As Integer
+Dim ano As Integer
+Dim mes As Integer
 Dim Dia As Integer
 Dim ClienteAnterior As String
 Dim MedicaoAnterior As String
@@ -312,29 +312,29 @@ InicioPesquisa = dtInicioPesquisa - 1
 
 ClienteAnterior = Empty
 
-Ano = Year(InicioPesquisa)
-Mes = Month(InicioPesquisa)
+ano = Year(InicioPesquisa)
+mes = Month(InicioPesquisa)
 Dia = Day(InicioPesquisa)
-DataInicioInvertida = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataInicioInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 FinalPesquisa = dtFinalPesquisa + 1
 
-Ano = Year(FinalPesquisa)
-Mes = Month(FinalPesquisa)
+ano = Year(FinalPesquisa)
+mes = Month(FinalPesquisa)
 Dia = Day(FinalPesquisa)
-DataFinalInvertida = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataFinalInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 Call Rotina_AbrirBanco
 
 If cmbCliente = " TODOS" Then
-   neg.Open "Select * from HistoricoNegociacao where negInicioMedicao > ('" & DataInicioInvertida & "') and negFinalMedicao < ('" & DataFinalInvertida & "')", db, 3, 3
+   neg.Open "Select * from historiconegociacao where negInicioMedicao > ('" & DataInicioInvertida & "') and negFinalMedicao < ('" & DataFinalInvertida & "')", db, 3, 3
    If neg.EOF Then
       MsgBox ("Parâmetros inválidos para consulta. Verificar datas."), vbInformation
       Call FechaDB
       Exit Sub
    End If
 Else
-   neg.Open "Select * from HistoricoNegociacao where chPessoa = ('" & cmbCliente & "') and negInicioMedicao > ('" & DataInicioInvertida & "') and negFinalMedicao < ('" & DataFinalInvertida & "')", db, 3, 3
+   neg.Open "Select * from historiconegociacao where chPessoa = ('" & cmbCliente & "') and negInicioMedicao > ('" & DataInicioInvertida & "') and negFinalMedicao < ('" & DataFinalInvertida & "')", db, 3, 3
    If neg.EOF Then
       MsgBox ("Parâmetros inválidos para consulta. Verificar datas informadas."), vbInformation
       Call FechaDB
@@ -357,9 +357,9 @@ dtFinalPesquisa = Date
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa where pesTipoPessoa = ('" & 0 & "')", db, 3, 3
+pes.Open "Select * from pessoa where pesTipoPessoa = ('" & 0 & "')", db, 3, 3
 If pes.EOF Then
-   MsgBox ("Cadastro Pessoa vazio. Comunicar ao analista responsável"), vbCritical
+   MsgBox ("Cadastro pessoa vazio. Comunicar ao analista responsável"), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -398,7 +398,7 @@ Do While Not neg.EOF
       dneg.Close: Set dneg = Nothing
    End If
    
-   dneg.Open "Select * from HistoricoDetalheNegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
+   dneg.Open "Select * from historicodetalhenegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
    If dneg.EOF Then
       MsgBox ("Erro no acesso a Detalhe de Negociacao. Comunicar ao analista responsável."), vbInformation
       Call FechaDB

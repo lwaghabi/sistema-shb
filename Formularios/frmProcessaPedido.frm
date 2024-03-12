@@ -888,10 +888,10 @@ Dim IndNegSalvo As Integer
 Dim Resp As String
 
 Dim A As Integer
-Dim fim As Byte
+Dim Fim As Byte
 Dim Fim_Carga As Byte
 Dim Linha As Integer
-Dim Unidade(3) As String
+Dim unidade(3) As String
 Dim IndFabricante As Byte
 Dim Tipo_Comissao As Byte '1=Representante; 2=Promotor
 
@@ -962,7 +962,7 @@ Dim Mes_Comissao As Integer
 Dim Dia_Comis_Promot As Integer
 Dim Dia_Comis_Repres As Integer
 
-Dim ICMS_ST As Currency
+Dim icms_ST As Currency
 Dim Base As Byte
 
 Dim Data_Proc As Date
@@ -1006,7 +1006,7 @@ Dim Data_Pedido As Date
 Data_Proc = txtDataEmissao
 
 ano = Year(Data_Proc)
-Mes = Month(Data_Proc)
+mes = Month(Data_Proc)
 Dia = Day(Data_Proc)
 
 Data_Pedido = txtDataPedido
@@ -1017,16 +1017,16 @@ Mes_Pedido = Month(Data_Pedido)
 
 Call Rotina_AbrirBanco
 
-Bco.Open "Select * from Banco where bcoCodBcoLart = ('" & txtBancoFatN & "')", db, 3, 3
+Bco.Open "Select * from banco where bcoCodBcoLart = ('" & txtBancoFatN & "')", db, 3, 3
        If Bco.EOF Then
           MsgBox ("Banco não encontrado em gerar contas a receberem Processamento de Medição"), vbCritical
           Call FechaDB
           Exit Sub
        End If
 
-pes.Open "Select * from Pessoa where chPessoa = ('" & txtCliente & "')", db, 3, 3
+pes.Open "Select * from pessoa where chPessoa = ('" & txtCliente & "')", db, 3, 3
 If pes.EOF Then
-   MsgBox ("Erro no acesso a Pessoa em Confirma Processamento de Medição."), vbCritical
+   MsgBox ("Erro no acesso a pessoa em Confirma Processamento de Medição."), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -1035,14 +1035,14 @@ db.BeginTrans
    
 'Gravacao de Contas a Receber
 
-ctr.Open "Select * from Contas_A_Receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & txtCliente & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & txtCliente & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
 
 If Not (GridFatura.TextMatrix(1, 2) = "") Then
    For A = 1 To IndFatSalvo
        ctr.AddNew
        ctr!chFabricante = 0
        ctr!chPessoa = txtCliente
-       ctr!chNotaFiscal = txtNotaFiscal
+       ctr!chNotafiscal = txtNotaFiscal
        ctr!chFatura = GridFatura.TextMatrix(A, 2)
        ctr!ctrDataEmissao = txtDataEmissao
        ctr!ctrDataVencito = GridFatura.TextMatrix(A, 3)
@@ -1074,7 +1074,7 @@ If Not (GridFatura.TextMatrix(1, 2) = "") Then
        'ctr!ctrvalordaboleta = GridFatura.TextMatrix(A, 6) + (ctr!ctrvalorcorrecao") + ctr!ctrvalorlogistica"))
        
        ctr!chAno = ano
-       ctr!chMes = Mes
+       ctr!chMes = mes
        ctr!chDia = Dia
        ctr!chNumPedido = txtNumPedido
        ctr!chNumPedidoComp = txtCompPedido
@@ -1128,14 +1128,14 @@ If Not (GridFatura.TextMatrix(1, 2) = "") Then
              
        If GridFatura.TextMatrix(A, 5) > 0 Then
           
-          ctp.Open "Select * from Contas_A_Pagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & txtCliente & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
+          ctp.Open "Select * from contas_a_pagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & txtCliente & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
           If ctp.EOF Then
              ctp.AddNew
           End If
              
           ctp!chFabricante = 0
           ctp!chPessoa = txtCliente
-          ctp!chNotaFiscal = txtNotaFiscal
+          ctp!chNotafiscal = txtNotaFiscal
           ctp!chFatura = GridFatura.TextMatrix(A, 2)
           ctp!ctpDataEmissao = txtDataEmissao
           ctp!ctpDataLanc = Date
@@ -1149,12 +1149,12 @@ If Not (GridFatura.TextMatrix(1, 2) = "") Then
           NDias = 0
           'DataRetorno = ObterProximoDiaUtil(DataInformada, NDias)
           'DataUtil = DataRetorno.DiaUtil
-          ctp!ctpDataBanco = DataUtil
+          ctp!ctpdatabanco = DataUtil
             
           'Fim calcula data banco
        
           ctp!ctpDataVencOriginal = GridFatura.TextMatrix(A, 3)
-          ctp!ctpDescricaoOperacao = "Repasse a Debitar"
+          ctp!ctpdescricaooperacao = "Repasse a Debitar"
           ctp!ctpValorLart = 0
           ctp!ctpValorMerco = 0
              
@@ -1168,7 +1168,7 @@ If Not (GridFatura.TextMatrix(1, 2) = "") Then
                      
 
           ctp!chAno = ano
-          ctp!chMes = Mes
+          ctp!chMes = mes
           ctp!chDia = Dia
           'TabBanco.Seek "=", 0, txtBancoFatN
           'If TabBanco.NoMatch Then
@@ -1183,7 +1183,7 @@ If Not (GridFatura.TextMatrix(1, 2) = "") Then
 
           ctr!chFabricante = 1
           ctr!chPessoa = txtCliente
-          ctr!chNotaFiscal = txtNotaFiscal
+          ctr!chNotafiscal = txtNotaFiscal
           ctr!chFatura = GridFatura.TextMatrix(A, 2)
           ctr!ctrDataEmissao = txtDataEmissao
           ctr!ctrDataVencito = GridFatura.TextMatrix(A, 3)
@@ -1214,7 +1214,7 @@ If Not (GridFatura.TextMatrix(1, 2) = "") Then
           ctr!ctrValorDaBoleta = GridFatura.TextMatrix(A, 6) + ctr!ctrvalorcorrecao + ctr!ctrValorlogistica
                
           ctr!chAno = ano
-          ctr!chMes = Mes
+          ctr!chMes = mes
           ctr!chDia = Dia
           ctr!chNumPedido = txtNumPedido
           ctr!chNumPedidoComp = txtCompPedido
@@ -1472,7 +1472,7 @@ End If
 'End If
 
 
-neg.Open "Select * from Negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtCompPedido & "')", db, 3, 3
+neg.Open "Select * from negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtCompPedido & "')", db, 3, 3
 If neg.EOF Then
    MsgBox ("Não encontrei o pedido em Negociacao"), vbCritical
    Call FechaDB
@@ -1574,9 +1574,9 @@ End Sub
 
 Private Sub Form_Load()
 
-Unidade(0) = "M2"
-Unidade(1) = "Un"
-Unidade(2) = "Hr"
+unidade(0) = "M2"
+unidade(1) = "Un"
+unidade(2) = "Hr"
 
 ProdutoConsig(1) = "CSGR"
 ProdutoConsig(2) = "CSGP"
@@ -1589,11 +1589,11 @@ txtEmissorNF = frmPedido.cmbEmissor
 Data_Proc = DataString
 
 ano = Year(Data_Proc)
-Mes = Month(Data_Proc)
+mes = Month(Data_Proc)
 Dia = Day(Data_Proc)
 
 Ano_Comissao = ano
-Mes_Comissao = Mes + 1
+Mes_Comissao = mes + 1
 
 Dia_Comis_Repres = 25
 Dia_Comis_Promot = 5
@@ -1632,14 +1632,14 @@ Acumula_Comissao_Promot = 0
 
 Call Rotina_AbrirBanco
 
-Bco.Open "Select * from Banco where bcoempresa = ('" & 0 & "') and bcoCodBcoLart = ('" & frmPedido.cmbBanco.ListIndex & "')", db, 3, 3
+Bco.Open "Select * from banco where bcoempresa = ('" & 0 & "') and bcoCodBcoLart = ('" & frmPedido.cmbBanco.ListIndex & "')", db, 3, 3
 If Bco.EOF Then
-   MsgBox ("Erro acesso a Banco em Processa Pedido."), vbCritical
+   MsgBox ("Erro acesso a banco em Processa Pedido."), vbCritical
    Call FechaDB
    Exit Sub
 End If
 
-neg.Open "Select * from Negociacao where chNumPedido = ('" & frmPedido.txtNumPedido & "') and chNumPedidoComp = ('" & frmPedido.txtComplementoPedido & "')", db, 3, 3
+neg.Open "Select * from negociacao where chNumPedido = ('" & frmPedido.txtNumPedido & "') and chNumPedidoComp = ('" & frmPedido.txtComplementoPedido & "')", db, 3, 3
 If neg.EOF Then
    MsgBox ("Numero de pedido inválido em Processa Pedido."), vbCritical
    Call FechaDB
@@ -1659,7 +1659,7 @@ txtCEFOP = Mid$(frmPedido.cmbCFOP, 1, 4)
 glbCFOP = Mid$(txtCEFOP, 1, 4)
 glbCFOP = glbCFOP
                                                        
-NatuOper.Open "Select * from NaturezaOperacao", db, 3, 3
+NatuOper.Open "Select * from naturezaoperacao", db, 3, 3
 If NatuOper.EOF Then
    MsgBox ("Natureza Operacao Invalida. Cancelar Processamento"), vbCritical
    Exit Sub
@@ -1677,7 +1677,7 @@ Loop
 NatuOper.Close: Set NatuOper = Nothing
 CFOPAux.ListIndex = neg!negCEFOP
 glbCFOP = CFOPAux
-NatuOper.Open "Select * from NaturezaOperacao where CFOP = ('" & glbCFOP & "')", db, 3, 3
+NatuOper.Open "Select * from naturezaoperacao where CFOP = ('" & glbCFOP & "')", db, 3, 3
 If NatuOper.EOF Then
    MsgBox ("Natureza Operacao Invalida. Cancelar Processamento"), vbCritical
    Exit Sub
@@ -1699,7 +1699,7 @@ txtNatOperacao = NatuOper!natoperacaoabrev
 '   End If
 'End If
 
-CondProc.Open "Select * from CondProcessamento where chCondicaoProcessamento = ('" & neg!negCondProcess & "')", db, 3, 3
+CondProc.Open "Select * from condprocessamento where chCondicaoProcessamento = ('" & neg!negCondProcess & "')", db, 3, 3
 If CondProc.EOF Then
    MsgBox ("Erro na Leitura do Parametro Condição de Processamento"), vbCritical
    Call FechaDB
@@ -1709,16 +1709,16 @@ Else
 End If
 txtPercDescComis = Format$(neg!negdesccomissao, "#0.00") & "%"
 
-pes.Open "Select * from Pessoa where chPessoa = ('" & neg!chPessoa & "')", db, 3, 3
+pes.Open "Select * from pessoa where chPessoa = ('" & neg!chPessoa & "')", db, 3, 3
 If pes.EOF Then
    MsgBox ("Erro na Leitura de Tabpessoa em Processa Pedido;"), vbCritical
    Call FechaDB
    Exit Sub
 Else
    Guarda_Cliente = pes!chPessoa
-   ICM.Open "Select * from ICMS where chUF = ('" & pes!chUF & "')", db, 3, 3
+   ICM.Open "Select * from icms where chUF = ('" & pes!chUF & "')", db, 3, 3
    If ICM.EOF Then
-      MsgBox ("Erro na leitura de ICMS em Processa Pedido"), vbCritical
+      MsgBox ("Erro na leitura de icms em Processa Pedido"), vbCritical
       Call FechaDB
       Exit Sub
    Else
@@ -1733,7 +1733,7 @@ If pes!chcarteirarep = Empty Then
    Call FechaDB
    Unload Me
 Else
-   CartRep.Open "Select * from Carteira_Rep where chPessoa = ('" & pes!chcarteirarep & "')", db, 3, 3
+   CartRep.Open "Select * from carteira_rep where chPessoa = ('" & pes!chcarteirarep & "')", db, 3, 3
    If CartRep.EOF Then
        MsgBox ("Carteira de representante invalida. em Processa Pedido"), vbCritical
        Call FechaDB
@@ -1780,7 +1780,7 @@ AcumValorConsig(0) = 0
 AcumValorConsig(1) = 0
 AcumValorConsig(2) = 0
 
-dneg.Open "Select * from DetalheNegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumpedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
+dneg.Open "Select * from detalhenegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumpedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
 If dneg.EOF Then
    MsgBox ("Detalhe de Negociação não encontrado não encontrado"), vbCritical
    Call FechaDB
@@ -1810,12 +1810,12 @@ Do While Fim_Carga = 0
    If pes.State = 1 Then
       pes.Close: Set pes = Nothing
    End If
-   pes.Open "Select * from Pessoa where chPessoa = ('" & dneg!chProduto & "')", db, 3, 3
+   pes.Open "Select * from pessoa where chPessoa = ('" & dneg!chProduto & "')", db, 3, 3
    If pes.EOF Then
       If Prod.State = 1 Then
          Prod.Close: Set Prod = Nothing
       End If
-      Prod.Open "Select * from Produto where chProduto = ('" & dneg!chProduto & "')", db, 3, 3
+      Prod.Open "Select * from produto where chProduto = ('" & dneg!chProduto & "')", db, 3, 3
       If Prod.EOF Then
          MsgBox ("Produto não encontrado em Processa Pedido. Erro Fatal"), vbCritical
          Call FechaDB
@@ -1835,7 +1835,7 @@ Do While Fim_Carga = 0
       GridNegocio.TextMatrix(Linha, 0) = pes!chPessoa
       Mneu_Produto(Linha) = pes!chPessoa
    End If
-   GridNegocio.TextMatrix(Linha, 1) = Unidade(dneg!pedunidade)
+   GridNegocio.TextMatrix(Linha, 1) = unidade(dneg!pedunidade)
    GridNegocio.TextMatrix(Linha, 2) = Format$(dneg!pedPrecoUnidadePedida, "0.00")
    GridNegocio.TextMatrix(Linha, 3) = dneg!pedquantidadePedida
    GridNegocio.TextMatrix(Linha, 4) = Format$(dneg!pedValorDaDiaria, "0.00")
@@ -2069,9 +2069,9 @@ End If
 'Carga do gridFatura
 
 'If pes!pesicms_st = 1 Then
-'   ICMS_ST = txtResValorTotalNF + (txtResValorTotalNF * 35) / 100
-'   ICMS_ST = ((ICMS_ST * pes!icmaliquotanoestado) / 100)
-'   ICMS_ST = Format$(ICMS_ST - txtResTotalICMS, "##,##0.00")
+'   icms_ST = txtResValorTotalNF + (txtResValorTotalNF * 35) / 100
+'   icms_ST = ((ICMS_ST * pes!icmaliquotanoestado) / 100)
+'   icms_ST = Format$(ICMS_ST - txtResTotalICMS, "##,##0.00")
 '   GridFatura.Rows = A + 1
 '   GridFatura.TextMatrix(1, 0) = "ICMS-ST NF-" & txtNotaFiscal
 '   GridFatura.TextMatrix(1, 1) = txtNotaFiscal

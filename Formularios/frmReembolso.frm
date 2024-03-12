@@ -296,7 +296,7 @@ Begin VB.Form frmReembolso
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   122814465
+         Format          =   242941953
          CurrentDate     =   44370
       End
       Begin VB.Label Label1 
@@ -571,20 +571,20 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 
-Dim PessoaAnterior As String
+Dim pessoaAnterior As String
 Dim NotaFiscalAnterior As String
 Dim TipoPessoa As String
 Dim Ind As Integer
 Dim AcumulaValor As Currency
 Dim Salvar As Integer
 Dim Resp As Boolean
-Dim fim As Boolean
+Dim Fim As Boolean
 Dim Produto As String
 Dim IndSalvo As Integer
 Dim Inclusao As Boolean
 Dim Relatorio As String
-Dim rel As Object
-Dim Sql As String
+Dim Rel As Object
+Dim sql As String
 Dim ValorPorExtenso As String
 Dim ChavePessoa As String
 Dim ChaveNotaFiscal As String
@@ -611,9 +611,9 @@ End If
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa where chPessoa = ('" & cmbColaborador & "')", db, 3, 3
+pes.Open "Select * from pessoa where chPessoa = ('" & cmbColaborador & "')", db, 3, 3
 If pes.EOF Then
-   MsgBox ("Erro no acesso ao Pessoa. "), vbCritical
+   MsgBox ("Erro no acesso ao pessoa. "), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -624,7 +624,7 @@ txtAgencia = pes!pesAgencia
 txtContaCorrente = pes!pesConta
 txtCPF = pes!chCNPJ_CPF
 
-ctp.Open "Select * from Contas_A_Pagar where ctpPessoaReembolso = ('" & cmbColaborador & "') and ctpStatus = ('" & "2" & "')", db, 3, 3
+ctp.Open "Select * from contas_a_pagar where ctpPessoaReembolso = ('" & cmbColaborador & "') and ctpStatus = ('" & "2" & "')", db, 3, 3
 If ctp.EOF Then
    MsgBox ("Colaborador sem reembolso a processar"), vbInformation
    Call FechaDB
@@ -637,7 +637,7 @@ If ctp.EOF Then
 End If
 
 ChavePessoa = ctp!chPessoa
-ChaveNotaFiscal = ctp!chNotaFiscal
+ChaveNotaFiscal = ctp!chNotafiscal
 
 AcumulaValor = 0
 Ind = 1
@@ -647,17 +647,21 @@ ctp.MoveFirst
 Do While Not ctp.EOF
 
    ChavePessoa = ctp!chPessoa
-   ChaveNotaFiscal = ctp!chNotaFiscal
+   ChaveNotaFiscal = ctp!chNotafiscal
    
    If nfd.State = 1 Then
       nfd.Close: Set nfd = Nothing
    End If
      
-   nfd.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & ChavePessoa & "') and chNotaFiscalEntrada = ('" & ChaveNotaFiscal & "')", db, 3, 3
+   nfd.Open "Select * from notafiscaldetprod where chPessoa = ('" & ChavePessoa & "') and chNotaFiscalEntrada = ('" & ChaveNotaFiscal & "')", db, 3, 3
    If nfd.EOF Then
-      MsgBox ("Nota Fiscal não encontrada."), vbCritical
-      Call FechaDB
-      Exit Sub
+      nfd.Close
+      nfd.Open "Select * from historiconotafiscaldetprod where chPessoa = ('" & ChavePessoa & "') and chNotaFiscalEntrada = ('" & ChaveNotaFiscal & "')", db, 3, 3
+      If nfd.EOF Then
+         MsgBox ("Nota Fiscal não encontrada."), vbCritical
+         Call FechaDB
+         Exit Sub
+      End If
    End If
    
    nfd.MoveFirst
@@ -683,7 +687,7 @@ Do While Not ctp.EOF
    
 Loop
 
-Rmb.Open "Select * from Reembolso where chPessoa = ('" & ChavePessoa & "') and chNotaFiscal = ('" & ChaveNotaFiscal & "')", db, 3, 3
+Rmb.Open "Select * from reembolso where chPessoa = ('" & ChavePessoa & "') and chNotaFiscal = ('" & ChaveNotaFiscal & "')", db, 3, 3
 If Rmb.EOF Then
    txtNumComprovante = Empty
 Else
@@ -717,9 +721,9 @@ End Sub
 
 'Call Rotina_AbrirBanco
 
-'ctp.Open "Select * from Contas_A_Pagar where chPessoa = ('" & cmbPessoa & "') and ctpStatus = ('" & 2 & "')", db, 3, 3
+'ctp.Open "Select * from contas_a_pagar where chPessoa = ('" & cmbPessoa & "') and ctpStatus = ('" & 2 & "')", db, 3, 3
 'If ctp.EOF Then
-'   MsgBox ("Fornecedor/Despesa sem Nota Fiscal para Reembolso."), vbInformation
+'   MsgBox ("Fornecedor/Despesa sem Nota Fiscal para reembolso."), vbInformation
 '   Call FechaDB
 '   Exit Sub
 'End If
@@ -742,7 +746,7 @@ If Salvar = 0 Then
    Exit Sub
 End If
 Ind = 0
-PessoaAnterior = Empty
+pessoaAnterior = Empty
 AcumulaValorGrid = 0
 
 Do While (Ind + 1) < IndSalvo
@@ -751,14 +755,14 @@ Do While (Ind + 1) < IndSalvo
    If gridDetalheNota.TextMatrix(Ind, 0) = Empty Then
       Ind = IndSalvo + 1
    Else
-      If Not (gridDetalheNota.TextMatrix(Ind, 0) = PessoaAnterior And NotaFiscalAnterior = gridDetalheNota.TextMatrix(Ind, 1)) Then
-         If Not PessoaAnterior = Empty Then
+      If Not (gridDetalheNota.TextMatrix(Ind, 0) = pessoaAnterior And NotaFiscalAnterior = gridDetalheNota.TextMatrix(Ind, 1)) Then
+         If Not pessoaAnterior = Empty Then
             
             Call GravarReembolso
             
          End If
             
-         PessoaAnterior = gridDetalheNota.TextMatrix(Ind, 0)
+         pessoaAnterior = gridDetalheNota.TextMatrix(Ind, 0)
          NotaFiscalAnterior = gridDetalheNota.TextMatrix(Ind, 1)
          AcumulaValorGrid = gridDetalheNota.TextMatrix(Ind, 5)
       Else
@@ -776,9 +780,9 @@ If Not Resp = vbYes Then
    
    Call Rotina_AbrirBanco
 
-   Rmb.Open "Select * from Reembolso where rmbStatusRecibo = ('" & 0 & "') and rmbColaborador = ('" & cmbColaborador & "')", db, 3, 3
+   Rmb.Open "Select * from reembolso where rmbStatusRecibo = ('" & 0 & "') and rmbColaborador = ('" & cmbColaborador & "')", db, 3, 3
    If Rmb.EOF Then
-      MsgBox ("Erro no acessoa Reembolso na finalização da emissão de Recibo"), vbCritical
+      MsgBox ("Erro no acessoa reembolso na finalização da emissão de Recibo"), vbCritical
       Call FechaDB
       Exit Sub
    End If
@@ -792,7 +796,7 @@ If Not Resp = vbYes Then
       Rmb.MoveNext
    Loop
    
-   ctp.Open "Select * from Contas_A_Pagar where chPessoa = ('" & PessoaAnterior & "') and chNotaFiscal = ('" & NotaFiscalAnterior & "')", db, 3, 3
+   ctp.Open "Select * from contas_a_pagar where chPessoa = ('" & pessoaAnterior & "') and chNotaFiscal = ('" & NotaFiscalAnterior & "')", db, 3, 3
      If ctp.EOF Then
         MsgBox ("Contas a Pagar não encontrada. Erro. Comunicar ao analista responsável"), vbCritical
         Call FechaDB
@@ -813,22 +817,22 @@ Else
    End If
    
    If cmbReembolso = Empty Then
-      MsgBox ("Tipo de Reembolso não informado"), vbInformation
+      MsgBox ("Tipo de reembolso não informado"), vbInformation
       Call FechaDB
       Exit Sub
    End If
    
    If cmbMeioPagto = Empty Then
-      MsgBox ("Forma de Reembolso não informado"), vbInformation
+      MsgBox ("Forma de reembolso não informado"), vbInformation
       Call FechaDB
       Exit Sub
    End If
    
    Call Rotina_AbrirBanco
    
-   Rmb.Open "Select * from Reembolso where rmbStatusRecibo = ('" & 0 & "') and rmbColaborador = ('" & cmbColaborador & "')", db, 3, 3
+   Rmb.Open "Select * from reembolso where rmbStatusRecibo = ('" & 0 & "') and rmbColaborador = ('" & cmbColaborador & "')", db, 3, 3
    If Rmb.EOF Then
-      MsgBox ("Erro no acessoa Reembolso na finalização da emissão de Recibo"), vbCritical
+      MsgBox ("Erro no acessoa reembolso na finalização da emissão de Recibo"), vbCritical
       Call FechaDB
       Exit Sub
    End If
@@ -870,7 +874,7 @@ Else
    
    Relatorio = "drReciboReembolso"
    
-   gge.Open "Select * from GeradorGeral where chAlfaNumerica = ('" & Relatorio & "')", db, 3, 3
+   gge.Open "Select * from geradorgeral where chAlfaNumerica = ('" & Relatorio & "')", db, 3, 3
    If gge.EOF Then
       gge.AddNew
    End If
@@ -885,22 +889,22 @@ Else
    gge!Num3 = txtNumComprovante
    gge.Update
    
-   Set rel = drReciboReembolso
-      Sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.Alfa3, gge.chAlfaNumerica, rmb.rmbDataNotaFiscal, rmb.chNotaFiscal,"
-      Sql = Sql & " rmb.rmbBanco, rmb.rmbAgencia, rmb.rmbContaCorrente, rmb.chPessoa, rmb.rmbNomeColaborador, rmb.rmbValorReembolso,"
-      Sql = Sql & " rmb.rmbTipoReembolsoTexto, rmb.rmbMeioPagtoTexto, gge.Alfa4, gge.Num2, gge.Num3"
-      Sql = Sql & " From GeradorGeral gge, Reembolso rmb"
-      Sql = Sql & " WHERE gge.chAlfaNumerica = ('" & Relatorio & "')"
-      Sql = Sql & " AND rmb.rmbStatusReembolso = ('" & 1 & "') AND rmb.rmbStatusRecibo = ('" & 0 & "')"
-      Sql = Sql & " ORDER BY rmb.chPessoa"
+   Set Rel = drReciboReembolso
+      sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.Alfa3, gge.chAlfaNumerica, rmb.rmbDataNotaFiscal, rmb.chNotaFiscal,"
+      sql = sql & " rmb.rmbBanco, rmb.rmbAgencia, rmb.rmbContaCorrente, rmb.chPessoa, rmb.rmbNomeColaborador, rmb.rmbValorReembolso,"
+      sql = sql & " rmb.rmbTipoReembolsoTexto, rmb.rmbMeioPagtoTexto, gge.Alfa4, gge.Num2, gge.Num3"
+      sql = sql & " From geradorgeral gge, reembolso rmb"
+      sql = sql & " WHERE gge.chAlfaNumerica = ('" & Relatorio & "')"
+      sql = sql & " AND rmb.rmbStatusReembolso = ('" & 1 & "') AND rmb.rmbStatusRecibo = ('" & 0 & "')"
+      sql = sql & " ORDER BY rmb.chPessoa"
    
-   AbrirRelatorio Sql, rel
+   AbrirRelatorio sql, Rel
    
    Call Rotina_AbrirBanco
    
-   Rmb.Open "Select * from Reembolso where rmbStatusRecibo = ('" & 0 & "') and rmbColaborador = ('" & cmbColaborador & "')", db, 3, 3
+   Rmb.Open "Select * from reembolso where rmbStatusRecibo = ('" & 0 & "') and rmbColaborador = ('" & cmbColaborador & "')", db, 3, 3
    If Rmb.EOF Then
-      MsgBox ("Erro no acessoa Reembolso na finalização da emissão de Recibo"), vbCritical
+      MsgBox ("Erro no acessoa reembolso na finalização da emissão de Recibo"), vbCritical
       Call FechaDB
       Exit Sub
    End If
@@ -914,8 +918,8 @@ Else
       Rmb!rmbMeioPagtoTexto = cmbMeioPagto
       Rmb!RmbDataLancReembolso = Date
       Rmb!rmbStatusRecibo = 1
-      PessoaAnterior = Rmb!chPessoa
-      NotaFiscalAnterior = Rmb!chNotaFiscal
+      pessoaAnterior = Rmb!chPessoa
+      NotaFiscalAnterior = Rmb!chNotafiscal
       Rmb.Update
       Rmb.MoveNext
       
@@ -923,7 +927,7 @@ Else
          ctp.Close: Set ctp = Nothing
       End If
       
-      ctp.Open "Select * from Contas_A_Pagar where chPessoa = ('" & PessoaAnterior & "') and chNotaFiscal = ('" & NotaFiscalAnterior & "')", db, 3, 3
+      ctp.Open "Select * from contas_a_pagar where chPessoa = ('" & pessoaAnterior & "') and chNotaFiscal = ('" & NotaFiscalAnterior & "')", db, 3, 3
       If ctp.EOF Then
          MsgBox ("Contas a Pagar não encontrada. Erro. Comunicar ao analista responsável"), vbCritical
          Call FechaDB
@@ -950,15 +954,15 @@ End Sub
 
 'db.BeginTrans
 
-'Rmb.Open "Select * from Reembolso where chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & cmbNotaFiscal & "')", db, 3, 3
+'Rmb.Open "Select * from reembolso where chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & cmbNotaFiscal & "')", db, 3, 3
 'If Rmb.EOF Then
-'   MsgBox ("Erro no acesso a Reembolso no Processamento de Pagamento."), vbInformation
+'   MsgBox ("Erro no acesso a reembolso no Processamento de Pagamento."), vbInformation
 '   Call FechaDB
 '   Exit Sub
 'End If
 
 'If Rmb!rmbStatusReembolso = 1 Then
-'   MsgBox ("Esse Reembolso já foi Processado"), vbInformation
+'   MsgBox ("Esse reembolso já foi Processado"), vbInformation
 '   Call FechaDB
 '   Exit Sub
 'End If
@@ -987,7 +991,7 @@ Public Sub GravarReembolso()
 
 Call Rotina_AbrirBanco
       
-Rmb.Open "Select * from Reembolso where chPessoa = ('" & PessoaAnterior & "') and chNotaFiscal = ('" & NotaFiscalAnterior & "')", db, 3, 3
+Rmb.Open "Select * from reembolso where chPessoa = ('" & pessoaAnterior & "') and chNotaFiscal = ('" & NotaFiscalAnterior & "')", db, 3, 3
 
 If Rmb.EOF Then
    Rmb.AddNew
@@ -996,8 +1000,8 @@ End If
       
 db.BeginTrans
       
-      Rmb!chPessoa = PessoaAnterior
-      Rmb!chNotaFiscal = NotaFiscalAnterior
+      Rmb!chPessoa = pessoaAnterior
+      Rmb!chNotafiscal = NotaFiscalAnterior
       Rmb!rmbFatura = Empty
       Rmb!RmbColaborador = cmbColaborador
       Rmb!RmbNomeColaborador = txtNomePessoa
@@ -1016,12 +1020,12 @@ db.BeginTrans
       Rmb!rmbValorReembolso = AcumulaValorGrid
       Rmb!rmbNumComprovanteReembolso = txtNumComprovante
       
-      nfe.Open "Select * from NotaFiscalEntrada where chPessoa = ('" & PessoaAnterior & "') and chnotafiscalentrada = ('" & NotaFiscalAnterior & "')", db, 3, 3
+      nfe.Open "Select * from notafiscalentrada where chPessoa = ('" & pessoaAnterior & "') and chnotafiscalentrada = ('" & NotaFiscalAnterior & "')", db, 3, 3
       If nfe.EOF Then
          If nfe.State = 1 Then
             nfe.Close: Set nfe = Nothing
          End If
-         nfe.Open "Select * from HistoricoNotaFiscalEntrada where chPessoa = ('" & PessoaAnterior & "') and chnotafiscalentrada = ('" & NotaFiscalAnterior & "')", db, 3, 3
+         nfe.Open "Select * from historiconotafiscalentrada where chPessoa = ('" & pessoaAnterior & "') and chnotafiscalentrada = ('" & NotaFiscalAnterior & "')", db, 3, 3
          If nfe.EOF Then
             MsgBox ("Nota Fiscal não encontrada. Data de hoje como data de emissão"), vbInformation
             Rmb!rmbDataNotaFiscal = Date
@@ -1054,7 +1058,7 @@ dtDataDeposito = Date
 
 TipoPessoa = 8
 TipoPessoa2 = 5
-pes.Open "Select * from Pessoa where pesTipoPessoa > ('" & TipoPessoa2 & "') and pesTipoPessoa < ('" & TipoPessoa & "')", db, 3, 3
+pes.Open "Select * from pessoa where pesTipoPessoa > ('" & TipoPessoa2 & "') and pesTipoPessoa < ('" & TipoPessoa & "')", db, 3, 3
 If pes.EOF Then
    MsgBox ("Pessoa sem cadastro de Colaboradores."), vbInformation
    Call FechaDB
@@ -1069,7 +1073,7 @@ Do While Not pes.EOF
    If ctp.State = 1 Then
       ctp.Close: Set ctp = Nothing
    End If
-   ctp.Open "Select * from Contas_A_Pagar where ctpStatus = ('" & 2 & "') and ctpPessoaReembolso = ('" & pes!chPessoa & "')", db, 3, 3
+   ctp.Open "Select * from contas_a_pagar where ctpStatus = ('" & 2 & "') and ctpPessoaReembolso = ('" & pes!chPessoa & "')", db, 3, 3
    If Not ctp.EOF Then
       cmbColaborador.AddItem pes!chPessoa
       ContaReembolso = ContaReembolso + 1
@@ -1077,13 +1081,13 @@ Do While Not pes.EOF
    pes.MoveNext
 Loop
 
-'Versão antiga considerava o que estava cadastrado no Reembolso
+'Versão antiga considerava o que estava cadastrado no reembolso
 
 'Do While Not pes.EOF
 '   If Rmb.State = 1 Then
 '      Rmb.Close: Set Rmb = Nothing
 '   End If
-'   Rmb.Open "Select * from Reembolso where rmbStatusReembolso = ('" & 0 & "') and rmbColaborador = ('" & pes!chPessoa & "')", db, 3, 3
+'   Rmb.Open "Select * from reembolso where rmbStatusReembolso = ('" & 0 & "') and rmbColaborador = ('" & pes!chPessoa & "')", db, 3, 3
 '   If Not Rmb.EOF Then
 '      cmbColaborador.AddItem pes!chPessoa
 '      ContaReembolso = ContaReembolso + 1
@@ -1127,7 +1131,7 @@ If txtValorTotalDaNotaFiscal = Empty Then
 End If
 
 If txtNumComprovante = Empty Then
-   MsgBox ("Não Informado o Número do Comprovante do Documento de Reembolso."), vbCritical
+   MsgBox ("Não Informado o Número do Comprovante do Documento de reembolso."), vbCritical
    Salvar = 0
    Exit Sub
 End If
@@ -1139,7 +1143,7 @@ End Sub
 Public Sub CriticaAlteracao()
 Salvar = 1
 If Rmb!rmbStatusRecibo = 1 Then
-   Resp = MsgBox("Alteração inválida. O Reembolso já foi efetuado e o Recibo já foi emitido. Continuar a alteração???", vbExclamation + vbYesNo)
+   Resp = MsgBox("Alteração inválida. O reembolso já foi efetuado e o Recibo já foi emitido. Continuar a alteração???", vbExclamation + vbYesNo)
    If Resp = vbYes Then
       Salvar = 1
    Else
@@ -1147,7 +1151,7 @@ If Rmb!rmbStatusRecibo = 1 Then
    End If
 End If
 If Rmb!rmbStatusReembolso = 1 Then
-   Resp = MsgBox("Alteração inválida. O Reembolso já foi efetuado mas o Recibo não foi emitido. Continuar a alteração???", vbExclamation + vbYesNo)
+   Resp = MsgBox("Alteração inválida. O reembolso já foi efetuado mas o Recibo não foi emitido. Continuar a alteração???", vbExclamation + vbYesNo)
    If Resp = vbYes Then
       Salvar = 0
    Else
@@ -1226,7 +1230,7 @@ End Sub
 '   txtStatusRecibo.BackColor = vbCyan
 'End If
 
-'nfd.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & cmbNotaFiscal & "')", db, 3, 3
+'nfd.Open "Select * from notafiscaldetprod where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & cmbNotaFiscal & "')", db, 3, 3
 'If nfd.EOF Then
 '   MsgBox ("Nota Fiscal não encontrada."), vbCritical
 '   Call FechaDB

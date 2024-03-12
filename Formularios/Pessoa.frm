@@ -356,16 +356,11 @@ Begin VB.Form frmPessoa
       TabCaption(2)   =   "Detalhes"
       TabPicture(2)   =   "Pessoa.frx":003C
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblCodPessoa1"
-      Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "lblRazaoSocial1"
-      Tab(2).Control(1).Enabled=   0   'False
+      Tab(2).Control(0)=   "cmdPagInicial"
+      Tab(2).Control(1)=   "Frame14"
       Tab(2).Control(2)=   "Frame11"
-      Tab(2).Control(2).Enabled=   0   'False
-      Tab(2).Control(3)=   "Frame14"
-      Tab(2).Control(3).Enabled=   0   'False
-      Tab(2).Control(4)=   "cmdPagInicial"
-      Tab(2).Control(4).Enabled=   0   'False
+      Tab(2).Control(3)=   "lblRazaoSocial1"
+      Tab(2).Control(4)=   "lblCodPessoa1"
       Tab(2).ControlCount=   5
       Begin VB.Frame fraLocador 
          Caption         =   "Cliente Locador                                      Unidades Operacionais"
@@ -2096,7 +2091,7 @@ Dim Novo As Byte
 Dim Resp As String
 Dim Pessoa As String
 Dim Altera As Byte
-Dim fim As Byte
+Dim Fim As Byte
 Dim SalvaPessoa As String
 Dim Ind As Integer
 Dim NaoInclui As Byte
@@ -2106,7 +2101,7 @@ Dim RepAnterior(50) As String
 Dim Limite As Integer
 Dim IndCombo As Integer
 Dim Filtro As Byte
-Dim Sql As String
+Dim sql As String
 Dim IndContato As Integer
 Dim TipoContato As String
 Dim IndLinha As Integer
@@ -2117,7 +2112,7 @@ cmbLocaliza.Clear
 
 Call Rotina_AbrirBanco
 
-uoper.Open "Select * from UnidadeOperacional where chpessoa = ('" & cmbLocadora & "')", db, 3, 3
+uoper.Open "Select * from unidadeoperacional where chpessoa = ('" & cmbLocadora & "')", db, 3, 3
 If uoper.EOF Then
    MsgBox ("Cadastrar inicialmente as unidades operacionais deste funcionário."), vbCritical
    Call FechaDB
@@ -2136,7 +2131,7 @@ Public Sub Carrega_cmbLocadora()
 
 cmbLocaliza.Clear
 
-uoper.Open "Select * from UnidadeOperacional where chpessoa = ('" & cmbLocadora & "')", db, 3, 3
+uoper.Open "Select * from unidadeoperacional where chpessoa = ('" & cmbLocadora & "')", db, 3, 3
 If uoper.EOF Then
    MsgBox ("Cadastrar inicialmente as unidades operacionais deste funcionário."), vbCritical
    Call FechaDB
@@ -2154,7 +2149,7 @@ Private Sub cmbPessoa_LostFocus()
     
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
+pes.Open "Select * from pessoa where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
 
 If pes.EOF Then
    If cmbPessoa.ListIndex = 0 Then
@@ -2178,9 +2173,9 @@ Private Sub cmbTipoContato_LostFocus()
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
+pes.Open "Select * from pessoa where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
 If pes.EOF Then
-   MsgBox ("Continuar a Inclusão de Pessoa. Após a inclusão, inserir os contatos."), vbInformation
+   MsgBox ("Continuar a Inclusão de pessoa. Após a inclusão, inserir os contatos."), vbInformation
    SSTab1.Tab = 2
    txtContato.SetFocus
    Exit Sub
@@ -2192,7 +2187,7 @@ If cmbTipoContato = Empty Then
 End If
    
 
-Contato.Open "Select * from Telefone where codPessoa = ('" & pes!chPessoa & "') and TipoContato = ('" & cmbTipoContato & "')", db, 3, 3
+Contato.Open "Select * from telefone where codPessoa = ('" & pes!chPessoa & "') and TipoContato = ('" & cmbTipoContato & "')", db, 3, 3
 If Contato.EOF Then
    
    If IndContato = 0 Then
@@ -2271,9 +2266,9 @@ On Error GoTo Erro:
       
       Altera = 1
       Call Rotina_AbrirBanco
-      pes.Open "Select * from Pessoa where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
+      pes.Open "Select * from pessoa where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
       If pes.EOF Then
-         MsgBox ("Erro no acesso a Pessoa - Alteração"), vbCritical
+         MsgBox ("Erro no acesso a pessoa - Alteração"), vbCritical
          End
       End If
       
@@ -2283,7 +2278,7 @@ On Error GoTo Erro:
       
       If pes.State = 1 Then
          pes.Update
-         MsgBox ("Atualização de Pessoa realizada com sucesso"), vbInformation
+         MsgBox ("Atualização de pessoa realizada com sucesso"), vbInformation
       End If
       
       db.CommitTrans
@@ -2338,7 +2333,7 @@ GridContato.TextMatrix(IndContato, 1) = txtCodContato
 
 Call Rotina_AbrirBanco
 
-Contato.Open "Select * from Telefone where codPessoa = ('" & txtCodPessoa & "') and TipoContato = ('" & cmbTipoContato & "')", db, 3, 3
+Contato.Open "Select * from telefone where codPessoa = ('" & txtCodPessoa & "') and TipoContato = ('" & cmbTipoContato & "')", db, 3, 3
 If Contato.EOF Then
    Contato.AddNew
 End If
@@ -2373,7 +2368,7 @@ End If
 If db.State = 0 Then
    Call Rotina_AbrirBanco
 End If
-neg.Open "Select * from Negociacao where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
+neg.Open "Select * from negociacao where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
 If neg.EOF Then
    TemMovito = 0
 Else
@@ -2381,7 +2376,7 @@ Else
 End If
 
 If TemMovito = 0 Then
-   hneg.Open "Select * from HistoricoNegociacao where chpessoa = ('" & txtCodPessoa & "')", db, 3, 3
+   hneg.Open "Select * from historiconegociacao where chpessoa = ('" & txtCodPessoa & "')", db, 3, 3
    If hneg.EOF Then
       TemMovito = 0
    Else
@@ -2405,7 +2400,7 @@ If Resp = vbYes Then
          Next
          Call Exclui_Contato
 
-         pes.Open "Select * from Pessoa where chpessoa = ('" & txtCodPessoa & "')", db, 3, 3
+         pes.Open "Select * from pessoa where chpessoa = ('" & txtCodPessoa & "')", db, 3, 3
          If pes.EOF Then
             MsgBox ("Problema")
          Else
@@ -2440,7 +2435,7 @@ End If
 
 Call Rotina_AbrirBanco
 
-Contato.Open "Select * from Telefone where codPessoa = ('" & txtCodPessoa & "') and TipoContato = ('" & cmbTipoContato & "')", db, 3, 3
+Contato.Open "Select * from telefone where codPessoa = ('" & txtCodPessoa & "') and TipoContato = ('" & cmbTipoContato & "')", db, 3, 3
 If Contato.EOF Then
    GridContato.TextMatrix(IndAchei, 1) = "Excluir"
 Else
@@ -2470,7 +2465,7 @@ lstPessoa.Clear
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa", db, 3, 3
+pes.Open "Select * from pessoa", db, 3, 3
 pes.MoveFirst
 Do While Filtro = 0
   If pes!pestipopessoa = cmbTipoPessoaPesquisa.ListIndex - 1 Or cmbTipoPessoaPesquisa = " Geral" Then
@@ -2529,7 +2524,7 @@ On Error GoTo Erro:
       
       db.BeginTrans
       
-      pes.Open "Select * from Pessoa where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
+      pes.Open "Select * from pessoa where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
       If pes.EOF Then
          pes.AddNew
       End If
@@ -2578,9 +2573,9 @@ Private Sub cmdIncluiContato_Click()
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
+pes.Open "Select * from pessoa where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
 If pes.EOF Then
-   MsgBox ("A inclusão de contatos só pode ser efetuada após a inclusão de Pessoa houver sido concluída"), vbCritical
+   MsgBox ("A inclusão de contatos só pode ser efetuada após a inclusão de pessoa houver sido concluída"), vbCritical
    Exit Sub
 End If
 
@@ -2622,7 +2617,7 @@ GridContato.TextMatrix(IndContato, 1) = txtCodContato
 
 Pessoa = txtCodPessoa
 
-Contato.Open "Select * from Telefone where CodPessoa = ('" & txtCodPessoa & "') and TipoContato = ('" & cmbTipoContato & "')", db, 3, 3
+Contato.Open "Select * from telefone where CodPessoa = ('" & txtCodPessoa & "') and TipoContato = ('" & cmbTipoContato & "')", db, 3, 3
 If Contato.EOF Then
    Contato.AddNew
 End If
@@ -2683,7 +2678,7 @@ End Sub
 
 'If UltPessoa = "" Then
 '   Call Rotina_AbrirBanco
-'   pes.Open "Select * from Pessoa", db, 3, 3
+'   pes.Open "Select * from pessoa", db, 3, 3
 '   UltPessoa = pes!chPessoa
 'End If
    
@@ -2779,7 +2774,7 @@ End Sub
 ''
 '
 'Sql = "Select pes.pesrazaosocial, pes.pesfantasia, pes.chpessoa "
-'Sql = Sql & " from Pessoa pes where "
+'Sql = Sql & " from pessoa pes where "
 'Sql = Sql & " pes.pesrazaosocial like '" & txtBusRazaoSocial & "%'"
 'Sql = Sql & " pes.pesrazaosocial like '%" & txtBusRazaoSocial & "%'" 'PESQUISA O CONTEUDO DO CAMPO INFORMADO EM QQ POSIÇÃO DE RAZÃO SOCIAL
 'Sql = Sql & " order by pes.pesrazaosocial"
@@ -2825,7 +2820,7 @@ txtCodPessoa = lstPessoa.List(IndSalvo)
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
+pes.Open "Select * from pessoa where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
 
 Call Rotina_Limpa_Pessoa
 
@@ -2863,7 +2858,7 @@ Dim fim_Carga_Pessoa As Byte
                     
  Call Rotina_AbrirBanco
  
- usu.Open "Select * from Usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
+ usu.Open "Select * from usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
                     
  If usu.EOF Then
      MsgBox "Erro no acesso ao sistema. Reiniciar"
@@ -2924,7 +2919,7 @@ Dim fim_Carga_Pessoa As Byte
 fim_Carga_Pessoa = 0
 flagRegAnt = 99
 
-pes.Open "Select * from Pessoa", db, 3, 3
+pes.Open "Select * from pessoa", db, 3, 3
 
 pes.MoveFirst
 cmbLocadora.Clear
@@ -2949,7 +2944,7 @@ For Ind = 0 To 50
 Next
 
 IndCombo = 0
-CartRep.Open "Select * from Carteira_Rep", db, 3, 3
+CartRep.Open "Select * from carteira_rep", db, 3, 3
 
 CartRep.MoveFirst
 Ind = 0
@@ -2974,7 +2969,7 @@ Loop
   
 cmbRepresentante.ListIndex = 0
   
-CartPromot.Open "Select * from Carteira_Promot", db, 3, 3
+CartPromot.Open "Select * from carteira_promot", db, 3, 3
 
 CartPromot.MoveFirst
 Do While Not CartPromot.EOF
@@ -3023,7 +3018,7 @@ txtCodPessoa = lstPessoa.List(lstPessoa.ListIndex)
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa where chpessoa = ('" & txtCodPessoa & "')", db, 3, 3
+pes.Open "Select * from pessoa where chpessoa = ('" & txtCodPessoa & "')", db, 3, 3
 
 If pes.EOF Then
    MsgBox ("Deu Caquinha"), vbCritical
@@ -3091,7 +3086,7 @@ Dim Resp As String
     
    If Novo = 1 Then
       If txtCodPessoa = Empty Then
-         MsgBox ("Código do Pessoa Não Informado"), vbInformation
+         MsgBox ("Código do pessoa Não Informado"), vbInformation
          txtCodPessoa.SetFocus
          Novo = 0
       Exit Sub
@@ -3111,9 +3106,9 @@ Dim Resp As String
    
    Call Rotina_AbrirBanco
    
-   pes.Open "Select * from Pessoa where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
+   pes.Open "Select * from pessoa where chPessoa = ('" & txtCodPessoa & "')", db, 3, 3
    If pes.EOF Then
-      Resp = MsgBox("Inclusão de Pessoa. Confirma???", vbYesNo)
+      Resp = MsgBox("Inclusão de pessoa. Confirma???", vbYesNo)
       If Resp = vbYes Then
          Incluir = 1
          fraContato.Visible = False
@@ -3127,7 +3122,7 @@ Dim Resp As String
          cmdAltera.Enabled = False
          cmdExclui.Enabled = False
       Else
-         MsgBox ("Inclusão de Pessoa Cancelada"), vbInformation
+         MsgBox ("Inclusão de pessoa Cancelada"), vbInformation
          cmdSair.SetFocus
       End If
    Else
@@ -3252,14 +3247,14 @@ If IsNull(pes!chCarteiraPromot) Or (pes!chCarteiraPromot) = "NENHUM" Then
 '      CartPromot.Close: Set CartPromot = Nothing
 ' End If
 
-'CartPromot.Open "Select * from Carteira_promot where chpessoa = ('" & cmbPromotora & "')", db, 3, 3
+'CartPromot.Open "Select * from carteira_promot where chpessoa = ('" & cmbPromotora & "')", db, 3, 3
 'If pes.EOF Then
 '   cmbPromotora = "NENHUM"
 'Else
 '   If pes.State = 1 Then
 '      pes.Close: Set pes = Nothing
 '   End If
-'   pes.Open "Select * from Pessoa where chpessoa = ('" & CartPromot!chpessoa & "')", db, 3, 3
+'   pes.Open "Select * from pessoa where chpessoa = ('" & CartPromot!chpessoa & "')", db, 3, 3
 '   If pes.EOF Then
 '      cmbPromotora = "NENHUM"
 '   Else
@@ -3273,7 +3268,7 @@ If IsNull(pes!chCarteiraPromot) Or (pes!chCarteiraPromot) = "NENHUM" Then
 '      CartRep.Close: Set CartRep = Nothing
 '    End If
 '    Call Rotina_AbrirBanco
-'   CartRep.Open "Select * from Carteira_rep", db, 3, 3
+'   CartRep.Open "Select * from carteira_rep", db, 3, 3
 '   CartRep.MoveFirst
 '   fim = 0
 '   Do While fim = 0
@@ -3298,7 +3293,7 @@ If IsNull(pes!chCarteiraPromot) Or (pes!chCarteiraPromot) = "NENHUM" Then
 '   If pes!pestipopessoa = 4 Then
 '      cmbPromotora = Empty
 '
-'      CartPromot.Open "Select * from Carteira_Promot", db, 3, 3
+'      CartPromot.Open "Select * from carteira_promot", db, 3, 3
 '
 '      CartPromot.MoveFirst
 '      Do While Not CartPromot.EOF
@@ -3432,7 +3427,7 @@ End If
  If IsNull(pes!pesBairro) Then
     txtCidade = "Não Informado"
  Else
-    txtCidade = pes!pesBairro
+    txtCidade = pes!pesCidade
  End If
  
  If IsNull(pes!chUF) Then
@@ -3499,7 +3494,7 @@ If pes!pestipopessoa = 0 Then
    If CartPromot.State = 1 Then
       CartPromot.Close: Set CartPromot = Nothing
     End If
-   CartPromot.Open "Select * from Carteira_Promot where chcarteirapromot = ('" & pes!chCarteiraPromot & "')", db, 3, 3
+   CartPromot.Open "Select * from carteira_promot where chcarteirapromot = ('" & pes!chCarteiraPromot & "')", db, 3, 3
 '   If CartPromot.EOF Then
 '      txtPromotora = "NENHUM"
 '   Else
@@ -3510,7 +3505,7 @@ If pes!pestipopessoa = 0 Then
 '      If CartRep.State = 1 Then
 '      CartRep.Close: Set CartRep = Nothing
 '    End If
-'      CartRep.Open "Select * from Carteira_Rep where chcarteirarep = ('" & pes!chcarteirarep & "'),db,3,3"
+'      CartRep.Open "Select * from carteira_rep where chcarteirarep = ('" & pes!chcarteirarep & "'),db,3,3"
 '      If CartRep.EOF Then
 '         txtRepresentante = "NENHUM"
 '      Else
@@ -3699,22 +3694,22 @@ Else
 End If
 
 If Not (cmbTipoPessoa.ListIndex = 0) Then
-   fim = 1
+   Fim = 1
 Else
-   CartRep.Open "Select * from Carteira_Rep", db, 3, 3
+   CartRep.Open "Select * from carteira_rep", db, 3, 3
    
    CartRep.MoveFirst
-   fim = 0
+   Fim = 0
   
-   Do While fim = 0
+   Do While Fim = 0
       If pes!chcarteirarep = cmbRepresentante Then
          pes!chcarteirarep = cmbRepresentante
          CartRep!chcarteirarep = cmbRepresentante
-         fim = 1
+         Fim = 1
       Else
          CartRep.MoveNext
          If CartRep.EOF Then
-            fim = 1
+            Fim = 1
             pes!chcarteirarep = cmbRepresentante
             CartRep.AddNew
             CartRep!chcarteirarep = cmbRepresentante
@@ -3726,21 +3721,21 @@ Else
    Loop
    
    If CartPromot.State = 0 Then
-      CartPromot.Open "Select * from Carteira_Promot", db, 3, 3
+      CartPromot.Open "Select * from carteira_promot", db, 3, 3
    End If
    CartPromot.MoveFirst
-   fim = 0
+   Fim = 0
    
    CartPromot.MoveFirst
-   fim = 0
-   Do While fim = 0
+   Fim = 0
+   Do While Fim = 0
       If CartPromot!chPessoa = cmbPromotora Then
          pes!chCarteiraPromot = CartPromot!chCarteiraPromot
-         fim = 1
+         Fim = 1
       Else
          CartPromot.MoveNext
          If CartPromot.EOF Then
-            fim = 1
+            Fim = 1
             CartPromot.AddNew
             CartPromot!chcarteirarep = cmbPromotora
             CartPromot!repregiao = "FABRICA"
@@ -3818,7 +3813,7 @@ Public Sub Rotina_Critica_Cadastro()
 Erro_Critica = 0
 
 If cmbTipoPessoa = Empty Then
-   MsgBox ("Tipo Pessoa não Informado")
+   MsgBox ("Tipo pessoa não Informado")
    cmbTipoPessoa.SetFocus
    Erro_Critica = Erro_Critica + 1
    Exit Sub
@@ -4058,14 +4053,14 @@ Private Sub txtEstado_LostFocus()
 
 Call Rotina_AbrirBanco
 
-ICM.Open "Select * from ICMS where chUF = ('" & txtEstado & "')", db, 3, 3
+ICM.Open "Select * from icms where chUF = ('" & txtEstado & "')", db, 3, 3
 
 If ICM.EOF Then
-   MsgBox ("Estado não cadastrado na Tabela de ICMS"), vbAbortRetryIgnore
+   MsgBox ("Estado não cadastrado na Tabela de icms"), vbAbortRetryIgnore
    cmdSair.SetFocus
 End If
 
-UfRegiao.Open "Select * from Regiao where RegUF = ('" & txtEstado & "')", db, 3, 3
+UfRegiao.Open "Select * from regiao where RegUF = ('" & txtEstado & "')", db, 3, 3
 
 If UfRegiao.EOF Then
    MsgBox ("Regiao não cadastrada para essa UF."), vbInformation
@@ -4104,7 +4099,7 @@ KeyAscii = Asc(UCase$(Chr$(KeyAscii)))
 End Sub
 Public Sub Rotina_Carga_Contato()
 
-Dim PessoaContato As String
+Dim pessoaContato As String
 Dim ContatoTipo As String
 Dim PrimeiroRegistro As Integer
 
@@ -4118,16 +4113,16 @@ txtCodContato = Empty
 
 Call Rotina_AbrirBanco
 
-Contato.Open "Select * from Telefone where codPessoa = ('" & txtCodPessoa & "')", db, 3, 3
+Contato.Open "Select * from telefone where codPessoa = ('" & txtCodPessoa & "')", db, 3, 3
 
 If Contato.EOF Then
    Exit Sub
 Else
    Ind = 0
    IndContato = 0
-   PessoaContato = Contato!codpessoa
+   pessoaContato = Contato!codpessoa
    Contato.MoveFirst
-   Do While txtCodPessoa = PessoaContato
+   Do While txtCodPessoa = pessoaContato
       Ind = Ind + 1
       IndContato = IndContato + 1
       GridContato.Rows = Ind + 1
@@ -4136,10 +4131,10 @@ Else
       Contato.MoveNext
    
       If Contato.EOF Then
-         PessoaContato = Empty
+         pessoaContato = Empty
       Else
          If Not Contato!codpessoa = txtCodPessoa Then
-            PessoaContato = Empty
+            pessoaContato = Empty
          End If
       End If
    Loop
@@ -4150,17 +4145,17 @@ End If
 End Sub
 
 Public Sub Exclui_Contato()
-Dim PessoaAnterior As String
+Dim pessoaAnterior As String
 'Data.Recordset.FindFirst "CodPessoa = '" & txtCodPessoa & "'"''
 
-Contato.Open "Select * from Telefone where codpessoa = ('" & txtCodPessoa & "')", db, 3, 3
+Contato.Open "Select * from telefone where codpessoa = ('" & txtCodPessoa & "')", db, 3, 3
 If Contato.EOF Then
    MsgBox ("Cliente sem contato cadstrado"), vbInformation
    IndContato = 0
 Else
    IndContato = 1
    Pessoa = Contato!codpessoa
-   fim = 0
+   Fim = 0
 End If
 Contato.MoveFirst
 If IndContato = 1 Then
@@ -4188,7 +4183,7 @@ Call Rotina_AbrirBanco
 
 'ChaveFinal = "-E"
 ChaveProduto = txtCodPessoa
-Prod.Open "Select * from Produto where chProduto = ('" & ChaveProduto & "')", db, 3, 3
+Prod.Open "Select * from produto where chProduto = ('" & ChaveProduto & "')", db, 3, 3
 If Prod.EOF Then
    Prod.AddNew
 End If

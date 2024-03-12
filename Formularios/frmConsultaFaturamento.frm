@@ -364,7 +364,7 @@ Option Explicit
 
 Dim Ind As Integer
 Dim ano As Integer
-Dim Mes As Integer
+Dim mes As Integer
 Dim Dia As Integer
 Dim AnoInicioOperacao
 Dim DataHoje As Date
@@ -395,8 +395,8 @@ Dim linhaFim As Integer
 Dim colunaFim As Integer
 
 
-Dim DataInicio As String
-Dim DataFim As String
+Dim dataInicio As String
+Dim dataFim As String
 Dim AcumulaFatura As Currency
 Dim TotalFatura As Currency
 
@@ -453,7 +453,7 @@ Call CriaDatasPesquisa
 Call Rotina_AbrirBanco
 
 If cmbCliente = " Todos" Then
-   ctr.Open "Select * from Contas_A_Receber where ctrDataEmissao > ('" & DataInicioInvertida & "') and ctrDataEmissao < ('" & DataFinalInvertida & "') and chFatura = ('" & 1 & "')", db, 3, 3
+   ctr.Open "Select * from contas_a_receber where ctrDataEmissao > ('" & DataInicioInvertida & "') and ctrDataEmissao < ('" & DataFinalInvertida & "') and chFatura = ('" & 1 & "')", db, 3, 3
    If ctr.EOF Then
       CargaAnterior = 0
       AcumulaFatura = 0
@@ -463,7 +463,7 @@ If cmbCliente = " Todos" Then
       CargaAnterior = 1
    End If
 Else
-   ctr.Open "Select * from Contas_A_Receber where chPessoa = ('" & cmbCliente & "') and ctrDataEmissao > ('" & DataInicioInvertida & "') and ctrDataEmissao < ('" & DataFinalInvertida & "') and chFatura = ('" & 1 & "')", db, 3, 3
+   ctr.Open "Select * from contas_a_receber where chPessoa = ('" & cmbCliente & "') and ctrDataEmissao > ('" & DataInicioInvertida & "') and ctrDataEmissao < ('" & DataFinalInvertida & "') and chFatura = ('" & 1 & "')", db, 3, 3
    If ctr.EOF Then
       CargaAnterior = 0
       AcumulaFatura = 0
@@ -483,7 +483,7 @@ If cmbCliente = " Todos" Then
       ctr.Close: Set ctr = Nothing
    End If
    
-   ctr.Open "Select * from HistoricoContasReceber where ctrDataEmissao > ('" & DataInicioInvertida & "') and ctrDataEmissao < ('" & DataFinalInvertida & "')", db, 3, 3
+   ctr.Open "Select * from historicocontasreceber where ctrDataEmissao > ('" & DataInicioInvertida & "') and ctrDataEmissao < ('" & DataFinalInvertida & "')", db, 3, 3
    
    If ctr.EOF Then
       Periodo = 0
@@ -494,7 +494,7 @@ Else
    If ctr.State = 1 Then
       ctr.Close: Set ctr = Nothing
    End If
-   ctr.Open "Select * from HistoricoContasReceber where chPessoa = ('" & cmbCliente & "') and ctrDataEmissao > ('" & DataInicioInvertida & "') and ctrDataEmissao < ('" & DataFinalInvertida & "')", db, 3, 3
+   ctr.Open "Select * from historicocontasreceber where chPessoa = ('" & cmbCliente & "') and ctrDataEmissao > ('" & DataInicioInvertida & "') and ctrDataEmissao < ('" & DataFinalInvertida & "')", db, 3, 3
    
    If ctr.EOF Then
       Periodo = 0
@@ -545,7 +545,7 @@ cmbAnoFim.ListIndex = 0
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa where pesTipoPessoa = ('" & 0 & "')", db, 3, 3
+pes.Open "Select * from pessoa where pesTipoPessoa = ('" & 0 & "')", db, 3, 3
 If pes.EOF Then
    MsgBox ("ERRO; Acesso a pessoa sem Clientes"), vbInformation
    Call FechaDB
@@ -595,7 +595,7 @@ Do While Not ctr.EOF
       GridFatura.TextMatrix(Ind, 1) = ctr!chPessoa
    End If
    
-   GridFatura.TextMatrix(Ind, 2) = ctr!chNotaFiscal
+   GridFatura.TextMatrix(Ind, 2) = ctr!chNotafiscal
    GridFatura.TextMatrix(Ind, 3) = ctr!ctrDataEmissao
    GridFatura.TextMatrix(Ind, 4) = ctr!chNumPedido
    GridFatura.TextMatrix(Ind, 5) = ctr!chNumPedidoComp
@@ -658,18 +658,18 @@ End Sub
 
 Public Sub CriaDatasPesquisa()
 
-Mes = Format$(cmbMes, "00")
+mes = Format$(cmbMes, "00")
 ano = cmbAno
 Dia = Format$(1, "00")
 
-DataHoje = Format$(Dia, "00") & "/" & Format$(Mes, "00") & "/" & ano
+DataHoje = Format$(Dia, "00") & "/" & Format$(mes, "00") & "/" & ano
 DataInicioOperacao = DataHoje
 DataHoje = DataHoje - 1
 Dia = Day(DataHoje)
-Mes = Month(DataHoje)
+mes = Month(DataHoje)
 ano = Year(DataHoje)
 
-DataInicioInvertida = Format$(ano & "-" & Mes & "-" & Dia, "yyyy-mm-dd")
+DataInicioInvertida = Format$(ano & "-" & mes & "-" & Dia, "yyyy-mm-dd")
 
 DataHoje = DataHoje + 1
 MesProximo = Month(DataHoje)
@@ -679,18 +679,18 @@ Do While Month(DataHoje) = MesProximo
    'MesProximo = Format$(Month(DataHoje), "00")
 Loop
 
-Mes = Format$(cmbMesFim, "00")
+mes = Format$(cmbMesFim, "00")
 ano = cmbAnoFim
 Dia = Format$(1, "00")
 
-DataHoje = Format$(Dia, "00") & "/" & Format$(Mes, "00") & "/" & ano
+DataHoje = Format$(Dia, "00") & "/" & Format$(mes, "00") & "/" & ano
 DataFimOperacao = DataHoje
 DataHoje = DataHoje - 1
 Dia = Day(DataHoje)
-Mes = Month(DataHoje)
+mes = Month(DataHoje)
 ano = Year(DataHoje)
 
-DataFimInvertida = Format$(ano & "-" & Mes & "-" & Dia, "yyyy-mm-dd")
+DataFimInvertida = Format$(ano & "-" & mes & "-" & Dia, "yyyy-mm-dd")
 
 DataHoje = DataHoje + 1
 MesProximo = Month(DataHoje)

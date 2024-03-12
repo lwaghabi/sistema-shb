@@ -453,7 +453,7 @@ Dim ChaveGrupo As String
 Dim ChaveSubGrupo As String
 Dim AnoInicioOperacao As String
 Dim ano As Integer
-Dim Mes As Integer
+Dim mes As Integer
 Dim AnoHoje As Integer
 Dim MesHoje As Integer
 Dim Mes12 As String
@@ -463,6 +463,7 @@ Dim FimPeriodo As String
 Dim DataInicioPeriodo As Date
 Dim DataInicioInvertida As Date
 Dim Contador As Integer
+Dim Encontrei As Integer
 
 
 Private Sub cmdConsulta_Click()
@@ -497,7 +498,7 @@ If grdDetalhe.Rows > 1 Then
    grdDetalhe.Rows = 1
 End If
 ano = cmbAno
-Mes = Format$(cmbMes, "00")
+mes = Format$(cmbMes, "00")
 
 Call GeraDataInicioDataFim
 
@@ -547,7 +548,7 @@ End If
 Status = 0
 
 If ChavePeriodo = 0 Then
-   ctp.Open "Select * from Contas_A_Pagar where chPessoa = ('" & Pessoa & "') and chNotaFiscal = ('" & NotaFiscal & "') and ctpStatus = 1", db, 3, 3
+   ctp.Open "Select * from contas_a_pagar where chPessoa = ('" & Pessoa & "') and chNotaFiscal = ('" & NotaFiscal & "') and ctpStatus = 1", db, 3, 3
    If Not ctp.EOF Then
       Status = ctp!ctpStatus
 '      If ctp!ctpStatus = 0 Then
@@ -557,7 +558,7 @@ If ChavePeriodo = 0 Then
       Status = 0
    End If
 Else
-   ctp.Open "Select * from HistoricoContasPagar where chPessoa = ('" & Pessoa & "') and chNotaFiscal = ('" & NotaFiscal & "')", db, 3, 3
+   ctp.Open "Select * from historicocontaspagar where chPessoa = ('" & Pessoa & "') and chNotaFiscal = ('" & NotaFiscal & "')", db, 3, 3
    If Not ctp.EOF Then
       Status = ctp!ctpStatus
    Else
@@ -593,7 +594,7 @@ AcumulaGrupoCentroDeCusto = 0
 
 ChaveGrupo = grdCentroDeCusto.TextMatrix(grdCentroDeCusto.Row, 2)
 
-ccc.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ChaveGrupo & "') and chSubGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
+ccc.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ChaveGrupo & "') and chSubGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
 If ccc.EOF Then
    MsgBox ("ERRO: Tabela de grupo de centro de custo Vazia."), vbCritical
    Call FechaDB
@@ -612,7 +613,7 @@ Loop
       If Prod.State = 1 Then
          Prod.Close: Set Prod = Nothing
       End If
-      Prod.Open "Select * from NotaFiscalDetProd where nfdCentroDeCusto = ('" & "2" & "') and nfdGrupoCentroDeCusto = ('" & ChaveGrupo & "') and nfdSubGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
+      Prod.Open "Select * from notafiscaldetprod where nfdCentroDeCusto = ('" & "2" & "') and nfdGrupoCentroDeCusto = ('" & ChaveGrupo & "') and nfdSubGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
       If Prod.EOF Then
          Contador = Contador + 1
       End If
@@ -620,14 +621,20 @@ Loop
       If Prod.State = 1 Then
          Prod.Close: Set Prod = Nothing
       End If
-      Prod.Open "Select * from HistoricoNotaFiscalDetProd where nfdDataPagamento > ('" & InicioPeriodo & "') and nfdDataPagamento < ('" & FimPeriodo & "') and nfdCentroDeCusto = ('" & "2" & "') and nfdGrupoCentroDeCusto = ('" & ChaveGrupo & "') and nfdSubGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
+      Prod.Open "Select * from historiconotafiscaldetprod where nfdDataPagamento > ('" & InicioPeriodo & "') and nfdDataPagamento < ('" & FimPeriodo & "') and nfdCentroDeCusto = ('" & "2" & "') and nfdGrupoCentroDeCusto = ('" & ChaveGrupo & "') and nfdSubGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
       If Prod.EOF Then
          MsgBox ("Nota fiscal sem movimento no período solicitado."), vbInformation
+         Contador = 1
          Call FechaDB
          Exit Sub
       End If
    End If
-
+   If Contador > 0 Then
+      MsgBox ("Não há lancamentos para este centro de custo"), vbInformation
+      Contador = 0
+      Call FechaDB
+      Exit Sub
+   End If
    Prod.MoveFirst
 
    Do While Not Prod.EOF
@@ -678,7 +685,7 @@ Call Rotina_AbrirBanco
       If Prod.State = 1 Then
          Prod.Close: Set Prod = Nothing
       End If
-      Prod.Open "Select * from NotaFiscalDetProd where nfdCentroDeCusto = ('" & "2" & "') and nfdGrupoCentroDeCusto = ('" & ChaveGrupo & "') and nfdSubGrupoCentroDeCusto = ('" & ChaveSubGrupo & "')", db, 3, 3
+      Prod.Open "Select * from notafiscaldetprod where nfdCentroDeCusto = ('" & "2" & "') and nfdGrupoCentroDeCusto = ('" & ChaveGrupo & "') and nfdSubGrupoCentroDeCusto = ('" & ChaveSubGrupo & "')", db, 3, 3
       If Prod.EOF Then
          MsgBox ("Nota fiscal sem movimento Not período."), vbInformation
       End If
@@ -686,7 +693,7 @@ Call Rotina_AbrirBanco
       If Prod.State = 1 Then
          Prod.Close: Set Prod = Nothing
       End If
-      Prod.Open "Select * from HistoricoNotaFiscalDetProd where nfdDataPagamento > ('" & InicioPeriodo & "') and nfdDataPagamento < ('" & FimPeriodo & "') and nfdCentroDeCusto = ('" & "2" & "') and nfdGrupoCentroDeCusto = ('" & ChaveGrupo & "') and nfdSubGrupoCentroDeCusto = ('" & ChaveSubGrupo & "')", db, 3, 3
+      Prod.Open "Select * from historiconotafiscaldetprod where nfdDataPagamento > ('" & InicioPeriodo & "') and nfdDataPagamento < ('" & FimPeriodo & "') and nfdCentroDeCusto = ('" & "2" & "') and nfdGrupoCentroDeCusto = ('" & ChaveGrupo & "') and nfdSubGrupoCentroDeCusto = ('" & ChaveSubGrupo & "')", db, 3, 3
       If Prod.EOF Then
          MsgBox ("Nota fiscal sem movimento no período solicitado."), vbInformation
          Call FechaDB
@@ -731,7 +738,7 @@ Next
 
 AcumulaCentroDeCusto = 0
 
-ccc.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto > ('" & "00" & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
+ccc.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto > ('" & "00" & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
 If ccc.EOF Then
    MsgBox ("ERRO: Tabela de centro de custo Vazia."), vbCritical
    Call FechaDB
@@ -746,40 +753,66 @@ Do While Not ccc.EOF
    ccc.MoveNext
 Loop
 
-
-
 If ChavePeriodo = 0 Then
-   If Prod.State = 1 Then
-      Prod.Close: Set Prod = Nothing
+   If ctp.State = 1 Then
+      ctp.Close: Set ctp = Nothing
    End If
-   Prod.Open "Select * from NotaFiscalDetProd where nfdCentroDeCusto = ('" & "2" & "') and nfdGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
-   If Prod.EOF Then
+   ctp.Open "Select * from contas_a_pagar WHERE ctpStatus = ('" & 1 & "')", db, 3, 3
+   If ctp.EOF Then
       MsgBox ("Nota fiscal sem movimento Not período."), vbInformation
       Call FechaDB
       Exit Sub
     End If
 Else
-   If Prod.State = 1 Then
-      Prod.Close: Set Prod = Nothing
+   If ctp.State = 1 Then
+      ctp.Close: Set ctp = Nothing
    End If
-   Prod.Open "Select * from HistoricoNotaFiscalDetProd where nfdDataPagamento > ('" & InicioPeriodo & "') and nfdDataPagamento < ('" & FimPeriodo & "') and nfdCentroDeCusto = ('" & "2" & "') and nfdGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
-   If Prod.EOF Then
+   ctp.Open "Select * from historicocontaspagar where ctpDataPagamento > ('" & InicioPeriodo & "') and ctpDataPagamento < ('" & FimPeriodo & "') AND ctpStatus = ('" & 1 & "')", db, 3, 3
+   If ctp.EOF Then
       MsgBox ("Nota fiscal sem movimento no período solicitado."), vbInformation
       Call FechaDB
       Exit Sub
    End If
 End If
 
-Prod.MoveFirst
+ctp.MoveFirst
 
-Do While Not Prod.EOF
-   NotaFiscal = Prod!chNotaFiscalEntrada
-   Pessoa = Prod!chPessoa
-   Call VerificaStatus
-   If Status = 1 Then
-      ValorCentroDeCusto(Prod!nfdGrupoCentroDeCusto) = ValorCentroDeCusto(Prod!nfdGrupoCentroDeCusto) + Prod!nfdValorParcela
+Do While Not ctp.EOF
+   NotaFiscal = ctp!chNotafiscal
+   Pessoa = ctp!chPessoa
+   If Prod.State = 1 Then
+      Prod.Close: Set Prod = Nothing
    End If
-   Prod.MoveNext
+   Prod.Open "SELECT nfdValorParcela, nfdGrupoCentroDeCusto FROM notafiscaldetprod where chPessoa = ('" & Pessoa & "') and chNotaFiscalEntrada = ('" & NotaFiscal & "')", db, 3, 3
+   If Prod.EOF Then
+      Encontrei = 0
+      If Prod.State = 1 Then
+         Prod.Close: Set Prod = Nothing
+      End If
+      Prod.Open "SELECT nfdValorParcela, nfdGrupoCentroDeCusto FROM historiconotafiscaldetprod where chPessoa = ('" & Pessoa & "') and chNotaFiscalEntrada = ('" & NotaFiscal & "')", db, 3, 3
+      If Prod.EOF Then
+         Encontrei = 0
+      Else
+         Encontrei = 1
+      End If
+   Else
+      Encontrei = 1
+   End If
+   
+   If Encontrei = 0 Then
+      MsgBox (" Não há Nota Fiscal no período consultado."), vbInformation
+      Call FechaDB
+      Exit Sub
+   End If
+   
+   Prod.MoveFirst
+   Do While Not Prod.EOF
+      ValorCentroDeCusto(Prod!nfdGrupoCentroDeCusto) = ValorCentroDeCusto(Prod!nfdGrupoCentroDeCusto) + Prod!nfdValorParcela
+      Prod.MoveNext
+   Loop
+   
+   ctp.MoveNext
+
 Loop
 
 grdCentroDeCusto.Rows = 1
@@ -796,8 +829,6 @@ For Ind = 0 To 10
     End If
 Next
 
-'ctp.MoveNext
-   
 lblTotalCentroDeCusto = Format$(AcumulaCentroDeCusto, "##,###,##0.00")
 
 End Sub
@@ -807,13 +838,13 @@ Dim MesProximo As Integer
 
 Dia = Format$(1, "00")
 
-DataInicioInvertida = Format$(ano & "-" & Mes & "-" & Dia, "dd/mm/yyyy")
+DataInicioInvertida = Format$(ano & "-" & mes & "-" & Dia, "dd/mm/yyyy")
 
 DataInicioInvertida = DataInicioInvertida - 1
 
 InicioPeriodo = Year(DataInicioInvertida) & "-" & Format$(Month(DataInicioInvertida), "00") & "-" & Format$(Day(DataInicioInvertida), "00")
 
-MesProximo = Format$(Mes + 1, "00")
+MesProximo = Format$(mes + 1, "00")
 Dia = Format$(1, "00")
 
 If MesProximo > 12 Then
@@ -835,7 +866,7 @@ Next
 
 AcumulaCentroDeCusto = 0
 
-ccc.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto > ('" & "00" & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
+ccc.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto > ('" & "00" & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
 If ccc.EOF Then
    MsgBox ("ERRO: Tabela de centro de custo Vazia."), vbCritical
    Call FechaDB
@@ -852,14 +883,14 @@ Loop
 
 
 If ChavePeriodo = 0 Then
-   Prod.Open "Select * from NotaFiscalDetProd", db, 3, 3
+   Prod.Open "Select * from ndtafiscaldetprod", db, 3, 3
    If Prod.EOF Then
       MsgBox ("Nota fiscal sem movimento Not período."), vbInformation
       Call FechaDB
       Exit Sub
     End If
 Else
-   Prod.Open "Select * from HistoricoNotaFiscalDetProd where nfdDataPagamento > ('" & InicioPeriodo & "') and nfdDataPagamento < ('" & FimPeriodo & "')", db, 3, 3
+   Prod.Open "Select * from historiconotafiscaldetprod where nfdDataPagamento > ('" & InicioPeriodo & "') and nfdDataPagamento < ('" & FimPeriodo & "')", db, 3, 3
    If Prod.EOF Then
       MsgBox ("Nota fiscal sem movimento no período solicitado."), vbInformation
       Call FechaDB
@@ -900,3 +931,4 @@ Next
 lblTotalCentroDeCusto = Format$(AcumulaCentroDeCusto, "##,###,##0.00")
 
 End Sub
+

@@ -245,8 +245,8 @@ Dim QtdDiasHoje As Double
 Dim QtdDias As Double
 Dim PercentDecorrido As Double
 
-Dim Ano As Integer
-Dim Mes As Integer
+Dim ano As Integer
+Dim mes As Integer
 Dim Dia As Integer
 
 Dim AnoDb As Integer
@@ -260,7 +260,7 @@ Dim Ind As Integer
 Dim IndCol As Integer
 Dim IndCmb As Integer
 
-Dim PessoaCmb(50) As String
+Dim pessoaCmb(50) As String
 Dim Encontrei As Integer
 
 
@@ -271,7 +271,7 @@ Call LimpaGrdCurso
 
 Call Rotina_AbrirBanco
 
-agcto.Open "Select * from TreinamentoAgenda where chPessoa = ('" & cmbPessoa & "') and agctoDataProxCurso > ('" & DataHojeInvertida & "')", db, 3, 3
+agcto.Open "Select * from treinamentoagenda where chPessoa = ('" & cmbPessoa & "') and agctoDataProxCurso > ('" & DataHojeInvertida & "')", db, 3, 3
 If agcto.EOF Then
    MsgBox ("Funcionário sem agenda de Curso/Treinamento."), vbInformation
    Call FechaDB
@@ -344,11 +344,11 @@ txtHoje = Date
 optTodos = False
 optSeleciona = False
 
-Ano = Year(Date)
-Mes = Month(Date)
+ano = Year(Date)
+mes = Month(Date)
 Dia = Day(Date)
 
-DataHojeInvertida = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataHojeInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 End Sub
 
@@ -357,11 +357,11 @@ txtHoje = Date
 ColaboradorAnterior = Empty
 DataAnterior = Empty
 
-Ano = Year(Date)
-Mes = Month(Date)
+ano = Year(Date)
+mes = Month(Date)
 Dia = Day(Date)
 
-DataHojeInvertida = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataHojeInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 cmbPessoa.Clear
 
@@ -369,7 +369,7 @@ Call Rotina_AbrirBanco
 
 Call LimpaGrdCurso
 
-agcto.Open "Select * from TreinamentoAgenda where agctoStatus = ('" & 0 & "')", db, 3, 3
+agcto.Open "Select * from treinamentoagenda where agctoStatus = ('" & 0 & "')", db, 3, 3
 If agcto.EOF Then
    Call FechaDB
    Exit Sub
@@ -384,13 +384,13 @@ Do While Not agcto.EOF
       cto.Close: Set cto = Nothing
    End If
    
-   cto.Open "Select * from Treinamento where chNomeCurso = ('" & agcto!chNomeCurso & "')", db, 3, 3
+   cto.Open "Select * from treinamento where chNomeCurso = ('" & agcto!chNomeCurso & "')", db, 3, 3
    If Not cto.EOF Then
       DataDias = Date + cto!ctoAvisoEm
-      Ano = Year(DataDias)
-      Mes = Month(DataDias)
+      ano = Year(DataDias)
+      mes = Month(DataDias)
       Dia = Day(DataDias)
-      DataBase = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+      DataBase = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
    Else
       MsgBox ("Curso/Treinamento não encontrado. Comunicar ao analista responsável."), vbCritical
       Call FechaDB
@@ -424,9 +424,9 @@ Call Rotina_AbrirBanco
 
 cmbPessoa.Clear
 
-pes.Open "Select * from Pessoa where pesRazaoSocial > ('" & Empty & "') and pesTipoPessoa = ('" & 6 & "') and pesStatusPessoa = ('" & 0 & "')", db, 3, 3
+pes.Open "Select * from pessoa where pesRazaoSocial > ('" & Empty & "') and pesTipoPessoa = ('" & 6 & "') and pesStatusPessoa = ('" & 0 & "')", db, 3, 3
 If pes.EOF Then
-   MsgBox ("Cadastro Pessoa sem funcionário cadastrado."), vbInformation
+   MsgBox ("Cadastro pessoa sem funcionário cadastrado."), vbInformation
    Call FechaDB
    Exit Sub
 End If
@@ -439,10 +439,10 @@ IndCmb = 0
 Encontrei = 0
 
 Do While Encontrei = 0
-   If PessoaCmb(Ind) = Empty Then
+   If pessoaCmb(Ind) = Empty Then
       Encontrei = 1
    Else
-      PessoaCmb(Ind) = Empty
+      pessoaCmb(Ind) = Empty
       Ind = Ind + 1
    End If
 Loop
@@ -452,12 +452,12 @@ Encontrei = 0
 Do While Not pes.EOF
    
    For IndCmb = 0 To Ind
-       If pes!pesRazaoSocial = PessoaCmb(IndCmb) Then
+       If pes!pesRazaoSocial = pessoaCmb(IndCmb) Then
           Encontrei = 1
           IndCmb = Ind
        Else
-          If PessoaCmb(IndCmb) = Empty Then
-             PessoaCmb(IndCmb) = pes!pesRazaoSocial
+          If pessoaCmb(IndCmb) = Empty Then
+             pessoaCmb(IndCmb) = pes!pesRazaoSocial
              Encontrei = 0
              IndCmb = Ind
           End If

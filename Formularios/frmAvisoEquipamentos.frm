@@ -163,9 +163,9 @@ Linha = 0
 
 Call Rotina_AbrirBanco
 
-eqpt.Open "Select * from Equipamento", db, 3, 3
+eqpt.Open "Select * from equipamento", db, 3, 3
 If eqpt.EOF Then
-   MsgBox ("Cadastro de Equipamentos vazio. Comunicar ao analista responsável."), vbCritical
+   MsgBox ("Cadastro de equipamentos vazio. Comunicar ao analista responsável."), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -180,9 +180,9 @@ Do While Not eqpt.EOF
       If teq.State = 1 Then
          teq.Close: Set teq = Nothing
       End If
-      teq.Open "Select * from EquipamentoTipo where chTipoDeEquipamento = ('" & eqpt!eqptTipoEquipamento & "')", db, 3, 3
+      teq.Open "Select * from equipamentotipo where chTipoDeEquipamento = ('" & eqpt!eqptTipoEquipamento & "')", db, 3, 3
       If teq.EOF Then
-         MsgBox ("Erro no acesso a Tipo de Equipamento."), vbCritical
+         MsgBox ("Erro no acesso a Tipo de equipamento."), vbCritical
          Call FechaDB
          Exit Sub
       End If
@@ -193,7 +193,7 @@ Do While Not eqpt.EOF
          If Prod.State = 1 Then
             Prod.Close: Set Prod = Nothing
          End If
-         Prod.Open "Select * from Produto where chProduto = ('" & eqpt!eqptProdVinculado & "')", db, 3, 3
+         Prod.Open "Select * from produto where chProduto = ('" & eqpt!eqptProdVinculado & "')", db, 3, 3
          If Prod.EOF Then
             MsgBox ("Produto não cadastrado. Verificar"), vbCritical
             Call FechaDB

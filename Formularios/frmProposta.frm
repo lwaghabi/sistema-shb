@@ -287,6 +287,7 @@ Begin VB.Form frmProposta
          Width           =   1455
       End
       Begin VB.TextBox txtEquipOper 
+         Enabled         =   0   'False
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   12
@@ -606,7 +607,7 @@ Begin VB.Form frmProposta
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   242679809
+      Format          =   242941953
       CurrentDate     =   45050
    End
    Begin VB.CommandButton cmdProcessar 
@@ -665,7 +666,7 @@ Begin VB.Form frmProposta
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   242679809
+      Format          =   242941953
       CurrentDate     =   45047
    End
    Begin VB.ComboBox cmbStatus 
@@ -955,7 +956,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Dim Ind As Integer
-Dim linha As Integer
+Dim Linha As Integer
 Dim Limite As Integer
 Dim MedidaEquipamento As Integer
 Dim chaveRevisao As Integer
@@ -988,7 +989,7 @@ Private Sub cmbAno_LostFocus()
 
 Call Rotina_AbrirBanco
 
-If cmbProposta = "Nova Proposta" Then
+If cmbProposta = "Nova proposta" Then
    dtDataPedidoCotacao = Date
    dtDataRevisao = Date
    
@@ -1013,8 +1014,8 @@ End If
 
 ano = cmbAno
 
-'Prod.Open "SELECT * FROM Proposta WHERE revisao = (SELECT MAX(revisao) FROM Proposta WHERE numProposta = ('" & cmbProposta & "')) AND numProposta = ('" & cmbProposta & "')", db, 3, 3
-Prod.Open "Select * from Proposta WHERE anoProposta = ('" & ano & "') and numProposta = ('" & cmbProposta & "')", db, 3, 3
+'Prod.Open "SELECT * FROM proposta WHERE revisao = (SELECT MAX(revisao) FROM proposta WHERE numProposta = ('" & cmbProposta & "')) AND numProposta = ('" & cmbProposta & "')", db, 3, 3
+Prod.Open "Select * from proposta WHERE anoProposta = ('" & ano & "') and numProposta = ('" & cmbProposta & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("ERRO: Contrato pesquisado não encontrado."), vbCritical
    Call FechaDB
@@ -1040,7 +1041,7 @@ End Sub
 Private Sub cmbCliente_LostFocus()
    cmbResponsavel.Clear
    Call Rotina_AbrirBanco
-   rs.Open "Select *  from Telefone where CodPessoa=('" & cmbCliente & "')", db, 3, 3
+   rs.Open "Select *  from telefone where CodPessoa=('" & cmbCliente & "')", db, 3, 3
    If rs.EOF Then
       MsgBox ("Erro:Cliente não informado ou inexistente")
       Call FechaDB
@@ -1060,7 +1061,7 @@ Private Sub cmbProposta_LostFocus()
 
 Call Rotina_AbrirBanco
 
-If cmbProposta = "Nova Proposta" Then
+If cmbProposta = "Nova proposta" Then
    dtDataPedidoCotacao = Date
    dtDataRevisao = Date
    
@@ -1086,9 +1087,9 @@ If cmbProposta = "Nova Proposta" Then
 Else
    NovaProposta = 0
 
-   Prod.Open "Select * from Proposta where numProposta = ('" & cmbProposta & "')", db, 3, 3
+   Prod.Open "Select * from proposta where numProposta = ('" & cmbProposta & "')", db, 3, 3
    If Prod.EOF Then
-      MsgBox ("ERRO: Não encontrado o numero de Proposta informado."), vbInformation
+      MsgBox ("ERRO: Não encontrado o numero de proposta informado."), vbInformation
       Call FechaDB
       Exit Sub
    End If
@@ -1111,7 +1112,7 @@ End Sub
 Private Sub cmbResponsavel_LostFocus()
 Call Rotina_AbrirBanco
 cmbEmail.Clear
-pes.Open "Select CodigoContato from Telefone where TipoContato=('" & cmbResponsavel & "')", db, 3, 3
+pes.Open "Select CodigoContato from telefone where TipoContato=('" & cmbResponsavel & "')", db, 3, 3
    If pes.EOF Then
       MsgBox ("Erro:Contato não informado ou inexistente")
       Call FechaDB
@@ -1142,9 +1143,9 @@ End If
 
 Call Rotina_AbrirBanco
 
-Prod.Open "Select * from Proposta where anoProposta = ('" & ano & "') and numProposta = ('" & cmbProposta & "' ) and Cliente = ('" & cmbCliente & "') and revisao = ('" & cmbRevisao & "')", db, 3, 3
+Prod.Open "Select * from proposta where anoProposta = ('" & ano & "') and numProposta = ('" & cmbProposta & "' ) and Cliente = ('" & cmbCliente & "') and revisao = ('" & cmbRevisao & "')", db, 3, 3
 If Prod.EOF Then
-   MsgBox ("ERRO: Proposta não encontrada. Comunicar ao analista responsável."), vbInformation
+   MsgBox ("ERRO: proposta não encontrada. Comunicar ao analista responsável."), vbInformation
    Call FechaDB
    Exit Sub
 End If
@@ -1170,7 +1171,7 @@ Email = Prod!emailResp
 cmbStatus.ListIndex = Prod!Status
 Status = cmbStatus
 
-pes.Open "Select chCNPJ_CPF from Pessoa where chPessoa = ('" & cmbCliente & "')", db, 3, 3
+pes.Open "Select chCNPJ_CPF from pessoa where chPessoa = ('" & cmbCliente & "')", db, 3, 3
 
 If pes.EOF Then
    MsgBox ("Cliente não possui CNPJ cadastrado")
@@ -1192,6 +1193,7 @@ If txtEquipOper <> Empty Then
       Resp = MsgBox("Exclusão de registro. Confirma???", vbExclamation + vbYesNo)
       If Resp = vbYes Then
          rs.Delete
+         grdDetProp.RemoveItem (grdDetProp.Row)
          Call limpaCamposDetalheProposta
          Call CargaGrid
          MsgBox ("Registro excluído com sucesso."), vbInformation
@@ -1207,7 +1209,7 @@ End Sub
 
 Private Sub cmdGeraProposta_Click()
    Call verificaAlteracao
-   If cmbProposta <> "Nova Proposta" And cmbRevisao <> "Nova Revisão" And flagAlteracao = False Then
+   If cmbProposta <> "Nova proposta" And cmbRevisao <> "Nova Revisão" And flagAlteracao = False Then
    
    Call GerarExcelWord
    Call ExportarWord
@@ -1220,102 +1222,110 @@ End Sub
 
 Private Sub cmdProcessar_Click()
 
-   Call Rotina_AbrirBanco
-   
-   If cmbProposta = "Nova Proposta" Then
-      rs.Open "Select * from Empresa", db, 3, 3
-      If rs.EOF Then
-         MsgBox ("ERRO: Registro empresa não encontrado."), vbCritical
-         Call FechaDB
-         Exit Sub
-      End If
-      rs!empNumProposta = rs!empNumProposta + 1
-      cmbProposta = rs!empNumProposta
-      rs.Update
-      cmbRevisao = 1
-   Else
-      If cmbStatus.ListIndex = 0 Then
-         If cmbRevisao = "Nova Revisao" Then
-            chaveRevisao = 1
-            cmbRevisao = cmbRevisao.ListCount
+   If cmbRevisao <> Empty Then
+      
+      On Error GoTo Erro:
+      
+      Call Rotina_AbrirBanco
+      
+      If cmbProposta = "Nova proposta" Then
+         rs.Open "Select * from empresa", db, 3, 3
+         If rs.EOF Then
+            MsgBox ("ERRO: Registro empresa não encontrado."), vbCritical
+            Call FechaDB
+            Exit Sub
+         End If
+         rs!empNumProposta = rs!empNumProposta + 1
+         cmbProposta = rs!empNumProposta
+         rs.Update
+         cmbRevisao = 1
+      Else
+         If cmbStatus.ListIndex = 0 Then
+            If cmbRevisao = "Nova Revisao" Then
+               chaveRevisao = 1
+               cmbRevisao = cmbRevisao.ListCount
+            Else
+               chaveRevisao = 0
+            End If
          Else
             chaveRevisao = 0
          End If
-      Else
-         chaveRevisao = 0
       End If
-   End If
-   
-'   If chaveRevisao = 1 And cmbProposta <> "Nova Proposta" Then
-'      neg.Open "Select * from Proposta where numProposta = ('" & cmbProposta & "') and revisao = (SELECT MAX(revisao) FROM proposta WHERE numProposta = ('" & cmbProposta & "'))", db, 3, 3
-'      If neg.EOF Then
-'         MsgBox ("Erro: revisão não encontrada")
-'         Exit Sub
-'      End If
-'      neg!Status = 2
-'      neg.Update
-'   End If
-   
-   Prod.Open "Select * from Proposta where anoProposta = ('" & ano & "') and numProposta = ('" & cmbProposta & "') and revisao = ('" & cmbRevisao & "')", db, 3, 3
-   If Prod.EOF Then
-      Prod.AddNew
-   End If
-   
-   Prod!numProposta = Format$(cmbProposta, "0000")
-   cmbProposta = Format$(cmbProposta, "0000")
-   Prod!revisao = cmbRevisao
-   cmbRevisao = cmbRevisao
-   Prod!anoProposta = cmbAno
-   Prod!Cliente = cmbCliente
-   Prod!responsavel = cmbResponsavel
-   Prod!emailResp = cmbEmail
-   Prod!unidTempo = cmbUnidTemp.ListIndex
-'   Prod!qtdHBT = txtQtdHBT
-'   Prod!qtdJBX = txtQtdJBX
-   Prod!QtdDias = txtQtdDias
-'   Prod!qtdFunc = txtQtdOperador
-'   Prod!valorFunc = txtValorOperador
-'   Prod!valorHBTMetro = txtValorHabitat
-'   Prod!qtdMetros = ((txtCompHbt * txtLarguraHBT) * 2) + ((txtCompHbt * txtAlturaHBT) * 2) + ((txtAlturaHBT * txtLarguraHBT) * 2) + 8
-'   Prod!diaria = lblValorDiaria
-'   Prod!valorJBX = txtValorJBX
-   Prod!Status = cmbStatus.ListIndex
-   Prod!dataSolicitacaoProposta = dtDataPedidoCotacao
-   Prod!dataProposta = dtDataRevisao
-   Prod.Update
-   
-   Call FechaDB
-   If grdDetProp.Visible = False Then
-      MsgBox ("Cadastrar os equipamentos."), vbInformation
-      fraDetProp.Visible = True
-   End If
       
-   MsgBox ("Proposta processada com sucesso"), vbInformation
-   
+   '   If chaveRevisao = 1 And cmbProposta <> "Nova proposta" Then
+   '      neg.Open "Select * from proposta where numProposta = ('" & cmbProposta & "') and revisao = (SELECT MAX(revisao) FROM proposta WHERE numProposta = ('" & cmbProposta & "'))", db, 3, 3
+   '      If neg.EOF Then
+   '         MsgBox ("Erro: revisão não encontrada")
+   '         Exit Sub
+   '      End If
+   '      neg!Status = 2
+   '      neg.Update
+   '   End If
+      
+      Prod.Open "Select * from proposta where anoProposta = ('" & ano & "') and numProposta = ('" & cmbProposta & "') and revisao = ('" & cmbRevisao & "')", db, 3, 3
+      If Prod.EOF Then
+         Prod.AddNew
+      End If
+      
+      Prod!numProposta = Format$(cmbProposta, "0000")
+      cmbProposta = Format$(cmbProposta, "0000")
+      Prod!revisao = cmbRevisao
+      cmbRevisao = cmbRevisao
+      Prod!anoProposta = cmbAno
+      Prod!Cliente = cmbCliente
+      Prod!responsavel = cmbResponsavel
+      Prod!emailResp = cmbEmail
+      Prod!unidTempo = cmbUnidTemp.ListIndex
+   '   Prod!qtdHBT = txtQtdHBT
+   '   Prod!qtdJBX = txtQtdJBX
+      Prod!QtdDias = txtQtdDias
+   '   Prod!qtdFunc = txtQtdOperador
+   '   Prod!valorFunc = txtValorOperador
+   '   Prod!valorHBTMetro = txtValorHabitat
+   '   Prod!qtdMetros = ((txtCompHbt * txtLarguraHBT) * 2) + ((txtCompHbt * txtAlturaHBT) * 2) + ((txtAlturaHBT * txtLarguraHBT) * 2) + 8
+   '   Prod!diaria = lblValorDiaria
+   '   Prod!valorJBX = txtValorJBX
+      Prod!Status = cmbStatus.ListIndex
+      Prod!dataSolicitacaoProposta = dtDataPedidoCotacao
+      Prod!dataProposta = dtDataRevisao
+      Prod.Update
+      
+      Call FechaDB
+      If grdDetProp.Visible = False Then
+         MsgBox ("Cadastrar os equipamentos."), vbInformation
+         fraDetProp.Visible = True
+      End If
+         
+      MsgBox ("Proposta processada com sucesso"), vbInformation
+   Else
+      MsgBox ("Revisão não informada!"), vbInformation
+   End If
+Exit Sub
+Erro: MsgBox ("Erro ao processar proposta: " & Err.Description), vbInformation
 End Sub
 
 
 Public Sub CargaGrid()
    Call Rotina_AbrirBanco
-   rs.Open "Select * from PropostaDetalhe where numProposta=('" & cmbProposta & "') and revisaoProposta=('" & cmbRevisao & "')", db, 3, 3
+   rs.Open "Select * from propostadetalhe where numProposta=('" & cmbProposta & "') and revisaoProposta=('" & cmbRevisao & "')", db, 3, 3
    If Not rs.EOF Then
       rs.MoveFirst
-      linha = 1
+      Linha = 1
       'grdDetProp.Clear
       Do While Not rs.EOF
-         grdDetProp.Rows = linha + 1
-         grdDetProp.TextMatrix(linha, 0) = rs!quantidade
-         grdDetProp.TextMatrix(linha, 1) = rs!equipamento
-         grdDetProp.TextMatrix(linha, 2) = rs!Unidade
-         grdDetProp.TextMatrix(linha, 3) = Format$(rs!precoUnit, "##,##0.00")
-         grdDetProp.TextMatrix(linha, 4) = rs!areaTotal
-         grdDetProp.TextMatrix(linha, 5) = Format$(rs!diaria, "##,#0.00")
+         grdDetProp.Rows = Linha + 1
+         grdDetProp.TextMatrix(Linha, 0) = rs!quantidade
+         grdDetProp.TextMatrix(Linha, 1) = rs!equipamento
+         grdDetProp.TextMatrix(Linha, 2) = rs!unidade
+         grdDetProp.TextMatrix(Linha, 3) = Format$(rs!precoUnit, "##,##0.00")
+         grdDetProp.TextMatrix(Linha, 4) = rs!areaTotal
+         grdDetProp.TextMatrix(Linha, 5) = Format$(rs!diaria, "##,#0.00")
          If rs!equipamento = "Habitat" Then
             txtAlturaHBT = rs!altura
             txtCompHbt = rs!comprimento
             txtLarguraHBT = rs!largura
          End If
-         linha = linha + 1
+         Linha = Linha + 1
          rs.MoveNext
       Loop
       
@@ -1327,7 +1337,7 @@ End Sub
 Private Sub cmdSalvar_Click()
    If txtQtd <> Empty And txtEquipOper <> Empty And txtPrecoUnit <> Empty And txtQtdUnid <> Empty And txtDiaria <> Empty Then
       Call Rotina_AbrirBanco
-      rs.Open "Select * from PropostaDetalhe where numProposta=('" & cmbProposta & "') and revisaoProposta=('" & cmbRevisao & "') and equipamento = ('" & txtEquipOper & "')", db, 3, 3
+      rs.Open "Select * from propostadetalhe where numProposta=('" & cmbProposta & "') and revisaoProposta=('" & cmbRevisao & "') and equipamento = ('" & txtEquipOper & "')", db, 3, 3
       If rs.EOF Then
          rs.AddNew
       End If
@@ -1338,7 +1348,7 @@ Private Sub cmdSalvar_Click()
       rs!areaTotal = txtQtdUnid
       rs!diaria = txtDiaria
       rs!quantidade = txtQtd
-      rs!Unidade = cmbUnidade
+      rs!unidade = cmbUnidade
       If fraMedidaHabitat.Visible = True Then
          rs!comprimento = txtCompHbt
          rs!largura = txtLarguraHBT
@@ -1369,7 +1379,7 @@ dtDataPedidoCotacao = Date
 dtDataRevisao = Date
 
 ano = Date
-linha = 1
+Linha = 1
 fraDetProp.Visible = False
 ano = Format$(ano, "yy")
 AnoCMB = ano
@@ -1386,17 +1396,17 @@ cmbAno.ListIndex = 0
 
 Call Rotina_AbrirBanco
 
-usu.Open "Select * FROM Usuario WHERE chNome = ('" & glbUsuario & "')", db, 3, 3
+usu.Open "Select * FROM usuario WHERE chNome = ('" & glbUsuario & "')", db, 3, 3
 
 If usu.EOF Then
-   MsgBox ("ERRO: Usuario não encontrado."), vbCritical
+   MsgBox ("ERRO: usuario não encontrado."), vbCritical
    Call FechaDB
    Exit Sub
 End If
    
-pes.Open "Select * FROM Pessoa WHERE chPessoa = ('" & usu!chPessoa & "')", db, 3, 3
+pes.Open "Select * FROM pessoa WHERE chPessoa = ('" & usu!chPessoa & "')", db, 3, 3
 If pes.EOF Then
-   MsgBox ("ERRO: Pessoa sem cliente."), vbCritical
+   MsgBox ("ERRO: pessoa sem cliente."), vbCritical
 Else
    ContatoSHB = pes!pesRazaoSocial
    ContatoEmail = pes!pesEmail
@@ -1407,9 +1417,9 @@ If pes.State = 1 Then
    pes.Close: Set pes = Nothing
 End If
 
-pes.Open "Select * FROM Pessoa WHERE pesTipoPessoa = ('" & 0 & "')", db, 3, 3
+pes.Open "Select * FROM pessoa WHERE pesTipoPessoa = ('" & 0 & "')", db, 3, 3
 If pes.EOF Then
-   MsgBox ("ERRO: Pessoa sem cliente."), vbCritical
+   MsgBox ("ERRO: pessoa sem cliente."), vbCritical
 Else
    pes.MoveFirst
    Do While Not pes.EOF
@@ -1421,7 +1431,7 @@ End If
 lblDataPadrao = Date
 
 
-cmbProposta.AddItem "Nova Proposta"
+cmbProposta.AddItem "Nova proposta"
 cmbProposta.ListIndex = 0
 
 
@@ -1434,7 +1444,7 @@ cmbUnidTemp.ListIndex = 0
 cmbRevisao.AddItem "Nova Revisao"
 cmbRevisao.ListIndex = 0
 
-neg.Open "Select DISTINCT numProposta from Proposta where status <> 1", db, 3, 3
+neg.Open "Select DISTINCT numProposta from proposta where status <> 1", db, 3, 3
 If Not neg.EOF Then
    neg.MoveFirst
    Do While Not neg.EOF
@@ -1452,9 +1462,9 @@ cmbStatus.AddItem "PROPOSTA RECUSADA"
 cmbUnidade.AddItem "M²"
 cmbUnidade.AddItem "Unid"
 
-Prod.Open "Select DISTINCT eqptTipoEquipamento from Equipamento", db, 3, 3
+Prod.Open "Select DISTINCT eqptTipoEquipamento from equipamento", db, 3, 3
 If Prod.EOF Then
-   MsgBox ("Erro: Equipamentos não registrados")
+   MsgBox ("Erro: equipamentos não registrados")
    FechaDB
    Exit Sub
 End If
@@ -1470,9 +1480,9 @@ Loop
 
 Prod.Close
 
-rs.Open "Select * from Empresa", db, 3, 3
+rs.Open "Select * from empresa", db, 3, 3
 If rs.EOF Then
-   MsgBox ("Erro: Empresa não possui registro")
+   MsgBox ("Erro: empresa não possui registro")
    FechaDB
    Exit Sub
 End If
@@ -1493,7 +1503,7 @@ Public Sub ExportarWord()
         Dim CaminhoNew As String
         Dim CaminhoProposta As String
         Call Rotina_AbrirBanco
-        usu.Open "select usuEnderecoOneDrive from Usuario where  chnome = ('" & glbUsuario & "')", db, 3, 3
+        usu.Open "select usuEnderecoOneDrive from usuario where  chnome = ('" & glbUsuario & "')", db, 3, 3
         
         If usu!usuEnderecoOneDrive = Null Then
          MsgBox ("Não autorizada a impressão de proposta")
@@ -1681,7 +1691,7 @@ Private Sub grdDetProp_Click()
    If grdDetProp.TextMatrix(grdDetProp.Row, 1) = "Habitat" Then
       fraMedidaHabitat.Visible = True
       Call Rotina_AbrirBanco
-      rs.Open "Select comprimento,largura,altura from PropostaDetalhe where numProposta=('" & cmbProposta & "') and revisaoProposta=('" & cmbRevisao & "') and equipamento = ('" & grdDetProp.TextMatrix(grdDetProp.Row, 1) & "')", db, 3, 3
+      rs.Open "Select comprimento,largura,altura from propostadetalhe where numProposta=('" & cmbProposta & "') and revisaoProposta=('" & cmbRevisao & "') and equipamento = ('" & grdDetProp.TextMatrix(grdDetProp.Row, 1) & "')", db, 3, 3
       txtCompHbt = rs!comprimento
       txtAlturaHBT = rs!altura
       txtLarguraHBT = rs!largura
@@ -1740,7 +1750,7 @@ Public Sub GerarExcelWord()
         Dim CaminhoNew As String
                 
         Call Rotina_AbrirBanco
-        usu.Open "select usuEnderecoOneDrive from Usuario where  chnome = ('" & glbUsuario & "')", db, 3, 3
+        usu.Open "select usuEnderecoOneDrive from usuario where  chnome = ('" & glbUsuario & "')", db, 3, 3
         
         If usu!usuEnderecoOneDrive = Null Then
          MsgBox ("Não autorizada a impressão de proposta")
@@ -1772,13 +1782,13 @@ Public Sub GerarExcelWord()
 100         Set oWB = oApp.Workbooks.Open(FileName:=CaminhoNew & "ExcelEquipDetalhe.xlsx")
             
             'Do any modifications to the workbook.
-            rs.Open "SELECT * FROM PropostaDetalhe where numProposta = ('" & cmbProposta & "') and revisaoProposta = ('" & cmbRevisao & "')", db, 3, 3
+            rs.Open "SELECT * FROM propostadetalhe where numProposta = ('" & cmbProposta & "') and revisaoProposta = ('" & cmbRevisao & "')", db, 3, 3
             Do Until rs.EOF
-               Prod.Open "Select descricao from EquipamentoDescricao where equipamento = ('" & rs!equipamento & "')", db, 3, 3
+               Prod.Open "Select descricao from equipamentodescricao where equipamento = ('" & rs!equipamento & "')", db, 3, 3
                oApp.Cells(i, 1) = i - 1
                oApp.Cells(i, 2) = Prod!Descricao
                oApp.Cells(i, 3) = rs!quantidade
-               oApp.Cells(i, 4) = rs!Unidade
+               oApp.Cells(i, 4) = rs!unidade
                oApp.Cells(i, 5) = rs!areaTotal
                oApp.Cells(i, 6) = rs!precoUnit
                oApp.Cells(i, 7) = rs!diaria
@@ -1798,7 +1808,7 @@ Public Sub GerarExcelWord()
 
 Exit Sub
 Erro:
-MsgBox "Ocorreu um erro ao gerar o excel. Comunicar ao analista responsável."
+MsgBox "Ocorreu um erro ao gerar o excel. Comunicar ao analista responsável." & Err.Description, vbInformation
 End Sub
 
 

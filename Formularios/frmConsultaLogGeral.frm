@@ -140,8 +140,8 @@ Dim Ind As Integer
 Dim IndLinha As Integer
 Dim IndCol As Integer
 Dim ColaboradorAnterior As String
-Dim PessoaAnterior As String
-Dim UnidadeOperacionalAnterior As String
+Dim pessoaAnterior As String
+Dim unidadeoperacionalAnterior As String
 
 'Datas
 
@@ -152,8 +152,8 @@ Dim DataFinalInvertida As String
 Dim DataHoje As Date
 Dim AnoMesRef As String
 
-Dim Ano As Integer
-Dim Mes As Integer
+Dim ano As Integer
+Dim mes As Integer
 Dim Dia As Integer
 
 Dim MesProximo As Integer
@@ -213,16 +213,16 @@ End Sub
 
 Public Sub GeraDataInicioDataFim()
 
-Ano = Year(txtHoje)
-Mes = Month(txtHoje)
+ano = Year(txtHoje)
+mes = Month(txtHoje)
 Dia = Day(txtHoje)
 
-DataInicioInvertida = Format$(Ano & "-" & Mes & "-" & "01", "yyyy-mm-dd")
-InicioDataChLeitura = Format$("01" & "-" & Mes & "-" & Ano, "dd-mm-yyyy")
+DataInicioInvertida = Format$(ano & "-" & mes & "-" & "01", "yyyy-mm-dd")
+InicioDataChLeitura = Format$("01" & "-" & mes & "-" & ano, "dd-mm-yyyy")
 
-MesProximo = Format$(Mes, "00")
+MesProximo = Format$(mes, "00")
 DataHoje = txtHoje
-Do While Mes = MesProximo
+Do While mes = MesProximo
    DataHoje = DataHoje + 1
    MesProximo = Format$(Month(DataHoje), "00")
 Loop
@@ -258,15 +258,15 @@ ColaboradorAnterior = Empty
 Do While Not lgt.EOF
 
    grdLogistica.Rows = IndLinha + 1
-   If Not lgt!chPessoa = PessoaAnterior Then
+   If Not lgt!chPessoa = pessoaAnterior Then
       grdLogistica.TextMatrix(IndLinha, 0) = lgt!chPessoa
-      PessoaAnterior = lgt!chPessoa
+      pessoaAnterior = lgt!chPessoa
    Else
       grdLogistica.TextMatrix(IndLinha, 0) = Empty
    End If
-   If Not lgt!chUnidadeOperacional = UnidadeOperacionalAnterior Then
+   If Not lgt!chUnidadeOperacional = unidadeoperacionalAnterior Then
       grdLogistica.TextMatrix(IndLinha, 1) = lgt!chUnidadeOperacional
-      UnidadeOperacionalAnterior = lgt!chUnidadeOperacional
+      unidadeoperacionalAnterior = lgt!chUnidadeOperacional
    Else
       grdLogistica.TextMatrix(IndLinha, 1) = Empty
    End If

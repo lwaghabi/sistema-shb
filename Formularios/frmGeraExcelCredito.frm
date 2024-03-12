@@ -398,7 +398,7 @@ Option Explicit
 
 Dim Ind As Integer
 Dim ano As Integer
-Dim Mes As Integer
+Dim mes As Integer
 Dim Dia As Integer
 Dim AnoInicioOperacao
 Dim DataHoje As Date
@@ -445,7 +445,7 @@ End Sub
 Private Sub cmdGerarExcel_Click()
 
 
-'Dim ContasReceber As String
+'Dim contasreceber As String
 Call DeletaTabExcel
 
 ValorAcumulado = 0
@@ -502,14 +502,14 @@ Call Rotina_AbrirBanco
 If cmbTipoProcess.ListIndex = 3 Then
    If Periodo = 0 Then
       If cmbPessoa = " Todos" Then
-         ctr.Open "Select * from Contas_A_Receber where ctrStatus = ('" & 0 & "') and ctrDataVencito < ('" & DataHojeInvertida & "')", db, 3, 3
+         ctr.Open "Select * from contas_a_receber where ctrStatus = ('" & 0 & "') and ctrDataVencito < ('" & DataHojeInvertida & "')", db, 3, 3
          If ctr.EOF Then
             MsgBox ("Sem Contas a Receber para o periodo atual"), vbInformation
          Else
             Call RotinaGaravaReceber
          End If
       Else
-         ctr.Open "Select * from Contas_A_Receber where chPessoa = ('" & cmbPessoa & "') and ctrStatus = ('" & 0 & "') and ctrDataVencito < ('" & DataHojeInvertida & "')", db, 3, 3
+         ctr.Open "Select * from contas_a_receber where chPessoa = ('" & cmbPessoa & "') and ctrStatus = ('" & 0 & "') and ctrDataVencito < ('" & DataHojeInvertida & "')", db, 3, 3
          If ctr.EOF Then
             MsgBox ("Sem Contas a Receber para o periodo atual"), vbInformation
          Else
@@ -521,7 +521,7 @@ Else
    If cmbTipoProcess.ListIndex = 0 Then
       If Periodo = 0 Then
          If cmbPessoa = " Todos" Then
-            ctr.Open "Select * from Contas_A_Receber", db, 3, 3
+            ctr.Open "Select * from contas_a_receber", db, 3, 3
          
             If ctr.EOF Then
                MsgBox ("Sem Contas a Receber para o periodo atual"), vbInformation
@@ -529,7 +529,7 @@ Else
                Call RotinaGaravaReceber
             End If
          Else
-            ctr.Open "Select * from Contas_A_Receber where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
+            ctr.Open "Select * from contas_a_receber where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
             If ctr.EOF Then
                MsgBox ("Sem Contas a Receber para o periodo atual"), vbInformation
             Else
@@ -540,7 +540,7 @@ Else
    Else
       If Periodo = 0 Then
          If cmbPessoa = " Todos" Then
-            ctr.Open "Select * from Contas_A_Receber where ctrStatus = ('" & Status & "')", db, 3, 3
+            ctr.Open "Select * from contas_a_receber where ctrStatus = ('" & Status & "')", db, 3, 3
          
             If ctr.EOF Then
                MsgBox ("Sem Contas a Receber para o periodo atual"), vbInformation
@@ -548,7 +548,7 @@ Else
                Call RotinaGaravaReceber
             End If
          Else
-            ctr.Open "Select * from Contas_A_Receber where chPessoa = ('" & cmbPessoa & "') and ctrStatus = ('" & Status & "')", db, 3, 3
+            ctr.Open "Select * from contas_a_receber where chPessoa = ('" & cmbPessoa & "') and ctrStatus = ('" & Status & "')", db, 3, 3
       
             If ctr.EOF Then
                MsgBox ("Sem Contas a Receber para o periodo atual"), vbInformation
@@ -566,7 +566,7 @@ Else
                ctr.Close: Set ctr = Nothing
             End If
          
-            ctr.Open "Select * from HistoricoContasReceber where ctrDataRecebimento > ('" & DataInicioInvertida & "') and ctrDataRecebimento < ('" & DataFinalInvertida & "')", db, 3, 3
+            ctr.Open "Select * from historicocontasreceber where ctrDataRecebimento > ('" & DataInicioInvertida & "') and ctrDataRecebimento < ('" & DataFinalInvertida & "')", db, 3, 3
             If ctr.EOF Then
                MsgBox ("Sem Contas a Receber para o periodo anterior solicitado"), vbInformation
             Else
@@ -578,7 +578,7 @@ Else
             If ctr.State = 1 Then
                ctr.Close: Set ctr = Nothing
             End If
-            ctr.Open "Select * from HistoricoContasReceber where chPessoa = ('" & cmbPessoa & "') and ctrDataRecebimento > ('" & DataInicioInvertida & "') and ctrDataRecebimento < ('" & DataFinalInvertida & "')", db, 3, 3
+            ctr.Open "Select * from historicocontasreceber where chPessoa = ('" & cmbPessoa & "') and ctrDataRecebimento > ('" & DataInicioInvertida & "') and ctrDataRecebimento < ('" & DataFinalInvertida & "')", db, 3, 3
          
             If ctr.EOF Then
                MsgBox ("Sem Contas a Receber para o periodo anterior solicitado"), vbInformation
@@ -594,7 +594,7 @@ Else
                ctr.Close: Set ctr = Nothing
             End If
          
-            ctr.Open "Select * from HistoricoContasReceber where ctrStatus = ('" & 1 & "') and ctrDataRecebimento > ('" & DataInicioInvertida & "') and ctrDataRecebimento < ('" & DataFinalInvertida & "')", db, 3, 3
+            ctr.Open "Select * from historicocontasreceber where ctrStatus = ('" & 1 & "') and ctrDataRecebimento > ('" & DataInicioInvertida & "') and ctrDataRecebimento < ('" & DataFinalInvertida & "')", db, 3, 3
          
             If ctr.EOF Then
                MsgBox ("Sem Contas a Receber para o periodo anterior solicitado"), vbInformation
@@ -607,7 +607,7 @@ Else
             If ctr.State = 1 Then
                ctr.Close: Set ctr = Nothing
             End If
-            ctr.Open "Select * from HistoricoContasReceber where chPessoa = ('" & cmbPessoa & "') and ctrStatus = ('" & 1 & "') and ctrDataRecebimento > ('" & DataInicioInvertida & "') and ctrDataRecebimento < ('" & DataFinalInvertida & "')", db, 3, 3
+            ctr.Open "Select * from historicocontasreceber where chPessoa = ('" & cmbPessoa & "') and ctrStatus = ('" & 1 & "') and ctrDataRecebimento > ('" & DataInicioInvertida & "') and ctrDataRecebimento < ('" & DataFinalInvertida & "')", db, 3, 3
          
             If ctr.EOF Then
                MsgBox ("Sem Contas a Receber para o periodo anterior solicitado"), vbInformation
@@ -626,7 +626,7 @@ If ctr.State = 1 Then
    ctr.Close: Set ctr = Nothing
 End If
 
-ctr.Open "Select * from ContasReceber", db, 3, 3
+ctr.Open "Select * from contasreceber", db, 3, 3
 If Not ctr.EOF Then
 
    TotalRecebido = 0
@@ -642,7 +642,7 @@ If Not ctr.EOF Then
    
       grdCtaReceb.Rows = grdCtaReceb.Rows + 1
       grdCtaReceb.TextMatrix(Ind, 0) = ctr!chPessoa
-      grdCtaReceb.TextMatrix(Ind, 1) = ctr!chNotaFiscal
+      grdCtaReceb.TextMatrix(Ind, 1) = ctr!chNotafiscal
       grdCtaReceb.TextMatrix(Ind, 2) = ctr!ctrDataEmissao
       grdCtaReceb.TextMatrix(Ind, 3) = ctr!ctrDataVencito
       
@@ -667,10 +667,10 @@ If Not ctr.EOF Then
       End If
       
       Dia = Day(ctr!ctrDataVencito)
-      Mes = Month(ctr!ctrDataVencito)
+      mes = Month(ctr!ctrDataVencito)
       ano = Year(ctr!ctrDataVencito)
 
-      grdCtaReceb.TextMatrix(Ind, 7) = Format$(ano & "-" & Mes & "-" & Dia, "yyyy-mm-dd")
+      grdCtaReceb.TextMatrix(Ind, 7) = Format$(ano & "-" & mes & "-" & Dia, "yyyy-mm-dd")
 
       Ind = Ind + 1
       ctr.MoveNext
@@ -706,13 +706,13 @@ Do While Not ctr.EOF
       acContab = 0
    End If
    
-   contab.Open "Select * from ContasReceber where chPessoa = ('" & ctr!chPessoa & "') and chNotaFiscal = ('" & ctr!chNotaFiscal & "') and chFatura = ('" & ctr!chFatura & "')", db, 3, 3
+   contab.Open "Select * from contasreceber where chPessoa = ('" & ctr!chPessoa & "') and chNotaFiscal = ('" & ctr!chNotafiscal & "') and chFatura = ('" & ctr!chFatura & "')", db, 3, 3
    If contab.EOF Then
 
       contab.AddNew
    
       contab!chPessoa = ctr!chPessoa
-      contab!chNotaFiscal = ctr!chNotaFiscal
+      contab!chNotafiscal = ctr!chNotafiscal
       contab!chFatura = ctr!chFatura
       contab!ctrDataEmissao = ctr!ctrDataEmissao
       contab!ctrDataVencito = ctr!ctrDataVencito
@@ -777,7 +777,7 @@ cmbAnoFim.ListIndex = 0
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa where pesTipoPessoa = ('" & 0 & "')", db, 3, 3
+pes.Open "Select * from pessoa where pesTipoPessoa = ('" & 0 & "')", db, 3, 3
 If pes.EOF Then
    MsgBox ("ERRO; Acesso a pessoa sem Clientes"), vbInformation
    Call FechaDB
@@ -801,18 +801,18 @@ End Sub
 
 Public Sub CriaDatasPesquisa()
 
-Mes = Format$(cmbMes, "00")
+mes = Format$(cmbMes, "00")
 ano = cmbAno
 Dia = Format$(1, "00")
 
-DataHoje = Format$(Dia, "00") & "/" & Format$(Mes, "00") & "/" & ano
+DataHoje = Format$(Dia, "00") & "/" & Format$(mes, "00") & "/" & ano
 DataInicioOperacao = DataHoje
 DataHoje = DataHoje - 1
 Dia = Day(DataHoje)
-Mes = Month(DataHoje)
+mes = Month(DataHoje)
 ano = Year(DataHoje)
 
-DataInicioInvertida = Format$(ano & "-" & Mes & "-" & Dia, "yyyy-mm-dd")
+DataInicioInvertida = Format$(ano & "-" & mes & "-" & Dia, "yyyy-mm-dd")
 
 DataHoje = DataHoje + 1
 MesProximo = Month(DataHoje)
@@ -822,18 +822,18 @@ Do While Month(DataHoje) = MesProximo
    'MesProximo = Format$(Month(DataHoje), "00")
 Loop
 
-Mes = Format$(cmbMesFim, "00")
+mes = Format$(cmbMesFim, "00")
 ano = cmbAnoFim
 Dia = Format$(1, "00")
 
-DataHoje = Format$(Dia, "00") & "/" & Format$(Mes, "00") & "/" & ano
+DataHoje = Format$(Dia, "00") & "/" & Format$(mes, "00") & "/" & ano
 DataFimOperacao = DataHoje
 DataHoje = DataHoje - 1
 Dia = Day(DataHoje)
-Mes = Month(DataHoje)
+mes = Month(DataHoje)
 ano = Year(DataHoje)
 
-DataFimInvertida = Format$(ano & "-" & Mes & "-" & Dia, "yyyy-mm-dd")
+DataFimInvertida = Format$(ano & "-" & mes & "-" & Dia, "yyyy-mm-dd")
 
 DataHoje = DataHoje + 1
 MesProximo = Month(DataHoje)
@@ -852,7 +852,7 @@ Public Sub DeletaTabExcel()
 
 Call Rotina_AbrirBanco
 
-contab.Open "Select * from ContasReceber", db, 3, 3
+contab.Open "Select * from contasreceber", db, 3, 3
 If Not contab.EOF Then
 
    contab.MoveFirst

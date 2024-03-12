@@ -127,7 +127,7 @@ Begin VB.Form frmNFSuprimentos
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   415432705
+         Format          =   391708673
          CurrentDate     =   45149
       End
       Begin VB.CommandButton cmdAlterarNumFaturas 
@@ -288,7 +288,7 @@ Private Sub cmbFornecedor_LostFocus()
    
    cmbNotaFiscal.Clear
    
-   rs.Open "SELECT notaFiscal FROM suppedidodecompra INNER JOIN supfaturareceb ON id = idPO WHERE fornecedor = ('" & cmbFornecedor & "')", db, 3, 3
+   rs.Open "SELECT notaFiscal FROM suppedidodecompra INNER JOIN supFaturareceb ON id = idPO WHERE fornecedor = ('" & cmbFornecedor & "')", db, 3, 3
    
    Do While Not rs.EOF
       
@@ -323,7 +323,7 @@ Private Sub Form_Load()
    
    Do While Not rs.EOF
       
-      cmbFornecedor.AddItem rs!Fornecedor
+      cmbFornecedor.AddItem rs!fornecedor
       rs.MoveNext
    
    Loop

@@ -375,7 +375,7 @@ Begin VB.Form frmFinancAnalitico
          _ExtentY        =   450
          _Version        =   393216
          CalendarBackColor=   16777184
-         Format          =   244383745
+         Format          =   379715585
          CurrentDate     =   38548
       End
       Begin MSComCtl2.DTPicker txtDataInicio 
@@ -388,7 +388,7 @@ Begin VB.Form frmFinancAnalitico
          _ExtentY        =   450
          _Version        =   393216
          CalendarBackColor=   16777184
-         Format          =   244383745
+         Format          =   379715585
          CurrentDate     =   38548
       End
       Begin VB.Label Label3 
@@ -718,7 +718,7 @@ Option Explicit
 Dim NomeGrid As String
 Dim Ind As Double
 Dim Linha As Double
-Dim Coluna As Integer
+Dim coluna As Integer
 Dim IndReceber As Byte
 Dim IndAtrasado As Byte
 Dim IndPagar As Byte
@@ -731,8 +731,8 @@ Dim AcumulaCtaAtraso As Currency
 Dim AcumulaPagarAtrasados As Currency
 
 Dim DiaUtilAnterior As Date
-Dim DataInicio As Date
-Dim DataFim As Date
+Dim dataInicio As Date
+Dim dataFim As Date
 Dim DataReceber As Date
 Dim DataPagos As Date
 Dim DataAtrasados As Date
@@ -740,12 +740,12 @@ Dim DataInformada As Date
 Dim DiadaSemana As Integer
 
 Dim Dia As String
-Dim Mes As String
-Dim Ano As String
+Dim mes As String
+Dim ano As String
 
 Dim DataInvertida As String
 
-Dim Indice As Byte
+Dim indice As Byte
 Dim DataAcesso As Date
 
 Private Sub cmdSair_Click()
@@ -783,9 +783,9 @@ cmbFiltro.AddItem "Geral"
 
 Call Rotina_AbrirBanco
 
-Bco.Open "Select * from Banco", db, 3, 3
+Bco.Open "Select * from banco", db, 3, 3
 If Bco.EOF Then
-   MsgBox ("Tabela de Banco vazia. "), vbCritical
+   MsgBox ("Tabela de banco vazia. "), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -862,16 +862,16 @@ IndPagarAtrasados = 0
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber", db, 3, 3
+ctr.Open "Select * from contas_a_receber", db, 3, 3
 If Not (ctr.EOF) Then
    
    ctr.MoveFirst
    Do While Not ctr.EOF
    
-      Indice = cmbFiltro.ListIndex
+      indice = cmbFiltro.ListIndex
    
       If (cmbFiltro = "Geral") Or (cmbFiltro = ctr!chCodBcoLart) Then
-         If ctr!ctrDataBanco > DataInicio - 1 And ctr!ctrDataBanco < DataFim Then
+         If ctr!ctrDataBanco > dataInicio - 1 And ctr!ctrDataBanco < dataFim Then
             If ctr!ctrStatus = 0 And ctr!ctrDataBanco > (Date - 1) Then
                Call Rotina_051_Carga_Cta_Receber
             End If
@@ -935,7 +935,7 @@ IndPagar = 0
 
 Call Rotina_AbrirBanco
 
-ctp.Open "Select * from Contas_A_Pagar", db, 3, 3
+ctp.Open "Select * from contas_a_pagar", db, 3, 3
 If ctp.EOF Then
    Call FechaDB
    Exit Sub
@@ -945,10 +945,10 @@ ctp.MoveFirst
 
 Do While Not ctp.EOF
    
-   Indice = cmbFiltro.ListIndex
+   indice = cmbFiltro.ListIndex
    
    If (cmbFiltro = "Geral") Or (cmbFiltro = ctp!chCodBcoLart) Then
-      If ctp!chDataVencito > DataInicio And ctp!chDataVencito < DataFim Then
+      If ctp!chDataVencito > dataInicio And ctp!chDataVencito < dataFim Then
          If ctp!ctpStatus = 0 Then 'DataAtrasados + 2 Then
             Call Rotina_050_Carga_Cta_Pagar
          End If
@@ -1003,10 +1003,10 @@ GridPagar.TextMatrix(IndPagar, 2) = ctp!ctpdescricaooperacao
 GridPagar.TextMatrix(IndPagar, 3) = Format$(ctp!ctpValorDaBoleta, "##,##0.00")
 
 Dia = Format$(Day(ctp!chDataVencito), "00")
-Mes = Format$(Month(ctp!chDataVencito), "00")
-Ano = Year(ctp!chDataVencito)
+mes = Format$(Month(ctp!chDataVencito), "00")
+ano = Year(ctp!chDataVencito)
 
-DataInvertida = Ano & Mes & Dia
+DataInvertida = ano & mes & Dia
 
 GridPagar.TextMatrix(IndPagar, 4) = DataInvertida & ctp!ctpdescricaooperacao & ctp!chPessoa
 AcumulaCtaPagar = AcumulaCtaPagar + ctp!ctpValorDaBoleta
@@ -1022,10 +1022,10 @@ GridPagtosAtrasados.TextMatrix(IndPagarAtrasados, 2) = ctp!ctpdescricaooperacao
 GridPagtosAtrasados.TextMatrix(IndPagarAtrasados, 3) = Format$(ctp!ctpValorDaBoleta, "##,##0.00")
 
 Dia = Format$(Day(ctp!chDataVencito), "00")
-Mes = Format$(Month(ctp!chDataVencito), "00")
-Ano = Year(ctp!chDataVencito)
+mes = Format$(Month(ctp!chDataVencito), "00")
+ano = Year(ctp!chDataVencito)
 
-DataInvertida = Ano & Mes & Dia
+DataInvertida = ano & mes & Dia
 
 GridPagtosAtrasados.TextMatrix(IndPagarAtrasados, 4) = DataInvertida & ctp!chPessoa
 AcumulaPagarAtrasados = AcumulaPagarAtrasados + ctp!ctpValorDaBoleta
@@ -1041,10 +1041,10 @@ GridReceber.TextMatrix(IndReceber, 2) = ctr!ctrDescricaoOperacao
 GridReceber.TextMatrix(IndReceber, 3) = Format$(ctr!ctrValorDaBoleta, "##,##0.00")
 
 Dia = Format$(Day(ctr!ctrDataVencito), "00")
-Mes = Format$(Month(ctr!ctrDataVencito), "00")
-Ano = Year(ctr!ctrDataVencito)
+mes = Format$(Month(ctr!ctrDataVencito), "00")
+ano = Year(ctr!ctrDataVencito)
 
-DataInvertida = Ano & Mes & Dia
+DataInvertida = ano & mes & Dia
 
 GridReceber.TextMatrix(IndReceber, 4) = DataInvertida & ctr!chPessoa
 
@@ -1060,10 +1060,10 @@ GridAtrasados.TextMatrix(IndAtrasado, 2) = ctr!ctrDescricaoOperacao
 GridAtrasados.TextMatrix(IndAtrasado, 3) = Format(ctr!ctrValorDaBoleta, "##,##0.00")
 
 Dia = Format$(Day(ctr!ctrDataVencito), "00")
-Mes = Format$(Month(ctr!ctrDataVencito), "00")
-Ano = Year(ctr!ctrDataVencito)
+mes = Format$(Month(ctr!ctrDataVencito), "00")
+ano = Year(ctr!ctrDataVencito)
 
-DataInvertida = Ano & Mes & Dia
+DataInvertida = ano & mes & Dia
 
 GridAtrasados.TextMatrix(IndAtrasado, 4) = ctr!chPessoa
 
@@ -1081,7 +1081,7 @@ Case 0
      cmdNavega(0).SetFocus
 Case 1
      
-     If DataFim = Empty Then
+     If dataFim = Empty Then
         DataInformada = Date
         Call Rotina_070_Ajusta_Data
      Else
@@ -1091,7 +1091,7 @@ Case 1
      End If
      cmdNavega(1).SetFocus
 Case 2
-     If DataInicio = Empty Then
+     If dataInicio = Empty Then
         DataInformada = Date
         Call Rotina_070_Ajusta_Data
      Else
@@ -1125,10 +1125,10 @@ DiadaSemana = Weekday(DataInformada)
 
 'Calcular Range de datas
 
-DataInicio = DataInformada - (DiadaSemana)
-DataFim = DataInicio + 7
-txtDataInicio = DataInicio
-txtDataFim = DataFim
+dataInicio = DataInformada - (DiadaSemana)
+dataFim = dataInicio + 7
+txtDataInicio = dataInicio
+txtDataFim = dataFim
 
 End Sub
 

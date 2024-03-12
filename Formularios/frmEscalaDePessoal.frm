@@ -155,7 +155,7 @@ Begin VB.Form frmEscalaDePessoal
          Strikethrough   =   0   'False
       EndProperty
       CustomFormat    =   "mm/yyyy"
-      Format          =   224198657
+      Format          =   238747649
       CurrentDate     =   44651
       MaxDate         =   2958435
    End
@@ -185,7 +185,7 @@ Begin VB.Form frmEscalaDePessoal
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   224198657
+      Format          =   238747649
       CurrentDate     =   44648
    End
    Begin MSComCtl2.DTPicker dtInicioEvento 
@@ -206,7 +206,7 @@ Begin VB.Form frmEscalaDePessoal
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   224198657
+      Format          =   238747649
       CurrentDate     =   44648
    End
    Begin VB.ComboBox cmbEvento 
@@ -478,7 +478,7 @@ Dim ColaboradorAnterior As String
 Dim CodEvento As String
 Dim Resp As String
 Dim Dia As Integer
-Dim Mes As Integer
+Dim mes As Integer
 Dim ano As Integer
 Dim DiasProxMes As Integer
 Dim DataFimProxMes As String
@@ -502,7 +502,7 @@ Call Rotina_AbrirBanco
 
 cmbUnidadeOperacional.Clear
 
-uoper.Open "Select * from UnidadeOperacional where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
+uoper.Open "Select * from unidadeoperacional where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
 If uoper.EOF Then
    MsgBox ("Cliente sem Unidade Operacional cadastrada."), vbInformation
    Call FechaDB
@@ -529,7 +529,7 @@ Call Rotina_AbrirBanco
 
 cmbColaborador.Clear
 
-pes.Open "Select * from Pessoa where pesClienteLocador = ('" & cmbPessoa & "') and pesUnidadeOperacional = ('" & cmbUnidadeOperacional & "')", db, 3, 3
+pes.Open "Select * from pessoa where pesClienteLocador = ('" & cmbPessoa & "') and pesUnidadeOperacional = ('" & cmbUnidadeOperacional & "')", db, 3, 3
 If pes.EOF Then
    MsgBox ("Não há Colaborador Cadastrado para este Cliente/Unidade Operacional."), vbInformation
    Call FechaDB
@@ -565,10 +565,10 @@ Call Rotina_AbrirBanco
 'DataInvertida = Year(dtInicioEvento)
 
 ano = Year(dtInicioEvento)
-Mes = Format$(Month(dtInicioEvento), "00")
+mes = Format$(Month(dtInicioEvento), "00")
 Dia = Format$(Day(dtInicioEvento), "00")
 
-DataInvertida = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 lgt.Open "Select * from logistica where chAnoMesRef = ('" & AnoMesRef & "') and chPessoa = ('" & cmbPessoa & "') and chUnidadeOperacional = ('" & cmbUnidadeOperacional & "') and chColaborador = ('" & cmbColaborador & "') and chEvento = ('" & cmbEvento & "') and chInicioEvento = ('" & DataInvertida & "')", db, 3, 3
 
@@ -596,10 +596,10 @@ If Not Month(DataProximoMes) = Month(Date) Then
    AnoMesRef = Year(DataProximoMes) & Format$(Month(DataProximoMes), "00")
 
    ano = Year(DataProximoMes)
-   Mes = Format$(Month(DataProximoMes), "00")
+   mes = Format$(Month(DataProximoMes), "00")
    Dia = Format$("01", "00")
    
-   DataInvertida = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+   DataInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
       
    Call Rotina_AbrirBanco
    
@@ -639,10 +639,10 @@ AnoMesRef = Year(dtReferencia) & Format$(Month(dtReferencia), "00")
 Call Rotina_AbrirBanco
 
 ano = Year(dtInicioEvento)
-Mes = Format$(Month(dtInicioEvento), "00")
+mes = Format$(Month(dtInicioEvento), "00")
 Dia = Format$(Day(dtInicioEvento), "00")
 
-DataInvertida = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 lgt.Open "Select * from logistica where chAnoMesRef = ('" & AnoMesRef & "') and chPessoa = ('" & cmbPessoa & "') and chUnidadeOperacional = ('" & cmbUnidadeOperacional & "') and chColaborador = ('" & cmbColaborador & "') and chEvento = ('" & cmbEvento & "') and chInicioEvento = ('" & DataInvertida & "')", db, 3, 3
 
@@ -650,7 +650,7 @@ If lgt.EOF Then
    lgt.AddNew
 End If
 
-Ativ.Open "Select * FROM Atividade where atvAtividade = ('" & cmbEvento & "')", db, 3, 3
+Ativ.Open "Select * FROM atividade where atvAtividade = ('" & cmbEvento & "')", db, 3, 3
 If Ativ.EOF Then
    MsgBox ("Evento não cadastrado. Cadastrar o evento e retornar para esta função."), vbInformation
    Call FechaDB
@@ -693,10 +693,10 @@ If Month(dtReferencia) = 0 Then
 End If
 
 ano = Year(dtReferencia)
-Mes = Month(dtReferencia)
+mes = Month(dtReferencia)
 Dia = 1
 
-AnoMesRef = ano & Format$(Mes, "00")
+AnoMesRef = ano & Format$(mes, "00")
 
 txtMesRef = Format$(dtReferencia, "mmm-yyyy")
 
@@ -719,7 +719,7 @@ dtReferencia = Date
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa where pesTipoPessoa = ('" & 0 & "')", db, 3, 3
+pes.Open "Select * from pessoa where pesTipoPessoa = ('" & 0 & "')", db, 3, 3
 
 pes.MoveFirst
 
@@ -731,10 +731,10 @@ Do While Not pes.EOF
    
 Loop
  
-Ativ.Open "Select * from Atividade", db, 3, 3
+Ativ.Open "Select * from atividade", db, 3, 3
 
 If Ativ.EOF Then
-   MsgBox ("Tabela de Atividade vazia. Comunicar ao analista responsável."), vbCritical
+   MsgBox ("Tabela de atividade vazia. Comunicar ao analista responsável."), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -758,11 +758,11 @@ End Sub
 Public Sub GeraDataInicioDataFim()
 Dim MesProximo As Integer
 
-DataInicioInvertida = Format$(ano & "-" & Mes & "-" & Dia, "yyyy-mm-dd")
+DataInicioInvertida = Format$(ano & "-" & mes & "-" & Dia, "yyyy-mm-dd")
 
-MesProximo = Format$(Mes, "00")
+MesProximo = Format$(mes, "00")
 DataHoje = dtReferencia
-Do While Mes = MesProximo
+Do While mes = MesProximo
    DataHoje = DataHoje + 1
    MesProximo = Format$(Month(DataHoje), "00")
 Loop
@@ -770,16 +770,16 @@ Loop
 InicioDataChLeitura = DataInicioInvertida - 1
 
 ano = Year(InicioDataChLeitura)
-Mes = Month(InicioDataChLeitura)
+mes = Month(InicioDataChLeitura)
 Dia = Day(InicioDataChLeitura)
 
-InicioDataChLeitura = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+InicioDataChLeitura = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 ano = Year(DataHoje)
-Mes = Month(DataHoje)
+mes = Month(DataHoje)
 Dia = Day(DataHoje)
 
-FinalDataChLeitura = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+FinalDataChLeitura = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 DataHoje = DataHoje - 1
 
@@ -891,7 +891,7 @@ Loop
 End Sub
 
 
-Private Sub grdlogistica_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub grdlogistica_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
 
 IndLinha = grdLogistica.Row
 IndCol = grdLogistica.Col
@@ -964,10 +964,10 @@ AnoMesRef = Year(DataFimProxMes) & Format$(Month(DataFimProxMes), "00")
 Call Rotina_AbrirBanco
 
 ano = Year(DataFimProxMes)
-Mes = Format$(Month(DataFimProxMes), "00")
+mes = Format$(Month(DataFimProxMes), "00")
 Dia = Format$(1, "00")
 
-DataInvertida = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 lgt.Open "Select * from logistica where chAnoMesRef = ('" & AnoMesRef & "') and chPessoa = ('" & cmbPessoa & "') and chUnidadeOperacional = ('" & cmbUnidadeOperacional & "') and chColaborador = ('" & cmbColaborador & "') and chEvento = ('" & cmbEvento & "') and chInicioEvento = ('" & DataInvertida & "')", db, 3, 3
 
@@ -975,7 +975,7 @@ If lgt.EOF Then
    lgt.AddNew
 End If
 
-Ativ.Open "Select * FROM Atividade where atvAtividade = ('" & cmbEvento & "')", db, 3, 3
+Ativ.Open "Select * FROM atividade where atvAtividade = ('" & cmbEvento & "')", db, 3, 3
 If Ativ.EOF Then
    MsgBox ("Evento não cadastrado. Cadastrar o evento e retornar para esta função."), vbInformation
    Call FechaDB

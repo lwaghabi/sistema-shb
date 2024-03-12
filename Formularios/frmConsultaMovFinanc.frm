@@ -77,7 +77,7 @@ Begin VB.Form frmConsultaMovFinanc
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   124649473
+         Format          =   378339329
          CurrentDate     =   38966
       End
       Begin VB.CommandButton cmdConsultar 
@@ -463,7 +463,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 Option Explicit
-Dim Indice As Byte
+Dim indice As Byte
 Dim IndPrz As Byte
 Dim IndFab As Byte
 Dim IndDebCre As Byte
@@ -478,7 +478,7 @@ Dim DataCombo As Date
 Dim DiaCombo As Integer
 Dim PrazoMedio As Integer
 Dim PrazoAdicional As Integer
-Dim PessoaAnterior As String
+Dim pessoaAnterior As String
 Dim NotaAnterior As String
 Dim Pessoa As String
 
@@ -513,7 +513,7 @@ cmbFiltro.AddItem "Geral"
 
 Call Rotina_AbrirBanco
 
-Bco.Open "Select * from Banco", db, 3, 3
+Bco.Open "Select * from banco", db, 3, 3
 If Bco.EOF Then
    MsgBox ("tabela de bancos vazia."), vbCritical
    Call FechaDB
@@ -567,7 +567,7 @@ End If
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber", db, 3, 3
+ctr.Open "Select * from contas_a_receber", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Não há lançamentos a Crédito até a apresente data."), vbInformation
    Call FechaDB
@@ -576,30 +576,30 @@ End If
 
 
 ctr.MoveFirst
-Indice = 0
+indice = 0
 Do While Not ctr.EOF
     If Not (ctr!chFatura) = "CREDITO" Then
        If ctr!ctrDataEmissao = txtDataConsulta Then
           If (cmbFiltro = "Geral") Or (cmbFiltro = ctr!chCodBcoLart) Then
-             AcumulaTotal = AcumulaTotal + ctr!ctrvalordaboleta
-             If ((ctr!chPessoa = PessoaAnterior) And (ctr!chNotaFiscal = NotaAnterior)) Then
-                PessoaAnterior = ctr!chPessoa
-                NotaAnterior = ctr!chNotaFiscal
+             AcumulaTotal = AcumulaTotal + ctr!ctrValorDaBoleta
+             If ((ctr!chPessoa = pessoaAnterior) And (ctr!chNotafiscal = NotaAnterior)) Then
+                pessoaAnterior = ctr!chPessoa
+                NotaAnterior = ctr!chNotafiscal
              Else
                 If neg.State = 1 Then
                    neg.Close: Set neg = Nothing
                 End If
-                neg.Open "Select * from Negociacao where chNumPedido = ('" & ctr!chNumPedido & "') and chNumPedidoComp = ('" & ctr!chNumPedidoComp & "')", db, 3, 3
+                neg.Open "Select * from negociacao where chNumPedido = ('" & ctr!chNumPedido & "') and chNumPedidoComp = ('" & ctr!chNumPedidoComp & "')", db, 3, 3
                 If Not (neg.EOF) Then
-                   Indice = Indice + 1
-                   GridNeg.Rows = Indice + 1
-                   GridNeg.TextMatrix(Indice, 0) = neg!chPessoa
-                   GridNeg.TextMatrix(Indice, 1) = neg!chNumPedido
-                   GridNeg.TextMatrix(Indice, 2) = neg!chNumPedidoComp
-                   GridNeg.TextMatrix(Indice, 3) = neg!negNotaFiscal
-                   GridNeg.TextMatrix(Indice, 4) = ctr!chFatura
-                   PessoaAnterior = ctr!chPessoa
-                   NotaAnterior = ctr!chNotaFiscal
+                   indice = indice + 1
+                   GridNeg.Rows = indice + 1
+                   GridNeg.TextMatrix(indice, 0) = neg!chPessoa
+                   GridNeg.TextMatrix(indice, 1) = neg!chNumPedido
+                   GridNeg.TextMatrix(indice, 2) = neg!chNumPedidoComp
+                   GridNeg.TextMatrix(indice, 3) = neg!negNotaFiscal
+                   GridNeg.TextMatrix(indice, 4) = ctr!chFatura
+                   pessoaAnterior = ctr!chPessoa
+                   NotaAnterior = ctr!chNotafiscal
                 End If
              End If
           End If
@@ -612,11 +612,11 @@ Loop
 
 txtTotalValor = Format$(AcumulaTotal, "##,##0.00")
 
-If Indice > 1 Then
+If indice > 1 Then
    GridNeg.Col = 0
    GridNeg.ColSel = 0
    GridNeg.Row = 1
-   GridNeg.RowSel = Indice
+   GridNeg.RowSel = indice
    GridNeg.Sort = 1
    GridNeg.Col = 0
    GridNeg.ColSel = 0
@@ -632,7 +632,7 @@ Dim nnnn As String
    
 Call Rotina_AbrirBanco
 
-ctp.Open "Select * from Contas_A_Pagar", db, 3, 3
+ctp.Open "Select * from contas_a_pagar", db, 3, 3
    If ctp.EOF Then
       MsgBox ("Não há contas a pagar até o presente momento"), vbInformation
       Call FechaDB
@@ -640,21 +640,21 @@ ctp.Open "Select * from Contas_A_Pagar", db, 3, 3
     End If
 
 ctp.MoveFirst
-Indice = 0
+indice = 0
 Do While Not ctp.EOF
 If Not (ctp!chFatura = "Comissão") Then
-   If ctp!ctpdatalanc = txtDataConsulta Then
+   If ctp!ctpDataLanc = txtDataConsulta Then
       If (cmbFiltro = "Geral") Or (cmbFiltro = ctp!chCodBcoLart) Then
-         AcumulaTotal = AcumulaTotal + ctp!ctpvalordaboleta
-         If Not ((ctp!chPessoa = PessoaAnterior) And (ctp!chNotaFiscal = NotaAnterior)) Then
-            PessoaAnterior = ctp!chPessoa
-            NotaAnterior = ctp!chNotaFiscal
-            Indice = Indice + 1
-            GridNeg.Rows = Indice + 1
-            GridNeg.TextMatrix(Indice, 0) = ctp!chPessoa
-            GridNeg.TextMatrix(Indice, 1) = "N/Inf."
-            GridNeg.TextMatrix(Indice, 2) = "N/Inf."
-            GridNeg.TextMatrix(Indice, 3) = ctp!chNotaFiscal
+         AcumulaTotal = AcumulaTotal + ctp!ctpValorDaBoleta
+         If Not ((ctp!chPessoa = pessoaAnterior) And (ctp!chNotafiscal = NotaAnterior)) Then
+            pessoaAnterior = ctp!chPessoa
+            NotaAnterior = ctp!chNotafiscal
+            indice = indice + 1
+            GridNeg.Rows = indice + 1
+            GridNeg.TextMatrix(indice, 0) = ctp!chPessoa
+            GridNeg.TextMatrix(indice, 1) = "N/Inf."
+            GridNeg.TextMatrix(indice, 2) = "N/Inf."
+            GridNeg.TextMatrix(indice, 3) = ctp!chNotafiscal
          End If
       End If
    End If
@@ -666,11 +666,11 @@ Loop
 nnnn = GridNeg.TextMatrix(1, 2)
 txtTotalValor = Format$(AcumulaTotal, "##,##0.00")
 
-If Indice > 1 Then
+If indice > 1 Then
    GridNeg.Col = 0
    GridNeg.ColSel = 0
    GridNeg.Row = 1
-   GridNeg.RowSel = Indice
+   GridNeg.RowSel = indice
    GridNeg.Sort = 1
    GridNeg.Col = 0
    GridNeg.ColSel = 0
@@ -689,33 +689,33 @@ txtTotalValor = Empty
 txtValorTotalDaOperacao = Empty
 txtMediaFaturamento = Empty
 
-Indice = cmbFiltro.ListIndex
+indice = cmbFiltro.ListIndex
 
 End Sub
 
 Public Sub Rotina_040_Limpa_GridNeg()
 GridNeg.Rows = 2
-Indice = 1
-GridNeg.TextMatrix(Indice, 0) = Empty
-GridNeg.TextMatrix(Indice, 1) = Empty
-GridNeg.TextMatrix(Indice, 2) = Empty
-GridNeg.TextMatrix(Indice, 3) = Empty
-GridNeg.TextMatrix(Indice, 4) = Empty
+indice = 1
+GridNeg.TextMatrix(indice, 0) = Empty
+GridNeg.TextMatrix(indice, 1) = Empty
+GridNeg.TextMatrix(indice, 2) = Empty
+GridNeg.TextMatrix(indice, 3) = Empty
+GridNeg.TextMatrix(indice, 4) = Empty
 
 End Sub
 Public Sub Rotina_045_Limpa_GridFinan()
 GridFinanc.Rows = 2
-Indice = 1
-GridFinanc.TextMatrix(Indice, 0) = Empty
-GridFinanc.TextMatrix(Indice, 1) = Empty
-GridFinanc.TextMatrix(Indice, 2) = Empty
-GridFinanc.TextMatrix(Indice, 3) = Empty
-GridFinanc.TextMatrix(Indice, 4) = Empty
+indice = 1
+GridFinanc.TextMatrix(indice, 0) = Empty
+GridFinanc.TextMatrix(indice, 1) = Empty
+GridFinanc.TextMatrix(indice, 2) = Empty
+GridFinanc.TextMatrix(indice, 3) = Empty
+GridFinanc.TextMatrix(indice, 4) = Empty
 End Sub
 
 
 
-Private Sub GridNeg_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub GridNeg_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 
 Call Rotina_045_Limpa_GridFinan
 
@@ -724,7 +724,7 @@ IndFab = cmbFiltro.ListIndex
 IndDebCre = cmbDebCre.ListIndex
 
 If IndFab = 0 Then
-   MsgBox ("Favor utilizar o FILTRO e indicar o Banco de faturamento")
+   MsgBox ("Favor utilizar o FILTRO e indicar o banco de faturamento")
    cmbFiltro.SetFocus
    Exit Sub
 End If
@@ -742,20 +742,20 @@ GridFinanc.Sort = 5
 End Sub
 
 Public Sub Rotina_050_Carga_Debito()
-Indice = GridNeg.Row
+indice = GridNeg.Row
 IndPrz = 0
 
 txtMediaFaturamento = "N/Disp."
 
-NotaFiscal = GridNeg.TextMatrix(Indice, 3)
-Pessoa = GridNeg.TextMatrix(Indice, 0)
+NotaFiscal = GridNeg.TextMatrix(indice, 3)
+Pessoa = GridNeg.TextMatrix(indice, 0)
 
-Indice = 0
+indice = 0
 AcumulaValor = 0
 
 Call Rotina_AbrirBanco
 
-ctp.Open "Select * from Contas_A_Pagar", db, 3, 3
+ctp.Open "Select * from contas_a_pagar", db, 3, 3
 If ctp.EOF Then
    MsgBox ("Não há contas a pagar até o presente momento."), vbInformation
    Call FechaDB
@@ -766,23 +766,23 @@ End If
 ctp.MoveFirst
 
 Do While Not ctp.EOF
-   If ctp!chNotaFiscal = NotaFiscal And ctp!chPessoa = Pessoa Then
-      Indice = Indice + 1
-      GridFinanc.Rows = Indice + 1
-      GridFinanc.TextMatrix(Indice, 0) = ctp!chFatura
-      GridFinanc.TextMatrix(Indice, 1) = ctp!chdatavencito
-      GridFinanc.TextMatrix(Indice, 2) = ctp!ctpdescricaooperacao
-      GridFinanc.TextMatrix(Indice, 3) = Format$(ctp!ctpvalordaboleta, "##,##0.00")
-      If ctp!ctpstatus = 1 Then
-         GridFinanc.TextMatrix(Indice, 4) = "Pg."
+   If ctp!chNotafiscal = NotaFiscal And ctp!chPessoa = Pessoa Then
+      indice = indice + 1
+      GridFinanc.Rows = indice + 1
+      GridFinanc.TextMatrix(indice, 0) = ctp!chFatura
+      GridFinanc.TextMatrix(indice, 1) = ctp!chDataVencito
+      GridFinanc.TextMatrix(indice, 2) = ctp!ctpdescricaooperacao
+      GridFinanc.TextMatrix(indice, 3) = Format$(ctp!ctpValorDaBoleta, "##,##0.00")
+      If ctp!ctpStatus = 1 Then
+         GridFinanc.TextMatrix(indice, 4) = "Pg."
       Else
-         If ctp!chdatavencito < Date - 1 Then
-            GridFinanc.TextMatrix(Indice, 4) = "Atr."
+         If ctp!chDataVencito < Date - 1 Then
+            GridFinanc.TextMatrix(indice, 4) = "Atr."
          Else
-            GridFinanc.TextMatrix(Indice, 4) = Empty
+            GridFinanc.TextMatrix(indice, 4) = Empty
          End If
       End If
-      AcumulaValor = AcumulaValor + Format$(ctp!ctpvalordaboleta, "##,##0.00")
+      AcumulaValor = AcumulaValor + Format$(ctp!ctpValorDaBoleta, "##,##0.00")
    End If
       
    ctp.MoveNext
@@ -796,10 +796,10 @@ End Sub
 
 Public Sub Rotina_060_Carga_Credito()
 
-Indice = GridNeg.Row
+indice = GridNeg.Row
 IndPrz = 0
 
-If GridNeg.TextMatrix(Indice, 1) = Empty Then
+If GridNeg.TextMatrix(indice, 1) = Empty Then
    MsgBox ("Clicar somente em linha com conteúdo")
    cmdConsultar.SetFocus
    Exit Sub
@@ -807,7 +807,7 @@ End If
 
 Call Rotina_AbrirBanco
 
-neg.Open "Select * from Negociacao where chNumPedido = ('" & GridNeg.TextMatrix(Indice, 1) & "') and chNumPedidoComp = ('" & GridNeg.TextMatrix(Indice, 2) & "')", db, 3, 3
+neg.Open "Select * from negociacao where chNumPedido = ('" & GridNeg.TextMatrix(indice, 1) & "') and chNumPedidoComp = ('" & GridNeg.TextMatrix(indice, 2) & "')", db, 3, 3
 If neg.EOF Then
    MsgBox ("Erro no acesso a Tabela de Negociacao"), vbCritical
    Call FechaDB
@@ -841,10 +841,10 @@ End If
 
 txtMediaFaturamento = PrazoMedio
 
-ctr.Open "Select * from Contas_A_Receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & GridNeg.TextMatrix(Indice, 0) & "') and chNotaFiscal = ('" & GridNeg.TextMatrix(Indice, 3) & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & GridNeg.TextMatrix(indice, 0) & "') and chNotaFiscal = ('" & GridNeg.TextMatrix(indice, 3) & "')", db, 3, 3
 If ctr.EOF Then
    ctr.Close: Set ctr = Nothing
-   ctr.Open "Select * from Contas_A_Receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & GridNeg.TextMatrix(Indice, 0) & "') and chNotaFiscal = ('" & GridNeg.TextMatrix(Indice, 3) & "') and chFatura = ('" & 1 & "')", db, 3, 3
+   ctr.Open "Select * from contas_a_receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & GridNeg.TextMatrix(indice, 0) & "') and chNotaFiscal = ('" & GridNeg.TextMatrix(indice, 3) & "') and chFatura = ('" & 1 & "')", db, 3, 3
    If ctp.EOF Then
       MsgBox ("Não encontrei contas a receber"), vbCritical
       Call FechaDB
@@ -852,28 +852,28 @@ If ctr.EOF Then
    End If
 End If
 
-NotaFiscal = ctr!chNotaFiscal
-Indice = 0
+NotaFiscal = ctr!chNotafiscal
+indice = 0
 AcumulaValor = 0
 
 Do While Not ctr.EOF
-   If ctr!chNotaFiscal = NotaFiscal And (cmbFiltro = ctr!chCodBcoLart) Then
-      Indice = Indice + 1
-      GridFinanc.Rows = Indice + 1
-      GridFinanc.TextMatrix(Indice, 0) = ctr!chNotaFiscal & "/" & ctr!chFatura
-      GridFinanc.TextMatrix(Indice, 1) = ctr!ctrDataVencito
-      GridFinanc.TextMatrix(Indice, 2) = ctr!ctrDescricaoOperacao
-      GridFinanc.TextMatrix(Indice, 3) = Format$(ctr!ctrvalordaboleta, "##,##0.00")
-      If ctr!ctrstatus = 1 Then
-         GridFinanc.TextMatrix(Indice, 4) = "Pg."
+   If ctr!chNotafiscal = NotaFiscal And (cmbFiltro = ctr!chCodBcoLart) Then
+      indice = indice + 1
+      GridFinanc.Rows = indice + 1
+      GridFinanc.TextMatrix(indice, 0) = ctr!chNotafiscal & "/" & ctr!chFatura
+      GridFinanc.TextMatrix(indice, 1) = ctr!ctrDataVencito
+      GridFinanc.TextMatrix(indice, 2) = ctr!ctrDescricaoOperacao
+      GridFinanc.TextMatrix(indice, 3) = Format$(ctr!ctrValorDaBoleta, "##,##0.00")
+      If ctr!ctrStatus = 1 Then
+         GridFinanc.TextMatrix(indice, 4) = "Pg."
       Else
          If ctr!ctrDataVencito < Date - 1 Then
-            GridFinanc.TextMatrix(Indice, 4) = "Atr."
+            GridFinanc.TextMatrix(indice, 4) = "Atr."
          Else
-            GridFinanc.TextMatrix(Indice, 4) = Empty
+            GridFinanc.TextMatrix(indice, 4) = Empty
          End If
       End If
-      AcumulaValor = AcumulaValor + Format$(ctr!ctrvalordaboleta, "##,##0.00")
+      AcumulaValor = AcumulaValor + Format$(ctr!ctrValorDaBoleta, "##,##0.00")
    End If
    
 ctr.MoveNext

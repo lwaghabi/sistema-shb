@@ -204,19 +204,19 @@ Dim tabValor(15) As Currency
 Dim tabDesc(15) As String
 Dim Status As Integer
 Dim IndSalvo As Integer
-Dim PessoaAnterior As String
+Dim pessoaAnterior As String
 Dim PesAnter As String
 Dim NotaFiscalAnterior As String
 Dim NotaAnter As String
 Dim Encontrei As Byte
-Dim Indice As Integer
+Dim indice As Integer
 Dim TotalCentroDeCusto As Currency
 Dim Relatorio As String
 Dim DataInicioInvertida As String
 Dim DataFinalInvertida As String
 Dim DataHoje As Date
-Dim Sql As String
-Dim rel As Object
+Dim sql As String
+Dim Rel As Object
 Dim R1 As String
 Dim R2 As String
 
@@ -228,7 +228,7 @@ Private Sub cmdAnalitico_Click()
    R2 = "drCustoAnalitico"
    Call Rotina_AbrirBanco
    
-   gge.Open "Select * from GeradorGeral WHERE chAlfaNumerica = ('" & R1 & "') or chAlfaNumerica = ('" & R2 & "')", db, 3, 3
+   gge.Open "Select * from geradorgeral WHERE chAlfaNumerica = ('" & R1 & "') or chAlfaNumerica = ('" & R2 & "')", db, 3, 3
    If Not gge.EOF Then
       gge.MoveFirst
       Do While Not gge.EOF
@@ -237,7 +237,7 @@ Private Sub cmdAnalitico_Click()
       Loop
    End If
    
-   gdet.Open "Select * from GeradorGeralDetalhe where ChaveAlfa1 = ('" & R1 & "') or ChaveAlfa1 = ('" & R2 & "')", db, 3, 3
+   gdet.Open "Select * from geradorgeraldetalhe where ChaveAlfa1 = ('" & R1 & "') or ChaveAlfa1 = ('" & R2 & "')", db, 3, 3
    If Not gdet.EOF Then
       gdet.MoveFirst
       Do While Not gdet.EOF
@@ -254,7 +254,7 @@ If gdet.State = 1 Then
 End If
 
    db.BeginTrans
-   gge.Open "Select * from GeradorGeral where chAlfaNumerica = ('" & Relatorio & " ')", db, 3, 3
+   gge.Open "Select * from geradorgeral where chAlfaNumerica = ('" & Relatorio & " ')", db, 3, 3
    If gge.EOF Then
       gge.AddNew
    End If
@@ -269,35 +269,35 @@ End If
    
    gridCentroDeCusto.Rows = IndSalvo + 1
 
-   For Indice = 1 To IndSalvo
-      If tabDesc(Indice) = Empty Then
-         Indice = 15
+   For indice = 1 To IndSalvo
+      If tabDesc(indice) = Empty Then
+         indice = 15
       Else
          If gdet.State = 1 Then
            gdet.Close: Set gdet = Nothing
          End If
-         gdet.Open "Select * from GeradorGeralDetalhe where ChaveAlfa1 = ('" & Relatorio & "') and ChaveAlfa2 = ('" & gridCentroDeCusto.TextMatrix(Indice, 1) & "')", db, 3, 3
+         gdet.Open "Select * from geradorgeraldetalhe where ChaveAlfa1 = ('" & Relatorio & "') and ChaveAlfa2 = ('" & gridCentroDeCusto.TextMatrix(indice, 1) & "')", db, 3, 3
          If gdet.EOF Then
             gdet.AddNew
          End If
          gdet!ChaveAlfa1 = Relatorio
-         gdet!chTipoDoRelatorio = Indice
-         gdet!ChaveAlfa2 = gridCentroDeCusto.TextMatrix(Indice, 1)
-         gdet!ChaveValor1 = gridCentroDeCusto.TextMatrix(Indice, 2)
+         gdet!chTipoDoRelatorio = indice
+         gdet!ChaveAlfa2 = gridCentroDeCusto.TextMatrix(indice, 1)
+         gdet!ChaveValor1 = gridCentroDeCusto.TextMatrix(indice, 2)
          gdet.Update
       End If
    Next
 
-   Set rel = drCustoAnalitico
-   Sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, gdet.ChaveAlfa2, "
-   Sql = Sql & " gdet.chTipoDoRelatorio, nfd.chCodProduto, nfd.chProdutoFabrica, nfd.nfdValorParcela, nfd.chPessoa, "
-   Sql = Sql & " nfd.chProdutoFabrica, ctp.chNotaFiscal, ctp.ctpDataPagamento, ctp.ctpStatus "
-   Sql = Sql & " From GeradorGeral gge, GeradorGeralDetalhe gdet, NotaFiscalDetProd nfd, Contas_A_Pagar ctp "
-   Sql = Sql & "WHERE gge.chAlfaNumerica = ('" & Relatorio & "') and gdet.ChaveAlfa1 = ('" & Relatorio & "') "
-   Sql = Sql & " AND nfd.chProdutoFabrica = gdet.ChaveAlfa2 and nfd.chPessoa = ctp.chPessoa AND nfd.chNotaFiscalEntrada = ctp.chNotaFiscal AND ctp.ctpStatus = 1 "
-   Sql = Sql & " ORDER BY gdet.chTipoDoRelatorio, ctp.ctpDataPagamento, nfd.chPessoa"
+   Set Rel = drCustoAnalitico
+   sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, gdet.ChaveAlfa2, "
+   sql = sql & " gdet.chTipoDoRelatorio, nfd.chCodProduto, nfd.chProdutoFabrica, nfd.nfdValorParcela, nfd.chPessoa, "
+   sql = sql & " nfd.chProdutoFabrica, ctp.chNotaFiscal, ctp.ctpDataPagamento, ctp.ctpStatus "
+   sql = sql & " From geradorgeral gge, geradorgeraldetalhe gdet, notafiscaldetprod nfd, contas_a_pagar ctp "
+   sql = sql & "WHERE gge.chAlfaNumerica = ('" & Relatorio & "') and gdet.ChaveAlfa1 = ('" & Relatorio & "') "
+   sql = sql & " AND nfd.chProdutoFabrica = gdet.ChaveAlfa2 and nfd.chPessoa = ctp.chPessoa AND nfd.chNotaFiscalEntrada = ctp.chNotaFiscal AND ctp.ctpStatus = 1 "
+   sql = sql & " ORDER BY gdet.chTipoDoRelatorio, ctp.ctpDataPagamento, nfd.chPessoa"
 
-AbrirRelatorio Sql, rel
+AbrirRelatorio sql, Rel
 Call FechaDB
 
 
@@ -312,11 +312,11 @@ Private Sub cmdImprimir_Click()
    
    db.BeginTrans
    
-   db.Execute ("DELETE FROM GeradorGeral WHERE chAlfaNumerica = 'drCustoAnalitico'")
+   db.Execute ("DELETE FROM geradorgeral WHERE chAlfaNumerica = 'drCustoAnalitico'")
   
-   db.Execute ("DELETE FROM GeradorGeralDetalhe WHERE ChaveAlfa1 = 'drCustoAnalitico'")
+   db.Execute ("DELETE FROM geradorgeraldetalhe WHERE ChaveAlfa1 = 'drCustoAnalitico'")
    
-   gge.Open "Select * from GeradorGeral where chAlfaNumerica = ('" & Relatorio & " ')", db, 3, 3
+   gge.Open "Select * from geradorgeral where chAlfaNumerica = ('" & Relatorio & " ')", db, 3, 3
    If gge.EOF Then
       gge.AddNew
    End If
@@ -331,31 +331,31 @@ Private Sub cmdImprimir_Click()
    
    gridCentroDeCusto.Rows = IndSalvo + 1
 
-   For Indice = 1 To IndSalvo
-      If tabDesc(Indice) = Empty Then
-         Indice = 15
+   For indice = 1 To IndSalvo
+      If tabDesc(indice) = Empty Then
+         indice = 15
       Else
          If gdet.State = 1 Then
            gdet.Close: Set gdet = Nothing
          End If
-         gdet.Open "Select * from GeradorGeralDetalhe where ChaveAlfa1 = ('" & Relatorio & "') and ChaveAlfa2 = ('" & gridCentroDeCusto.TextMatrix(Indice, 1) & "')", db, 3, 3
+         gdet.Open "Select * from geradorgeraldetalhe where ChaveAlfa1 = ('" & Relatorio & "') and ChaveAlfa2 = ('" & gridCentroDeCusto.TextMatrix(indice, 1) & "')", db, 3, 3
          If gdet.EOF Then
             gdet.AddNew
          End If
          gdet!ChaveAlfa1 = Relatorio
-         gdet!chTipoDoRelatorio = Indice
-         gdet!ChaveAlfa2 = gridCentroDeCusto.TextMatrix(Indice, 1)
-         gdet!ChaveValor1 = gridCentroDeCusto.TextMatrix(Indice, 2)
+         gdet!chTipoDoRelatorio = indice
+         gdet!ChaveAlfa2 = gridCentroDeCusto.TextMatrix(indice, 1)
+         gdet!ChaveValor1 = gridCentroDeCusto.TextMatrix(indice, 2)
          gdet.Update
       End If
    Next
 
-   Set rel = drCentroDeCusto
-   Sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, gdet.ChaveAlfa2, gdet.ChaveValor1 "
-   Sql = Sql & " From GeradorGeral gge, GeradorGeralDetalhe gdet "
-   Sql = Sql & "WHERE gge.chAlfaNumerica = ('" & Relatorio & "') and gdet.ChaveAlfa1 = ('" & Relatorio & "') "
+   Set Rel = drCentroDeCusto
+   sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, gdet.ChaveAlfa2, gdet.ChaveValor1 "
+   sql = sql & " From geradorgeral gge, geradorgeraldetalhe gdet "
+   sql = sql & "WHERE gge.chAlfaNumerica = ('" & Relatorio & "') and gdet.ChaveAlfa1 = ('" & Relatorio & "') "
 
-AbrirRelatorio Sql, rel
+AbrirRelatorio sql, Rel
 Call FechaDB
 
 
@@ -367,9 +367,9 @@ End Sub
 
 Private Sub Form_Load()
 
-For Indice = 1 To 15
-    tabValor(Indice) = 0
-    tabDesc(Indice) = Empty
+For indice = 1 To 15
+    tabValor(indice) = 0
+    tabDesc(indice) = Empty
 Next
     
 Status = 1
@@ -378,7 +378,7 @@ dtHoje = Date
 
 Call Rotina_AbrirBanco
 TotalCentroDeCusto = 0
-dnfe.Open "Select * from NotaFiscalDetProd", db, 3, 3
+dnfe.Open "Select * from notafiscaldetprod", db, 3, 3
 If dnfe.EOF Then
    MsgBox ("Detalhe Produto vazio."), vbInformation
    Exit Sub
@@ -388,15 +388,15 @@ dnfe.MoveFirst
 
 Do While Not dnfe.EOF
 
-   If Not (PessoaAnterior = dnfe!chPessoa And NotaFiscalAnterior = dnfe!chNotaFiscalEntrada) Then
+   If Not (pessoaAnterior = dnfe!chPessoa And NotaFiscalAnterior = dnfe!chNotaFiscalEntrada) Then
     
       If ctp.State = 1 Then
          ctp.Close: Set ctp = Nothing
       End If
         
-      ctp.Open "Select * from Contas_A_Pagar where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscal = ('" & dnfe!chNotaFiscalEntrada & "') and ctpStatus = ('" & Status & "')", db, 3, 3
+      ctp.Open "Select * from contas_a_pagar where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscal = ('" & dnfe!chNotaFiscalEntrada & "') and ctpStatus = ('" & Status & "')", db, 3, 3
       If Not ctp.EOF Then
-         PessoaAnterior = dnfe!chPessoa
+         pessoaAnterior = dnfe!chPessoa
          NotaFiscalAnterior = dnfe!chNotaFiscalEntrada
          Encontrei = 1
       Else
@@ -404,7 +404,7 @@ Do While Not dnfe.EOF
             PesAnter = dnfe!chPessoa
             NotaAnter = dnfe!chNotaFiscalEntrada
          Else
-            PessoaAnterior = dnfe!chPessoa
+            pessoaAnterior = dnfe!chPessoa
             NotaFiscalAnterior = dnfe!chNotaFiscalEntrada
          End If
          Encontrei = 0
@@ -413,16 +413,16 @@ Do While Not dnfe.EOF
    End If
       
    If Encontrei = 1 Then
-      For Indice = 1 To 15
-          If tabDesc(Indice) = Empty Then
-             tabDesc(Indice) = dnfe!chProdutoFabrica
-             tabValor(Indice) = dnfe!nfdValorParcela
-             IndSalvo = Indice
-             Indice = 15
+      For indice = 1 To 15
+          If tabDesc(indice) = Empty Then
+             tabDesc(indice) = dnfe!chProdutoFabrica
+             tabValor(indice) = dnfe!nfdValorParcela
+             IndSalvo = indice
+             indice = 15
           Else
-             If dnfe!chProdutoFabrica = tabDesc(Indice) Then
-                tabValor(Indice) = tabValor(Indice) + dnfe!nfdValorParcela
-                Indice = 15
+             If dnfe!chProdutoFabrica = tabDesc(indice) Then
+                tabValor(indice) = tabValor(indice) + dnfe!nfdValorParcela
+                indice = 15
              End If
           End If
       Next
@@ -439,14 +439,14 @@ If IndSalvo = 0 Then
 Else
     gridCentroDeCusto.Rows = IndSalvo + 1
     
-    For Indice = 1 To 15
-        If tabDesc(Indice) = Empty Then
-           Indice = 15
+    For indice = 1 To 15
+        If tabDesc(indice) = Empty Then
+           indice = 15
         Else
-           gridCentroDeCusto.TextMatrix(Indice, 0) = tabValor(Indice)
-           gridCentroDeCusto.TextMatrix(Indice, 1) = tabDesc(Indice)
-           gridCentroDeCusto.TextMatrix(Indice, 2) = Format$(tabValor(Indice), "#,##0.00")
-           TotalCentroDeCusto = TotalCentroDeCusto + tabValor(Indice)
+           gridCentroDeCusto.TextMatrix(indice, 0) = tabValor(indice)
+           gridCentroDeCusto.TextMatrix(indice, 1) = tabDesc(indice)
+           gridCentroDeCusto.TextMatrix(indice, 2) = Format$(tabValor(indice), "#,##0.00")
+           TotalCentroDeCusto = TotalCentroDeCusto + tabValor(indice)
         End If
     Next
     
@@ -473,9 +473,9 @@ End If
 
 Call Rotina_AbrirBanco
 
-usu.Open "Select * from Usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
+usu.Open "Select * from usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
 If usu.EOF Then
-   MsgBox ("Erro no acesso a Usuario."), vbCritical
+   MsgBox ("Erro no acesso a usuario."), vbCritical
    Exit Sub
 End If
    
@@ -492,15 +492,15 @@ End Sub
 Public Sub GeraDataInicioDataFim()
 Dim MesProximo As Integer
 
-Mes = Format$(Month(Date), "00")
+mes = Format$(Month(Date), "00")
 ano = Year(Date)
 Dia = Format$(1, "00")
 
-DataInicioInvertida = Format$(ano & "-" & Mes & "-" & Dia, "yyyy-mm-dd")
+DataInicioInvertida = Format$(ano & "-" & mes & "-" & Dia, "yyyy-mm-dd")
 
-MesProximo = Format$(Mes, "00")
+MesProximo = Format$(mes, "00")
 DataHoje = Date
-Do While Mes = MesProximo
+Do While mes = MesProximo
    DataHoje = DataHoje + 1
    MesProximo = Format$(Month(DataHoje), "00")
 Loop
@@ -513,12 +513,12 @@ Public Sub Limpagerador()
 
 Call Rotina_AbrirBanco
 Relatorio = "drCentroDeCusto"
-gge.Open "Select * from GeradorGeral where chAlfaNumerica = ('" & Relatorio & " ')", db, 3, 3
+gge.Open "Select * from geradorgeral where chAlfaNumerica = ('" & Relatorio & " ')", db, 3, 3
    If Not gge.EOF Then
       gge.Delete
    End If
 
-gdet.Open "Select * from GeradorGeralDetalhe where cHAVEaLFA1 = ('" & Relatorio & "')", db, 3, 3
+gdet.Open "Select * from geradorgeraldetalhe where cHAVEaLFA1 = ('" & Relatorio & "')", db, 3, 3
  If gdet.EOF Then
     Exit Sub
  End If

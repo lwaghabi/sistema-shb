@@ -687,7 +687,7 @@ Option Explicit
 Dim ProdutoAnterior As String
 Dim Resp As String
 Dim TamanhoCampo As Integer
-Dim CentroDeCusto As String
+Dim centrodecusto As String
 Dim GrupoCentroDeCusto As String
 Dim SubGrupoCentroDeCusto As String
 Dim Descricao As String
@@ -704,17 +704,17 @@ cmbTipoProduto.Clear
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa where chPessoa = ('" & cmbFornecedor & "')", db, 3, 3
+pes.Open "Select * from pessoa where chPessoa = ('" & cmbFornecedor & "')", db, 3, 3
 If pes.EOF Then
    If cmbOrigemProd = "FORNECEDOR" Then
-      MsgBox ("Efetuar o Cadastro deste Fornecedor em Pessoa e somente após o cadastramento lançar Centro de Custo"), vbCritical
+      MsgBox ("Efetuar o Cadastro deste fornecedor em pessoa e somente após o cadastramento lançar Centro de Custo"), vbCritical
       Call FechaDB
       cmdSair.SetFocus
       Exit Sub
    End If
 Else
    If cmbOrigemProd = "DESPESA" Then
-      MsgBox ("Efetuar este lançamento como FORNECEDOR."), vbCritical
+      MsgBox ("Efetuar este lançamento como fornecedor."), vbCritical
       Call FechaDB
       cmdSair.SetFocus
       Exit Sub
@@ -722,7 +722,7 @@ Else
 End If
 
 If cmbOrigemProd = "FORNECEDOR" Then
-   ProdEntrada.Open "Select * from ProdutoEntrada where chPessoa = ('" & cmbFornecedor & "')", db, 3, 3
+   ProdEntrada.Open "Select * from produtoentrada where chPessoa = ('" & cmbFornecedor & "')", db, 3, 3
    If ProdEntrada.EOF Then
       cmbTipoProduto.SetFocus
    Else
@@ -734,7 +734,7 @@ If cmbOrigemProd = "FORNECEDOR" Then
       Loop
    End If
 Else
-   ProdFornec.Open "Select * from ProdutoFornecedor where chTipoProduto = ('" & cmbFornecedor & "')", db, 3, 3
+   ProdFornec.Open "Select * from produtofornecedor where chTipoProduto = ('" & cmbFornecedor & "')", db, 3, 3
    If Not ProdFornec.EOF Then
       ProdFornec.MoveFirst
       Do While Not ProdFornec.EOF
@@ -759,7 +759,7 @@ If Not txtChaveEnvio = "NFE" Then
    If cmbOrigemProd = "DESPESA" Then
       Call CarregaDespesa
    Else
-      Call CarregaFornecedor
+      Call carregaFornecedor
    End If
    cmbFornecedor.SetFocus
 Else
@@ -796,14 +796,14 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
 
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and DescricaoCentroDeCusto = ('" & cmbProdutoFabrica & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and DescricaoCentroDeCusto = ('" & cmbProdutoFabrica & "')", db, 3, 3
 If Prod.EOF Then
-   MsgBox ("Centro de Custo não registrado em ProdutoEntrada"), vbCritical
+   MsgBox ("Centro de Custo não registrado em produtoentrada"), vbCritical
    Call FechaDB
    Exit Sub
 End If
 
-CentroDeCusto = "2"
+centrodecusto = "2"
 GrupoCentroDeCusto = Format$(Prod!chGrupoCentroDeCusto, "00")
 SubGrupoCentroDeCusto = "00"
 
@@ -816,9 +816,9 @@ End If
       Prod.Close: Set Prod = Nothing
    End If
    
-   Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & GrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
+   Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & GrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
    If Prod.EOF Then
-      MsgBox ("Centro de Custo não registrado em ProdutoEntrada"), vbCritical
+      MsgBox ("Centro de Custo não registrado em produtoentrada"), vbCritical
       Call FechaDB
       Exit Sub
    End If
@@ -857,7 +857,7 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
       
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and DescricaoCentroDeCusto = ('" & cmbProdutoFabrica & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and DescricaoCentroDeCusto = ('" & cmbProdutoFabrica & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("Não encontrei Centro de custo."), vbCritical
    Call FechaDB
@@ -870,7 +870,7 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
 
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & GrupoCentroDeCusto & "') and DescricaoCentroDeCusto = ('" & cmbSubGrupoCentroDeCusto & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & GrupoCentroDeCusto & "') and DescricaoCentroDeCusto = ('" & cmbSubGrupoCentroDeCusto & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("Não encontrei Centro de custo."), vbCritical
    Call FechaDB
@@ -880,7 +880,7 @@ End If
 SubGrupoCentroDeCusto = Prod!chSubGrupoCentroDeCusto
 
 If cmbOrigemProd = "FORNECEDOR" Then
-   ProdEntrada.Open "Select * from ProdutoEntrada where chPessoa = ('" & cmbFornecedor & "') and chTipoProduto = ('" & cmbTipoProduto & "')", db, 3, 3
+   ProdEntrada.Open "Select * from produtoentrada where chPessoa = ('" & cmbFornecedor & "') and chTipoProduto = ('" & cmbTipoProduto & "')", db, 3, 3
    If ProdEntrada.EOF Then
       MsgBox ("Produto solicitado para alteração não encontrado."), vbCritical
       Call FechaDB
@@ -891,7 +891,7 @@ If cmbOrigemProd = "FORNECEDOR" Then
    End If
    Call Rotina_010_Form_DB
 Else
-   ProdFornec.Open "Select * from ProdutoFornecedor where chTipoProduto = ('" & cmbFornecedor & "') and chProdutoFabrica = ('" & cmbTipoProduto & "')", db, 3, 3
+   ProdFornec.Open "Select * from produtofornecedor where chTipoProduto = ('" & cmbFornecedor & "') and chProdutoFabrica = ('" & cmbTipoProduto & "')", db, 3, 3
    If ProdFornec.EOF Then
       MsgBox ("Produto solicitado para alteração não encontrado em Despesa."), vbCritical
       Call FechaDB
@@ -923,7 +923,7 @@ Call Rotina_AbrirBanco
 db.BeginTrans
 
 If cmbOrigemProd = "FORNECEDOR" Then
-   ProdEntrada.Open "Select * from ProdutoEntrada where chPessoa = ('" & cmbFornecedor & "') and chTipoProduto = ('" & cmbTipoProduto & "') and chProdutoFabrica = ('" & cmbProdutoFabrica & "')", db, 3, 3
+   ProdEntrada.Open "Select * from produtoentrada where chPessoa = ('" & cmbFornecedor & "') and chTipoProduto = ('" & cmbTipoProduto & "') and chProdutoFabrica = ('" & cmbProdutoFabrica & "')", db, 3, 3
    If ProdEntrada.EOF Then
       MsgBox ("Produto solicitado para Exclusão não encontrado."), vbCritical
       Call FechaDB
@@ -932,7 +932,7 @@ If cmbOrigemProd = "FORNECEDOR" Then
       ProdEntrada.Delete
    End If
 Else
-   ProdFornec.Open "Select * from ProdutoFornecedor where chTipoProduto = ('" & cmbFornecedor & "') and chProdutoFabrica = ('" & cmbTipoProduto & "') and chCentroDeCusto = ('" & cmbProdutoFabrica & "')", db, 3, 3
+   ProdFornec.Open "Select * from produtofornecedor where chTipoProduto = ('" & cmbFornecedor & "') and chProdutoFabrica = ('" & cmbTipoProduto & "') and chCentroDeCusto = ('" & cmbProdutoFabrica & "')", db, 3, 3
       If ProdFornec.EOF Then
          MsgBox ("Produto solicitado para Exclusão não encontrado em Despesa."), vbCritical
          Call FechaDB
@@ -995,7 +995,7 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
       
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and DescricaoCentroDeCusto = ('" & cmbProdutoFabrica & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and DescricaoCentroDeCusto = ('" & cmbProdutoFabrica & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("Não encontrei Centro de custo."), vbCritical
    Call FechaDB
@@ -1008,7 +1008,7 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
 
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & GrupoCentroDeCusto & "') and DescricaoCentroDeCusto = ('" & cmbSubGrupoCentroDeCusto & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & GrupoCentroDeCusto & "') and DescricaoCentroDeCusto = ('" & cmbSubGrupoCentroDeCusto & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("Não encontrei Centro de custo."), vbCritical
    Call FechaDB
@@ -1036,7 +1036,7 @@ Private Sub cmdNavega_Click(Index As Integer)
   
   Call Rotina_AbrirBanco
   
-  ProdEntrada.Open "Select * from ProdutoEntrada", db, 3, 3
+  ProdEntrada.Open "Select * from produtoentrada", db, 3, 3
   
   Select Case Index
 
@@ -1084,7 +1084,7 @@ End Sub
 
 Private Sub Form_Load()
 
-CentroDeCusto = "2"
+centrodecusto = "2"
 GrupoCentroDeCusto = "00"
 SubGrupoCentroDeCusto = "00"
 'cmbControlarEstoque.AddItem "Não"
@@ -1097,7 +1097,7 @@ txtDataHoje = Date
 
 Call Rotina_AbrirBanco
 
-UnidEmb.Open "Select * from UnidadeEmbalagem", db, 3, 3
+UnidEmb.Open "Select * from unidadeembalagem", db, 3, 3
 If UnidEmb.EOF Then
    MsgBox ("Unidade de embalagem não cadastrada. "), vbCritical
    Call FechaDB
@@ -1106,12 +1106,12 @@ End If
 
 UnidEmb.MoveFirst
 Do While Not UnidEmb.EOF
-   txtUnidade.AddItem UnidEmb!unidadeembalagem
+   txtUnidade.AddItem UnidEmb!UnidadeEmbalagem
    UnidEmb.MoveNext
 Loop
 txtUnidade.ListIndex = 0
 
-'ProdTerc.Open "Select * from ProdutoTerceiros", db, 3, 3
+'ProdTerc.Open "Select * from produtoterceiros", db, 3, 3
 'If ProdTerc.EOF Then
 '   MsgBox ("Produto terceiros não cadastrado."), vbCritical
 '   Call FechaDB
@@ -1127,7 +1127,7 @@ txtUnidade.ListIndex = 0
 
 cmbProdutoFabrica.Clear
 
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & CentroDeCusto & "') and chGrupoCentroDeCusto > ('" & GrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto = ('" & SubGrupoCentroDeCusto & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & centrodecusto & "') and chGrupoCentroDeCusto > ('" & GrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto = ('" & SubGrupoCentroDeCusto & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("Erro. Tabela de Centro de Custo Vazia."), vbCritical
    Call FechaDB
@@ -1159,7 +1159,7 @@ Public Sub Rotina_010_Form_DB()
 
 db.BeginTrans
 
-ProdEntrada.Open "Select * from ProdutoEntrada where chPessoa = ('" & cmbFornecedor & "') and chTipoProduto = ('" & cmbTipoProduto & "')", db, 3, 3
+ProdEntrada.Open "Select * from produtoentrada where chPessoa = ('" & cmbFornecedor & "') and chTipoProduto = ('" & cmbTipoProduto & "')", db, 3, 3
 If ProdEntrada.EOF Then
    ProdEntrada.AddNew
 End If
@@ -1173,7 +1173,7 @@ ProdEntrada!pinUnidade = txtUnidade
 ProdEntrada!pinPesoLiquidoUnidade = txtPesoUnidade
 ProdEntrada!pinQtdUnidade = txtQtdUnidade
 
-ProdEntrada!pinCentroDeCusto = CentroDeCusto
+ProdEntrada!pinCentroDeCusto = centrodecusto
 ProdEntrada!pinGrupoCentroDeCusto = GrupoCentroDeCusto
 ProdEntrada!pinSubGrupoCentroDeCusto = SubGrupoCentroDeCusto
 
@@ -1197,7 +1197,7 @@ Call Rotina_AbrirBanco
 
 db.BeginTrans
  
-   ProdFornec.Open "Select * from ProdutoFornecedor where chTipoProduto = ('" & cmbFornecedor & "') and chProdutoFabrica = ('" & cmbTipoProduto & "')", db, 3, 3
+   ProdFornec.Open "Select * from produtofornecedor where chTipoProduto = ('" & cmbFornecedor & "') and chProdutoFabrica = ('" & cmbTipoProduto & "')", db, 3, 3
    If ProdFornec.EOF Then
       ProdFornec.AddNew
    End If
@@ -1205,7 +1205,7 @@ db.BeginTrans
    ProdFornec!chTipoProduto = cmbFornecedor
    ProdFornec!chProdutoFabrica = cmbTipoProduto
    ProdFornec!chCentroDeCusto = cmbProdutoFabrica
-   ProdFornec!pinCentroDeCusto = CentroDeCusto
+   ProdFornec!pinCentroDeCusto = centrodecusto
    ProdFornec!pinGrupoCentroDeCusto = GrupoCentroDeCusto
    ProdFornec!pinSubGrupoCentroDeCusto = SubGrupoCentroDeCusto
 
@@ -1247,7 +1247,7 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
 
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ProdEntrada!pinGrupoCentroDeCusto & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ProdEntrada!pinGrupoCentroDeCusto & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("Erro. Comunicar ao analista responsável."), vbCritical
    Call FechaDB
@@ -1260,7 +1260,7 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
    
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ProdEntrada!pinGrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto = ('" & ProdEntrada!pinGrupoCentroDeCusto & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ProdEntrada!pinGrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto = ('" & ProdEntrada!pinGrupoCentroDeCusto & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("Erro. Comunicar ao analista responsável."), vbCritical
    Call FechaDB
@@ -1301,9 +1301,9 @@ ProdutoAnterior = Empty
 
 Call Rotina_AbrirBanco
 
-ProdFornec.Open "Select * from ProdutoFornecedor", db, 3, 3
+ProdFornec.Open "Select * from produtofornecedor", db, 3, 3
    If ProdFornec.EOF Then
-      MsgBox ("Erro. Tabela de Produto Fornecedor vazia. Comunicar ao analista responsável."), vbCritical
+      MsgBox ("Erro. Tabela de Produto fornecedor vazia. Comunicar ao analista responsável."), vbCritical
       Call FechaDB
       Exit Sub
    End If
@@ -1322,15 +1322,15 @@ Call FechaDB
 
 End Sub
 
-Public Sub CarregaFornecedor()
+Public Sub carregaFornecedor()
 
 ProdutoAnterior = Empty
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa where pesTipoPessoa = ('" & 2 & "')", db, 3, 3
+pes.Open "Select * from pessoa where pesTipoPessoa = ('" & 2 & "')", db, 3, 3
 If pes.EOF Then
-   MsgBox ("Erro na carga Pessoa"), vbCritical
+   MsgBox ("Erro na carga pessoa"), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -1348,7 +1348,7 @@ End Sub
 Public Sub TratarFornecedor()
 Call Rotina_AbrirBanco
 
-ProdFornec.Open "Select * from ProdutoEntrada where chPessoa = ('" & cmbFornecedor & "') and chTipoProduto = ('" & cmbTipoProduto & "')", db, 3, 3
+ProdFornec.Open "Select * from produtoentrada where chPessoa = ('" & cmbFornecedor & "') and chTipoProduto = ('" & cmbTipoProduto & "')", db, 3, 3
 If Not ProdFornec.EOF Then
    Call PreparaAlteracaoFornecedor
 Else
@@ -1360,7 +1360,7 @@ Public Sub TratarDespesa()
 
 Call Rotina_AbrirBanco
 
-ProdFornec.Open "Select * from ProdutoFornecedor where chTipoProduto = ('" & cmbFornecedor & "') and chProdutoFabrica = ('" & cmbTipoProduto & "')", db, 3, 3
+ProdFornec.Open "Select * from produtofornecedor where chTipoProduto = ('" & cmbFornecedor & "') and chProdutoFabrica = ('" & cmbTipoProduto & "')", db, 3, 3
 If Not ProdFornec.EOF Then
    Call PreparaAlteracao
 Else
@@ -1384,9 +1384,9 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
 
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto > ('" & "00" & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto > ('" & "00" & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
 If Prod.EOF Then
-   MsgBox ("Centro de Custo não registrado em ProdutoEntrada"), vbCritical
+   MsgBox ("Centro de Custo não registrado em produtoentrada"), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -1404,9 +1404,9 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
    
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ProdFornec!pinGrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ProdFornec!pinGrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
 If Prod.EOF Then
-   MsgBox ("Grupo Centro de Custo não registrado em ProdutoEntrada"), vbCritical
+   MsgBox ("Grupo Centro de Custo não registrado em produtoentrada"), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -1430,9 +1430,9 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
 
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto > ('" & "00" & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto > ('" & "00" & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
 If Prod.EOF Then
-   MsgBox ("Centro de Custo não registrado em ProdutoEntrada"), vbCritical
+   MsgBox ("Centro de Custo não registrado em produtoentrada"), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -1458,9 +1458,9 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
 
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto > ('" & ProdFornec!pinGrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto > ('" & ProdFornec!pinGrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto > ('" & "00" & "')", db, 3, 3
 If Prod.EOF Then
-   MsgBox ("Centro de Custo não registrado em ProdutoEntrada"), vbCritical
+   MsgBox ("Centro de Custo não registrado em produtoentrada"), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -1478,9 +1478,9 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
    
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ProdFornec!pinGrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto = ('" & ProdFornec!pinSubGrupoCentroDeCusto & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ProdFornec!pinGrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto = ('" & ProdFornec!pinSubGrupoCentroDeCusto & "')", db, 3, 3
 If Prod.EOF Then
-   MsgBox ("Grupo Centro de Custo não registrado em ProdutoEntrada"), vbCritical
+   MsgBox ("Grupo Centro de Custo não registrado em produtoentrada"), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -1504,9 +1504,9 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
 
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto > ('" & "00" & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto > ('" & "00" & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
 If Prod.EOF Then
-   MsgBox ("Centro de Custo não registrado em ProdutoEntrada"), vbCritical
+   MsgBox ("Centro de Custo não registrado em produtoentrada"), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -1524,9 +1524,9 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
    
-Prod.Open "Select * from CentroDeCusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ProdFornec!pinGrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
+Prod.Open "Select * from centrodecusto where chCentroDeCusto = ('" & "2" & "') and chGrupoCentroDeCusto = ('" & ProdFornec!pinGrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto = ('" & "00" & "')", db, 3, 3
 If Prod.EOF Then
-   MsgBox ("Grupo Centro de Custo não registrado em ProdutoEntrada"), vbCritical
+   MsgBox ("Grupo Centro de Custo não registrado em produtoentrada"), vbCritical
    Call FechaDB
    Exit Sub
 End If

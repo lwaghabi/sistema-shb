@@ -5,11 +5,11 @@ Begin VB.Form frmEquipamentosRequisitados
    ClientHeight    =   6780
    ClientLeft      =   60
    ClientTop       =   405
-   ClientWidth     =   7470
+   ClientWidth     =   12735
    LinkTopic       =   "Form1"
    ScaleHeight     =   6780
-   ScaleWidth      =   7470
-   StartUpPosition =   3  'Windows Default
+   ScaleWidth      =   12735
+   StartUpPosition =   2  'CenterScreen
    Begin VB.CommandButton Command1 
       Caption         =   "Sair"
       BeginProperty Font 
@@ -22,7 +22,7 @@ Begin VB.Form frmEquipamentosRequisitados
          Strikethrough   =   0   'False
       EndProperty
       Height          =   975
-      Left            =   5640
+      Left            =   11040
       TabIndex        =   6
       Top             =   5760
       Width           =   1575
@@ -39,7 +39,7 @@ Begin VB.Form frmEquipamentosRequisitados
          Strikethrough   =   0   'False
       EndProperty
       Height          =   975
-      Left            =   3840
+      Left            =   9240
       TabIndex        =   5
       Top             =   5760
       Width           =   1575
@@ -78,16 +78,16 @@ Begin VB.Form frmEquipamentosRequisitados
    End
    Begin MSFlexGridLib.MSFlexGrid tblProdutos 
       Height          =   4335
-      Left            =   120
+      Left            =   240
       TabIndex        =   0
-      Top             =   1320
-      Width           =   7215
-      _ExtentX        =   12726
+      Top             =   1440
+      Width           =   12495
+      _ExtentX        =   22040
       _ExtentY        =   7646
       _Version        =   393216
       Cols            =   3
       FixedCols       =   0
-      FormatString    =   "Produto                                  |Qtd. Pedida|Qtd. Atendida"
+      FormatString    =   $"frmEquipamentosRequisitados.frx":0000
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
          Size            =   12
@@ -144,39 +144,48 @@ Private Sub cmdEntrega_Click()
    
    i = 1
    
+   On Error GoTo Erro
+   
    db.BeginTrans
    
    Do While i < tblProdutos.Rows
-      Prod.Open "SELECT grupo,classe,codProd FROM supProduto WHERE nomeProd = ('" & tblProdutos.TextMatrix(i, 0) & "')", db, 3, 3
-      rs.Open "SELECT * FROM supRequisicaoDetalhe WHERE id = ('" & txtNumReq & "') and codigo = ('" & txtCodBaixa & "') and grupo = ('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd = ('" & Prod!codProd & "')", db, 3, 3
-      
+      Prod.Open "SELECT grupo,classe,codProd,pontoDePedido FROM supproduto WHERE nomeProd = ('" & tblProdutos.TextMatrix(i, 0) & "')", db, 3, 3
+      rs.Open "SELECT * FROM suprequisicaodetalhe WHERE id = ('" & txtNumReq & "') and codigo = ('" & txtCodBaixa & "') and grupo = ('" & Prod!Grupo & "') and classe = ('" & Prod!Classe & "') and codProd = ('" & Prod!codProd & "')", db, 3, 3
+      If Not rs.EOF Then
+         rs!statusEntrega = 1
+         rs!codigo = ""
          If rs!quantidade = rs!QtdEntregue Then
          
             rs!Status = 1
             rs!dataProcessamento = Date
-            rs.Update
          
          End If
-         
-         
+         rs.Update
+      End If
       rs.Close
-      rs.Open "SELECT * FROM supEstoque WHERE grupo = ('" & Prod!grupo & "') and classe = ('" & Prod!classe & "') and codProd = ('" & Prod!codProd & "')", db, 3, 3
-      Prod.Close
+      rs.Open "SELECT * FROM supestoque WHERE grupo = ('" & Prod!Grupo & "') and classe = ('" & Prod!Classe & "') and codProd = ('" & Prod!codProd & "')", db, 3, 3
          
          rs!qtdEmEstoque = rs!qtdEmEstoque - tblProdutos.TextMatrix(i, 2)
          rs!qtdReservado = rs!qtdReservado - tblProdutos.TextMatrix(i, 2)
-         rs!dataUltimaAtualizacao = Date
          rs!dataUltimaRequisicao = Date
-         If rs!qtdReservado = 0 And rs!qtdEmEstoque <= rs!estoqueMinimo Then
+         If rs!qtdReservado = 0 And rs!qtdEmEstoque <= Prod!pontoDePedido Then
          
             Call geraRequisicaoCompra(tblProdutos.TextMatrix(i, 0), tblProdutos.TextMatrix(i, 1), rs!qtdEmEstoque, tblProdutos.TextMatrix(i, 2), rs!estoqueMaximo)
          
          End If
+         Call RegistraMov(rs!Grupo, rs!Classe, rs!codProd, CInt(tblProdutos.TextMatrix(i, 2)), "S")
          rs.Update
+      Prod.Close
       rs.Close
       i = i + 1
    
    Loop
+   
+   rs.Open "SELECT * FROM suprequisicaodetalhe WHERE id=('" & txtNumReq & "') and status=0", db, 3, 3
+      If rs.EOF Then
+         db.Execute ("UPDATE suprequisicao SET status=1 WHERE id=('" & txtNumReq & "')")
+      End If
+   rs.Close
    
    db.CommitTrans
    
@@ -184,11 +193,21 @@ Private Sub cmdEntrega_Click()
    Unload Me
    
    FechaDB
+Exit Sub
+Erro: MsgBox ("Erro na conclusão da entrega: " & Err.Description & Err.Source), vbInformation
+db.RollbackTrans
 End Sub
 
 Public Sub geraRequisicaoCompra(Produto As String, qtdRequisitada As Integer, qtdEstoque As Integer, qtdAtendida As Integer, estoqueMaximo As Integer)
    
-   pes.Open "SELECT * FROM supRequisicaoCompra WHERE nomeProd = ('" & Produto & "') and idRequisicao = ('" & txtNumReq & "')", db, 3, 3
+   pes.Open "SELECT * FROM suprequisicaocompra WHERE nomeProd = ('" & Produto & "') and idRequisicao = ('" & txtNumReq & "')", db, 3, 3
+   
+   If Not pes.EOF Then
+      If pes!qtdPendente + estoqueMaximo = 0 Then
+         pes.Close
+         Exit Sub
+      End If
+   End If
    
    If pes.EOF Then
    
@@ -213,3 +232,4 @@ End Sub
 Private Sub Command1_Click()
 Unload Me
 End Sub
+

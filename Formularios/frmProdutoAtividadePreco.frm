@@ -215,7 +215,7 @@ End If
 
 Call Rotina_AbrirBanco
 
-ProdPco.Open "Select * from ProdutoPreco where chProduto = ('" & cmbProduto & "') and pdpStatus = ('" & 0 & "')", db, 3, 3
+ProdPco.Open "Select * from produtopreco where chProduto = ('" & cmbProduto & "') and pdpStatus = ('" & 0 & "')", db, 3, 3
 
 If ProdPco.EOF Then
    MsgBox ("Atividade não encontrada para o Contrato."), vbInformation
@@ -228,7 +228,7 @@ End If
 'If Prod.State = 1 Then
 '   Prod.Close: Set Prod = Nothing
 'End If
-Prod.Open "Select * from Produto where chProduto = ('" & ProdPco!chProduto & "') and prdLocadora = ('" & ProdPco!chPessoa & "')", db, 3, 3
+Prod.Open "Select * from produto where chProduto = ('" & ProdPco!chProduto & "') and prdLocadora = ('" & ProdPco!chPessoa & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("Cliente não encontrado em Produto. Comunicar ao analista responsável."), vbCritical
    Call FechaDB
@@ -269,7 +269,7 @@ ProdutoAnterior = Empty
 
 Call Rotina_AbrirBanco
 
-Prod.Open "Select * from Produto where prdUnidadeOperacional  = ('" & Contrato & "')", db, 3, 3
+Prod.Open "Select * from produto where prdUnidadeOperacional  = ('" & Contrato & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("Erro na carga de Produtos. Comunicar ao analista responsável."), vbCritical
    Call FechaDB

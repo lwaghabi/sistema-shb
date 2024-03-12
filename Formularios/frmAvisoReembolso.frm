@@ -125,8 +125,8 @@ Dim DataInvertida As String
 Dim DataHojeInvertida As String
 
 Dim Dia As Integer
-Dim Mes As Integer
-Dim Ano As Integer
+Dim mes As Integer
+Dim ano As Integer
 Dim DiaDb As Integer
 Dim MesDb As Integer
 Dim AnoDb As Integer
@@ -142,9 +142,9 @@ End If
 
 Call Rotina_AbrirBanco
 
-usu.Open "Select * from Usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
+usu.Open "Select * from usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
 If usu.EOF Then
-   MsgBox ("Erro no acesso a Usuario na rotina de atualização de mostrar aviso. Comunicar Analista responsável"), vbCritical
+   MsgBox ("Erro no acesso a usuario na rotina de atualização de mostrar aviso. Comunicar Analista responsável"), vbCritical
    End
 End If
 
@@ -164,15 +164,15 @@ ColaboradorAnterior = Empty
 DataAnterior = Empty
 optAviso = False
 
-Ano = Year(Date)
-Mes = Month(Date)
+ano = Year(Date)
+mes = Month(Date)
 Dia = Day(Date)
 
-DataHojeInvertida = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataHojeInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 Call Rotina_AbrirBanco
 
-usu.Open "Select * from Usuario where  chNome = ('" & glbUsuario & "')", db, 3, 3
+usu.Open "Select * from usuario where  chNome = ('" & glbUsuario & "')", db, 3, 3
 If usu.EOF Then
    MsgBox ("Usuário inexistente. Comunicar ao analista responsável."), vbCritical
    Call FechaDB
@@ -187,7 +187,7 @@ End If
 
 Call LimpaGridAviso
 
-Rmb.Open "Select * from Reembolso where rmbStatusReembolso = ('" & 0 & "')", db, 3, 3
+Rmb.Open "Select * from reembolso where rmbStatusReembolso = ('" & 0 & "')", db, 3, 3
 If Rmb.EOF Then
    Call FechaDB
    Exit Sub

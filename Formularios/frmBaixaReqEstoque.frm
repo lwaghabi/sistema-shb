@@ -98,7 +98,7 @@ Private Sub txtCodReq_LostFocus()
    
    Call Rotina_AbrirBanco
    
-   rs.Open "SELECT * FROM supRequisicaoDetalhe inner join supProduto on supProduto.grupo = supRequisicaoDetalhe.grupo and supProduto.classe = supRequisicaoDetalhe.classe and supProduto.codProd = supRequisicaoDetalhe.codProd WHERE codigo = ('" & txtCodReq & "')", db, 3, 3
+   rs.Open "SELECT * FROM suprequisicaodetalhe inner join supproduto on supproduto.grupo = suprequisicaodetalhe.grupo and supproduto.classe = suprequisicaodetalhe.classe and supproduto.codProd = suprequisicaodetalhe.codProd WHERE codigo = ('" & txtCodReq & "')", db, 3, 3
    
    If rs.EOF Then
    
@@ -110,8 +110,12 @@ Private Sub txtCodReq_LostFocus()
    
    rs.MoveFirst
    
+   If rs!statusEntrega = 1 Then
+      frmEquipamentosRequisitados.cmdEntrega.Enabled = False
+   End If
+   
    frmEquipamentosRequisitados.txtCodBaixa = rs!codigo
-   frmEquipamentosRequisitados.txtNumReq = rs!id
+   frmEquipamentosRequisitados.txtNumReq = rs!Id
    
    frmEquipamentosRequisitados.tblProdutos.Rows = 1
    
@@ -121,9 +125,7 @@ Private Sub txtCodReq_LostFocus()
       rs.MoveNext
    
    Loop
-   
-   
-   
+    
    frmEquipamentosRequisitados.Show
       
    Unload Me

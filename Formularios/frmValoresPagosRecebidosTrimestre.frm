@@ -99,7 +99,7 @@ Begin VB.Form frmValoresPagosRecebidosTrimestre
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   92864513
+      Format          =   240189441
       CurrentDate     =   44869
    End
    Begin MSComCtl2.DTPicker dtInicio 
@@ -120,7 +120,7 @@ Begin VB.Form frmValoresPagosRecebidosTrimestre
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   92864513
+      Format          =   240189441
       CurrentDate     =   44869
    End
    Begin MSComCtl2.DTPicker DTPicker1 
@@ -132,7 +132,7 @@ Begin VB.Form frmValoresPagosRecebidosTrimestre
       _ExtentX        =   53
       _ExtentY        =   873
       _Version        =   393216
-      Format          =   92864513
+      Format          =   240189441
       CurrentDate     =   44869
    End
    Begin VB.Frame Frame1 
@@ -810,7 +810,7 @@ Dim FimTerceiroTrimestre As Date
 Dim InicioQuartoTrimestre As Date
 Dim FimQuartoTrimestre As Date
 Dim ano As Integer
-Dim Mes As Integer
+Dim mes As Integer
 Dim Dia As Integer
 Dim DataMontada As String
 Dim DataProcessada As Date
@@ -844,23 +844,23 @@ End If
 
 ano = Year(dtInicio)
 Dia = Format$(1, "00")
-Mes = Format$(1, "00")
+mes = Format$(1, "00")
 
-InicioPrimeiroTrimestre = Format$(Dia & "-" & Mes & "-" & ano, "dd/mm/yyyy")
+InicioPrimeiroTrimestre = Format$(Dia & "-" & mes & "-" & ano, "dd/mm/yyyy")
 
-Mes = Mes + 3
+mes = mes + 3
 
-InicioSegundoTrimestre = Format$(Dia & "-" & Mes & "-" & ano, "dd/mm/yyyy")
+InicioSegundoTrimestre = Format$(Dia & "-" & mes & "-" & ano, "dd/mm/yyyy")
 FimPrimeiroTrimestre = InicioSegundoTrimestre - 1
 
-Mes = Mes + 3
+mes = mes + 3
 
-InicioTerceiroTrimestre = Format$(Dia & "-" & Mes & "-" & ano, "dd/mm/yyyy")
+InicioTerceiroTrimestre = Format$(Dia & "-" & mes & "-" & ano, "dd/mm/yyyy")
 FimSegundoTrimestre = InicioTerceiroTrimestre - 1
 
-Mes = Mes + 3
+mes = mes + 3
 
-InicioQuartoTrimestre = Format$(Dia & "-" & Mes & "-" & ano, "dd/mm/yyyy")
+InicioQuartoTrimestre = Format$(Dia & "-" & mes & "-" & ano, "dd/mm/yyyy")
 FimTerceiroTrimestre = InicioQuartoTrimestre - 1
 
 FimQuartoTrimestre = Format$(31 & "-" & 12 & "-" & ano, "dd/mm/yyyy")
@@ -892,29 +892,29 @@ Else
 End If
 
 lblInicioT1 = dtInicio
-Mes = Month(dtInicio)
-Mes = Mes + 1
+mes = Month(dtInicio)
+mes = mes + 1
 Dia = Format$(1, "00")
 ano = Year(dtInicio)
-lblInicioT2 = Format$(Dia, "00") & "/" & Format$(Mes, "00") & "/" & ano
+lblInicioT2 = Format$(Dia, "00") & "/" & Format$(mes, "00") & "/" & ano
 
 DataProcessada = lblInicioT2
 DataProcessada = DataProcessada - 1
 lblFimT1 = DataProcessada
 
 Dia = Day(dtFim)
-Mes = Month(dtFim)
+mes = Month(dtFim)
 ano = Year(dtFim)
 
 lblFimT3 = dtFim
-lblInicioT3 = Format$(1, "00") & "/" & Format$(Mes, "00") & "/" & ano
+lblInicioT3 = Format$(1, "00") & "/" & Format$(mes, "00") & "/" & ano
 
 'Mes = Mes - 1
-Mes = Month(dtFim)
+mes = Month(dtFim)
 Dia = Format$(1, "00")
 ano = Year(dtInicio)
 
-DataProcessada = Format$(1, "00") & "/" & Format$(Mes, "00") & "/" & ano
+DataProcessada = Format$(1, "00") & "/" & Format$(mes, "00") & "/" & ano
 DataProcessada = DataProcessada - 1
 
 lblFimT2 = DataProcessada
@@ -958,7 +958,7 @@ cmbTrimestre.ListIndex = 0
 
 ano = Year(dtInicio)
 Dia = Format$(1, "00")
-Mes = Format$(1, "00")
+mes = Format$(1, "00")
 
 End Sub
 
@@ -1071,7 +1071,7 @@ Public Sub ValoresDoMes()
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber where ctrStatus = ('" & 1 & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where ctrStatus = ('" & 1 & "')", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Sem financeiro para tratar neste mes do trimestre."), vbInformation
    Call FechaDB
@@ -1085,7 +1085,7 @@ Public Sub ValoresDoHistorico()
 Call Rotina_AbrirBanco
 
 Status = 1
-ctr.Open "Select * from HistoricoContasReceber where ctrStatus = ('" & Status & "') and ctrDataRecebimento > ('" & DataInvertidaInicio & "') and ctrDataRecebimento < ('" & DataInvertidaFim & "')", db, 3, 3
+ctr.Open "Select * from historicocontasreceber where ctrStatus = ('" & Status & "') and ctrDataRecebimento > ('" & DataInvertidaInicio & "') and ctrDataRecebimento < ('" & DataInvertidaFim & "')", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Sem financeiro para tratar neste mês do trimestre."), vbInformation
    Call FechaDB
@@ -1115,18 +1115,18 @@ Public Sub InverterData()
 DataAuxiliarInicio = DataAuxiliarInicio - 1
 
 Dia = Day(DataAuxiliarInicio)
-Mes = Month(DataAuxiliarInicio)
+mes = Month(DataAuxiliarInicio)
 ano = Year(DataAuxiliarInicio)
 
-DataInvertidaInicio = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataInvertidaInicio = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 DataAuxiliarFim = DataAuxiliarFim + 1
 
 Dia = Day(DataAuxiliarFim)
-Mes = Month(DataAuxiliarFim)
+mes = Month(DataAuxiliarFim)
 ano = Year(DataAuxiliarFim)
 
-DataInvertidaFim = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataInvertidaFim = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 End Sub
 
@@ -1224,7 +1224,7 @@ Public Sub ValoresDoMesPagos()
 
 Call Rotina_AbrirBanco
 
-ctp.Open "Select * from Contas_A_Pagar where ctpStatus = ('" & Status & "')", db, 3, 3
+ctp.Open "Select * from contas_a_pagar where ctpStatus = ('" & Status & "')", db, 3, 3
 If ctp.EOF Then
    MsgBox ("Sem Pagamentos para tratar neste mes do trimestre."), vbInformation
    Call FechaDB
@@ -1236,7 +1236,7 @@ Public Sub ValoresDoHistoricoPagos()
 
 Call Rotina_AbrirBanco
 
-ctp.Open "Select * from HistoricoContasPagar where ctpDataPagamento > ('" & DataInvertidaInicio & "') and ctpDataPagamento < ('" & DataInvertidaFim & "')", db, 3, 3
+ctp.Open "Select * from historicocontaspagar where ctpDataPagamento > ('" & DataInvertidaInicio & "') and ctpDataPagamento < ('" & DataInvertidaFim & "')", db, 3, 3
 If ctp.EOF Then
    MsgBox ("Trimestre no Historico sem valores pagos."), vbInformation
 End If

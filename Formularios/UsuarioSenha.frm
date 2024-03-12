@@ -208,14 +208,14 @@ Dim DataLogin As Double
 Dim DataInvertida As String
 
 Dim ano As Integer
-Dim Mes As Integer
+Dim mes As Integer
 Dim Dia As Integer
 
 
 Private Sub cmdEntra_Click()
 
 ano = Year(Date)
-Mes = Month(Date)
+mes = Month(Date)
 Dia = Day(Date)
 
 Call CriticaAbertura
@@ -227,9 +227,9 @@ End If
 
 Call Rotina_AbrirBanco
 
-DataInvertida = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
    
-glb.Open "select * from Global where chDataAbertura = ('" & DataInvertida & "')", db, 3, 3
+glb.Open "select * from global where chDataAbertura = ('" & DataInvertida & "')", db, 3, 3
 acGlb = acGlb + 1
 If glb.EOF Then
    If glbTipoAcesso = 3 Then
@@ -241,7 +241,7 @@ If glb.EOF Then
 End If
 
 If ErroAbertura = 0 Then
-   usu.Open "select * from Usuario where chNome = ('" & txtUsuario & "')", db, 3, 3
+   usu.Open "select * from usuario where chNome = ('" & txtUsuario & "')", db, 3, 3
    If usu.EOF Then
       MsgBox ("Usuário inválido. "), vbCritical
       Call FechaDB
@@ -268,7 +268,7 @@ Call Rotina_AbrirBanco
 ErroAbertura = 0
 
 
-usu.Open "select * from Usuario where chNome = ('" & txtUsuario & "')", db, 3, 3
+usu.Open "select * from usuario where chNome = ('" & txtUsuario & "')", db, 3, 3
 acUsu = acUsu + 1
 If usu.EOF Then
    MsgBox ("Usuario/Senha inválido"), vbCritical
@@ -317,17 +317,10 @@ If glbTipoAcesso = 1 Then
    mdiSHB.mdiProducao.Enabled = True
    mdiSHB.mdiMovProducao.Enabled = True
    mdiSHB.mdiMoveEspecial.Enabled = True
-   If ChaveCompilando = 1 Then
-      mdiSHB.mdiMateriaisEst.Visible = True
-   Else
-      mdiSHB.mdiMateriaisEst.Visible = False
-   End If
+   mdiSHB.mdiMateriaisEst.Visible = True
    mdiSHB.mdiRelatorios.Enabled = True
    mdiSHB.mdiHabilitacao.Enabled = True
    mdiSHB.mdiSupervisor.Enabled = True
-   'If glbUsuario = "Suelen" Or glbUsuario = "SUELEN" Or glbUsuario = "suelen" Then
-   '   mdiSHB.mdiEmpenho.Visible = False
-   'End If
 Else
    If glbTipoAcesso = 3 Then
       mdiSHB.mdiPessoa.Enabled = True
@@ -338,11 +331,7 @@ Else
       mdiSHB.mdiParametros.Enabled = False
       mdiSHB.mdiFinanceiro.Enabled = False
       mdiSHB.mdiProducao.Enabled = False
-      If ChaveCompilando = 1 Then
-         mdiSHB.mdiMateriaisEst.Visible = True
-      Else
-         mdiSHB.mdiMateriaisEst.Visible = False
-      End If
+      mdiSHB.mdiMateriaisEst.Visible = True
       mdiSHB.mdiRelatorios.Enabled = False
       mdiSHB.mdiHabilitacao.Enabled = False
       mdiSHB.mdiSupervisor.Enabled = False
@@ -360,11 +349,8 @@ Else
          mdiSHB.mdiFinanceiro.Enabled = True
          mdiSHB.mdiConsultaFinanc = True
          mdiSHB.mdiProducao.Enabled = True
-         If ChaveCompilando = 1 Then
-            mdiSHB.mdiMateriaisEst.Visible = True
-         Else
-            mdiSHB.mdiMateriaisEst.Visible = False
-         End If
+
+         mdiSHB.mdiMateriaisEst.Visible = True
          mdiSHB.mdiHabilitacao.Enabled = True
          mdiSHB.mdiRelatorios.Enabled = True
          'Alteração para a Miriam e outros com Tipo Acesso = 2
@@ -416,6 +402,12 @@ Else
    End If
 End If
 
+If glbUsuario = "lwaghabi" Or glbUsuario = "raphael" Or glbUsuario = "pablo" Or glbUsuario = "suelen" Then
+   mdiSHB.mdiCadastroProdutos.Visible = True
+Else
+   mdiSHB.mdiCadastroProdutos.Visible = False
+End If
+
 glbMaquina = GetIPHostName()
 
 glbEnderecoIP = GetIPAddress()
@@ -432,23 +424,23 @@ End Sub
 Private Sub Form_Load()
 
 ano = Year(Date)
-Mes = Month(Date)
+mes = Month(Date)
 Dia = Day(Date)
 txtUsuario = Empty
 txtSenha = Empty
 
 DataLogin = Date
 
-If Compilando Then
-   txtUsuario = "lwaghabi"
-   txtSenha = "morena"
-End If
+'If Compilando Then
+'   txtUsuario = "lwaghabi"
+'   txtSenha = "morena"
+'End If
 
 Call Rotina_AbrirBanco
 
-DataHojeInvertida = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataHojeInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
-glb.Open "Select * from Global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
+glb.Open "Select * from global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
 
 If glb.EOF Then
    'MsgBox ("Atenção: Sistema encontra-se fechado."), vbInformation

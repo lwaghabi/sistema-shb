@@ -363,7 +363,7 @@ Dim IndConf As Integer
 Dim AcumulaRecebidas As Currency
 Dim AcumulaPagar As Currency
 Dim TotalCentroDeCusto As Currency
-Dim Indice As Byte
+Dim indice As Byte
 Dim DataAcesso As Date
 Dim PrimeiraVez As Byte
 
@@ -398,7 +398,7 @@ Call RotinaInverterData
 
 Call Rotina_AbrirBanco
 
-hctr.Open "Select * from HistoricoContasReceber where ctrDataRecebimento > ('" & DataInicioInvertida & "') and ctrDataRecebimento < ('" & DataFinalInvertida & "')", db, 3, 3
+hctr.Open "Select * from historicocontasreceber where ctrDataRecebimento > ('" & DataInicioInvertida & "') and ctrDataRecebimento < ('" & DataFinalInvertida & "')", db, 3, 3
 If hctr.EOF Then
    MsgBox ("Sem Lançamentos a credito confirmados no período informado"), vbInformation
 Else
@@ -406,7 +406,7 @@ Else
    Call GerenciaContasaReceberPeriodo
 End If
 
-hctp.Open "Select * from HistoricoContasPagar where ctpDataPagamento > ('" & DataInicioInvertida & "') and ctpDataPagamento < ('" & DataFinalInvertida & "')", db, 3, 3
+hctp.Open "Select * from historicocontaspagar where ctpDataPagamento > ('" & DataInicioInvertida & "') and ctpDataPagamento < ('" & DataFinalInvertida & "')", db, 3, 3
 If hctp.EOF Then
    MsgBox ("Sem Lançamentos a débito confirmados no período informado"), vbInformation
 Else
@@ -426,8 +426,8 @@ End If
 End Sub
 
 Private Sub cmdCtaRecebidas_Click()
-Dim Sql As String
-Dim rel As Object
+Dim sql As String
+Dim Rel As Object
 
 Call RotinaInverterData
 
@@ -438,7 +438,7 @@ Call RotinaInverterData
    Call Rotina_AbrirBanco
    Relatorio = "drCtaReceber"
    db.BeginTrans
-   gge.Open "Select * from GeradorGeral where chAlfaNumerica = ('" & Relatorio & " ')", db, 3, 3
+   gge.Open "Select * from geradorgeral where chAlfaNumerica = ('" & Relatorio & " ')", db, 3, 3
    If gge.EOF Then
       gge.AddNew
    End If
@@ -451,19 +451,19 @@ Call RotinaInverterData
 
    db.CommitTrans
 
-   Set rel = drCtaReceber
-   Sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctr.ctrDataVencito, ctr.chNotaFiscal, pes.pesRazaoSocial, ctr.ctrValorDaBoleta "
-   Sql = Sql & " From Contas_A_Receber ctr, GeradorGeral gge, Pessoa pes "
-   Sql = Sql & "WHERE ctr.ctrStatus = 0 and gge.chAlfaNumerica = ('" & Relatorio & "') and ctr.chPessoa = pes.chPessoa order by ctr.ctrDataVencito"
+   Set Rel = drCtaReceber
+   sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctr.ctrDataVencito, ctr.chNotaFiscal, pes.pesRazaoSocial, ctr.ctrValorDaBoleta "
+   sql = sql & " From contas_a_receber ctr, geradorgeral gge, pessoa pes "
+   sql = sql & "WHERE ctr.ctrStatus = 0 and gge.chAlfaNumerica = ('" & Relatorio & "') and ctr.chPessoa = pes.chPessoa order by ctr.ctrDataVencito"
 
-AbrirRelatorio Sql, rel
+AbrirRelatorio sql, Rel
  
 End Sub
 
 Private Sub drCtaPagarReceber_Click()
 
-Dim Sql As String
-Dim rel As Object
+Dim sql As String
+Dim Rel As Object
 Dim Sec As Integer
 Dim Rel1 As String
 
@@ -473,19 +473,19 @@ db.BeginTrans
 
    Call GeraDataInicioDataFim
    
-   db.Execute ("DELETE FROM GeradorGeral WHERE chAlfaNumerica = 'drCtaPagar'")
-   db.Execute ("INSERT INTO GeradorGeral (chAlfaNumerica, ggeDataHoje,ggeDataIni, ggeDataFim) " & _
+   db.Execute ("DELETE FROM geradorgeral WHERE chAlfaNumerica = 'drCtaPagar'")
+   db.Execute ("INSERT INTO geradorgeral (chAlfaNumerica, ggeDataHoje,ggeDataIni, ggeDataFim) " & _
   "VALUES('drCtaPagar', '" & Format(DataHoje, "yyyy-MM-dd") & "','" & DataInicioInvertida & "','" & DataFinalInvertida & "')")
 
 db.CommitTrans
 'Para ser usado somente quando houver erro na busca por ser muito longa
 'db.Execute "SET SQL_BIG_SELECTS=1"
-Set rel = drCtaPagar
-Sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctp.chDataVencito, ctp.chNotaFiscal, ctp.chPessoa, ctp.ctpDescricaoOperacao, ctp.ctpValorDaBoleta "
-Sql = Sql & " FROM GeradorGeral gge, Contas_A_Pagar ctp "
-Sql = Sql & "WHERE gge.chAlfaNumerica = 'drCtaPagar' AND ctp.ctpStatus = 0 ORDER BY ctp.chDataVencito, ctp.chPessoa"
+Set Rel = drCtaPagar
+sql = "Select gge.ggeDataHoje, gge.ggeDataIni, gge.ggeDataFim, ctp.chDataVencito, ctp.chNotaFiscal, ctp.chPessoa, ctp.ctpDescricaoOperacao, ctp.ctpValorDaBoleta "
+sql = sql & " FROM geradorgeral gge, contas_a_pagar ctp "
+sql = sql & "WHERE gge.chAlfaNumerica = 'drCtaPagar' AND ctp.ctpStatus = 0 ORDER BY ctp.chDataVencito, ctp.chPessoa"
    
-AbrirRelatorio Sql, rel
+AbrirRelatorio sql, Rel
 
 'MsgBox ("Relatorio")
 Call FechaDB
@@ -532,7 +532,7 @@ Call LimpaTabela
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber where ctrStatus = ('" & 0 & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where ctrStatus = ('" & 0 & "')", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Sem Lançamentos a credito confirmados até a presente data"), vbInformation
 Else
@@ -540,7 +540,7 @@ Else
    Call GerenciaContasaReceber
 End If
 
-ctp.Open "Select * from Contas_A_Pagar where ctpStatus = ('" & 0 & "')", db, 3, 3
+ctp.Open "Select * from contas_a_pagar where ctpStatus = ('" & 0 & "')", db, 3, 3
 If ctp.EOF Then
    MsgBox ("Sem Lançamentos a débito confirmados até a presente data"), vbInformation
 Else
@@ -560,9 +560,9 @@ End If
 'optMesAnter = False
 'fraPeriodo.Visible = False
 
-usu.Open "Select * from Usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
+usu.Open "Select * from usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
 If usu.EOF Then
-   MsgBox ("Erro no acesso a Usuario."), vbCritical
+   MsgBox ("Erro no acesso a usuario."), vbCritical
    Exit Sub
 End If
    
@@ -589,7 +589,7 @@ Do While Not ctr.EOF
    If ctr("ctrstatus") = 0 Then
       wsctrDataRecebimento = ctr!ctrDataVencito
       wsctrchPessoa = ctr!chPessoa
-      wsctrchNotaFiscal = ctr!chNotaFiscal
+      wsctrchNotaFiscal = ctr!chNotafiscal
       wsctrvalordaboleta = ctr!ctrValorDaBoleta
 
       Call CarregaContasaReceber
@@ -648,7 +648,7 @@ Do While Not ctp.EOF
    
       wsctpdatapagamento = ctp!chDataVencito
       wsctpchPessoa = ctp!chPessoa
-      wsctpchNotaFiscal = ctp!chNotaFiscal
+      wsctpchNotaFiscal = ctp!chNotafiscal
       wsctpvalordaboleta = ctp!ctpValorDaBoleta
       
       Call CarregaContasaPagar
@@ -671,9 +671,9 @@ End If
 
 TotalCentroDeCusto = 0
 
-For Indice = 1 To 15
-    tabDesc(Indice) = Empty
-    tabValor(Indice) = 0
+For indice = 1 To 15
+    tabDesc(indice) = Empty
+    tabValor(indice) = 0
 Next
 
 gridCtaPagas.Col = 0
@@ -722,7 +722,7 @@ End Sub
 '
 'Call Rotina_AbrirBanco
 '
-'ctr.Open "Select * from Contas_A_Receber where ctrStatus = ('" & 1 & "')", db, 3, 3
+'ctr.Open "Select * from contas_a_receber where ctrStatus = ('" & 1 & "')", db, 3, 3
 'If ctr.EOF Then
 '   MsgBox ("Sem Lançamentos a credito confirmados até a presente data"), vbInformation
 'Else
@@ -730,7 +730,7 @@ End Sub
 '   Call GerenciaContasaReceber
 'End If
 
-'ctp.Open "Select * from Contas_A_Pagar where ctpStatus = ('" & 1 & "')", db, 3, 3
+'ctp.Open "Select * from contas_a_pagar where ctpStatus = ('" & 1 & "')", db, 3, 3
 'If ctp.EOF Then
 '   MsgBox ("Sem Lançamentos a débito confirmados até a presente data"), vbInformation
 'Else
@@ -765,7 +765,7 @@ Do While Not hctr.EOF
    
    wsctrDataRecebimento = hctr!ctrDataRecebimento
    wsctrchPessoa = hctr!chPessoa
-   wsctrchNotaFiscal = hctr!chNotaFiscal
+   wsctrchNotaFiscal = hctr!chNotafiscal
    wsctrvalordaboleta = hctr!ctrValorDaBoleta
 
    Call CarregaContasaReceber
@@ -804,7 +804,7 @@ Do While Not hctp.EOF
  
    wsctpdatapagamento = hctp!ctpDataPagamento
    wsctpchPessoa = hctp!chPessoa
-   wsctpchNotaFiscal = hctp!chNotaFiscal
+   wsctpchNotaFiscal = hctp!chNotafiscal
    wsctpvalordaboleta = hctp!ctpValorDaBoleta
    
    Call CarregaContasaPagar
@@ -872,15 +872,15 @@ End Sub
 Public Sub GeraDataInicioDataFim()
 Dim MesProximo As Integer
 
-Mes = Format$(Month(Date), "00")
-Ano = Year(Date)
+mes = Format$(Month(Date), "00")
+ano = Year(Date)
 Dia = Format$(1, "00")
 
-DataInicioInvertida = Format$(Ano & "-" & Mes & "-" & Dia, "yyyy-mm-dd")
+DataInicioInvertida = Format$(ano & "-" & mes & "-" & Dia, "yyyy-mm-dd")
 
-MesProximo = Format$(Mes, "00")
+MesProximo = Format$(mes, "00")
 DataHoje = Date
-Do While Mes = MesProximo
+Do While mes = MesProximo
    DataHoje = DataHoje + 1
    MesProximo = Format$(Month(DataHoje), "00")
 Loop
@@ -891,9 +891,9 @@ DataHoje = Date
 End Sub
 
 Public Sub LimpaTabela()
-For Indice = 1 To 15
-    tabValor(Indice) = 0
-    tabDesc(Indice) = Empty
+For indice = 1 To 15
+    tabValor(indice) = 0
+    tabDesc(indice) = Empty
 Next
 End Sub
 

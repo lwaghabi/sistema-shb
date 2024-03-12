@@ -380,7 +380,7 @@ Private Sub cmbCliente_LostFocus()
 
 Call Rotina_AbrirBanco
 
-uoper.Open "Select * from UnidadeOperacional where chPessoa = ('" & cmbCliente & "')", db, 3, 3
+uoper.Open "Select * from unidadeoperacional where chPessoa = ('" & cmbCliente & "')", db, 3, 3
 If Not uoper.EOF Then
    cmbUnidadeOperacional.Clear
    uoper.MoveFirst
@@ -408,7 +408,7 @@ End If
 
 Call Rotina_AbrirBanco
 
-uoper.Open "Select * from UnidadeOperacional where chPessoa = ('" & cmbCliente & "') and chUnidadeOperacional = ('" & cmbUnidadeOperacional & "')", db, 3, 3
+uoper.Open "Select * from unidadeoperacional where chPessoa = ('" & cmbCliente & "') and chUnidadeOperacional = ('" & cmbUnidadeOperacional & "')", db, 3, 3
 If Not uoper.EOF Then
    txtOperadora = uoper!uopOperadora
    txtSiglaUnidadeOperadora = uoper!uopSiglaOperadora
@@ -429,7 +429,7 @@ End Sub
 Private Sub cmdExcluir_Click()
 Call Rotina_AbrirBanco
    
-uoper.Open "Select * from UnidadeOperacional where chPessoa = ('" & cmbCliente & "') and chUnidadeOperacional = ('" & cmbUnidadeOperacional & "')", db, 3, 3
+uoper.Open "Select * from unidadeoperacional where chPessoa = ('" & cmbCliente & "') and chUnidadeOperacional = ('" & cmbUnidadeOperacional & "')", db, 3, 3
 If Not uoper.EOF Then
 
    uoper.Delete
@@ -467,7 +467,7 @@ End If
    
 Call Rotina_AbrirBanco
    
-uoper.Open "Select * from UnidadeOperacional where chPessoa = ('" & cmbCliente & "') and chUnidadeOperacional = ('" & cmbUnidadeOperacional & "')", db, 3, 3
+uoper.Open "Select * from unidadeoperacional where chPessoa = ('" & cmbCliente & "') and chUnidadeOperacional = ('" & cmbUnidadeOperacional & "')", db, 3, 3
 If uoper.EOF Then
    uoper.AddNew
 End If
@@ -501,7 +501,7 @@ Private Sub Form_Load()
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa where pesTipoPessoa = ('" & 0 & "')", db, 3, 3
+pes.Open "Select * from pessoa where pesTipoPessoa = ('" & 0 & "')", db, 3, 3
 If pes.EOF Then
    MsgBox ("Tabela de Clientes vazia."), vbCritical
    Call FechaDB

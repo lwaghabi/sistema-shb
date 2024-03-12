@@ -102,7 +102,7 @@ Begin VB.Form frmNotaFiscalEntrada
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Format          =   384303105
+            Format          =   242941953
             CurrentDate     =   44603
          End
          Begin VB.OptionButton optPaga 
@@ -175,7 +175,7 @@ Begin VB.Form frmNotaFiscalEntrada
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Format          =   384303105
+            Format          =   242876417
             CurrentDate     =   43882
          End
          Begin MSFlexGridLib.MSFlexGrid GridDesdobr 
@@ -1210,7 +1210,7 @@ Begin VB.Form frmNotaFiscalEntrada
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Format          =   385941505
+            Format          =   337641473
             CurrentDate     =   43882
          End
          Begin VB.TextBox txtValorDaNotaFiscal 
@@ -1772,7 +1772,7 @@ Dim ValorFixoAutomatico As Currency
 Dim PercFixoAutomatico As Integer
 Dim QtdVezes As Integer
 Dim Ind As Byte
-Dim fim As Byte
+Dim Fim As Byte
 Dim Incluir As Byte
 Dim IncluiDesdob As Byte
 Dim ContadorCtaPagar As Byte
@@ -1790,7 +1790,7 @@ Dim Acumula_Qtd As Integer
 Dim LimiteCarga As Integer
 Dim LimiteProduto As Integer
 Dim Linha As Integer
-Dim Coluna As Integer
+Dim coluna As Integer
 Dim Fatura As String
 Dim GerarCredito As Byte
 Dim IncluiNotaFiscal As Byte
@@ -1799,6 +1799,9 @@ Dim ValorAnterior As Currency
 Dim DespesaAnterior As String
 Dim ProdutoAnterior As String
 Dim Historico As Byte
+Dim TabUnidadeEmbalagem(15) As String
+Dim NumParcelas As Integer
+Dim AcheiSupProduto As Integer
 
 Private Sub cmbCodProduto_KeyPress(KeyAscii As Integer)
 KeyAscii = Asc(UCase$(Chr$(KeyAscii)))
@@ -1811,12 +1814,12 @@ Call Rotina_AbrirBanco
 
 cmbPessoa.Clear
 
-pes.Open "Select * from Pessoa", db, 3
+pes.Open "Select * from pessoa", db, 3
 
 If cmbDespFornec = "FORNECEDOR" Then
     pes.MoveFirst
     If pes.EOF Then
-       MsgBox ("Dataset Pessoa sem registro. Informar ao administrador do sistema"), vbCritical
+       MsgBox ("Dataset pessoa sem registro. Informar ao administrador do sistema"), vbCritical
        Call FechaDB
        Exit Sub
     End If
@@ -1831,9 +1834,9 @@ If cmbDespFornec = "FORNECEDOR" Then
        pes.MoveNext
     Loop
 Else
-    ProdFornec.Open "Select * from ProdutoFornecedor", db, 3, 3
+    ProdFornec.Open "Select * from produtofornecedor", db, 3, 3
     If ProdFornec.EOF Then
-       MsgBox ("Erro. Tabela de Produto Fornecedor vazia. Comunicar ao analista responsável."), vbCritical
+       MsgBox ("Erro. Tabela de Produto fornecedor vazia. Comunicar ao analista responsável."), vbCritical
        Call FechaDB
        Exit Sub
     End If
@@ -1870,7 +1873,7 @@ End If
 
 Call Rotina_AbrirBanco
 If cmbPessoa = "" Then
-   MsgBox ("Não Informado Fornecedor ou Despesa."), vbCritical
+   MsgBox ("Não Informado fornecedor ou Despesa."), vbCritical
    Call FechaDB
    cmbDespFornec.SetFocus
    Exit Sub
@@ -1889,17 +1892,17 @@ Else
    End If
 End If
 
-pes.Open "Select * from Pessoa where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
+pes.Open "Select * from pessoa where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
 If pes.EOF Then
    If cmbDespFornec = "FORNECEDOR" Then
-      MsgBox ("Efetuar o Cadastro deste Fornecedor em Pessoa e somente após o cadastramento lançar Nota fiscal"), vbCritical
+      MsgBox ("Efetuar o Cadastro deste fornecedor em pessoa e somente após o cadastramento lançar Nota fiscal"), vbCritical
       Call FechaDB
       cmdSair.SetFocus
       Exit Sub
    End If
 Else
    If cmbDespFornec = "DESPESA" Then
-      MsgBox ("Efetuar este lançamento como FORNECEDOR."), vbCritical
+      MsgBox ("Efetuar este lançamento como fornecedor."), vbCritical
       cmbPessoa.Clear
       cmbDespFornec.SetFocus
       Call FechaDB
@@ -1909,7 +1912,7 @@ End If
 
 IncluiNotaFiscal = 0
 
-nfe.Open "Select * from NotaFiscalEntrada where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
+nfe.Open "Select * from notafiscalentrada where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
 If nfe.EOF Then
     IncluiNotaFiscal = 1
 Else
@@ -1930,7 +1933,7 @@ End If
 cmbCodProduto.Clear
 
 If cmbDespFornec = "FORNECEDOR" Then
-   ProdEntrada.Open "Select * from ProdutoEntrada where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
+   ProdEntrada.Open "Select * from produtoentrada where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
    If Not ProdEntrada.EOF Then
       ProdEntrada.MoveFirst
       Do While Not ProdEntrada.EOF
@@ -1939,7 +1942,7 @@ If cmbDespFornec = "FORNECEDOR" Then
        Loop
    End If
 Else
-   ProdFornec.Open "Select * from ProdutoFornecedor where chTipoProduto = ('" & cmbPessoa & "')", db, 3, 3
+   ProdFornec.Open "Select * from produtofornecedor where chTipoProduto = ('" & cmbPessoa & "')", db, 3, 3
    If Not ProdFornec.EOF Then
       ProdFornec.MoveFirst
       Do While Not ProdFornec.EOF
@@ -1956,11 +1959,14 @@ If Not cmbCodProduto.ListIndex < 0 Then
 End If
 End Sub
 Private Sub cmbCodProduto_LostFocus()
+Dim SubGrupo As String
+
+SubGrupo = "00"
 
 Verifica = Empty
-Verifica = Mid$(cmbCodProduto, 30, 5)
+Verifica = Mid$(cmbCodProduto, 50, 5)
 If Not Verifica = Empty Then
-   MsgBox ("Código do Produto Informado ultrapassa 30 caracteres.")
+   MsgBox ("Código do Produto Informado ultrapassa 50 caracteres.")
    cmbCodProduto.SetFocus
    Exit Sub
 End If
@@ -1972,30 +1978,39 @@ If cmbCodProduto = Empty Then
    End If
 End If
 
-'TabFabFornec = ProdutoEntrada
+'TabFabFornec = produtoentrada
 Call Rotina_AbrirBanco
 
 If cmbDespFornec = "FORNECEDOR" Then
-
-   ProdEntrada.Open "Select * from ProdutoEntrada where chPessoa = ('" & cmbPessoa & "') and chTipoProduto = ('" & cmbCodProduto & "')", db, 3, 3
-   If ProdEntrada.EOF Then
-      Resp = MsgBox("Produto não cadastrado. Deseja cadastra-lo???", vbYesNo)
-      If Resp = vbYes Then
-         frmProdutosDeEntrada.cmbOrigemProd = cmbDespFornec
-         frmProdutosDeEntrada.cmbFornecedor = frmNotaFiscalEntrada.cmbPessoa
-        ' frmProdutosDeEntrada.lblCodProduto = frmNotaFiscalEntrada.cmbCodProduto
-         frmProdutosDeEntrada.cmbTipoProduto = frmNotaFiscalEntrada.cmbCodProduto
-         frmProdutosDeEntrada.txtChaveEnvio = "NFE"
-         frmProdutosDeEntrada.Show vbModal
-         cmbCodProduto.SetFocus
+   gge.Open "Select * from supproduto where nomeprod = ('" & cmbCodProduto & "')", db, 3, 3
+   If gge.EOF Then
+      ProdEntrada.Open "Select * from produtoentrada where chPessoa = ('" & cmbPessoa & "') and chTipoProduto = ('" & cmbCodProduto & "')", db, 3, 3
+      If ProdEntrada.EOF Then
+         Resp = MsgBox("Produto não cadastrado. Deseja cadastra-lo???", vbYesNo)
+         If Resp = vbYes Then
+            frmProdutosDeEntrada.cmbOrigemProd = cmbDespFornec
+            frmProdutosDeEntrada.cmbFornecedor = frmNotaFiscalEntrada.cmbPessoa
+           ' frmProdutosDeEntrada.lblCodProduto = frmNotaFiscalEntrada.cmbCodProduto
+            frmProdutosDeEntrada.cmbTipoProduto = frmNotaFiscalEntrada.cmbCodProduto
+            frmProdutosDeEntrada.txtChaveEnvio = "NFE"
+            frmProdutosDeEntrada.Show vbModal
+            cmbCodProduto.SetFocus
+         End If
+      Else
+            lblDescProdutoEntrada = ProdEntrada!pinDescricao
+            lblProdutoFabrica = ProdEntrada!chProdutoFabrica
+            lblUnidade = ProdEntrada!pinUnidade
       End If
    Else
-       lblDescProdutoEntrada = ProdEntrada!pinDescricao
-       lblProdutoFabrica = ProdEntrada!chProdutoFabrica
-       lblUnidade = ProdEntrada!pinUnidade
+      ccc.Open "SELECT DescricaoCentroDeCusto from centrodecusto WHERE chCentroDeCusto = ('" & 2 & "') and chGrupoCentroDeCusto = ('" & gge!GrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto = ('" & SubGrupo & "')", db, 3, 3
+      If Not ccc.EOF Then
+         lblDescProdutoEntrada = gge!nomeProd
+         lblProdutoFabrica = ccc!DescricaoCentroDeCusto
+         'lblUnidade = Unidade DoEvents supproduto
+      End If
    End If
 Else
-   ProdFornec.Open "Select * from ProdutoFornecedor where chTipoProduto = ('" & cmbPessoa & "') and chProdutoFabrica = ('" & cmbCodProduto & "')", db, 3, 3
+   ProdFornec.Open "Select * from produtofornecedor where chTipoProduto = ('" & cmbPessoa & "') and chProdutoFabrica = ('" & cmbCodProduto & "')", db, 3, 3
    If ProdFornec.EOF Then
       Resp = MsgBox("Despesa não cadastrado. Deseja cadastra-lo???", vbYesNo)
       If Resp = vbYes Then
@@ -2014,7 +2029,7 @@ Else
    End If
 End If
    
-dnfe.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & cmbCodProduto & "')", db, 3, 3
+dnfe.Open "Select * from notafiscaldetprod where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & cmbCodProduto & "')", db, 3, 3
 If dnfe.EOF Then
    cmdInclui.Enabled = True
    cmdAltera.Enabled = False
@@ -2038,7 +2053,7 @@ Private Sub cmbPessoaReembolso_LostFocus()
 
 If cmbTipoLancamento = "REEMBOLSO" Then
    If cmbPessoaReembolso.ListIndex = 0 Then
-      MsgBox ("Para REEMBOLSO o sacado tem que ser diferente de SHB BRASIL"), vbInformation
+      MsgBox ("Para reembolso o sacado tem que ser diferente de SHB BRASIL"), vbInformation
       cmdSair.SetFocus
    End If
 End If
@@ -2067,7 +2082,7 @@ Call Rotina_AbrirBanco
 
 db.BeginTrans
 
-   dnfe.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & cmbCodProduto & "')", db, 3, 3
+   dnfe.Open "Select * from notafiscaldetprod where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & cmbCodProduto & "')", db, 3, 3
    If dnfe.EOF Then
       MsgBox ("Erro no acesso a detalhe de Nota Fiscal"), vbCritical
       db.CommitTrans
@@ -2113,13 +2128,13 @@ Call Rotina_054_Deleta_Financ_Desdob
 
 Call Rotina_AbrirBanco
 db.BeginTrans
-nfe.Open "Select * from NotaFiscalEntrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+nfe.Open "Select * from notafiscalentrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
 If nfe.EOF Then
    If nfe.State = 1 Then
       nfe.Close: Set dnfe = Nothing
    End If
    
-   nfe.Open "Select * from HistoricoNotaFiscalEntrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+   nfe.Open "Select * from historiconotafiscalentrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
    If nfe.EOF Then
       MsgBox ("Nota Fiscal não encontrada para Alteração de Fatura"), vbCritical
       db.CommitTrans
@@ -2182,7 +2197,7 @@ Else
 End If
 
 If txtValorICMS = Empty Then
-   Resp = MsgBox("Valor do ICMS não informado. Deseja Informá-lo?", vbYesNo)
+   Resp = MsgBox("Valor do icms não informado. Deseja Informá-lo?", vbYesNo)
    If Resp = vbYes Then
       txtValorICMS.SetFocus
       Exit Sub
@@ -2191,7 +2206,7 @@ If txtValorICMS = Empty Then
    End If
 Else
    If Not IsNumeric(txtValorICMS) Then
-      MsgBox ("Valor do ICMS Inválido")
+      MsgBox ("Valor do icms Inválido")
       cmdSair.SetFocus
       Exit Sub
    End If
@@ -2258,7 +2273,7 @@ If txtQtdFaturas = Empty Then
 End If
 
 If cmbBanco = Empty Then
-   MsgBox ("Informe o Banco")
+   MsgBox ("Informe o banco")
    cmbBanco.SetFocus
 End If
 If cmbTipoLancamento = Empty Then
@@ -2266,7 +2281,7 @@ If cmbTipoLancamento = Empty Then
    cmbTipoLancamento.SetFocus
 End If
 'If cmbFabrica = Empty Then
-'   MsgBox ("Informe a Empresa")
+'   MsgBox ("Informe a empresa")
 '   cmbFabrica.SetFocus
 'End If
 If cmbFinalidade = Empty Then
@@ -2283,7 +2298,7 @@ End If
    
    Call Rotina_AbrirBanco
    db.BeginTrans
-   nfe.Open "Select * from NotaFiscalEntrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+   nfe.Open "Select * from notafiscalentrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
    If nfe.EOF Then
       nfe.AddNew
    End If
@@ -2300,7 +2315,7 @@ End If
    
 '   Call Rotina_AbrirBanco
    
-'   dnfe.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & cmbCodProduto & "')", db, 3, 3
+'   dnfe.Open "Select * from notafiscaldetprod where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & cmbCodProduto & "')", db, 3, 3
 '   If dnfe.EOF Then
 '      dnfe.AddNew
 '   End If
@@ -2363,7 +2378,7 @@ If Resp = vbYes Then
     
     Call Rotina_AbrirBanco
     
-    dnfe.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & GridProduto.TextMatrix(Linha, 0) & "')", db, 3, 3
+    dnfe.Open "Select * from notafiscaldetprod where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & GridProduto.TextMatrix(Linha, 0) & "')", db, 3, 3
     If dnfe.EOF Then
        MsgBox ("Erro no acesso a Detalhe de Nota Fiscal na rotina de alteração"), vbCritical
        Call FechaDB
@@ -2397,7 +2412,7 @@ If cmbPessoa = "" Then
 End If
 
 Do While Ind < GridDesdobr.Rows
-       If cmbFinalidade = "X - ICMS FRETE" Then
+       If cmbFinalidade = "X - icms FRETE" Then
           Data_Vencimento = Date
        Else
           Data_Vencimento = GridDesdobr.TextMatrix(Ind, 1)
@@ -2409,9 +2424,9 @@ Do While Ind < GridDesdobr.Rows
        
        
        If (Not (Year(Data_Vencimento) > Year(Date))) And Month(Data_Vencimento) < Month(Date) Then
-          nfd.Open "Select * from HistoricoNotaFiscalDesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chDataVencimento = ('" & DataInvertida & "')", db, 3, 3
+          nfd.Open "Select * from historiconotafiscaldesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chDataVencimento = ('" & DataInvertida & "')", db, 3, 3
        Else
-          nfd.Open "Select * from NotaFiscalDesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chDataVencimento = ('" & DataInvertida & "')", db, 3, 3
+          nfd.Open "Select * from notafiscaldesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chDataVencimento = ('" & DataInvertida & "')", db, 3, 3
        End If
        
        If nfd.EOF Then
@@ -2421,9 +2436,9 @@ Do While Ind < GridDesdobr.Rows
        Else
           
        If (Not (Year(Data_Vencimento) > Year(Date))) And Month(Data_Vencimento) < Month(Date) Then
-             ctp.Open "Select * from HistoricoContasPagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & txtNotaFiscal & "') and chFatura = ('" & GridDesdobr.TextMatrix(Ind, 0) & "')", db, 3, 3
+             ctp.Open "Select * from historicocontaspagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & txtNotaFiscal & "') and chFatura = ('" & GridDesdobr.TextMatrix(Ind, 0) & "')", db, 3, 3
           Else
-             ctp.Open "Select * from Contas_A_Pagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & txtNotaFiscal & "') and chFatura = ('" & GridDesdobr.TextMatrix(Ind, 0) & "')", db, 3, 3
+             ctp.Open "Select * from contas_a_pagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & txtNotaFiscal & "') and chFatura = ('" & GridDesdobr.TextMatrix(Ind, 0) & "')", db, 3, 3
           End If
           If ctp.EOF Then
              
@@ -2451,37 +2466,38 @@ Do While Ind < GridDesdobr.Rows
                 
                 ContadorCtaPagar = ContadorCtaPagar + 1
                 
-                nfe.Open "Select * from HistoricoNotaFiscalEntrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+                nfe.Open "Select * from historiconotafiscalentrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
                 If nfe.EOF Then
                    If nfe.State = 1 Then
                        nfe.Close: Set dnfe = Nothing
                     End If
-                   nfe.Open "Select * from NotaFiscalEntrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+                   nfe.Open "Select * from notafiscalentrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
                    If nfe.EOF Then
                       MsgBox ("Nota Fiscal não encontrada em Gera Contas a Pagar."), vbCritical, txtNotaFiscal
                       Call FechaDB
                       Exit Sub
                    End If
                 End If
+                nfe!nfeDesdobramento = txtQtdFaturas
                 nfe!nfeStatus = 1
                 nfe.Update
-           
+                           
             db.CommitTrans
             
             If cmbTipoLancamento = "REEMBOLSO" Then
                Call RotinaGerarReembolso
             End If
                    
-            ' MsgBox ("Contas a Pagar gerada com sucesso."), vbInformation
+            MsgBox ("Contas a Pagar gerada com sucesso."), vbInformation
           Else
-             MsgBox ("Contas a Pagar para esta NF/Fatura já foi gerada anteriormente.")
-             txtFatura.SetFocus
+            MsgBox ("Contas a Pagar para esta NF/Fatura já foi gerada anteriormente.")
+            txtFatura.SetFocus
           End If
           Ind = Ind + 1
        End If
 Loop
 
-'Call Rotina_053_Estoque_Geral
+Call RevisaDetProd
 
 cmdGeraCtaPagar.Enabled = False
 cmdNovaNotaFiscal.Enabled = True
@@ -2521,7 +2537,7 @@ Else
 End If
 
 If txtValorICMS = Empty Then
-   Resp = MsgBox("Valor do ICMS não informado. Deseja Informá-lo?", vbYesNo)
+   Resp = MsgBox("Valor do icms não informado. Deseja Informá-lo?", vbYesNo)
    If Resp = vbYes Then
       txtValorICMS.SetFocus
       Exit Sub
@@ -2530,7 +2546,7 @@ If txtValorICMS = Empty Then
    End If
 Else
    If Not IsNumeric(txtValorICMS) Then
-      MsgBox ("Valor do ICMS Inválido")
+      MsgBox ("Valor do icms Inválido")
       cmdSair.SetFocus
       Exit Sub
    End If
@@ -2597,7 +2613,7 @@ If txtQtdFaturas = Empty Or txtQtdFaturas = 0 Then
 End If
 
 If cmbBanco = Empty Then
-   MsgBox ("Informe o Banco")
+   MsgBox ("Informe o banco")
    cmbBanco.SetFocus
 End If
 If cmbTipoLancamento = Empty Then
@@ -2605,7 +2621,7 @@ If cmbTipoLancamento = Empty Then
    cmbTipoLancamento.SetFocus
 End If
 'If cmbFabrica = Empty Then
-'   MsgBox ("Informe a Empresa")
+'   MsgBox ("Informe a empresa")
 '   cmbFabrica.SetFocus
 'End If
 If cmbFinalidade = Empty Then
@@ -2653,9 +2669,9 @@ If Incluir = 1 Then
    db.BeginTrans
 
    If cmbLancamento.ListIndex = 1 Then
-      nfe.Open "Select * from HistoricoNotaFiscalEntrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+      nfe.Open "Select * from historiconotafiscalentrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
    Else
-      nfe.Open "Select * from NotaFiscalEntrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+      nfe.Open "Select * from notafiscalentrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
    End If
    
    If nfe.EOF Then
@@ -2678,9 +2694,9 @@ Call Rotina_AbrirBanco
 
 db.BeginTrans
    If cmbLancamento.ListIndex = 1 Then
-      dnfe.Open "Select * from HistoricoNotaFiscalDetProd where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & cmbCodProduto & "')", db, 3, 3
+      dnfe.Open "Select * from historiconotafiscaldetprod where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & cmbCodProduto & "')", db, 3, 3
    Else
-      dnfe.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & cmbCodProduto & "')", db, 3, 3
+      dnfe.Open "Select * from notafiscaldetprod where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & cmbCodProduto & "')", db, 3, 3
    End If
    If dnfe.EOF Then
       dnfe.AddNew
@@ -2695,7 +2711,7 @@ db.BeginTrans
    If ProcedAutomatico = True Then
       Resp = MsgBox("Você deseja efetuar lançamentos automáticos? Confirma???", vbYesNo)
       If Resp = vbYes Then
-         ProdFornec.Open "Select * from ProdutoFornecedor where chTipoProduto = ('" & cmbPessoa & "')", db, 3, 3
+         ProdFornec.Open "Select * from produtofornecedor where chTipoProduto = ('" & cmbPessoa & "')", db, 3, 3
          If ProdFornec.EOF Then
             MsgBox ("Não tem funcionario para calculo automatico"), vbInformation
          Else
@@ -2707,7 +2723,7 @@ db.BeginTrans
                   ccc.Close: Set ccc = Nothing
                End If
                
-               ccc.Open "Select * from Pessoa where chPessoa = ('" & ProdFornec!chProdutoFabrica & "')", db, 3, 3
+               ccc.Open "Select * from pessoa where chPessoa = ('" & ProdFornec!chProdutoFabrica & "')", db, 3, 3
                If Not ccc.EOF Then
                   If (TipoProcAutomatico = 1) Or (TipoProcAutomatico = 2 And ccc!salario > 0) Then
                      If ccc!pesStatusPessoa = 0 Then
@@ -2727,9 +2743,9 @@ db.BeginTrans
                         End If
                         
                         If cmbLancamento.ListIndex = 1 Then
-                           dnfe.Open "Select * from HistoricoNotaFiscalDetProd where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & cmbCodProduto & "')", db, 3, 3
+                           dnfe.Open "Select * from historiconotafiscaldetprod where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & cmbCodProduto & "')", db, 3, 3
                         Else
-                           dnfe.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & cmbCodProduto & "')", db, 3, 3
+                           dnfe.Open "Select * from notafiscaldetprod where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & cmbCodProduto & "')", db, 3, 3
                         End If
                         If dnfe.EOF Then
                            dnfe.AddNew
@@ -2796,13 +2812,19 @@ If txtValorFatura = Empty Then
    Exit Sub
 End If
 
+If txtQtdFaturas = Empty Or txtQtdFaturas = 0 Then
+   MsgBox ("Quantidade de Faturas não Informado")
+   txtQtdFaturas.SetFocus
+   Exit Sub
+End If
+
 Call Rotina_AbrirBanco
 
 db.BeginTrans
    If optPaga = True And Not (Month(dtDataPagamento) = Month(Date)) Then
-      nfd.Open "select * from HistoricoNotaFiscalDesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and nfdFaturaNumero = ('" & txtFatura & "')", db, 3, 3
+      nfd.Open "select * from historiconotafiscaldesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and nfdFaturaNumero = ('" & txtFatura & "')", db, 3, 3
    Else
-      nfd.Open "select * from NotaFiscalDesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and nfdFaturaNumero = ('" & txtFatura & "')", db, 3, 3
+      nfd.Open "select * from notafiscaldesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and nfdFaturaNumero = ('" & txtFatura & "')", db, 3, 3
    End If
    If nfd.EOF Then
       nfd.AddNew
@@ -2814,17 +2836,17 @@ db.BeginTrans
    End If
    nfd!chPessoa = cmbPessoa
    nfd!chNotaFiscalEntrada = txtNotaFiscal
-   If cmbFinalidade = "X - ICMS FRETE" Then
+   If cmbFinalidade = "X - icms FRETE" Then
       nfd!chDataVencimento = Date
    Else
       nfd!chDataVencimento = txtDataVencito
    End If
-   nfd!nfdDataVencoriginal = txtDataVencito
+   nfd!nfdDataVencOriginal = txtDataVencito
    nfd!nfdFaturaNumero = txtFatura
    nfd!nfdValorDaFatura = txtValorFatura
    nfd!nfdIPTE = txtIPTE
    If optPaga = True Then
-      nfd!nfddatapagamento = dtDataPagamento
+      nfd!nfdDataPagamento = dtDataPagamento
       nfd!nfdStatus = 1
    End If
     
@@ -2863,7 +2885,7 @@ Private Sub cmdNavega_Click(Index As Integer)
     
   Call Rotina_AbrirBanco
   
-  nfe.Open "Select * from NotaFiscalEntrada", db, 3, 3
+  nfe.Open "Select * from notafiscalentrada", db, 3, 3
   If nfe.EOF Then
      MsgBox ("Não há Nota Fiscal Lançada até o momento, no período"), vbInformation
      Call FechaDB
@@ -3007,9 +3029,9 @@ Interno = 0
 
 Call Rotina_AbrirBanco
 
-Bco.Open "Select * from Banco", db, 3, 3
+Bco.Open "Select * from banco", db, 3, 3
 If Bco.EOF Then
-   MsgBox ("Tabela Banco vazia"), vbCritical
+   MsgBox ("Tabela banco vazia"), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -3023,7 +3045,7 @@ Loop
 
 cmbBanco.ListIndex = 0
          
-Emp.Open "Select * from Empresa", db, 3, 3
+Emp.Open "Select * from empresa", db, 3, 3
 If Emp.EOF Then
    MsgBox ("Empresa não encontrada em inicialização de Nota Fiscal"), vbCritical
    Call FechaDB
@@ -3041,7 +3063,7 @@ cmbPessoaReembolso.Clear
 cmbPessoaReembolso.AddItem "SHB BRASIL"
 
 
-pes.Open "Select * from Pessoa where pesTipoPessoa > ('" & 5 & "') and pesTipoPessoa < ('" & 8 & "')", db, 3, 3
+pes.Open "Select * from pessoa where pesTipoPessoa > ('" & 5 & "') and pesTipoPessoa < ('" & 8 & "')", db, 3, 3
 If pes.EOF Then
    MsgBox ("Não há colaborador cadastrado. Atenção"), vbInformation
 Else
@@ -3061,7 +3083,7 @@ Call Rotina_025_Limpa_Detalhe
 Call Rotina_026_Limpa_Det_Desd
 Call Rotina_027_limpa_totalizacao
 
-tlanc.Open "Select * from TipoLancamento", db, 3, 3
+tlanc.Open "Select * from tipolancamento", db, 3, 3
 If tlanc.EOF Then
    MsgBox ("Não encontrado registros em Tipo de Lançamento."), vbCritical
    Call FechaDB
@@ -3074,7 +3096,7 @@ Do While Not tlanc.EOF
    tlanc.MoveNext
 Loop
 
-fpag.Open "Select * from FinalidadePagamento", db, 3, 3
+fpag.Open "Select * from finalidadepagamento", db, 3, 3
 If fpag.EOF Then
    MsgBox ("Tabela de finalidade de pagamento vazia. Carrega Nota Fiscal"), vbCritical
    Call FechaDB
@@ -3088,7 +3110,23 @@ Do While Not fpag.EOF
 Loop
   
 Option1 = False
+
 optNao = True
+
+rs.Open "Select * from unidadeembalagem", db, 3, 3
+If rs.EOF Then
+   MsgBox ("Erro ao carregar Unidade de Embalagem"), vbInformation
+   Call FechaDB
+   Exit Sub
+End If
+
+rs.MoveFirst
+
+Do While Not rs.EOF
+   TabUnidadeEmbalagem(rs!indice) = rs!AbreviaturaUnidadeEmbalagem
+   rs.MoveNext
+Loop
+
 
 Call FechaDB
   
@@ -3107,20 +3145,20 @@ If Resp = vbNo Then
 End If
 
 Linha = GridDesdobr.Row
-Coluna = GridDesdobr.Col
+coluna = GridDesdobr.Col
 
 Call Rotina_AbrirBanco
 
 DataInvertida = Year(GridDesdobr.TextMatrix(Ind, 1)) & Format$(Month(GridDesdobr.TextMatrix(Ind, 1)), "00") & Format$(Day(GridDesdobr.TextMatrix(Ind, 1)), "00")
        
-ctp.Open "Select * from Contas_A_Pagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & txtNotaFiscal & "') and chFatura = ('" & GridDesdobr.TextMatrix(Linha, 0) & "') and chDataVencito = ('" & DataInvertida & "')", db, 3, 3
+ctp.Open "Select * from contas_a_pagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & txtNotaFiscal & "') and chFatura = ('" & GridDesdobr.TextMatrix(Linha, 0) & "') and chDataVencito = ('" & DataInvertida & "')", db, 3, 3
 If ctp.EOF Then
    txtFatura = GridDesdobr.TextMatrix(Linha, 0)
 
    txtValorFatura = GridDesdobr.TextMatrix(Linha, 2)
    Rotina_21_Limpa_Grid_Desdobr
    
-   nfd.Open "Select * from NotaFiscalDesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chDataVencimento = ('" & DataInvertida & "')", db, 3, 3
+   nfd.Open "Select * from notafiscaldesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chDataVencimento = ('" & DataInvertida & "')", db, 3, 3
    If Not (nfd.EOF) Then
       nfd.Delete
       Rotina_040_Carga_Grid_Desdobr
@@ -3164,7 +3202,7 @@ End Sub
 
 Private Sub GridProduto_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 
-Coluna = GridProduto.Col
+coluna = GridProduto.Col
 Linha = GridProduto.Row
 
 If Linha > GridProduto.Rows Then
@@ -3186,12 +3224,12 @@ End If
 
 Call Rotina_AbrirBanco
 
-dnfe.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & GridProduto.TextMatrix(Linha, 0) & "')", db, 3, 3
+dnfe.Open "Select * from notafiscaldetprod where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & GridProduto.TextMatrix(Linha, 0) & "')", db, 3, 3
 If dnfe.EOF Then
    If dnfe.State = 1 Then
       dnfe.Close: Set dnfe = Nothing
    End If
-   dnfe.Open "Select * from HistoricoNotaFiscalDetProd where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & GridProduto.TextMatrix(Linha, 0) & "')", db, 3, 3
+   dnfe.Open "Select * from historiconotafiscaldetprod where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & GridProduto.TextMatrix(Linha, 0) & "')", db, 3, 3
    If dnfe.EOF Then
       MsgBox ("Erro no acesso a Detalhe de Nota Fiscal na rotina de alteração"), vbCritical
       Call FechaDB
@@ -3279,9 +3317,9 @@ End If
 Call Rotina_AbrirBanco
 
 If Not (Month(txtDataEmissao) = Month(Date)) Then
-   nfd.Open "Select * from HistoricoNotaFiscalDesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chDataVencimento = ('" & txtDataVencito & "')", db, 3, 3
+   nfd.Open "Select * from historiconotafiscaldesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chDataVencimento = ('" & txtDataVencito & "')", db, 3, 3
 Else
-   nfd.Open "Select * from NotaFiscalDesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chDataVencimento = ('" & txtDataVencito & "')", db, 3, 3
+   nfd.Open "Select * from notafiscaldesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chDataVencimento = ('" & txtDataVencito & "')", db, 3, 3
 End If
 
 If nfd.EOF Then
@@ -3302,7 +3340,13 @@ Call FechaDB
 End Sub
 
 
-
+Private Sub txtFatura_lostfocus()
+If cmbTipoLancamento = "REEMBOLSO" Then
+   optPaga.Enabled = False
+Else
+   optPaga.Enabled = True
+End If
+End Sub
 
 Private Sub txtNotaFiscal_KeyPress(KeyAscii As Integer)
 KeyAscii = Asc(UCase$(Chr$(KeyAscii)))
@@ -3319,12 +3363,12 @@ End If
 
 Call Rotina_AbrirBanco
 
-nfe.Open "Select * from HistoricoNotaFiscalEntrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+nfe.Open "Select * from historiconotafiscalentrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
 If nfe.EOF Then
    If nfe.State = 1 Then
       nfe.Close: Set nfe = Nothing
    End If
-   nfe.Open "Select * from NotaFiscalEntrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+   nfe.Open "Select * from notafiscalentrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
    If nfe.EOF Then
       Incluir = 1
       cmdInclui.Enabled = True
@@ -3411,7 +3455,7 @@ End If
 
 Call Rotina_AbrirBanco
 
-ctp.Open "Select * from Contas_A_Pagar where chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
+ctp.Open "Select * from contas_a_pagar where chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
 If ctp.EOF Then
    cmbPessoaReembolso.ListIndex = 0
 Else
@@ -3423,9 +3467,9 @@ Else
 End If
 
 If Not cmbPessoaReembolso = "SHB BRASIL" Then
-   pes.Open "Select * from Pessoa where chPessoa = ('" & cmbPessoaReembolso & "')", db, 3, 3
+   pes.Open "Select * from pessoa where chPessoa = ('" & cmbPessoaReembolso & "')", db, 3, 3
    If pes.EOF Then
-      MsgBox ("Erro no acesso a Pessoa. Informar ao analista responsável"), vbCritical
+      MsgBox ("Erro no acesso a pessoa. Informar ao analista responsável"), vbCritical
       Call FechaDB
       Exit Sub
    Else
@@ -3519,7 +3563,7 @@ Public Sub Rotina_030_Carga_Grid_Produto()
 
 Dim FlagSup As Integer
 Ind = 1
-fim = 0
+Fim = 0
 
 FlagSup = 0
 Acumula_Qtd = 0
@@ -3528,12 +3572,12 @@ Acumula_Valor = 0
 
 Call Rotina_AbrirBanco
 
-dnfe.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+dnfe.Open "Select * from notafiscaldetprod where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
 If dnfe.EOF Then
    If dnfe.State = 1 Then
       dnfe.Close: Set dnfe = Nothing
    End If
-   dnfe.Open "Select * from HistoricoNotaFiscalDetProd where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+   dnfe.Open "Select * from historiconotafiscaldetprod where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
    If dnfe.EOF Then
       MsgBox ("Nota Fiscal sem Lançamento de Produtos"), vbCritical
       Call FechaDB
@@ -3542,7 +3586,7 @@ If dnfe.EOF Then
 End If
 
 If Not cmbDespFornec = "DESPESA" Then
-   Do While fim = 0
+   Do While Fim = 0
       GridProduto.Rows = Ind + 1
       LimiteProduto = GridProduto.Rows
       GridProduto.TextMatrix(Ind, 0) = dnfe!chCodProduto
@@ -3555,35 +3599,70 @@ If Not cmbDespFornec = "DESPESA" Then
          rs.Close: Set rs = Nothing
       End If
       
-      ProdEntrada.Open "Select * from ProdutoEntrada where chPessoa = ('" & dnfe!chPessoa & "') and chTipoProduto = ('" & dnfe!chCodProduto & "')", db, 3, 3
+      ProdEntrada.Open "Select * from produtoentrada where chPessoa = ('" & dnfe!chPessoa & "') and chTipoProduto = ('" & dnfe!chCodProduto & "')", db, 3, 3
       If ProdEntrada.EOF Then
-         rs.Open "Select * from supProduto where nomeProd = ('" & dnfe!chCodProduto & "')", db, 3, 3
+         rs.Open "Select * from servservico where descricao = ('" & dnfe!chCodProduto & "')", db, 3, 3
          If rs.EOF Then
-            MsgBox ("Erro no acesso a produto de entrada"), vbCritical
-            Call FechaDB
-            Exit Sub
-         Else
-            If Unid.State = 1 Then
-               Unid.Close: Set Unid = Nothing
-            End If
-            Unid.Open "SELECT UnidadeMedida from UnidadeDeMedida where chUnidadeDeMedida = ('" & rs!unidadeProd & "')", db, 3, 3
-            If Unid.EOF Then
-               MsgBox ("Unidade de medida não encontrada."), vbInformation
+            rs.Close
+            rs.Open "Select * from supproduto where nomeProd = ('" & dnfe!chCodProduto & "')", db, 3, 3
+            If rs.EOF Then
+               MsgBox ("Erro no acesso a produto de entrada"), vbCritical
                Call FechaDB
                Exit Sub
+            Else
+               FlagSup = 1
             End If
-            FlagSup = 1
+         Else
+            FlagSup = 2
          End If
       Else
          FlagSup = 0
       End If
+       
+      If unid.State = 1 Then
+         unid.Close: Set unid = Nothing
+      End If
       
+      If FlagSup = 0 Then
+         unid.Open "SELECT UnidadeMedida from unidadedemedida where chUnidadeDeMedida = ('" & ProdEntrada!pinUnidade & "')", db, 3, 3
+         If unid.EOF Then
+            MsgBox ("Unidade de medida não encontrada."), vbInformation
+            Call FechaDB
+            Exit Sub
+         End If
+      Else
+         If FlagSup = 1 Then
+            unid.Open "SELECT unidadeembalagem from unidadeembalagem where indice = ('" & rs!unidadeProd & "')", db, 3, 3
+            If unid.EOF Then
+               MsgBox ("Unidade de medida não encontrada."), vbInformation
+               Call FechaDB
+               Exit Sub
+            End If
+         Else
+            If FlagSup = 2 Then
+               unid.Open "SELECT abrevUnidServ from unidadedeservicos where indice = ('" & rs!unidade & "')", db, 3, 3
+               If unid.EOF Then
+                  MsgBox ("Unidade de medida não encontrada."), vbInformation
+                  Call FechaDB
+                  Exit Sub
+               End If
+            End If
+         End If
+      End If
+
       If FlagSup = 1 Then
          GridProduto.TextMatrix(Ind, 1) = rs!nomeProd
-         GridProduto.TextMatrix(Ind, 2) = Unid!UnidadeMedida
+         'GridProduto.TextMatrix(Ind, 2) = Unid!UnidadeEmbalagem
+         GridProduto.TextMatrix(Ind, 2) = TabUnidadeEmbalagem(rs!unidadeProd)
       Else
-         GridProduto.TextMatrix(Ind, 1) = ProdEntrada!pinDescricao
-         GridProduto.TextMatrix(Ind, 2) = ProdEntrada!pinUnidade
+         If FlagSup = 2 Then
+            GridProduto.TextMatrix(Ind, 1) = rs!Descricao
+            GridProduto.TextMatrix(Ind, 2) = unid!abrevunidserv
+            'GridProduto.TextMatrix(Ind, 2) = TabUnidadeEmbalagem(rs!unidadeProd)
+         Else
+            GridProduto.TextMatrix(Ind, 1) = ProdEntrada!pinDescricao
+            GridProduto.TextMatrix(Ind, 2) = ProdEntrada!pinUnidade
+         End If
       End If
       GridProduto.TextMatrix(Ind, 3) = dnfe!nfdQtd
       GridProduto.TextMatrix(Ind, 4) = Format$(dnfe!nfdPU, "###,##0.00")
@@ -3596,22 +3675,21 @@ If Not cmbDespFornec = "DESPESA" Then
       Acumula_Valor = Acumula_Valor + Format$(dnfe!nfdQtd * dnfe!nfdPU, "###,##0.00")
       dnfe.MoveNext
       If dnfe.EOF Then
-         fim = 1
+         Fim = 1
       Else
          If dnfe("chpessoa") <> cmbPessoa Then
-            fim = 1
+            Fim = 1
          Else
             If dnfe!chNotaFiscalEntrada <> txtNotaFiscal Then
-               fim = 1
+               Fim = 1
             Else
                Ind = Ind + 1
             End If
          End If
-      End If
-   
+     End If
    Loop
 Else
-      Do While fim = 0
+   Do While Fim = 0
       GridProduto.Rows = Ind + 1
       LimiteProduto = GridProduto.Rows
       GridProduto.TextMatrix(Ind, 0) = dnfe!chCodProduto
@@ -3620,7 +3698,7 @@ Else
          ProdFornec.Close: Set ProdFornec = Nothing
       End If
       
-      ProdFornec.Open "Select * from ProdutoFornecedor where chTipoProduto = ('" & dnfe!chPessoa & "') and chProdutoFabrica = ('" & dnfe!chCodProduto & "')", db, 3, 3
+      ProdFornec.Open "Select * from produtofornecedor where chTipoProduto = ('" & dnfe!chPessoa & "') and chProdutoFabrica = ('" & dnfe!chCodProduto & "')", db, 3, 3
       If ProdFornec.EOF Then
          MsgBox ("Erro no acesso a produto de entrada"), vbCritical
          Call FechaDB
@@ -3638,20 +3716,21 @@ Else
       Acumula_Valor = Acumula_Valor + Format$(dnfe!nfdQtd * dnfe!nfdPU, "###,##0.00")
       dnfe.MoveNext
       If dnfe.EOF Then
-         fim = 1
+         Fim = 1
       Else
          If dnfe("chpessoa") <> cmbPessoa Then
-            fim = 1
+            Fim = 1
          Else
             If dnfe!chNotaFiscalEntrada <> txtNotaFiscal Then
-               fim = 1
+               Fim = 1
             Else
                Ind = Ind + 1
             End If
          End If
       End If
-   
+
    Loop
+
 End If
 
 lblQtdTotal = Acumula_Qtd
@@ -3665,7 +3744,7 @@ Else
 End If
 
 
-nfe.Open "SELECT * from NotaFiscalEntrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+nfe.Open "SELECT * from notafiscalentrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
 If nfe.EOF Then
    MsgBox ("Nota Fiscal não encontrada na carga."), vbInformation
    Call FechaDB
@@ -3690,16 +3769,16 @@ Public Sub Rotina_040_Carga_Grid_Desdobr()
 
 Ind = 0
 
-fim = 0
+Fim = 0
 Acumula_Fatura = 0
 LimiteCarga = 0
 
 Call Rotina_AbrirBanco
 
-nfd.Open "Select * from HistoricoNotaFiscalDesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+nfd.Open "Select * from historiconotafiscaldesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
 
 If nfd.EOF Then
-   fim = 1
+   Fim = 1
    Status = 0
 Else
    nfd.MoveFirst
@@ -3714,8 +3793,8 @@ Do While Not nfd.EOF
    GridDesdobr.TextMatrix(Ind, 1) = nfd!chDataVencimento
    GridDesdobr.TextMatrix(Ind, 2) = Format$(nfd!nfdValorDaFatura, "###,##0.00")
    GridDesdobr.TextMatrix(Ind, 3) = nfd!nfdIPTE
-   If Not IsNull(nfd!nfddatapagamento) Then
-      GridDesdobr.TextMatrix(Ind, 4) = nfd!nfddatapagamento
+   If Not IsNull(nfd!nfdDataPagamento) Then
+      GridDesdobr.TextMatrix(Ind, 4) = nfd!nfdDataPagamento
    Else
       GridDesdobr.TextMatrix(Ind, 4) = "NORMAL"
    End If
@@ -3728,17 +3807,17 @@ Loop
 
 LimiteCarga = GridDesdobr.Rows
    
-fim = 0
+Fim = 0
 
 If nfd.State = 1 Then
    nfd.Close: Set nfd = Nothing
 End If
 
 
-nfd.Open "Select * from NotaFiscalDesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+nfd.Open "Select * from notafiscaldesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
 
 If nfd.EOF Then
-   fim = 1
+   Fim = 1
 Else
    Status = nfd!nfdStatus
    
@@ -3748,7 +3827,7 @@ Else
       cmdGeraCtaPagar.Enabled = False
    End If
 
-   Do While fim = 0
+   Do While Fim = 0
       Ind = Ind + 1
       GridDesdobr.Rows = Ind + 1
       GridDesdobr.TextMatrix(Ind, 0) = nfd!nfdFaturaNumero
@@ -3757,8 +3836,8 @@ Else
       If Not IsNull(nfd!nfdIPTE) Then
          GridDesdobr.TextMatrix(Ind, 3) = nfd!nfdIPTE
       End If
-      If Not IsNull(nfd!nfddatapagamento) Then
-         GridDesdobr.TextMatrix(Ind, 4) = nfd!nfddatapagamento
+      If Not IsNull(nfd!nfdDataPagamento) Then
+         GridDesdobr.TextMatrix(Ind, 4) = nfd!nfdDataPagamento
       Else
          GridDesdobr.TextMatrix(Ind, 4) = "NORMAL"
       End If
@@ -3770,7 +3849,7 @@ Else
       Acumula_Fatura = Acumula_Fatura + nfd!nfdValorDaFatura
       nfd.MoveNext
       If nfd.EOF Then
-         fim = 1
+         Fim = 1
       End If
    Loop
    
@@ -3820,16 +3899,28 @@ If Not (Month(txtDataEmissao) = Month(Date)) Then
 End If
 nfe!chCodBcoLart = cmbBanco.ListIndex
 
-
 End Sub
 
 Public Sub Rotina_051_Doc_DBDET()
+Dim pula As Integer
 
 dnfe!chPessoa = cmbPessoa
 dnfe!chNotaFiscalEntrada = txtNotaFiscal
 dnfe!chCodProduto = cmbCodProduto
 dnfe!chProdutoFabrica = lblProdutoFabrica
+If txtQtd = "" Then
+   txtQtd = 1
+End If
 dnfe!nfdQtd = txtQtd
+If txtPU = "" Then
+   txtPU = 0
+End If
+If txtFatura = "" Then
+   txtFatura = 1
+End If
+If txtValor = "" Then
+   txtValor = 1
+End If
 dnfe!nfdPU = txtPU
 dnfe!nfdValorDaCompra = Format$(txtQtd * txtPU, "##,##0.00")
 dnfe!nfdQtdParcelas = txtQtdFaturas
@@ -3838,23 +3929,32 @@ dnfe!nfdValorParcela = Format$((txtValor / txtQtdFaturas), "##,##0.00")
 If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
-
-Prod.Open "Select * from ProdutoEntrada where chPessoa = ('" & cmbPessoa & "') and chTipoProduto = ('" & cmbCodProduto & "')", db, 3, 3
+pula = 0
+Prod.Open "Select * from produtoentrada where chPessoa = ('" & cmbPessoa & "') and chTipoProduto = ('" & cmbCodProduto & "')", db, 3, 3
 If Prod.EOF Then
    If Prod.State = 1 Then
       Prod.Close: Set Prod = Nothing
    End If
-   Prod.Open "Select * from ProdutoFornecedor where chTipoProduto = ('" & cmbPessoa & "') and chProdutoFabrica = ('" & cmbCodProduto & "')", db, 3, 3
+   Prod.Open "Select * from produtofornecedor where chTipoProduto = ('" & cmbPessoa & "') and chProdutoFabrica = ('" & cmbCodProduto & "')", db, 3, 3
    If Prod.EOF Then
-      MsgBox ("ERRO: Comunicar ao analista responsável."), vbCritical
-      Call FechaDB
-      Exit Sub
+      gge.Open "Select * from supproduto where nomeprod = ('" & cmbCodProduto & "')", db, 3, 3
+      If gge.EOF Then
+         MsgBox ("Carga de Produto inválida. Comunicar ao analisra responsável"), vbCritical
+         Call FechaDB
+         Exit Sub
+      Else
+         pula = 1
+      End If
    End If
 End If
 
-dnfe!nfdCentroDeCusto = Prod!pinCentroDeCusto
-dnfe!nfdGrupoCentroDeCusto = Prod!pinGrupoCentroDeCusto
-dnfe!nfdSubGrupoCentroDeCusto = Prod!pinSubGrupoCentroDeCusto
+If Not pula = 1 Then
+   dnfe!nfdCentroDeCusto = Prod!pinCentroDeCusto
+   dnfe!nfdGrupoCentroDeCusto = Prod!pinGrupoCentroDeCusto
+   dnfe!nfdSubGrupoCentroDeCusto = Prod!pinSubGrupoCentroDeCusto
+Else
+   pula = 0
+End If
 
 End Sub
 
@@ -3884,13 +3984,6 @@ Else
    ctp!ctpdescricaooperacao = GridProduto.TextMatrix(1, 0)
 End If
 
-'If cmbFabrica.ListIndex = 0 Then
-'   ctp!ctpValorLart = GridDesdobr.TextMatrix(Ind, 2)
-'   ctp!ctpValorMerco = 0
-'Else
-'   ctp!ctpValorLart = 0
-'   ctp!ctpValorMerco = GridDesdobr.TextMatrix(Ind, 2)
-'End If
 ctp!ctpValorDaBoleta = GridDesdobr.TextMatrix(Ind, 2)
 ctp!chAno = Year(Data_Hoje)
 ctp!chMes = Month(Data_Hoje)
@@ -3970,13 +4063,13 @@ End Sub
 'Do While Ind < GridProduto.Rows
 '   If GridProduto.TextMatrix(Ind, 7) = 1 Then
 '        Funcao = 1
-'        Fornecedor = cmbPessoa
+'        fornecedor = cmbPessoa
 '        Produto = GridProduto.TextMatrix(Ind, 6)
 '        Ano = Year(Data_Hoje)
 '        Mes = Month(Data_Hoje)
 '        Entra = GridProduto.TextMatrix(Ind, 3)
 '        Sai = 0
-'        Call Atualiza_Estoque_Geral(Funcao, Fornecedor, Produto, Ano, Mes, Entra, Sai)
+'        Call Atualiza_Estoque_Geral(Funcao, fornecedor, Produto, Ano, Mes, Entra, Sai)
  '  End If
 '   Ind = Ind + 1
 'Loop
@@ -4004,7 +4097,7 @@ Do While Ind < LimiteCarga
       nfd.Close: Set nfd = Nothing
    End If
    
-   ctp.Open "Select * from Contas_A_Pagar where chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
+   ctp.Open "Select * from contas_a_pagar where chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
    
    If Not ctp.EOF Then
       ctp.MoveFirst
@@ -4020,7 +4113,7 @@ Do While Ind < LimiteCarga
    End If
    
    
-   ctp.Open "Select * from HistoricoContasPagar where chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
+   ctp.Open "Select * from historicocontaspagar where chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
    If Not ctp.EOF Then
       ctp.MoveFirst
       Do While Not ctp.EOF
@@ -4030,7 +4123,7 @@ Do While Ind < LimiteCarga
       Loop
    End If
    
-   ctr.Open "Select * from Contas_A_Receber where chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
+   ctr.Open "Select * from contas_a_receber where chPessoa = ('" & cmbPessoa & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
    If Not ctr.EOF Then
       ctr.MoveFirst
       Do While Not ctr.EOF
@@ -4049,7 +4142,7 @@ Do While Ind < LimiteCarga
          DataAuxiliar = GridDesdobr.TextMatrix(Ind, 1)
       End If
       
-      nfd.Open "Select * from NotaFiscalDesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+      nfd.Open "Select * from notafiscaldesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
       If nfd.EOF Then
          Ind = Ind + 1
       Else
@@ -4066,7 +4159,7 @@ Do While Ind < LimiteCarga
          nfd.Close: Set nfd = Nothing
       End If
       
-      nfd.Open "Select * from HistoricoNotaFiscalDesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+      nfd.Open "Select * from historiconotafiscaldesdobramento where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
       If nfd.EOF Then
          Ind = Ind + 1
       Else
@@ -4106,12 +4199,12 @@ Do While Ind < LimiteProduto
       nfd.Close: Set nfd = Nothing
    End If
    
-   nfd.Open "Select * From NotaFiscalDetProd where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & GridProduto.TextMatrix(Ind, 0) & "')", db, 3, 3
+   nfd.Open "Select * From notafiscaldetprod where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & GridProduto.TextMatrix(Ind, 0) & "')", db, 3, 3
    If nfd.EOF Then
       If nfd.State = 1 Then
          nfd.Close: Set nfd = Nothing
       End If
-      nfd.Open "Select * From HistoricoNotaFiscalDetProd where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & GridProduto.TextMatrix(Ind, 0) & "')", db, 3, 3
+      nfd.Open "Select * From historiconotafiscaldetprod where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & GridProduto.TextMatrix(Ind, 0) & "')", db, 3, 3
       If nfd.EOF Then
          MsgBox ("Nota Fiscal sem lancamento de detalhes"), vbInformation
          Ind = Ind + 1
@@ -4138,12 +4231,12 @@ Public Sub Rotina_056_Deleta_Nota_Fiscal()
 
 Call Rotina_AbrirBanco
 
-nfe.Open "Select * from NotaFiscalEntrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+nfe.Open "Select * from notafiscalentrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
 If nfe.EOF Then
    If nfe.State = 1 Then
       nfe.Close: Set nfe = Nothing
    End If
-   nfe.Open "Select * from HistoricoNotaFiscalEntrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+   nfe.Open "Select * from historiconotafiscalentrada where chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
    If nfe.EOF Then
       MsgBox ("Nota Fiscal Entrada não cadastrada"), vbCritical
       Call FechaDB
@@ -4154,7 +4247,7 @@ End If
 nfe.Delete
 
 If cmbTipoLancamento = "REEMBOLSO" Then
-   Rmb.Open "Select * from Reembolso where rmbColaborador = ('" & cmbPessoaReembolso & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
+   Rmb.Open "Select * from reembolso where rmbColaborador = ('" & cmbPessoaReembolso & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
    If Not Rmb.EOF Then
       Rmb.Delete
    End If
@@ -4164,12 +4257,14 @@ Call FechaDB
 
 End Sub
 
+
+
 Private Sub txtValor_LostFocus()
 
 If txtValor > 0 Then
    If cmbTipoLancamento = "REEMBOLSO" Then
       If cmbPessoaReembolso.ListIndex = 0 Then
-         MsgBox ("Para REEMBOLSO o sacado tem que ser diferente de SHB BRASIL"), vbInformation
+         MsgBox ("Para reembolso o sacado tem que ser diferente de SHB BRASIL"), vbInformation
          cmbPessoaReembolso.SetFocus
       End If
    End If
@@ -4182,7 +4277,7 @@ Call FechaDB
 
 Call Rotina_AbrirBanco
       
-      Rmb.Open "Select * from Reembolso where rmbColaborador = ('" & cmbPessoaReembolso & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
+      Rmb.Open "Select * from reembolso where rmbColaborador = ('" & cmbPessoaReembolso & "') and chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
       
       If Rmb.EOF Then
          Rmb.AddNew
@@ -4190,9 +4285,9 @@ Call Rotina_AbrirBanco
  
       db.BeginTrans
       
-      pes.Open "Select * from Pessoa Where chPessoa = ('" & cmbPessoaReembolso & "')", db, 3, 3
+      pes.Open "Select * from pessoa Where chPessoa = ('" & cmbPessoaReembolso & "')", db, 3, 3
       If pes.EOF Then
-         MsgBox ("Erro no acesso a Pessoa. Comunicar ao analista responsável") & cmbPessoaReembolso, vbCritical
+         MsgBox ("Erro no acesso a pessoa. Comunicar ao analista responsável") & cmbPessoaReembolso, vbCritical
          Call FechaDB
          Exit Sub
       End If
@@ -4218,12 +4313,12 @@ Call Rotina_AbrirBanco
       Rmb!rmbValorReembolso = 0
       Rmb!rmbNumComprovanteReembolso = Empty
       
-      nfe.Open "Select * from NotaFiscalEntrada where chPessoa = ('" & cmbPessoa & "') and chnotafiscalentrada = ('" & txtNotaFiscal & "')", db, 3, 3
+      nfe.Open "Select * from notafiscalentrada where chPessoa = ('" & cmbPessoa & "') and chnotafiscalentrada = ('" & txtNotaFiscal & "')", db, 3, 3
       If nfe.EOF Then
          If nfe.State = 1 Then
             nfe.Close: Set nfe = Nothing
          End If
-         nfe.Open "Select * from HistoricoNotaFiscalEntrada where chPessoa = ('" & cmbPessoa & "') and chnotafiscalentrada = ('" & txtNotaFiscal & "')", db, 3, 3
+         nfe.Open "Select * from historiconotafiscalentrada where chPessoa = ('" & cmbPessoa & "') and chnotafiscalentrada = ('" & txtNotaFiscal & "')", db, 3, 3
          If nfe.EOF Then
             MsgBox ("Nota Fiscal não encontrada. Data de hoje como data de emissão"), vbInformation
             Rmb!rmbDataNotaFiscal = Date
@@ -4239,10 +4334,123 @@ Call Rotina_AbrirBanco
       
       Rmb.Update
       
-      MsgBox ("Nota Fiscal com Reembolso gerada com sucesso."), vbInformation
+      MsgBox ("Nota Fiscal com reembolso gerada com sucesso."), vbInformation
 
 db.CommitTrans
 
-Call FechaDB
+Rmb.Close
+nfe.Close
+pes.Close
+
+'Call FechaDB
 
 End Sub
+
+Public Sub RevisaDetProd()
+
+
+NumParcelas = GridDesdobr.Rows - 1
+
+If dnfe.State = 1 Then
+   dnfe.Close: Set dnfe = Nothing
+End If
+
+dnfe.Open "SELECT * FROM notafiscaldetprod WHERE chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+If dnfe.EOF Then
+   Call RotinaCriarDetProd
+End If
+
+If dnfe.State = 1 Then
+   dnfe.Close: Set dnfe = Nothing
+End If
+
+dnfe.Open "SELECT * FROM notafiscaldetprod WHERE chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "')", db, 3, 3
+If dnfe.EOF Then
+   MsgBox ("Det prod não gerado"), vbInformation
+   dnfe.Close
+   Exit Sub
+End If
+
+dnfe.MoveFirst
+
+Do While Not dnfe.EOF
+
+   If NumParcelas > 0 Then
+      dnfe!nfdQtdParcelas = NumParcelas
+      dnfe!nfdValorParcela = dnfe!nfdValorDaCompra / NumParcelas
+      dnfe.Update
+   End If
+   
+   dnfe.MoveNext
+   
+Loop
+
+End Sub
+
+Public Sub RotinaCriarDetProd()
+
+
+For Ind = 1 To GridProduto.Rows - 1
+
+   If dnfe.State = 1 Then
+      dnfe.Close: Set dnfe = Nothing
+   End If
+
+   dnfe.Open "SELECT * FROM notafiscaldetprod WHERE chPessoa = ('" & cmbPessoa & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chCodProduto = ('" & GridProduto.TextMatrix(Ind, 0) & "')", db, 3, 3
+   If dnfe.EOF Then
+      dnfe.AddNew
+   End If
+
+   AcheiSupProduto = 0
+   dnfe!chPessoa = cmbPessoa
+   dnfe!chNotaFiscalEntrada = txtNotaFiscal
+   dnfe!chCodProduto = GridProduto.TextMatrix(Ind, 0)
+   dnfe!chProdutoFabrica = lblProdutoFabrica
+   dnfe!nfdQtd = GridProduto.TextMatrix(Ind, 3)
+   dnfe!nfdPU = GridProduto.TextMatrix(Ind, 4)
+   txtQtd = GridProduto.TextMatrix(Ind, 3)
+   txtPU = GridProduto.TextMatrix(Ind, 4)
+   txtValor = Format$(txtQtd * txtPU, "##,##0.00")
+   dnfe!nfdValorDaCompra = Format$(txtQtd * txtPU, "##,##0.00")
+   dnfe!nfdQtdParcelas = NumParcelas
+   dnfe!nfdValorParcela = Format$((txtValor / NumParcelas), "##,##0.00")
+   
+   If Prod.State = 1 Then
+      Prod.Close: Set Prod = Nothing
+   End If
+   
+   Prod.Open "Select * from produtoentrada where chPessoa = ('" & cmbPessoa & "') and chTipoProduto = ('" & cmbCodProduto & "')", db, 3, 3
+   If Prod.EOF Then
+      Prod.Close
+      Prod.Open "Select * from produtofornecedor where chTipoProduto = ('" & cmbPessoa & "') and chProdutoFabrica = ('" & cmbCodProduto & "')", db, 3, 3
+      If Prod.EOF Then
+         Prod.Close
+         Prod.Open "Select * from supproduto where nomeProd = ('" & GridProduto.TextMatrix(Ind, 0) & "')", db, 3, 3
+         If Prod.EOF Then
+            MsgBox ("ERRO: Comunicar ao analista responsável."), vbCritical
+            Call FechaDB
+            Exit Sub
+         Else
+            AcheiSupProduto = 1
+         End If
+      End If
+   End If
+
+
+   If AcheiSupProduto = 0 Then
+      dnfe!nfdCentroDeCusto = Prod!pinCentroDeCusto
+      dnfe!nfdGrupoCentroDeCusto = Prod!pinGrupoCentroDeCusto
+      dnfe!nfdSubGrupoCentroDeCusto = Prod!pinSubGrupoCentroDeCusto
+   Else
+      dnfe!nfdCentroDeCusto = Prod!centrodecusto
+      dnfe!nfdGrupoCentroDeCusto = Prod!GrupoCentroDeCusto
+      dnfe!nfdSubGrupoCentroDeCusto = Prod!SubGrupoCentroDeCusto
+   End If
+   
+   dnfe.Update
+   
+Next
+
+End Sub
+
+

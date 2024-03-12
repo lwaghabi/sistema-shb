@@ -41,7 +41,7 @@ Public Sub ExportarContabilidade()
             
             'Do any modifications to the workbook.
             Rotina_AbrirBanco
-            rs.Open "SELECT * FROM IndenizEquip", db, 3, 3
+            rs.Open "SELECT * FROM indenizequip", db, 3, 3
             Do Until rs.EOF
                oApp.Cells(i, 1) = rs!descEquip
                oApp.Cells(i, 2) = rs!valor

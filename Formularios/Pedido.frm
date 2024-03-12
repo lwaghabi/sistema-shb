@@ -158,7 +158,7 @@ Begin VB.Form frmPedido
             Strikethrough   =   0   'False
          EndProperty
          CalendarBackColor=   16777215
-         Format          =   244056065
+         Format          =   242352129
          CurrentDate     =   44656
       End
       Begin MSComCtl2.DTPicker dtInicioMedicao 
@@ -179,7 +179,7 @@ Begin VB.Form frmPedido
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   244056065
+         Format          =   242352129
          CurrentDate     =   44656
       End
       Begin VB.ComboBox cmbContrato 
@@ -226,7 +226,7 @@ Begin VB.Form frmPedido
          _ExtentX        =   2355
          _ExtentY        =   661
          _Version        =   393216
-         Format          =   244056065
+         Format          =   242352129
          CurrentDate     =   43969
       End
       Begin MSComCtl2.DTPicker txtDataProc 
@@ -239,7 +239,7 @@ Begin VB.Form frmPedido
          _ExtentX        =   2355
          _ExtentY        =   661
          _Version        =   393216
-         Format          =   244056065
+         Format          =   242352129
          CurrentDate     =   43967
       End
       Begin MSComCtl2.DTPicker txtDataPedido 
@@ -262,7 +262,7 @@ Begin VB.Form frmPedido
          EndProperty
          CalendarBackColor=   12648447
          CalendarForeColor=   0
-         Format          =   244056065
+         Format          =   242352129
          CurrentDate     =   43902
       End
       Begin MSMask.MaskEdBox txtCNPJCPF 
@@ -1473,7 +1473,7 @@ Begin VB.Form frmPedido
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   319029249
+         Format          =   243728385
          CurrentDate     =   44268
       End
       Begin MSComCtl2.DTPicker dtInicio 
@@ -1494,7 +1494,7 @@ Begin VB.Form frmPedido
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   319029249
+         Format          =   243728385
          CurrentDate     =   44268
       End
       Begin VB.ComboBox txtUnidade 
@@ -2214,9 +2214,9 @@ Dim PedidoComp As String
 Dim Verifica As String
 Dim ContaComponente As Integer
 Dim GrupoAnterior As String
-Dim fim As Byte
+Dim Fim As Byte
 Dim Linha As Integer
-Dim Coluna As Integer
+Dim coluna As Integer
 Dim SalvaLocal As String
 Dim DataInvertida As String
 Dim dataInicio As String
@@ -2373,7 +2373,7 @@ End If
 
 Call Rotina_AbrirBanco
 
-Prod.Open "Select * from Produto where chproduto = ('" & cmbContrato & "')", db, 3, 3
+Prod.Open "Select * from produto where chproduto = ('" & cmbContrato & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("Informar QQ Produto da lista"), vbInformation
    cmdSair.SetFocus
@@ -2381,22 +2381,22 @@ If Prod.EOF Then
 End If
 
 ano = Year(dtInicio)
-Mes = Month(dtInicio)
+mes = Month(dtInicio)
 Dia = Day(dtInicio)
 
-DataInvertida = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 dataInicio = DataInvertida
 
 ano = Year(dtFim)
-Mes = Month(dtFim)
+mes = Month(dtFim)
 Dia = Day(dtFim)
 
-DataInvertida = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 dataFim = DataInvertida
 
-dneg.Open "Select * from DetalheNegociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "') and chProduto = ('" & cmbProduto & "') and chDatainicio = ('" & dataInicio & "') and chDataFim = ('" & dataFim & "')", db, 3, 3
+dneg.Open "Select * from detalhenegociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "') and chProduto = ('" & cmbProduto & "') and chDatainicio = ('" & dataInicio & "') and chDataFim = ('" & dataFim & "')", db, 3, 3
 If dneg.EOF Then
       'txtNomeProduto = Prod!prdNomeProd
       Inclui_Detalhe = 1
@@ -2532,7 +2532,7 @@ linha_pedido = 0
 
 Call Rotina_AbrirBanco
 
-neg.Open "select * from Negociacao", db, 3, 3
+neg.Open "select * from negociacao", db, 3, 3
 If neg.EOF Then
    MsgBox ("Não há negociação até o presente momento."), vbInformation
    Call FechaDB
@@ -2551,10 +2551,10 @@ Do While Not neg.EOF
       GridPedido.TextMatrix(linha_pedido, 3) = neg!chPessoa
       
       ano = Year(neg!negDataPedido)
-      Mes = Month(neg!negDataPedido)
+      mes = Month(neg!negDataPedido)
       Dia = Day(neg!negDataPedido)
 
-      DataGridInvertida = ano & Format$(Mes, "00") & Format$(Dia, "00")
+      DataGridInvertida = ano & Format$(mes, "00") & Format$(Dia, "00")
 
       GridPedido.TextMatrix(linha_pedido, 4) = (DataGridInvertida & GridPedido.TextMatrix(linha_pedido, 1) & GridPedido.TextMatrix(linha_pedido, 0))
       neg.MoveNext
@@ -2653,7 +2653,7 @@ Call Rotina_AbrirBanco
 Contrato = "CONTRATO"
 
 If cmbPessoa = Empty Then
-   MsgBox "Informar um codigo da lista para Pessoa"
+   MsgBox "Informar um codigo da lista para pessoa"
    txtNumPedido.SetFocus
    Exit Sub
 End If
@@ -2663,7 +2663,7 @@ cmbLocal.Clear
 If Inclui_Pedido = 1 Then
    cmbContrato.Clear
    
-   Prod.Open "Select * from Produto where prdLocadora = ('" & cmbPessoa & "') AND prdUnidadeOperacional = ('" & Contrato & "')", db, 3, 3
+   Prod.Open "Select * from produto where prdLocadora = ('" & cmbPessoa & "') AND prdUnidadeOperacional = ('" & Contrato & "')", db, 3, 3
    If Prod.EOF Then
       MsgBox ("Cliente sem contrato cadastrado"), vbInformation
       Call FechaDB
@@ -2680,7 +2680,7 @@ If Inclui_Pedido = 1 Then
    Loop
 End If
 
-uoper.Open "Select * from UnidadeOperacional where chpessoa = ('" & cmbPessoa & "')", db, 3, 3
+uoper.Open "Select * from unidadeoperacional where chpessoa = ('" & cmbPessoa & "')", db, 3, 3
 If uoper.EOF Then
    MsgBox ("Cadastrar a Unidade Operacional deste cliente. Somente após o cadastramentoserá possível esta operação"), vbCritical
    Call FechaDB
@@ -2697,7 +2697,7 @@ Loop
 cmbLocal = SalvaLocal
 cmbContrato = neg!negContrato
 
-pes.Open "Select * from Pessoa where chpessoa = ('" & cmbPessoa & "')", db, 3, 3
+pes.Open "Select * from pessoa where chpessoa = ('" & cmbPessoa & "')", db, 3, 3
 
 If pes.EOF Then
    Resp = MsgBox("Cliente não cadastrado. Deseja cadastrar agora???", vbYesNo)
@@ -2707,7 +2707,7 @@ If pes.EOF Then
       Call FechaDB
       frmPessoa.Show vbModal
       Call Rotina_AbrirBanco
-      pes.Open "Select * from Pessoa where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
+      pes.Open "Select * from pessoa where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
       If pes.EOF Then
          Call FechaDB
          MsgBox ("Execução de cadastramento de pessoa inválido"), vbCritical
@@ -2730,15 +2730,15 @@ Else
             
             pes.Close: Set pes = Nothing
             Call Rotina_AbrirBanco
-            pes.Open "Select * from Pessoa where chpessoa = ('" & cmbPessoa & "')", db, 3, 3
+            pes.Open "Select * from pessoa where chpessoa = ('" & cmbPessoa & "')", db, 3, 3
          End If
    End If
 End If
 
-hneg.Open "Select * from HistoricoNegociacao where chPessoa = ('" & cmbPessoa & "') and chnumpedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
+hneg.Open "Select * from historiconegociacao where chPessoa = ('" & cmbPessoa & "') and chnumpedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
 If hneg.EOF Then
    
- '  CartPromot.Open "Select * from Carteira_Promot where chCarteiraPromot = ('" & Promotora & "')", db, 3, 3'
+ '  CartPromot.Open "Select * from carteira_promot where chCarteiraPromot = ('" & Promotora & "')", db, 3, 3'
 
  '  If CartPromot.EOF Then
  '     MsgBox ("Promotor não informado. Verificar cadastro deste cliente"), vbInformation
@@ -2746,7 +2746,7 @@ If hneg.EOF Then
  '     Call FechaDB
  '''     Exit Sub
  '  End If
- '  CartRep.Open "Select * from Carteira_Rep where chCarteiraRep = ('" & Representante & "')", db, 3, 3
+ '  CartRep.Open "Select * from carteira_rep where chCarteiraRep = ('" & Representante & "')", db, 3, 3
      
  '  If CartRep.EOF Then
  '     MsgBox ("Representante não cadastrado. Cadastrar Representante e retornar para confecção do pedido"), vbInformation
@@ -2772,7 +2772,7 @@ If hneg.EOF Then
    txtCidade = pes!pesCidade
    txtUF = pes!huf
    ' txtCEP = pes!pesCEP
-   'Contato.Open "Select * from Telefone where codPessoa = ('" & cmbPessoa & "')", db, 3, 3
+   'Contato.Open "Select * from telefone where codPessoa = ('" & cmbPessoa & "')", db, 3, 3
    'If Contato.EOF Then
    '   txtTel = "N/INFORMADO"
    'Else
@@ -2825,7 +2825,7 @@ On Error Resume Next
 
 Call Rotina_AbrirBanco
 
-Prod.Open "Select * from Produto where chproduto = ('" & cmbProduto & "')", db, 3, 3
+Prod.Open "Select * from produto where chproduto = ('" & cmbProduto & "')", db, 3, 3
 If Prod.EOF Then
    'MsgBox ("Informar QQ Produto da lista"), vbInformation
    'cmdSair.SetFocus
@@ -2853,22 +2853,22 @@ QtdAnterior = 0
 Call Rotina_AbrirBanco
 
 ano = Year(dtInicio)
-Mes = Month(dtInicio)
+mes = Month(dtInicio)
 Dia = Day(dtInicio)
 
-DataInvertida = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
  
 dataInicio = DataInvertida
 
 ano = Year(dtFim)
-Mes = Month(dtFim)
+mes = Month(dtFim)
 Dia = Day(dtFim)
 
-DataInvertida = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 dataFim = DataInvertida
 
-dneg.Open "Select * from DetalheNegociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "') and chProduto = ('" & cmbProduto & "') and chDatainicio = ('" & dataInicio & "') and chDataFim = ('" & dataFim & "')", db, 3, 3
+dneg.Open "Select * from detalhenegociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "') and chProduto = ('" & cmbProduto & "') and chDatainicio = ('" & dataInicio & "') and chDataFim = ('" & dataFim & "')", db, 3, 3
 If dneg.EOF Then
    MsgBox ("Erro no acesso a Produto em cmdAlteraDetalhe."), vbCritical
    Call FechaDB
@@ -2891,7 +2891,7 @@ db.CommitTrans
    
 Funcao = 2
 ano = Year(Date)
-Mes = Month(Date)
+mes = Month(Date)
 Produto = cmbProduto
   
 Sai = QtdAnterior
@@ -2919,7 +2919,7 @@ Altera = 1
 Call Rotina_AbrirBanco
 
 
-neg.Open "Select * from Negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
+neg.Open "Select * from negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
 If neg.EOF Then
    MsgBox ("Erro no acesso a Negociacao em Altera Negociacao"), vbCritical
    Call FechaDB
@@ -2928,9 +2928,9 @@ Else
    TipoProduto = neg!negTipoProduto
 End If
 
-pes.Open "SElect * from Pessoa where chPessoa = ('" & neg!chPessoa & "')", db, 3, 3
+pes.Open "SElect * from pessoa where chPessoa = ('" & neg!chPessoa & "')", db, 3, 3
 If neg.EOF Then
-   MsgBox "Caquinha na leitura de Pessoa - cmdAlteraPedido"
+   MsgBox "Caquinha na leitura de pessoa - cmdAlteraPedido"
    End
 End If
 If neg!negStatus = 1 Then
@@ -2970,7 +2970,7 @@ If Erro_Critica = 0 Then
     Call Rotina_Carrega_Pedido
     Call Rotina_Limpa_Detalhe
     
-    dneg.Open "Select * from DetalheNegociacao where chNumPedido = ('" & txtNumPedido & "') and chnumpedidocomp = ('" & txtComplementoPedido & "')", db, 3, 3
+    dneg.Open "Select * from detalhenegociacao where chNumPedido = ('" & txtNumPedido & "') and chnumpedidocomp = ('" & txtComplementoPedido & "')", db, 3, 3
     If dneg.EOF Then
        MsgBox ("Detalhe de Negociação não encontrado."), vbInformation
     Else
@@ -3019,11 +3019,11 @@ MsgBox ("Função não disponível "), vbInformation
 ''   glbNumPedido = TabNegociacao("chNumPedido")
 '   glbCompPedido = TabNegociacao("chNumPedidoComp")
    
-'   Pessoa = TabNegociacao("chpessoa")
+'   pessoa = TabNegociacao("chpessoa")
 '   Pedido = TabNegociacao("chnumpedido")
 
 '   SQL2 = "Select chnumpedido as Numero_do_Pedido, chnumpedidocomp as Compl from negociacao"
-'   SQL2 = SQL2 & " where chPessoa like '" & Pessoa & "'"
+'   SQL2 = SQL2 & " where chPessoa like '" & pessoa & "'"
 '   SQL2 = SQL2 & " and chnumpedido like '" & Pedido & "'"
 '   SQL2 = SQL2 & " order by chnumpedido, chnumpedidocomp"
 '   'MsgBox SQL2
@@ -3031,7 +3031,7 @@ MsgBox ("Função não disponível "), vbInformation
 '   deNegociacao.Commands.Item("cmdnegociacao").CommandText = SQL2
 
 '   SQL2 = "Select hng.chnumpedido as Numero_do_Pedido, hng.chnumpedidocomp as Compl from historiconegociacao hng"
-'   SQL2 = SQL2 & " where hng.chPessoa like '" & Pessoa & "'"
+'   SQL2 = SQL2 & " where hng.chPessoa like '" & pessoa & "'"
 '   SQL2 = SQL2 & " and hng.chnumpedido like '" & Pedido & "'"
 '   SQL2 = SQL2 & " order by hng.chnumpedido, hng.chnumpedidocomp"
 '   'MsgBox SQL2
@@ -3055,22 +3055,22 @@ If Resp = vbYes Then
    Call Rotina_AbrirBanco
    
    ano = Year(dtInicio)
-   Mes = Month(dtInicio)
+   mes = Month(dtInicio)
    Dia = Day(dtInicio)
    
-   DataInvertida = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+   DataInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
     
    dataInicio = DataInvertida
   
    ano = Year(dtFim)
-   Mes = Month(dtFim)
+   mes = Month(dtFim)
    Dia = Day(dtFim)
    
-   DataInvertida = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+   DataInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
    
    dataFim = DataInvertida
    
-   dneg.Open "Select * from DetalheNegociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "') and chProduto = ('" & cmbProduto & "') and chDatainicio = ('" & dataInicio & "') and chDataFim = ('" & dataFim & "')", db, 3, 3
+   dneg.Open "Select * from detalhenegociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "') and chProduto = ('" & cmbProduto & "') and chDatainicio = ('" & dataInicio & "') and chDataFim = ('" & dataFim & "')", db, 3, 3
    If dneg.EOF Then
       MsgBox ("Erro no acesso a Detalhe de Negociacao em cmdExcluiDetalhe"), vbCritical
       Exit Sub
@@ -3089,7 +3089,7 @@ If Resp = vbYes Then
    
    Funcao = 2
    ano = Year(Date)
-   Mes = Month(Date)
+   mes = Month(Date)
    Produto = cmbProduto
   
    Sai = QtdAnterior
@@ -3104,7 +3104,7 @@ If Resp = vbYes Then
    Call Rotina_Limpa_Detalhe
    Call Rotina_Limpa_Grid
    
-   dneg.Open "Select * from DetalheNegociacao", db, 3, 3
+   dneg.Open "Select * from detalhenegociacao", db, 3, 3
    If dneg.EOF Then
       MsgBox ("Erro no acesso a Detalhe de Negociacao em cmdExcluiDetalhe Movefirst"), vbCritical
       Exit Sub
@@ -3127,7 +3127,7 @@ Private Sub cmdExcluiPedido_Click()
 
 Call Rotina_AbrirBanco
 
-neg.Open "Select * from Negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
+neg.Open "Select * from negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
 If neg.EOF Then
    MsgBox ("Registro para exclusão não encontrado em cmdExcluiPedido."), vbCritical
    Call FechaDB
@@ -3231,7 +3231,7 @@ If txtNumPedido = "" And txtComplementoPedido = "" Then
    ChavePedido = 0
    ChaveCompPedido = 1
 
-   Emp.Open "Select * from Empresa where chPessoa = ('" & "SHB BRASIL" & "')", db, 3, 3
+   Emp.Open "Select * from empresa where chPessoa = ('" & "SHB BRASIL" & "')", db, 3, 3
    If Emp.EOF Then
       MsgBox ("ERRO: Tabempresa não encontrado"), vbCritical
       Call FechaDB
@@ -3240,19 +3240,19 @@ If txtNumPedido = "" And txtComplementoPedido = "" Then
    End If
 
    ChavePedido = Emp!empNumPedido
-   fim = 0
-   Do While fim = 0
+   Fim = 0
+   Do While Fim = 0
 
-      neg.Open "Select * from Negociacao where chNumPedido = ('" & ChavePedido & "') and chNumPedidoComp = ('" & ChaveCompPedido & "')", db, 3, 3
+      neg.Open "Select * from negociacao where chNumPedido = ('" & ChavePedido & "') and chNumPedidoComp = ('" & ChaveCompPedido & "')", db, 3, 3
       If neg.EOF Then
-         Do While fim = 0
-            hdneg.Open "Select * from HistoricoDetalheNegociacao where chPessoa = ('" & cmbPessoa & "') and chNumPedido = ('" & ChavePedido & "') and chNumPedidoComp - ('" & ChaveCompPedido & "')", db, 3, 3
+         Do While Fim = 0
+            hdneg.Open "Select * from historicodetalhenegociacao where chPessoa = ('" & cmbPessoa & "') and chNumPedido = ('" & ChavePedido & "') and chNumPedidoComp - ('" & ChaveCompPedido & "')", db, 3, 3
             If hdneg.EOF Then
-               fim = 2
+               Fim = 2
             Else
                ChavePedido = ChavePedido + 1
                hdneg.Close: Set hdneg = Nothing
-               fim = 0
+               Fim = 0
             End If
          Loop
       Else
@@ -3279,15 +3279,15 @@ End If
 
 If Inclui_Pedido = 1 Then
    If Not (txtRepresentante = "NENHUM") Then
-      CartRep.Open "Select * from Carteira_Rep where chCarteiraRep = ('" & txtRepresentante & "')", db, 3, 3
+      CartRep.Open "Select * from carteira_rep where chCarteiraRep = ('" & txtRepresentante & "')", db, 3, 3
       If CartRep.EOF Then
          MsgBox ("Erro no acesso a Carteira de representantes"), vbCritical
          Call FechaDB
          Exit Sub
       Else
-         Prod.Open "Select * from Produto where chproduto = ('" & cmbProduto & "')", db, 3, 3
+         Prod.Open "Select * from produto where chproduto = ('" & cmbProduto & "')", db, 3, 3
          If pes.EOF Then
-            MsgBox ("Erro na carga de Pessoa em cmdIncluiDetalhe_Click."), vbCritical
+            MsgBox ("Erro na carga de pessoa em cmdIncluiDetalhe_Click."), vbCritical
             Call FechaDB
             Exit Sub
          Else
@@ -3301,7 +3301,7 @@ End If
 
 
 If Not (txtPromotora = "NENHUM") Then
-   CartPromot.Open "Select * from Carteira_Promot where chCarteiraPromot = ('" & txtPromotora & "')", db, 3, 3
+   CartPromot.Open "Select * from carteira_promot where chCarteiraPromot = ('" & txtPromotora & "')", db, 3, 3
    If CartPromot.EOF Then
       MsgBox ("Promotores não informado. Verificar cadstro deste cliente"), vbCritical
       Call FechaDB
@@ -3312,7 +3312,7 @@ If Not (txtPromotora = "NENHUM") Then
    End If
 End If
 
-neg.Open "Select * from Negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
+neg.Open "Select * from negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
 If neg.EOF Then
    neg.AddNew
    db.BeginTrans
@@ -3330,7 +3330,7 @@ If neg.EOF Then
 End If
 'Grava Detalhe da Negociação
 
-dneg.Open "Select * from DetalheNegociacao where chNumPedido = ('" & ChavePedido & "') and chNumPedidoComp = ('" & ChaveCompPedido & "') and chProduto = ('" & cmbProduto & "')", db, 3, 3
+dneg.Open "Select * from detalhenegociacao where chNumPedido = ('" & ChavePedido & "') and chNumPedidoComp = ('" & ChaveCompPedido & "') and chProduto = ('" & cmbProduto & "')", db, 3, 3
    If dneg.EOF Then
       dneg.AddNew
    End If
@@ -3345,7 +3345,7 @@ db.BeginTrans
    
    Funcao = 2
    ano = Year(Date)
-   Mes = Month(Date)
+   mes = Month(Date)
    Produto = cmbProduto
   
    Entra = dneg!pedquantidadePedida
@@ -3359,8 +3359,8 @@ db.BeginTrans
  
    dneg.Update
    
-   Mes = Month(dtInicioMedicao)
-   dataInicio = Year(dtInicioMedicao) & Format$(Mes, "00")
+   mes = Month(dtInicioMedicao)
+   dataInicio = Year(dtInicioMedicao) & Format$(mes, "00")
    
    lgt.Open "Select * from logistica where chAnoMesRef = ('" & dataInicio & "') and chPessoa = ('" & cmbPessoa & "') and chUnidadeOperacional = ('" & cmbLocal & "') and chColaborador = ('" & cmbProduto & "') and chEvento = ('" & cmbAtividade & "') and lgtStatusImport = ('" & 0 & "')", db, 3, 3
    If lgt.EOF Then
@@ -3380,8 +3380,8 @@ db.BeginTrans
       If lgt.State = 1 Then
          lgt.Close: Set lgt = Nothing
       End If
-      Mes = Month(dtFimMedicao)
-      dataInicio = Year(dtFimMedicao) & Format$(Mes, "00")
+      mes = Month(dtFimMedicao)
+      dataInicio = Year(dtFimMedicao) & Format$(mes, "00")
       lgt.Open "Select * from logistica where chAnoMesRef = ('" & dataInicio & "') and chPessoa = ('" & cmbPessoa & "') and chUnidadeOperacional = ('" & cmbLocal & "') and chColaborador = ('" & cmbProduto & "') and chEvento = ('" & cmbAtividade & "') and lgtStatusImport = ('" & 0 & "')", db, 3, 3
       If lgt.EOF Then
          DataInicioReal = Empty
@@ -3493,15 +3493,15 @@ End If
 
 Call Rotina_AbrirBanco
 
-Bco.Open "Select * from Banco where bcoempresa = ('" & 0 & "') and bcoCodBcoLart = ('" & cmbBanco.ListIndex & "')", db, 3, 3
+Bco.Open "Select * from banco where bcoempresa = ('" & 0 & "') and bcoCodBcoLart = ('" & cmbBanco.ListIndex & "')", db, 3, 3
 If Bco.EOF Then
-   MsgBox ("Numero do Banco inválido. Posicione o cursor no Banco desejado."), vbCritical
+   MsgBox ("Numero do banco inválido. Posicione o cursor no banco desejado."), vbCritical
    Call FechaDB
    'cmbOrdemDeCarga.SetFocus
    Exit Sub
 End If
 
-ctr.Open "Select * from Contas_A_Receber where chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where chNotaFiscal = ('" & txtNotaFiscal & "')", db, 3, 3
 If Not ctr.EOF Then
    Call FechaDB
    MsgBox ("Nota Fiscal existente em Negociação"), vbCritical
@@ -3577,7 +3577,7 @@ If cmbEmissor = Empty Then
 End If
 
 If cmbBanco = Empty Then
-   MsgBox ("Não Informado o Banco para faturamento"), vbCritical
+   MsgBox ("Não Informado o banco para faturamento"), vbCritical
    Call FechaDB
    cmdSair.SetFocus
    Exit Sub
@@ -3589,7 +3589,7 @@ End If
 '   Exit Sub
 'End If
 
-neg.Open "Select * from Negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
+neg.Open "Select * from negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
 If neg.EOF Then
    MsgBox ("Registro não cadastrado corretamente. Verificar..."), vbCritical
    Call FechaDB
@@ -3690,7 +3690,7 @@ cmbStatusPedido.ListIndex = 0
 
 Call Rotina_AbrirBanco
 
-Ativ.Open "Select * from Atividade", db, 3, 3
+Ativ.Open "Select * from atividade", db, 3, 3
 
 Ativ.MoveFirst
 
@@ -3702,7 +3702,7 @@ Loop
 'cmbAtividade = Empty
 
 
-pes.Open "Select * from Pessoa", db, 3, 3
+pes.Open "Select * from pessoa", db, 3, 3
 
 pes.MoveFirst
 Do While Not pes.EOF
@@ -3716,7 +3716,7 @@ Loop
 
 'Carga de Tipo de Cobranca de Frete
 
-'FreteCobranca.Open "Select * from CobrancaFrete", db, 3, 3
+'FreteCobranca.Open "Select * from cobrancafrete", db, 3, 3
 '
 'FreteCobranca.MoveFirst
 
@@ -3731,7 +3731,7 @@ Loop
 
 'Carga de Condições de Processamento
 
-'CondProc.Open "Select * from CondProcessamento", db, 3, 3
+'CondProc.Open "Select * from condprocessamento", db, 3, 3
 
 'CondProc.MoveFirst
 
@@ -3744,9 +3744,9 @@ Loop
 
 'CondProc.Close: Set CondProc = Nothing
 
-'Carrega Bancos
+'Carrega bancos
 
-Bco.Open "Select * from Banco", db, 3, 3
+Bco.Open "Select * from banco", db, 3, 3
 
 Bco.MoveFirst
 
@@ -3761,7 +3761,7 @@ cmbBanco.ListIndex = 0
 
 'Carrega Natureza da Operação
 
-NatuOper.Open "Select * from NaturezaOperacao", db, 3, 3
+NatuOper.Open "Select * from naturezaoperacao", db, 3, 3
 
 NatuOper.MoveFirst
 
@@ -3815,7 +3815,7 @@ Next
 'Aqui Pedidos
 
 
-neg.Open "Select * from Negociacao", db, 3, 3
+neg.Open "Select * from negociacao", db, 3, 3
 If Not (neg.EOF) Then
    Call Rotina_Carrega_Pedidos
    cmbPesqPedido.ListIndex = 0
@@ -3856,7 +3856,7 @@ If (GlbStatus = "PROCESSADO" Or GlbStatus = "PENDENTE") And Not (txtNumPedido = 
    
       Inclui_Pedido = 0
       
-      dneg.Open "Select * from DetalheNegociacao", db, 3, 3
+      dneg.Open "Select * from detalhenegociacao", db, 3, 3
 'Aqui Pedido
       Call Rotina_Carrega_Pedido
       dneg.MoveFirst
@@ -3899,7 +3899,7 @@ End Sub
 
 Private Sub Grid_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 
-Coluna = Grid.Col
+coluna = Grid.Col
 Linha = Grid.Row
 
 If Linha > Grid.Rows Then
@@ -3977,7 +3977,7 @@ End If
 
 Call Rotina_AbrirBanco
 
-neg.Open "Select * from Negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
+neg.Open "Select * from negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
 If neg.EOF Then
    Inclui_Pedido = 1
    Inclui_Detalhe = 1
@@ -3986,9 +3986,9 @@ If neg.EOF Then
 Else
    cmdAlteraPedido.Enabled = True
    cmdExcluiPedido.Enabled = True
-   pes.Open "Select * from Pessoa where chPessoa = ('" & neg!chPessoa & "')", db, 3, 3
+   pes.Open "Select * from pessoa where chPessoa = ('" & neg!chPessoa & "')", db, 3, 3
    If pes.EOF Then
-      MsgBox ("Erro no acesso a Pessoa em Grid_Pedido Click."), vbCritical
+      MsgBox ("Erro no acesso a pessoa em Grid_Pedido Click."), vbCritical
       Call FechaDB
       Exit Sub
    End If
@@ -4040,16 +4040,16 @@ Public Sub ConsultaMesInicioMedicao()
 
 Call Rotina_AbrirBanco
 
-Mes = Month(dtInicioMedicao)
-dataInicio = Year(dtInicioMedicao) & Format$(Mes, "00")
+mes = Month(dtInicioMedicao)
+dataInicio = Year(dtInicioMedicao) & Format$(mes, "00")
 
 dtInicioEventoMenosUm = dtInicioMedicao - 1
 
 Dia = Day(dtInicioEventoMenosUm)
-Mes = Month(dtInicioEventoMenosUm)
+mes = Month(dtInicioEventoMenosUm)
 ano = Year(dtInicioEventoMenosUm)
 
-DataInicioEventoStr = Format$(ano & "-" & Mes & "-" & Dia, "yyyy-mm-dd")
+DataInicioEventoStr = Format$(ano & "-" & mes & "-" & Dia, "yyyy-mm-dd")
 
 
 lgt.Open "Select * from logistica where chAnoMesRef = ('" & dataInicio & "') and lgtFimEventoReal > ('" & DataInicioEventoStr & "') and lgtTipo = ('" & 0 & "') and chPessoa = ('" & cmbPessoa & "') and chUnidadeOperacional = ('" & cmbLocal & "') and chColaborador = ('" & cmbProduto & "') and chEvento = ('" & cmbAtividade & "')", db, 3, 3
@@ -4057,8 +4057,8 @@ If lgt.EOF Then
    If lgt.State = 1 Then
       lgt.Close: Set lgt = Nothing
    End If
-   Mes = Month(dtFimMedicao)
-   dataInicio = Year(dtFimMedicao) & Format$(Mes, "00")
+   mes = Month(dtFimMedicao)
+   dataInicio = Year(dtFimMedicao) & Format$(mes, "00")
    lgt.Open "Select * from logistica where chAnoMesRef = ('" & dataInicio & "') and lgtTipo = ('" & 0 & "') and chPessoa = ('" & cmbPessoa & "') and chUnidadeOperacional = ('" & cmbLocal & "') and chColaborador = ('" & cmbProduto & "') and chEvento = ('" & cmbAtividade & "')", db, 3, 3
    If lgt.EOF Then
       DataInicioEvento = Empty
@@ -4098,8 +4098,8 @@ Public Sub ConsultaMesFinalEvento()
 
 Call Rotina_AbrirBanco
 
-Mes = Month(dtFimMedicao)
-dataFim = Year(dtFimMedicao) & Format$(Mes, "00")
+mes = Month(dtFimMedicao)
+dataFim = Year(dtFimMedicao) & Format$(mes, "00")
 
 lgt.Open "Select * from logistica where chAnoMesRef = ('" & dataFim & "') and chPessoa = ('" & cmbPessoa & "') and chUnidadeOperacional = ('" & cmbLocal & "') and chColaborador = ('" & cmbProduto & "') and chEvento = ('" & cmbAtividade & "')", db, 3, 3
 If lgt.EOF Then
@@ -4135,7 +4135,7 @@ End If
 
 Call Rotina_AbrirBanco
 
-neg.Open "Select * from Negociacao where chnumpedido = ('" & txtNumPedido & "') and chnumpedidocomp = ('" & txtComplementoPedido & "')", db, 3.3
+neg.Open "Select * from negociacao where chnumpedido = ('" & txtNumPedido & "') and chnumpedidocomp = ('" & txtComplementoPedido & "')", db, 3.3
 
 If neg.EOF Then
    Inclui_Pedido = 1
@@ -4145,7 +4145,7 @@ If neg.EOF Then
    cmdAlteraPedido.Enabled = False
    cmdExcluiPedido.Enabled = False
 Else
-   pes.Open "Select * from Pessoa where chPessoa = ('" & neg!chPessoa & "')", db, 3, 3
+   pes.Open "Select * from pessoa where chPessoa = ('" & neg!chPessoa & "')", db, 3, 3
    If pes.EOF Then
       MsgBox ("Erro na carga de pessoa em Negociação"), vbCritical
       Call FechaDB
@@ -4159,7 +4159,7 @@ Else
 
    Call Rotina_Carrega_Pedido
    
-   dneg.Open "Select * from DetalheNegociacao", db, 3, 3
+   dneg.Open "Select * from detalhenegociacao", db, 3, 3
      
    dneg.MoveFirst
    Call Rotina_Carga_Grid
@@ -4314,9 +4314,9 @@ neg!negCEFOP = cmbCFOP.ListIndex
 If pes.State = 1 Then
    pes.Close: Set pes = Nothing
 End If
-pes.Open "Select * from Pessoa where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
+pes.Open "Select * from pessoa where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
 If pes.EOF Then
-   MsgBox ("Erro em acesso a Pessoa em: txtUnidade.setfocus"), vbCritical
+   MsgBox ("Erro em acesso a pessoa em: txtUnidade.setfocus"), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -4357,13 +4357,14 @@ dneg!pedunidade = txtUnidade.ListIndex
 dneg!pedPUCheio = txtPUCheio
 
 If Not (txtUnidade.ListIndex = 2) Then
+   'dneg!pedValorDaDiaria = txtPreçoUnit * txtQtd
    dneg!pedValorDaDiaria = precoUnit * txtQtd
 Else
    dneg!pedValorDaDiaria = txtValorDiaria
 End If
 
 dneg!pedqtddias = txtQtdDias
-dneg!pedValorDaOperacao = Format$(txtQtdDias * dneg!pedValorDaDiaria, "0#.00")
+dneg!pedValorDaOperacao = Format$(txtQtdDias * dneg!pedValorDaDiaria, "##,##0.00")
 If txtRepresentante = "NENHUM" Then
    dneg!pedcomissaorep = Format$(0, "#.00")
 Else
@@ -4487,7 +4488,7 @@ If neg!negStatus = 1 Or neg!negStatus = 2 Then
    
 CFOPAux.ListIndex = neg!negCEFOP
    
-NatuOper.Open "Select * from NaturezaOperacao where CFOP = ('" & CFOPAux & "')", db, 3, 3
+NatuOper.Open "Select * from naturezaoperacao where CFOP = ('" & CFOPAux & "')", db, 3, 3
 If NatuOper.EOF Then
       MsgBox ("Atenção: Negociação Processada sem informar a sua Natureza"), vbInformation
       cmbCFOP.ListIndex = 0
@@ -4498,7 +4499,7 @@ Else
    cmbCFOP.ListIndex = neg!negCEFOP
 End If
 
-Bco.Open "Select * from Banco where bcoSiglaBco = ('" & cmbBanco & "')", db, 3, 3
+Bco.Open "Select * from banco where bcoSiglaBco = ('" & cmbBanco & "')", db, 3, 3
 If Bco.EOF Then
    MsgBox ("Banco informado Inv."), vbInformation
 Else
@@ -4584,7 +4585,7 @@ Grid.ColAlignment(2) = 1
 
 Encontrei = 0
 
-dneg.Open "Select * from DetalheNegociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
+dneg.Open "Select * from detalhenegociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
 
 
 If dneg.EOF Then
@@ -4612,9 +4613,9 @@ Do While Fim_Carga = 0
          If pes.State = 1 Then
             pes.Close: Set pes = Nothing
          End If
-         pes.Open "Select * from Pessoa where chPessoa = ('" & dneg!chProduto & "')", db, 3, 3
+         pes.Open "Select * from pessoa where chPessoa = ('" & dneg!chProduto & "')", db, 3, 3
          If pes.EOF Then
-            Prod.Open "Select * from Produto where chProduto = ('" & dneg!chProduto & "')", db, 3, 3
+            Prod.Open "Select * from produto where chProduto = ('" & dneg!chProduto & "')", db, 3, 3
             If Prod.EOF Then
                MsgBox ("Produto não encontrado Rotina Carga Grid"), vbCritical
                Call FechaDB
@@ -4721,6 +4722,10 @@ End Sub
 
 Private Sub txtDesconto_LostFocus()
 
+If txtDesconto = "" Then
+   txtDesconto = 0
+   End If
+
 If txtDesconto > 0 Then
    precoUnit = txtPUCheio - ((txtPUCheio * txtDesconto) / 100)
    txtPreçoUnit = Format(precoUnit, "##0.00")
@@ -4792,15 +4797,15 @@ Private Sub txtUnidade_LostFocus()
    
    Call Rotina_AbrirBanco
    
-   fim = 0
+   Fim = 0
    If cmbProduto = Empty Then
       Exit Sub
    Else
-       pes.Open "Select * from Pessoa where chPessoa = ('" & cmbProduto & "')", db, 3, 3
+       pes.Open "Select * from pessoa where chPessoa = ('" & cmbProduto & "')", db, 3, 3
        If pes.EOF Then
-          Prod.Open "Select * from Produto where chProduto = ('" & cmbProduto & "')", db, 3, 3
+          Prod.Open "Select * from produto where chProduto = ('" & cmbProduto & "')", db, 3, 3
        Else
-          Prod.Open "Select * from Produto where chProduto = ('" & cmbContrato & "')", db, 3, 3
+          Prod.Open "Select * from produto where chProduto = ('" & cmbContrato & "')", db, 3, 3
        End If
        If Prod.EOF Then
           MsgBox ("Erro na carga do produto. Comunicar ao analista responsável."), vbCritical
@@ -4820,17 +4825,17 @@ Private Sub txtUnidade_LostFocus()
        If pes.State = 1 Then
           pes.Close: Set pes = Nothing
        End If
-       pes.Open "Select * from Pessoa where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
+       pes.Open "Select * from pessoa where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
        If pes.EOF Then
-          MsgBox ("Erro em acesso a Pessoa em: txtUnidade.setfocus"), vbCritical
+          MsgBox ("Erro em acesso a pessoa em: txtUnidade.setfocus"), vbCritical
           Call FechaDB
           Exit Sub
        End If
          
        If Prod!prdUnidadeOperacional = "CONTRATO" Then
-          ProdPco.Open "Select * from ProdutoPreco where chPessoa = ('" & pes!chPessoa & "') and chProduto = ('" & cmbContrato & "') AND chAtividade = ('" & cmbAtividade & "') and pdpStatus = 0", db, 3, 3
+          ProdPco.Open "Select * from produtopreco where chPessoa = ('" & pes!chPessoa & "') and chProduto = ('" & cmbContrato & "') AND chAtividade = ('" & cmbAtividade & "') and pdpStatus = 0", db, 3, 3
        Else
-         ProdPco.Open "Select * from ProdutoPreco where chPessoa = ('" & pes!chPessoa & "') and chProduto = ('" & cmbProduto & "') AND chAtividade = ('" & cmbAtividade & "') and pdpStatus = 0", db, 3, 3
+         ProdPco.Open "Select * from produtopreco where chPessoa = ('" & pes!chPessoa & "') and chProduto = ('" & cmbProduto & "') AND chAtividade = ('" & cmbAtividade & "') and pdpStatus = 0", db, 3, 3
        End If
        If ProdPco.EOF Then
           If Not (cmbAtividade = Empty) Then
@@ -4856,8 +4861,8 @@ Private Sub txtUnidade_LostFocus()
        Else
           If Not (txtUnidade.ListIndex = 2) Then
               txtPUCheio = Format(ProdPco!pdpPrecoDoProduto, "##0.00")
-              txtDesconto = Format$(ProdPco!pdpDesconto, "##0.00")
               txtPreçoUnit = Format(ProdPco!pdpPrecoDoProduto - ((ProdPco!pdpPrecoDoProduto * ProdPco!pdpDesconto) / 100), "###,##0.00")
+              precoUnit = txtPreçoUnit
            Else
               ValorHora = Format$(((ProdPco!pdpPrecoDoProduto / 12) * 2), "#,##0.00")
               ValorMinuto = ValorHora / 60
@@ -4896,7 +4901,8 @@ txtPreçoUnit = Empty
 txtPUCheio = Empty
 txtQtdDias = Empty
 txtValorDiaria = Empty
-txtDesconto = Empty
+txtDesconto = Format$(0, "#0.00")
+txtValorDiaria = Empty
 
 End Sub
 Public Sub Rotina_Limpa_Grid()
@@ -4938,7 +4944,7 @@ IndProd = 0
 VerificaData = 0
 'Call Rotina_AbrirBanco
 
-dneg.Open "Select * from DetalheNegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
+dneg.Open "Select * from detalhenegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
 If dneg.EOF Then
    Exit Sub
 End If
@@ -5022,7 +5028,7 @@ End Sub
 
 Public Sub Rotina_Carrega_Pedidos()
 
-'neg.Open "Select * from Negociacao", db, 3, 3
+'neg.Open "Select * from negociacao", db, 3, 3
 
 Tabela_Pedido(1) = " Geral"
 cmbPesqPedido.AddItem " Geral"
@@ -5133,7 +5139,7 @@ Public Sub Rotina_Exclui_Comissao_Rep()
 
 'Call Rotina_AbrirBanco
 
-'neg.Open "Select * from Negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
+'neg.Open "Select * from negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
 'If neg.EOF Then
 '   MsgBox ("Erro no acesso a Negociacao na rotina Exclui Comissão."), vbCritical
 '   Call FechaDB
@@ -5156,7 +5162,7 @@ Else
 End If
 Data_Comis = Dia_Comis & "/" & Mes_Comis & "/" & Ano_Comis
 
-ctp.Open "Select * from Contas_A_Pagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & neg!chrepresentante & "') and chNotaFiscal = ('" & "Representante" & "') and chFatura = ('" & "Comissao" & "') and chDataVencito = ('" & Data_Comis & "')", db, 3, 3
+ctp.Open "Select * from contas_a_pagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & neg!chrepresentante & "') and chNotaFiscal = ('" & "Representante" & "') and chFatura = ('" & "Comissao" & "') and chDataVencito = ('" & Data_Comis & "')", db, 3, 3
 If ctp.EOF Then
    MsgBox ("negEmissorNF = "), , neg!negEmissorNF
    MsgBox ("negEmissorNF = "), , neg!chrepresentante
@@ -5182,7 +5188,7 @@ Public Sub Rotina_Exclui_Comissao_Promot()
 
 'Call Rotina_AbrirBanco
 
-'neg.Open "Select * from Negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
+'neg.Open "Select * from negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ('" & txtComplementoPedido & "')", db, 3, 3
 'If neg.EOF Then
 '   MsgBox ("Erro no acesso a Negociacao na rotina Exclui Comissão Promot."), vbCritical
 '   Call FechaDB
@@ -5205,7 +5211,7 @@ Else
 End If
 Data_Comis = Dia_Comis & "/" & Mes_Comis & "/" & Ano_Comis
 
-ctp.Open "Select * from Contas_A_Pagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & neg!chPromotor & "') and chNotaFiscal = ('" & "Promotora & " ') and chDataVencito = ('" & data_Comis & "')",db,3,3
+ctp.Open "Select * from contas_a_pagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & neg!chPromotor & "') and chNotaFiscal = ('" & "Promotora & " ') and chDataVencito = ('" & data_Comis & "')",db,3,3
 If ctp.EOF Then
    MsgBox ("Promotora sem registro no contas a pagar"), vbInformation
    Call FechaDB
@@ -5229,14 +5235,14 @@ Public Sub Rotina_Exclui_Cta_Receber()
 
 'Call Rotina_AbrirBanco
 
-'neg.Open "Select * from Negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ( '" & txtComplementoPedido & "')", db, 3, 3
+'neg.Open "Select * from negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ( '" & txtComplementoPedido & "')", db, 3, 3
 'If neg.EOF Then
 '   MsgBox ("Erro no acesso a negociação em Exclui Contas a Receber."), vbCritical
 '   Call FechaDB
 '   Exit Sub
 'End If
 
-ctr.Open "Select * from Contas_A_Receber where chNotaFiscal = ('" & neg!negNotaFiscal & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where chNotaFiscal = ('" & neg!negNotaFiscal & "')", db, 3, 3
 If ctr.EOF Then
    'MsgBox ("Contas a receber não contém registros."), vbInformation
    'Call FechaDB
@@ -5261,14 +5267,14 @@ Public Sub Rotina_Exclui_Cta_Pagar()
 
 'Call Rotina_AbrirBanco
 
-'neg.Open "Select * from Negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ( '" & txtComplementoPedido & "')", db, 3, 3
+'neg.Open "Select * from negociacao where chNumPedido = ('" & txtNumPedido & "') and chNumPedidoComp = ( '" & txtComplementoPedido & "')", db, 3, 3
 'If neg.EOF Then
 '   MsgBox ("Erro no acesso a negociação em Exclui Contas a Receber."), vbCritical
 '   Call FechaDB
 '   Exit Sub
 'End If
 
-ctp.Open "Select * from Contas_A_Pagar where chNotaFiscal = ('" & neg!negNotaFiscal & "')", db, 3, 3
+ctp.Open "Select * from contas_a_pagar where chNotaFiscal = ('" & neg!negNotaFiscal & "')", db, 3, 3
 If ctp.EOF Then
    'MsgBox ("Contas a Pagar não contém registros."), vbInformation
    'Call FechaDB
@@ -5701,9 +5707,9 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
 
-'O primeiro acesso é para pegar os Equipamentos
+'O primeiro acesso é para pegar os equipamentos
 
-Prod.Open "Select * from Produto where prdLocadora = ('" & cmbPessoa & "') and prdUnidadeOperacional = ('" & cmbLocal & "') and prdOrdemApresentacao = ('" & 0 & "')", db, 3, 3
+Prod.Open "Select * from produto where prdLocadora = ('" & cmbPessoa & "') and prdUnidadeOperacional = ('" & cmbLocal & "') and prdOrdemApresentacao = ('" & 0 & "')", db, 3, 3
 If Not Prod.EOF Then
    Prod.MoveFirst
    Do While Not Prod.EOF
@@ -5717,15 +5723,15 @@ If Prod.State = 1 Then
    Prod.Close: Set Prod = Nothing
 End If
 
-'Esse segundo acesso é para pegar Pessoal
+'Esse segundo acesso é para pegar pessoal
 
-'Prod.Open "Select * from Produto where prdLocadora = ('" & cmbPessoa & "') and prdUnidadeOperacional = ('" & Contrato & "') and prdOrdemApresentacao = ('" & 0 & "')", db, 3, 3
+'Prod.Open "Select * from produto where prdLocadora = ('" & cmbPessoa & "') and prdUnidadeOperacional = ('" & Contrato & "') and prdOrdemApresentacao = ('" & 0 & "')", db, 3, 3
 'If Not Prod.EOF Then
 '   If pes.State = 1 Then
 '      pes.Close: Set pes = Nothing
 '   End If
       
-   pes.Open "Select * from Pessoa where pesClienteLocador = ('" & cmbPessoa & "') and pesUnidadeOperacional = ('" & cmbLocal & "')", db, 3, 3
+   pes.Open "Select * from pessoa where pesClienteLocador = ('" & cmbPessoa & "') and pesUnidadeOperacional = ('" & cmbLocal & "')", db, 3, 3
    If pes.EOF Then
       MsgBox ("Cliente sem mão de obra cadastrada"), vbInformation
    Else
@@ -5780,7 +5786,7 @@ Call Rotina_AbrirBanco
 TotalMedicao = 0
 TotalGeral = 0
 
-neg.Open "Select * from Negociacao where chNumPedido = ('" & txtNumPedido & "')", db, 3, 3
+neg.Open "Select * from negociacao where chNumPedido = ('" & txtNumPedido & "')", db, 3, 3
 
 If neg.EOF Then
    Call FechaDB
@@ -5799,7 +5805,7 @@ Do While Not neg.EOF
       acdNeg = 0
    End If
 
-   dneg.Open "Select * from DetalheNegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
+   dneg.Open "Select * from detalhenegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
    If dneg.EOF Then
       Call FechaDB
       Exit Sub

@@ -432,7 +432,7 @@ Begin VB.Form frmControleFinanceiro
                Strikethrough   =   0   'False
             EndProperty
             CalendarBackColor=   16777194
-            Format          =   257294337
+            Format          =   378339329
             CurrentDate     =   38125
          End
       End
@@ -532,12 +532,12 @@ Dim AcumulaAtrasados As Currency
 Dim AcumulaConfirmados As Currency
 Dim SomaAtrasados As Currency
 Dim Cliente As String
-Dim PessoaAnterior As String
+Dim pessoaAnterior As String
 
 Dim Dia As Integer
 Dim DiaUtilAnterior As Date
-Dim DataInicio As Date
-Dim DataFim As Date
+Dim dataInicio As Date
+Dim dataFim As Date
 Dim DataPendentes As Date
 Dim D2Anterior As Date
 Dim DataPagos As Date
@@ -560,7 +560,7 @@ For IndConf = 1 To IndPendlimite
        C = GridPendentes.TextMatrix(IndConf, 2)
        D = GridPendentes.TextMatrix(IndConf, 3)
        
-       ctr.Open "Select* from Contas_A_Receber where chFabricante = ('" & A & "') and chPessoa = ('" & B & "') and chNotaFiscal = ('" & C & "')and chFatura = ('" & D & "')", db, 3, 3
+       ctr.Open "Select* from contas_a_receber where chFabricante = ('" & A & "') and chPessoa = ('" & B & "') and chNotaFiscal = ('" & C & "')and chFatura = ('" & D & "')", db, 3, 3
        If ctr.EOF Then
           MsgBox ("Erro no acesso para atualizacao de Conta a Receber 1."), vbCritical
           Call FechaDB
@@ -588,7 +588,7 @@ For IndConf = 1 To IndAtraLimite
        B = GridAtrasados.TextMatrix(IndConf, 1)
        C = GridAtrasados.TextMatrix(IndConf, 2)
        D = GridAtrasados.TextMatrix(IndConf, 3)
-       ctr.Open "Select* from Contas_A_Receber where chFabricante = ('" & A & "') and chPessoa = ('" & B & "') and chNotaFiscal = ('" & C & "')and chFatura = ('" & D & "')", db, 3, 3
+       ctr.Open "Select* from contas_a_receber where chFabricante = ('" & A & "') and chPessoa = ('" & B & "') and chNotaFiscal = ('" & C & "')and chFatura = ('" & D & "')", db, 3, 3
        If ctr.EOF Then
           MsgBox ("Erro no acesso para atualizacao de Conta a Receber 2."), vbCritical
           Call FechaDB
@@ -616,7 +616,7 @@ For IndConf = 1 To IndConfLimite
        B = GridConfirmados.TextMatrix(IndConf, 1)
        C = GridConfirmados.TextMatrix(IndConf, 2)
        D = GridConfirmados.TextMatrix(IndConf, 3)
-       ctr.Open "Select* from Contas_A_Receber where chFabricante = ('" & A & "') and chPessoa = ('" & B & "') and chNotaFiscal = ('" & C & "')and chFatura = ('" & D & "')", db, 3, 3
+       ctr.Open "Select* from contas_a_receber where chFabricante = ('" & A & "') and chPessoa = ('" & B & "') and chNotaFiscal = ('" & C & "')and chFatura = ('" & D & "')", db, 3, 3
        If ctr.EOF Then
           MsgBox ("Erro no acesso para atualizacao de Conta a Receber 3."), vbCritical
           Call FechaDB
@@ -718,7 +718,7 @@ cmbFiltro.AddItem "Geral"
 
 Call Rotina_AbrirBanco
 
-Bco.Open "Select * from Banco", db, 3, 3
+Bco.Open "Select * from banco", db, 3, 3
 
 Bco.MoveFirst
 
@@ -786,7 +786,7 @@ End Sub
 
 Public Sub Rotina_020_Gerencia_Grid()
 
-Dim Indice As Byte
+Dim indice As Byte
 Dim DataAcesso As Date
 
 IndPend = 0
@@ -795,7 +795,7 @@ IndConf = 0
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber", db, 3, 3
+ctr.Open "Select * from contas_a_receber", db, 3, 3
 If ctr.EOF Then
    Call FechaDB
    Exit Sub
@@ -806,7 +806,7 @@ ctr.MoveFirst
 
 Do While Not ctr.EOF
    
-   Indice = cmbFiltro.ListIndex
+   indice = cmbFiltro.ListIndex
    
    If (cmbFiltro = "Geral") Or (cmbFiltro = ctr!chCodBcoLart) Then
       If ctr!ctrDataVencito = txtDataInformada Then
@@ -834,7 +834,7 @@ Do While Not ctr.EOF
 Loop
 
 SomaAtrasados = 0
-PessoaAnterior = Empty
+pessoaAnterior = Empty
 
 Call TotalizaAtrasados
 
@@ -852,7 +852,7 @@ IndPend = IndPend + 1
 GridPendentes.Rows = IndPend + 1
 GridPendentes.TextMatrix(IndPend, 0) = ctr!chFabricante
 GridPendentes.TextMatrix(IndPend, 1) = ctr!chPessoa
-GridPendentes.TextMatrix(IndPend, 2) = ctr!chNotaFiscal
+GridPendentes.TextMatrix(IndPend, 2) = ctr!chNotafiscal
 GridPendentes.TextMatrix(IndPend, 3) = ctr!chFatura
 GridPendentes.TextMatrix(IndPend, 4) = ctr!chPessoa
 GridPendentes.TextMatrix(IndPend, 5) = ctr!ctrDescricaoOperacao
@@ -868,7 +868,7 @@ IndConf = IndConf + 1
 GridConfirmados.Rows = IndConf + 1
 GridConfirmados.TextMatrix(IndConf, 0) = ctr!chFabricante
 GridConfirmados.TextMatrix(IndConf, 1) = ctr!chPessoa
-GridConfirmados.TextMatrix(IndConf, 2) = ctr!chNotaFiscal
+GridConfirmados.TextMatrix(IndConf, 2) = ctr!chNotafiscal
 GridConfirmados.TextMatrix(IndConf, 3) = ctr!chFatura
 GridConfirmados.TextMatrix(IndConf, 4) = ctr!chPessoa
 GridConfirmados.TextMatrix(IndConf, 5) = ctr!ctrDescricaoOperacao
@@ -884,7 +884,7 @@ IndAtra = IndAtra + 1
 GridAtrasados.Rows = IndAtra + 1
 GridAtrasados.TextMatrix(IndAtra, 0) = ctr!chFabricante
 GridAtrasados.TextMatrix(IndAtra, 1) = ctr!chPessoa
-GridAtrasados.TextMatrix(IndAtra, 2) = ctr!chNotaFiscal
+GridAtrasados.TextMatrix(IndAtra, 2) = ctr!chNotafiscal
 GridAtrasados.TextMatrix(IndAtra, 3) = ctr!chFatura
 GridAtrasados.TextMatrix(IndAtra, 4) = ctr!chPessoa
 GridAtrasados.TextMatrix(IndAtra, 5) = ctr!ctrDescricaoOperacao
@@ -896,7 +896,7 @@ AcumulaAtrasados = AcumulaAtrasados + ctr!ctrValorDaBoleta
 
 End Sub
 
-Private Sub GridAtrasados_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub GridAtrasados_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 Dim A As String
 Dim B As String
 Dim C As String
@@ -924,7 +924,7 @@ Else
        C = GridAtrasados.TextMatrix(GridAtrasados.Row, 2)
        D = GridAtrasados.TextMatrix(GridAtrasados.Row, 3)
        
-       ctr.Open "Select* from Contas_A_Receber where chFabricante = ('" & A & "') and chPessoa = ('" & B & "') and chNotaFiscal = ('" & C & "')and chFatura = ('" & D & "')", db, 3, 3
+       ctr.Open "Select* from contas_a_receber where chFabricante = ('" & A & "') and chPessoa = ('" & B & "') and chNotaFiscal = ('" & C & "')and chFatura = ('" & D & "')", db, 3, 3
        If ctr.EOF Then
           MsgBox ("Erro no acesso para atualizacao de Conta a Receber 1."), vbCritical
           Call FechaDB
@@ -941,7 +941,7 @@ Else
 End If
 End Sub
 
-Private Sub GridConfirmados_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub GridConfirmados_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 If GridConfirmados.TextMatrix(GridConfirmados.Row, 8) = "Ok." Then
    GridConfirmados.TextMatrix(GridConfirmados.Row, 8) = Empty
 Else
@@ -949,7 +949,7 @@ Else
 End If
 End Sub
 
-Private Sub GridPendentes_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub GridPendentes_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 If GridPendentes.TextMatrix(GridPendentes.Row, 7) = "Ok." Then
    GridPendentes.TextMatrix(GridPendentes.Row, 7) = Empty
 Else
@@ -991,16 +991,16 @@ For IndAtra = 1 To IndAtraLimite
     If GridAtrasados.TextMatrix(IndAtra, 4) = Empty Then
        IndAtra = GridAtrasados.Rows
     Else
-       If PessoaAnterior = Empty Then
+       If pessoaAnterior = Empty Then
           SomaAtrasados = GridAtrasados.TextMatrix(IndAtra, 7)
-          PessoaAnterior = GridAtrasados.TextMatrix(IndAtra, 4)
+          pessoaAnterior = GridAtrasados.TextMatrix(IndAtra, 4)
        Else
-          If GridAtrasados.TextMatrix(IndAtra, 4) = PessoaAnterior Then
+          If GridAtrasados.TextMatrix(IndAtra, 4) = pessoaAnterior Then
             SomaAtrasados = SomaAtrasados + GridAtrasados.TextMatrix(IndAtra, 7)
           Else
             GridAtrasados.TextMatrix((IndAtra - 1), 8) = Format$(SomaAtrasados, "##,##0.00")
             SomaAtrasados = GridAtrasados.TextMatrix(IndAtra, 7)
-            PessoaAnterior = GridAtrasados.TextMatrix(IndAtra, 4)
+            pessoaAnterior = GridAtrasados.TextMatrix(IndAtra, 4)
           End If
        End If
     End If

@@ -3,16 +3,16 @@ Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
 Begin VB.Form frmConsolidadoFinanc 
    Caption         =   "frmConsolidadoFinanc"
-   ClientHeight    =   9150
+   ClientHeight    =   9945
    ClientLeft      =   60
    ClientTop       =   345
    ClientWidth     =   20370
    LinkTopic       =   "Form3"
-   ScaleHeight     =   9150
+   ScaleHeight     =   9945
    ScaleWidth      =   20370
    StartUpPosition =   2  'CenterScreen
    Begin VB.Frame Frame4 
-      Height          =   9135
+      Height          =   9855
       Left            =   0
       TabIndex        =   0
       Top             =   0
@@ -247,19 +247,19 @@ Begin VB.Form frmConsolidadoFinanc
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   7935
+         Height          =   8535
          Left            =   7200
          TabIndex        =   57
          Top             =   1080
          Width           =   5895
          Begin MSFlexGridLib.MSFlexGrid GrdCtaPagar 
-            Height          =   3420
+            Height          =   4020
             Left            =   0
             TabIndex        =   74
             Top             =   4440
             Width           =   5895
             _ExtentX        =   10398
-            _ExtentY        =   6033
+            _ExtentY        =   7091
             _Version        =   393216
             Cols            =   4
             FixedCols       =   0
@@ -334,19 +334,19 @@ Begin VB.Form frmConsolidadoFinanc
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   5175
+         Height          =   5415
          Left            =   120
          TabIndex        =   55
          Top             =   1080
          Width           =   7095
          Begin MSFlexGridLib.MSFlexGrid GridSemana 
-            Height          =   4935
+            Height          =   5055
             Left            =   -120
             TabIndex        =   71
             Top             =   240
             Width           =   7215
             _ExtentX        =   12726
-            _ExtentY        =   8705
+            _ExtentY        =   8916
             _Version        =   393216
             Cols            =   5
             FixedCols       =   0
@@ -377,11 +377,182 @@ Begin VB.Form frmConsolidadoFinanc
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   2415
+         Height          =   3135
          Left            =   0
          TabIndex        =   30
-         Top             =   6600
+         Top             =   6480
          Width           =   7215
+         Begin VB.TextBox txtSHESaldo 
+            Alignment       =   1  'Right Justify
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFEA&
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   12
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   375
+            Left            =   5325
+            TabIndex        =   88
+            Top             =   3120
+            Visible         =   0   'False
+            Width           =   1695
+         End
+         Begin VB.TextBox txtSHEPagar 
+            Alignment       =   1  'Right Justify
+            BackColor       =   &H00FFFFEA&
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   12
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   375
+            Left            =   3840
+            TabIndex        =   87
+            Top             =   3120
+            Visible         =   0   'False
+            Width           =   1455
+         End
+         Begin VB.TextBox txtSHEMalasia 
+            Alignment       =   1  'Right Justify
+            BackColor       =   &H00FFFFEA&
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   12
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   375
+            Left            =   2160
+            TabIndex        =   86
+            Top             =   3120
+            Visible         =   0   'False
+            Width           =   1695
+         End
+         Begin VB.TextBox txtInvestSaldo 
+            Alignment       =   1  'Right Justify
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFEA&
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   12
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   375
+            Left            =   5450
+            TabIndex        =   84
+            Top             =   2280
+            Width           =   1695
+         End
+         Begin VB.TextBox txtPagarInvest 
+            Alignment       =   1  'Right Justify
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFEA&
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   12
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   375
+            Left            =   3960
+            TabIndex        =   83
+            Top             =   2280
+            Width           =   1455
+         End
+         Begin VB.TextBox txtInvestFinanc 
+            Alignment       =   1  'Right Justify
+            BackColor       =   &H00FFFFEA&
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   12
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   375
+            Left            =   2280
+            TabIndex        =   82
+            Top             =   2280
+            Width           =   1695
+         End
+         Begin VB.TextBox txtCotasSaldo 
+            Alignment       =   1  'Right Justify
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFEA&
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   12
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   375
+            Left            =   5450
+            TabIndex        =   80
+            Top             =   1920
+            Width           =   1695
+         End
+         Begin VB.TextBox txtCotasPagar 
+            Alignment       =   1  'Right Justify
+            Appearance      =   0  'Flat
+            BackColor       =   &H8000000F&
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   12
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   375
+            Left            =   3960
+            TabIndex        =   79
+            Top             =   1920
+            Width           =   1455
+         End
+         Begin VB.TextBox txtCotas 
+            Alignment       =   1  'Right Justify
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFEA&
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   12
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   375
+            Left            =   2280
+            TabIndex        =   78
+            Top             =   1920
+            Width           =   1695
+         End
          Begin MSMask.MaskEdBox txtDataAte 
             Height          =   375
             Left            =   1200
@@ -429,6 +600,66 @@ Begin VB.Form frmConsolidadoFinanc
             EndProperty
             Mask            =   "##/##/####"
             PromptChar      =   "_"
+         End
+         Begin VB.Label Label27 
+            Appearance      =   0  'Flat
+            BackColor       =   &H00FFFFC0&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "SHE Malásia"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H80000008&
+            Height          =   375
+            Left            =   -60
+            TabIndex        =   85
+            Top             =   3120
+            Visible         =   0   'False
+            Width           =   2175
+         End
+         Begin VB.Label Label2 
+            BackColor       =   &H00FFFFC0&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "Invest. Financ"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   12
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   375
+            Left            =   60
+            TabIndex        =   81
+            Top             =   2280
+            Width           =   2176
+         End
+         Begin VB.Label Label1 
+            BackColor       =   &H00FFFFC0&
+            BorderStyle     =   1  'Fixed Single
+            Caption         =   "Cotas"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   12
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   375
+            Left            =   60
+            TabIndex        =   77
+            Top             =   1920
+            Width           =   2175
          End
          Begin VB.Label Label4 
             BackColor       =   &H00FFFFC0&
@@ -710,8 +941,8 @@ Begin VB.Form frmConsolidadoFinanc
             Height          =   375
             Left            =   60
             TabIndex        =   41
-            Top             =   1920
-            Width           =   2176
+            Top             =   2650
+            Width           =   2175
          End
          Begin VB.Label txtTotalAReceber 
             Alignment       =   1  'Right Justify
@@ -731,7 +962,7 @@ Begin VB.Form frmConsolidadoFinanc
             Height          =   375
             Left            =   2280
             TabIndex        =   40
-            Top             =   1920
+            Top             =   2650
             Width           =   1695
          End
          Begin VB.Label txtTotalAPagar 
@@ -750,9 +981,9 @@ Begin VB.Form frmConsolidadoFinanc
             EndProperty
             ForeColor       =   &H80000008&
             Height          =   375
-            Left            =   3980
+            Left            =   3975
             TabIndex        =   39
-            Top             =   1920
+            Top             =   2650
             Width           =   1455
          End
          Begin VB.Label txtSaldoTotal 
@@ -771,9 +1002,9 @@ Begin VB.Form frmConsolidadoFinanc
             EndProperty
             ForeColor       =   &H80000008&
             Height          =   375
-            Left            =   5450
+            Left            =   5445
             TabIndex        =   38
-            Top             =   1920
+            Top             =   2650
             Width           =   1695
          End
          Begin VB.Label Label3 
@@ -890,19 +1121,19 @@ Begin VB.Form frmConsolidadoFinanc
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   2295
+         Height          =   2895
          Left            =   12960
          TabIndex        =   29
          Top             =   1080
          Width           =   7455
          Begin MSFlexGridLib.MSFlexGrid GridMensal 
-            Height          =   1935
+            Height          =   2535
             Left            =   120
             TabIndex        =   72
             Top             =   240
             Width           =   7335
             _ExtentX        =   12938
-            _ExtentY        =   3413
+            _ExtentY        =   4471
             _Version        =   393216
             Cols            =   5
             FixedCols       =   0
@@ -935,7 +1166,7 @@ Begin VB.Form frmConsolidadoFinanc
          Height          =   2895
          Left            =   13080
          TabIndex        =   4
-         Top             =   6120
+         Top             =   6720
          Width           =   7335
          Begin VB.TextBox txtChaveClassifica 
             Alignment       =   1  'Right Justify
@@ -1399,7 +1630,7 @@ Begin VB.Form frmConsolidadoFinanc
          Height          =   2655
          Left            =   13080
          TabIndex        =   1
-         Top             =   3360
+         Top             =   3960
          Width           =   7335
          Begin MSFlexGridLib.MSFlexGrid GridDistrib 
             Height          =   1935
@@ -1500,12 +1731,12 @@ Option Explicit
 Dim IndReceber As Byte
 Dim IndPagar As Byte
 Dim IndMes As Byte
-Dim Indice As Byte
+Dim indice As Byte
 Dim IndLimiteMensal As Integer
 Dim Linha As Integer
 Dim LinhaAnalitico As Integer
-Dim Coluna As Integer
-Dim fim As Byte
+Dim coluna As Integer
+Dim Fim As Byte
 
 Dim FimReceber As Integer
 Dim FimPagar As Integer
@@ -1541,8 +1772,8 @@ Dim TotalDebCre As Currency
 Dim PercDebCre As Currency
 
 Dim DiaUtilAnterior As Date
-Dim DataInicio As Date
-Dim DataFim As Date
+Dim dataInicio As Date
+Dim dataFim As Date
 Dim DataParaCalculo As Date
 
 Dim DataMensal As Date
@@ -1551,8 +1782,8 @@ Dim DataMensalFim As Date
 Dim DataIniMesAtu As Date
 
 Dim Dia As Integer
-Dim Mes As Integer
-Dim Ano As Integer
+Dim mes As Integer
+Dim ano As Integer
 
 Dim AnoAtu As Integer
 Dim MesAtu As Integer
@@ -1572,11 +1803,16 @@ Dim tabValorMensal(150, 4) As Currency
 Dim tabValorDistrib(150) As Currency
 Dim ChaveClassifica As String
 
+Dim AcumulaCotas As Currency
+Dim AcumulaSHEMalasia As Currency
+Dim AcumulaInvestFinanc As Currency
+Dim ChavePesquisa As String
+
 
 
 Private Sub cmdConsulta_Click()
 
-Indice = cmbFiltro.ListIndex
+indice = cmbFiltro.ListIndex
 
 Call Rotina_00_Principal
 
@@ -1596,7 +1832,7 @@ MesAtu = Month(Date)
 
 Call Rotina_AbrirBanco
 
-Bco.Open "Select * from Banco", db, 3, 3
+Bco.Open "Select * from banco", db, 3, 3
 If Bco.EOF Then
    MsgBox ("tabela de bancos vazia."), vbCritical
    Call FechaDB
@@ -1640,8 +1876,8 @@ Call Rotina_070_Ajusta_Data
 
 Call Rotina_012_Limpa_Cta_Receber
 
-tabDataIni(1) = DataInicio - 1
-tabDataFim(1) = DataFim - 1
+tabDataIni(1) = dataInicio - 1
+tabDataFim(1) = dataFim - 1
 TabMesAnoIni(1) = DataMensalInicio
 TabMesFaturamento(1) = DataMensalInicio
 TabMesAnoFim(1) = DataMensalFim
@@ -1665,10 +1901,12 @@ AcumReceberAteFim = 0
 AcumPagarAteFim = 0
 AcumFaturamentoMensal = 0
 AcumFaturamentoDistrib = 0
+AcumulaCotas = 0
+AcumulaInvestFinanc = 0
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber", db, 3, 3
+ctr.Open "Select * from contas_a_receber", db, 3, 3
 If Not ctr.EOF Then
 
    ctr.MoveFirst
@@ -1696,7 +1934,7 @@ If ctp.State = 1 Then
 End If
 
 
-ctp.Open "Select * from Contas_A_Pagar", db, 3, 3
+ctp.Open "Select * from contas_a_pagar", db, 3, 3
 If ctp.EOF Then
    'MsgBox ("Não há lançamentos a Débito até a apresente data."), vbInformation
    Call FechaDB
@@ -1817,16 +2055,84 @@ Else
    txtSaldoAteFim.ForeColor = vbBlue
 End If
 
-txtTotalAReceber = Format$(AcumPendReceber + AcumProcesReceber + AcumReceberAteFim, "##,##0.00")
+'CONSULTA CONTAS A PAGAR
+
+ChavePesquisa = "COTAS"
+
+rs.Open "SELECT ctpValorDaBoleta FROM contas_a_pagar where chPessoa = ('" & ChavePesquisa & "')", db, 3, 3
+If rs.EOF Then
+   AcumulaCotas = 0
+Else
+   Do While Not rs.EOF
+      AcumulaCotas = AcumulaCotas + rs!ctpValorDaBoleta
+      rs.MoveNext
+   Loop
+End If
+
+rs.Close
+
+ChavePesquisa = "INVEST FINANC"
+
+rs.Open "SELECT ctpValorDaBoleta FROM contas_a_pagar where chPessoa = ('" & ChavePesquisa & "')", db, 3, 3
+If rs.EOF Then
+   AcumulaInvestFinanc = 0
+Else
+   Do While Not rs.EOF
+      AcumulaInvestFinanc = AcumulaInvestFinanc + rs!ctpValorDaBoleta
+      rs.MoveNext
+   Loop
+End If
+
+rs.Close
+
+ChavePesquisa = "SHE MALASIA"
+
+rs.Open "SELECT ctpValorDaBoleta FROM contas_a_pagar where chPessoa = ('" & ChavePesquisa & "')", db, 3, 3
+If rs.EOF Then
+   AcumulaSHEMalasia = 0
+Else
+   Do While Not rs.EOF
+      AcumulaSHEMalasia = AcumulaSHEMalasia + rs!ctpValorDaBoleta
+      rs.MoveNext
+   Loop
+End If
+
+rs.Close
+
+txtCotas = Format$(AcumulaCotas, "##,##0.00")
+txtCotasPagar = Format$(0, "##,##0.00")
+txtCotasSaldo = Format$(AcumulaCotas, "##,##0.00")
+
+txtInvestFinanc = Format$(AcumulaInvestFinanc, "##,##0.00")
+txtPagarInvest = Format$(0, "##,##0.00")
+txtInvestSaldo = Format$(AcumulaInvestFinanc, "##,##0.00")
+
+'txtSHEMalasia = Format$(AcumulaSHEMalasia, "##,##0.00")
+'txtSHEPagar = Format$(0, "##,##0.00")
+'txtSHESaldo = Format$(AcumulaSHEMalasia, "##,##0.00")
+
+'txtTotalAReceber = Format$(AcumPendReceber + AcumProcesReceber + AcumReceberAteFim + AcumulaCotas + AcumulaInvestFinanc + AcumulaSHEMalasia, "##,##0.00")
+txtTotalAReceber = Format$(AcumPendReceber + AcumProcesReceber + AcumReceberAteFim + AcumulaCotas + AcumulaInvestFinanc, "##,##0.00")
 txtTotalAReceber.ForeColor = vbBlue
 txtTotalAPagar = Format$(AcumPendPagar + AcumProcesPagar + AcumPagarAteFim, "##,##0.00")
 txtTotalAPagar.ForeColor = vbRed
-txtSaldoTotal = Format$((AcumPendReceber + AcumProcesReceber + AcumReceberAteFim) - (AcumPendPagar + AcumProcesPagar + AcumPagarAteFim), "##,##0.00")
+'txtSaldoTotal = Format$((AcumPendReceber + AcumProcesReceber + AcumReceberAteFim + AcumulaCotas + AcumulaInvestFinanc + AcumulaSHEMalasia) - (AcumPendPagar + AcumProcesPagar + AcumPagarAteFim), "##,##0.00")
+txtSaldoTotal = Format$((AcumPendReceber + AcumProcesReceber + AcumReceberAteFim + AcumulaCotas + AcumulaInvestFinanc) - (AcumPendPagar + AcumProcesPagar + AcumPagarAteFim), "##,##0.00")
 If txtSaldoTotal < 0 Then
    txtSaldoTotal.ForeColor = vbRed
 Else
    txtSaldoTotal.ForeColor = vbBlue
 End If
+
+txtCotas.ForeColor = vbBlue
+txtCotasSaldo.ForeColor = vbBlue
+txtInvestFinanc.ForeColor = vbBlue
+txtInvestSaldo.ForeColor = vbBlue
+txtSHEMalasia.ForeColor = vbBlue
+txtSHESaldo.ForeColor = vbBlue
+txtCotasPagar.ForeColor = vbRed
+txtPagarInvest.ForeColor = vbRed
+txtSHEPagar.ForeColor = vbRed
 
 txtRecebEmAtraso = Format$(AcumReceberAtrasado, "##,##0.00")
 txtPagtosEmAtraso = Format$(AcumPagarAtrasado, "##,##0.00")
@@ -2098,7 +2404,7 @@ If tabDataFim(IndReceber) = Empty Then
    tabValor(IndReceber, 2) = Format$(0#, "#,##0.00")
 End If
 
-If ctr!ctrDataVencito > DataInicio - 1 Then
+If ctr!ctrDataVencito > dataInicio - 1 Then
       If ctr!ctrDataVencito > (tabDataFim(IndReceber) + 1) Then
          IndReceber = IndReceber + 1
       Else
@@ -2136,15 +2442,15 @@ End If
 If DataMensal > (DataMensalInicio - 1) Then
    If TabMesAnoFim(IndMes) = Empty Then
          TabMesAnoIni(IndMes) = TabMesAnoFim(IndMes - 1) + 1
-         Ano = Year(TabMesAnoIni(IndMes))
-         Mes = Month(TabMesAnoIni(IndMes))
-         Mes = Mes + 1
-         If Mes = 13 Then
-            Mes = 1
-            Ano = Ano + 1
+         ano = Year(TabMesAnoIni(IndMes))
+         mes = Month(TabMesAnoIni(IndMes))
+         mes = mes + 1
+         If mes = 13 Then
+            mes = 1
+            ano = ano + 1
          End If
          Dia = 1
-         DataParaCalculo = (Dia & "/" & Mes & "/" & Ano)
+         DataParaCalculo = (Dia & "/" & mes & "/" & ano)
          UltimoMes = DataParaCalculo - 1
          TabMesAnoFim(IndMes) = DataParaCalculo - 1
          tabValorMensal(IndMes, 0) = Format$(0#, "#,##0.00")
@@ -2190,15 +2496,15 @@ If ctr!ctrDataEmissao > DataMensalInicio - 1 Then
 
       If TabMesFaturamento(IndMes) = Empty Then
          TabMesFaturamento(IndMes) = TabMesFaturamentoFim(IndMes - 1) + 1
-         Ano = Year(TabMesFaturamento(IndMes))
-         Mes = Month(TabMesFaturamento(IndMes))
-         Mes = Mes + 1
-         If Mes = 13 Then
-            Mes = 1
-            Ano = Ano + 1
+         ano = Year(TabMesFaturamento(IndMes))
+         mes = Month(TabMesFaturamento(IndMes))
+         mes = mes + 1
+         If mes = 13 Then
+            mes = 1
+            ano = ano + 1
          End If
          Dia = 1
-         DataParaCalculo = (Dia & "/" & Mes & "/" & Ano)
+         DataParaCalculo = (Dia & "/" & mes & "/" & ano)
        
          TabMesFaturamentoFim(IndMes) = DataParaCalculo - 1
 
@@ -2251,7 +2557,7 @@ Else
    DataMensal = ctp!ctpDataPagamento
 End If
 
-If DataMensal > DataInicio - 1 Then
+If DataMensal > dataInicio - 1 Then
       If DataMensal > tabDataFim(IndPagar) + 1 Then
          IndPagar = IndPagar + 1
       Else
@@ -2288,15 +2594,15 @@ Do While fimmensal = 0
    If DataMensal > DataMensalInicio - 1 Then
       If TabMesAnoFim(IndMes) = Empty Then
             TabMesAnoIni(IndMes) = TabMesAnoFim(IndMes - 1) + 1
-            Ano = Year(TabMesAnoIni(IndMes))
-            Mes = Month(TabMesAnoIni(IndMes))
-            Mes = Mes + 1
-            If Mes = 13 Then
-               Mes = 1
-               Ano = Ano + 1
+            ano = Year(TabMesAnoIni(IndMes))
+            mes = Month(TabMesAnoIni(IndMes))
+            mes = mes + 1
+            If mes = 13 Then
+               mes = 1
+               ano = ano + 1
             End If
             Dia = 1
-            DataParaCalculo = (Dia & "/" & Mes & "/" & Ano)
+            DataParaCalculo = (Dia & "/" & mes & "/" & ano)
             TabMesAnoFim(IndMes) = DataParaCalculo - 1
             UltimoMes = TabMesAnoFim(IndMes)
             tabValorMensal(IndMes, 0) = Format$(0#, "#,##0.00")
@@ -2332,30 +2638,30 @@ DiadaSemana = Weekday(DataInformada)
 
 'Calcular Range de datas
 
-DataInicio = DataInformada - (DiadaSemana)
-DataFim = DataInicio + 6
+dataInicio = DataInformada - (DiadaSemana)
+dataFim = dataInicio + 6
 
 Dia = 1
 If Day(Date) < 15 Then
-   Mes = Month(DataFim)
-   Ano = Year(DataFim)
+   mes = Month(dataFim)
+   ano = Year(dataFim)
 Else
-   Mes = Month(DataInicio)
-   Ano = Year(DataInicio)
+   mes = Month(dataInicio)
+   ano = Year(dataInicio)
 End If
 
 'Ano = Year(DataInicio)
 
-DataMensalInicio = Dia & "/" & Mes & "/" & Ano
+DataMensalInicio = Dia & "/" & mes & "/" & ano
 
-Mes = Mes + 1
+mes = mes + 1
 
-If Mes > 12 Then
-   Mes = 1
-   Ano = Ano + 1
+If mes > 12 Then
+   mes = 1
+   ano = ano + 1
 End If
 
-DataMensalFim = (Dia & "/" & Mes & "/" & Ano)
+DataMensalFim = (Dia & "/" & mes & "/" & ano)
 
 DataMensalFim = DataMensalFim - 1
 
@@ -2363,7 +2669,7 @@ DataIniMesAtu = 1 & "/" & Month(Date) & "/" & Year(Date)
 
 End Sub
 
-Private Sub GridMensal_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub GridMensal_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 If GridMensal.Col = 1 Then
    TotalDebCre = txtTotalCreditoMensal
    GridMensal.TextMatrix(0, 4) = "%Crédito"
@@ -2397,7 +2703,7 @@ End If
 End Sub
 
 
-Private Sub GridSemana_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub GridSemana_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 Dim DataAnaliticoDe As Date
 Dim DataAnaliticoAte As Date
 
@@ -2429,47 +2735,47 @@ GrdCtaPagar.TextMatrix(1, 3) = Empty
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber", db, 3, 3
+ctr.Open "Select * from contas_a_receber", db, 3, 3
 If ctr.EOF Then
    'MsgBox ("Não há lançamentos a Crédito até a apresente data."), vbInformation
-   fim = 1
+   Fim = 1
 Else
    ctr.MoveFirst
-   fim = 0
+   Fim = 0
 End If
 
 LinhaAnalitico = 0
 
-Do While fim = 0
+Do While Fim = 0
    If (ctr!ctrDataVencito > DataAnaliticoDe And ctr!ctrDataVencito < DataAnaliticoAte) And ctr!ctrStatus = 0 Then
       LinhaAnalitico = LinhaAnalitico + 1
       GrdCtaReceber.Rows = LinhaAnalitico + 1
       ChaveClassifica = Year(ctr!ctrDataVencito) & Month(ctr!ctrDataVencito) & Day(ctr!ctrDataVencito) & ctr!chPessoa
       GrdCtaReceber.TextMatrix(LinhaAnalitico, 0) = ChaveClassifica
       GrdCtaReceber.TextMatrix(LinhaAnalitico, 1) = Format$(ctr!ctrDataVencito, "dd/mm/yy")
-      GrdCtaReceber.TextMatrix(LinhaAnalitico, 2) = ctr!chPessoa & "-" & ctr!chNotaFiscal
+      GrdCtaReceber.TextMatrix(LinhaAnalitico, 2) = ctr!chPessoa & "-" & ctr!chNotafiscal
       GrdCtaReceber.TextMatrix(LinhaAnalitico, 3) = Format$(ctr!ctrValorDaBoleta, "#,##0.00")
    End If
    ctr.MoveNext
    If ctr.EOF Then
       FimReceber = LinhaAnalitico
-      fim = 1
+      Fim = 1
    End If
 Loop
 
 
-ctp.Open "Select * from Contas_A_Pagar", db, 3, 3
+ctp.Open "Select * from contas_a_pagar", db, 3, 3
 If ctp.EOF Then
    'MsgBox ("Não há lançamentos a Débito até a apresente data."), vbInformation
-   fim = 1
+   Fim = 1
 Else
    ctp.MoveFirst
-   fim = 0
+   Fim = 0
 End If
 
 LinhaAnalitico = 0
 
-Do While fim = 0
+Do While Fim = 0
    If (ctp!chDataVencito > DataAnaliticoDe And ctp!chDataVencito < DataAnaliticoAte) And ctp!ctpStatus = 0 Then
       LinhaAnalitico = LinhaAnalitico + 1
       GrdCtaPagar.Rows = LinhaAnalitico + 1
@@ -2483,7 +2789,7 @@ Do While fim = 0
    ctp.MoveNext
    If ctp.EOF Then
       FimPagar = LinhaAnalitico
-      fim = 1
+      Fim = 1
    End If
 Loop
 

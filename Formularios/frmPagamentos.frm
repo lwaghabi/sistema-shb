@@ -46,7 +46,7 @@ Begin VB.Form frmPagamentosRecebimentos
             Strikethrough   =   0   'False
          EndProperty
          OLEDropMode     =   1
-         Format          =   113770497
+         Format          =   392757249
          CurrentDate     =   44538
       End
       Begin MSComCtl2.DTPicker dtInicio 
@@ -67,7 +67,7 @@ Begin VB.Form frmPagamentosRecebimentos
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   62717953
+         Format          =   392757249
          CurrentDate     =   44538
       End
       Begin VB.Label Label5 
@@ -384,9 +384,9 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Dim PessoaAnter As String
-Dim fim As Integer
-Dim Indice As Integer
+Dim pessoaAnter As String
+Dim Fim As Integer
+Dim indice As Integer
 Dim TipoDesp(100) As String
 Dim TotalPago As Currency
 Dim TotalParc As Currency
@@ -416,32 +416,34 @@ Call Rotina_AbrirBanco
 cmbClienteColaborador.Clear
 
 If cmbTipoConsulta = "PESSOA" Then
-   pes.Open "Select * from Pessoa", db, 3, 3
+   pes.Open "Select * from pessoa", db, 3, 3
    pes.MoveFirst
    Do While Not pes.EOF
       cmbClienteColaborador.AddItem pes!chPessoa
       pes.MoveNext
    Loop
 Else
-   ProdFornec.Open "Select * from ProdutoFornecedor", db, 3, 3
-   ProdFornec.MoveFirst
-   PessoaAnter = Empty
-   Do While Not ProdFornec.EOF
-      If Not PessoaAnter = ProdFornec!chTipoProduto Then
-         If pes.State = 1 Then
-            pes.Close: Set pes = Nothing
-         End If
-      
-         pes.Open "Select * from Pessoa where chPessoa = ('" & ProdFornec!chTipoProduto & "')", db, 3, 3
-         If pes.EOF Then
-            cmbClienteColaborador.AddItem ProdFornec!chTipoProduto
-         End If
-            
-         PessoaAnter = ProdFornec!chTipoProduto
+   ProdFornec.Open "Select * from produtofornecedor", db, 3, 3
+   If Not ProdFornec.EOF Then
+      ProdFornec.MoveFirst
+      pessoaAnter = Empty
+      Do While Not ProdFornec.EOF
+         If Not pessoaAnter = ProdFornec!chTipoProduto Then
+            If pes.State = 1 Then
+               pes.Close: Set pes = Nothing
+            End If
          
-      End If
-      ProdFornec.MoveNext
-   Loop
+            pes.Open "Select * from pessoa where chPessoa = ('" & ProdFornec!chTipoProduto & "')", db, 3, 3
+            If pes.EOF Then
+               cmbClienteColaborador.AddItem ProdFornec!chTipoProduto
+            End If
+               
+            pessoaAnter = ProdFornec!chTipoProduto
+            
+         End If
+         ProdFornec.MoveNext
+      Loop
+   End If
 End If
    
 End Sub
@@ -478,13 +480,13 @@ End Sub
 
 Public Sub CargaPESSOA()
 
-PessoaAnter = Empty
+pessoaAnter = Empty
 
-fim = 0
-Indice = 0
+Fim = 0
+indice = 0
 
-For Indice = 0 To 100
-    TipoDesp(Indice) = Empty
+For indice = 0 To 100
+    TipoDesp(indice) = Empty
 Next
 
 cmbTipopagto.Clear
@@ -492,28 +494,28 @@ cmbTipopagto.AddItem " Todos"
 
 Call Rotina_AbrirBanco
 
-ctp.Open "Select * from Contas_A_Pagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbClienteColaborador & "')", db, 3, 3
+ctp.Open "Select * from contas_a_pagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbClienteColaborador & "')", db, 3, 3
 If Not ctp.EOF Then
-   Indice = 1
+   indice = 1
    ctp.MoveFirst
-   TipoDesp(Indice) = ctp!ctpdescricaooperacao
+   TipoDesp(indice) = ctp!ctpdescricaooperacao
    cmbTipopagto.AddItem ctp!ctpdescricaooperacao
    Do While Not ctp.EOF
-      Do While fim = 0
-         If TipoDesp(Indice) = ctp!ctpdescricaooperacao Then
-            fim = 1
+      Do While Fim = 0
+         If TipoDesp(indice) = ctp!ctpdescricaooperacao Then
+            Fim = 1
          Else
-            Indice = Indice + 1
-            If TipoDesp(Indice) = Empty Then
-               fim = 1
+            indice = indice + 1
+            If TipoDesp(indice) = Empty Then
+               Fim = 1
                cmbTipopagto.AddItem ctp!ctpdescricaooperacao
-               TipoDesp(Indice) = ctp!ctpdescricaooperacao
+               TipoDesp(indice) = ctp!ctpdescricaooperacao
             End If
          End If
       Loop
    ctp.MoveNext
-   fim = 0
-   Indice = 1
+   Fim = 0
+   indice = 1
    Loop
 End If
 
@@ -521,26 +523,26 @@ If ctp.State = 1 Then
    ctp.Close: Set ctp = Nothing
 End If
 
-ctp.Open "Select * from HistoricoContasPagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbClienteColaborador & "')", db, 3, 3
+ctp.Open "Select * from historicocontaspagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbClienteColaborador & "')", db, 3, 3
 If Not ctp.EOF Then
-   Indice = 1
+   indice = 1
    ctp.MoveFirst
    Do While Not ctp.EOF
-      Do While fim = 0
-         If TipoDesp(Indice) = ctp!ctpdescricaooperacao Then
-            fim = 1
+      Do While Fim = 0
+         If TipoDesp(indice) = ctp!ctpdescricaooperacao Then
+            Fim = 1
          Else
-            Indice = Indice + 1
-            If TipoDesp(Indice) = Empty Then
-               fim = 1
+            indice = indice + 1
+            If TipoDesp(indice) = Empty Then
+               Fim = 1
                cmbTipopagto.AddItem ctp!ctpdescricaooperacao
-               TipoDesp(Indice) = ctp!ctpdescricaooperacao
+               TipoDesp(indice) = ctp!ctpdescricaooperacao
             End If
          End If
       Loop
    ctp.MoveNext
-   fim = 0
-   Indice = 1
+   Fim = 0
+   indice = 1
    Loop
 End If
 
@@ -550,13 +552,13 @@ End Sub
 
 Public Sub CargaDespesa()
 
-PessoaAnter = Empty
+pessoaAnter = Empty
 
-fim = 0
-Indice = 0
+Fim = 0
+indice = 0
 
-For Indice = 0 To 100
-    TipoDesp(Indice) = Empty
+For indice = 0 To 100
+    TipoDesp(indice) = Empty
 Next
 
 cmbTipopagto.Clear
@@ -564,27 +566,27 @@ cmbTipopagto.AddItem " Todos"
 
 Call Rotina_AbrirBanco
 
-dnfe.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & cmbClienteColaborador & "')", db, 3, 3
+dnfe.Open "Select * from notafiscaldetprod where chPessoa = ('" & cmbClienteColaborador & "')", db, 3, 3
 If Not dnfe.EOF Then
-   Indice = 0
+   indice = 0
    dnfe.MoveFirst
-   TipoDesp(Indice) = Empty
+   TipoDesp(indice) = Empty
    Do While Not dnfe.EOF
-      Do While fim = 0
-         If TipoDesp(Indice) = dnfe!chCodProduto Then
-            fim = 1
+      Do While Fim = 0
+         If TipoDesp(indice) = dnfe!chCodProduto Then
+            Fim = 1
          Else
-            Indice = Indice + 1
-            If TipoDesp(Indice) = Empty Then
-               fim = 1
+            indice = indice + 1
+            If TipoDesp(indice) = Empty Then
+               Fim = 1
                cmbTipopagto.AddItem dnfe!chCodProduto
-               TipoDesp(Indice) = dnfe!chCodProduto
+               TipoDesp(indice) = dnfe!chCodProduto
             End If
          End If
       Loop
    dnfe.MoveNext
-   fim = 0
-   Indice = 1
+   Fim = 0
+   indice = 1
    Loop
 End If
 
@@ -592,26 +594,26 @@ If dnfe.State = 1 Then
    dnfe.Close: Set dnfe = Nothing
 End If
 
-dnfe.Open "Select * from HistoricoNotaFiscalDetProd where chPessoa = ('" & cmbClienteColaborador & "')", db, 3, 3
+dnfe.Open "Select * from historiconotafiscaldetprod where chPessoa = ('" & cmbClienteColaborador & "')", db, 3, 3
 If Not dnfe.EOF Then
-   Indice = 1
+   indice = 1
    dnfe.MoveFirst
    Do While Not dnfe.EOF
-      Do While fim = 0
-         If TipoDesp(Indice) = dnfe!chCodProduto Then
-            fim = 1
+      Do While Fim = 0
+         If TipoDesp(indice) = dnfe!chCodProduto Then
+            Fim = 1
          Else
-            Indice = Indice + 1
-            If TipoDesp(Indice) = Empty Then
-               fim = 1
+            indice = indice + 1
+            If TipoDesp(indice) = Empty Then
+               Fim = 1
                cmbTipopagto.AddItem dnfe!chCodProduto
-               TipoDesp(Indice) = dnfe!chCodProduto
+               TipoDesp(indice) = dnfe!chCodProduto
             End If
          End If
       Loop
    dnfe.MoveNext
-   fim = 0
-   Indice = 1
+   Fim = 0
+   indice = 1
    Loop
 End If
 
@@ -625,12 +627,12 @@ Call Rotina_AbrirBanco
 
 TotalPago = 0
 
-Indice = 1
+indice = 1
 
 If cmbTipopagto = " Todos" Then
-   ctp.Open "Select * from Contas_A_Pagar where chPessoa = ('" & cmbClienteColaborador & "') and ctpStatus = ('" & 1 & "') and ctpDataPagamento > ('" & dataInicio & "') and ctpDataPagamento < ('" & dataFim & "')", db, 3, 3
+   ctp.Open "Select * from contas_a_pagar where chPessoa = ('" & cmbClienteColaborador & "') and ctpStatus = ('" & 1 & "') and ctpDataPagamento > ('" & dataInicio & "') and ctpDataPagamento < ('" & dataFim & "')", db, 3, 3
 Else
-   ctp.Open "Select * from Contas_A_Pagar where chPessoa = ('" & cmbClienteColaborador & "') and ctpDescricaoOperacao = ('" & cmbTipopagto & "') and ctpStatus = ('" & 1 & "')and ctpDataPagamento > ('" & dataInicio & "') and ctpDataPagamento < ('" & dataFim & "')", db, 3, 3
+   ctp.Open "Select * from contas_a_pagar where chPessoa = ('" & cmbClienteColaborador & "') and ctpDescricaoOperacao = ('" & cmbTipopagto & "') and ctpStatus = ('" & 1 & "')and ctpDataPagamento > ('" & dataInicio & "') and ctpDataPagamento < ('" & dataFim & "')", db, 3, 3
 End If
 If Not ctp.EOF Then
    ctp.MoveFirst
@@ -645,9 +647,9 @@ If ctp.State = 1 Then
 End If
 
 If cmbTipopagto = " Todos" Then
-   ctp.Open "Select * from HistoricoContasPagar where chPessoa = ('" & cmbClienteColaborador & "') and ctpStatus = ('" & 1 & "')and ctpDataPagamento > ('" & dataInicio & "') and ctpDataPagamento < ('" & dataFim & "')", db, 3, 3
+   ctp.Open "Select * from historicocontaspagar where chPessoa = ('" & cmbClienteColaborador & "') and ctpStatus = ('" & 1 & "')and ctpDataPagamento > ('" & dataInicio & "') and ctpDataPagamento < ('" & dataFim & "')", db, 3, 3
 Else
-   ctp.Open "Select * from HistoricoContasPagar where chPessoa = ('" & cmbClienteColaborador & "') and ctpDescricaoOperacao = ('" & cmbTipopagto & "') and ctpStatus = ('" & 1 & "') and ctpDataPagamento > ('" & dataInicio & "') and ctpDataPagamento < ('" & dataFim & "')", db, 3, 3
+   ctp.Open "Select * from historicocontaspagar where chPessoa = ('" & cmbClienteColaborador & "') and ctpDescricaoOperacao = ('" & cmbTipopagto & "') and ctpStatus = ('" & 1 & "') and ctpDataPagamento > ('" & dataInicio & "') and ctpDataPagamento < ('" & dataFim & "')", db, 3, 3
 End If
 
 If Not ctp.EOF Then
@@ -683,21 +685,21 @@ End Sub
 Public Sub EncheGridPessoa()
 AjustarGrid = 1
 Do While Not ctp.EOF
-   GridPessoa.Rows = Indice + 1
+   GridPessoa.Rows = indice + 1
    If cmbTipopagto = " Todos" Then
-      GridPessoa.TextMatrix(Indice, 0) = ctp!ctpdescricaooperacao & Format$(ctp!ctpDataPagamento, "yyyymmdd")
+      GridPessoa.TextMatrix(indice, 0) = ctp!ctpdescricaooperacao & Format$(ctp!ctpDataPagamento, "yyyymmdd")
    Else
-      GridPessoa.TextMatrix(Indice, 0) = Format$(ctp!ctpDataPagamento, "yyyymmdd")
+      GridPessoa.TextMatrix(indice, 0) = Format$(ctp!ctpDataPagamento, "yyyymmdd")
    End If
-   GridPessoa.TextMatrix(Indice, 1) = ctp!ctpdescricaooperacao
-   GridPessoa.TextMatrix(Indice, 2) = ctp!chNotafiscal
-   GridPessoa.TextMatrix(Indice, 3) = ctp!chDataVencito
-   GridPessoa.TextMatrix(Indice, 4) = ctp!ctpDataPagamento
-   GridPessoa.TextMatrix(Indice, 5) = Format$(ctp!ctpValorDaBoleta, "###,##0.00")
-   GridPessoa.TextMatrix(Indice, 6) = Empty
-   GridPessoa.TextMatrix(Indice, 7) = ctp!ctpdescricaooperacao
+   GridPessoa.TextMatrix(indice, 1) = ctp!ctpdescricaooperacao
+   GridPessoa.TextMatrix(indice, 2) = ctp!chNotafiscal
+   GridPessoa.TextMatrix(indice, 3) = ctp!chDataVencito
+   GridPessoa.TextMatrix(indice, 4) = ctp!ctpDataPagamento
+   GridPessoa.TextMatrix(indice, 5) = Format$(ctp!ctpValorDaBoleta, "###,##0.00")
+   GridPessoa.TextMatrix(indice, 6) = Empty
+   GridPessoa.TextMatrix(indice, 7) = ctp!ctpdescricaooperacao
    TotalPago = TotalPago + ctp!ctpValorDaBoleta
-   Indice = Indice + 1
+   indice = indice + 1
 
    ctp.MoveNext
 Loop
@@ -708,7 +710,7 @@ Public Sub CargaGridDespesa()
 
 TotalPago = 0
 
-Indice = 1
+indice = 1
 
 Call Rotina_AbrirBanco
 
@@ -717,9 +719,9 @@ If dnfe.State = 1 Then
 End If
 
 If cmbTipopagto = " Todos" Then
-   dnfe.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & cmbClienteColaborador & "')", db, 3, 3
+   dnfe.Open "Select * from notafiscaldetprod where chPessoa = ('" & cmbClienteColaborador & "')", db, 3, 3
 Else
-   dnfe.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & cmbClienteColaborador & "') and chCodProduto = ('" & cmbTipopagto & "')", db, 3, 3
+   dnfe.Open "Select * from notafiscaldetprod where chPessoa = ('" & cmbClienteColaborador & "') and chCodProduto = ('" & cmbTipopagto & "')", db, 3, 3
 End If
 If Not dnfe.EOF Then
    Encontrei = 1
@@ -740,9 +742,9 @@ If Not (Year(Date) = Year(dtInicio)) Or (Not (Month(Date) = Month(dtInicio))) Th
    End If
    
    If cmbTipopagto = " Todos" Then
-      dnfe.Open "Select * from HistoricoNotaFiscalDetProd where chPessoa = ('" & cmbClienteColaborador & "')", db, 3, 3
+      dnfe.Open "Select * from historiconotafiscaldetprod where chPessoa = ('" & cmbClienteColaborador & "')", db, 3, 3
    Else
-      dnfe.Open "Select * from HistoricoNotaFiscalDetProd where chPessoa = ('" & cmbClienteColaborador & "') and chCodProduto = ('" & cmbTipopagto & "')", db, 3, 3
+      dnfe.Open "Select * from historiconotafiscaldetprod where chPessoa = ('" & cmbClienteColaborador & "') and chCodProduto = ('" & cmbTipopagto & "')", db, 3, 3
    End If
    If Not dnfe.EOF Then
       dnfe.MoveFirst
@@ -790,7 +792,7 @@ Do While Not dnfe.EOF
    End If
    
    If ChaveMes = 1 Then
-      ctp.Open "Select * from Contas_A_Pagar  where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscal = ('" & dnfe!chNotaFiscalEntrada & "') and ctpStatus = ('" & 1 & "') and ctpDataPagamento > ('" & dataInicio & "') and ctpDataPagamento < ('" & dataFim & "')", db, 3, 3
+      ctp.Open "Select * from contas_a_pagar  where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscal = ('" & dnfe!chNotaFiscalEntrada & "') and ctpStatus = ('" & 1 & "') and ctpDataPagamento > ('" & dataInicio & "') and ctpDataPagamento < ('" & dataFim & "')", db, 3, 3
       If Not ctp.EOF Then
          Encontrei = 1
          Ajustar = 1
@@ -804,7 +806,7 @@ Do While Not dnfe.EOF
    End If
     
    If ChaveHistorico = 1 Then
-      ctp.Open "Select * from HistoricoContasPagar where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscal = ('" & dnfe!chNotaFiscalEntrada & "') and ctpDataPagamento > ('" & dataInicio & "') and ctpDataPagamento < ('" & dataFim & "')", db, 3, 3
+      ctp.Open "Select * from historicocontaspagar where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscal = ('" & dnfe!chNotaFiscalEntrada & "') and ctpDataPagamento > ('" & dataInicio & "') and ctpDataPagamento < ('" & dataFim & "')", db, 3, 3
       If Not ctp.EOF Then
          Encontrei = 1
          Ajustar = 1
@@ -815,21 +817,21 @@ Do While Not dnfe.EOF
    
    If Encontrei = 1 Then
       
-      GridPessoa.Rows = Indice + 1
+      GridPessoa.Rows = indice + 1
       If cmbTipopagto = " Todos" Then
-         GridPessoa.TextMatrix(Indice, 0) = dnfe!chCodProduto & Format$(ctp!ctpDataPagamento, "yyyymmdd")
+         GridPessoa.TextMatrix(indice, 0) = dnfe!chCodProduto & Format$(ctp!ctpDataPagamento, "yyyymmdd")
       Else
-         GridPessoa.TextMatrix(Indice, 0) = Format$(ctp!ctpDataPagamento, "yyyymmdd")
+         GridPessoa.TextMatrix(indice, 0) = Format$(ctp!ctpDataPagamento, "yyyymmdd")
       End If
-      GridPessoa.TextMatrix(Indice, 1) = dnfe!chCodProduto
-      GridPessoa.TextMatrix(Indice, 2) = ctp!chNotafiscal
-      GridPessoa.TextMatrix(Indice, 3) = ctp!chDataVencito
-      GridPessoa.TextMatrix(Indice, 4) = ctp!ctpDataPagamento
-      GridPessoa.TextMatrix(Indice, 5) = Format$(dnfe!nfdValorParcela, "###,##0.00")
-      GridPessoa.TextMatrix(Indice, 6) = Empty
-      GridPessoa.TextMatrix(Indice, 7) = dnfe!chCodProduto
+      GridPessoa.TextMatrix(indice, 1) = dnfe!chCodProduto
+      GridPessoa.TextMatrix(indice, 2) = ctp!chNotafiscal
+      GridPessoa.TextMatrix(indice, 3) = ctp!chDataVencito
+      GridPessoa.TextMatrix(indice, 4) = ctp!ctpDataPagamento
+      GridPessoa.TextMatrix(indice, 5) = Format$(dnfe!nfdValorParcela, "###,##0.00")
+      GridPessoa.TextMatrix(indice, 6) = Empty
+      GridPessoa.TextMatrix(indice, 7) = dnfe!chCodProduto
       TotalPago = TotalPago + dnfe!nfdValorParcela
-      Indice = Indice + 1
+      indice = indice + 1
       
    End If
    dnfe.MoveNext
@@ -838,24 +840,24 @@ Loop
 End Sub
 
 Public Sub AjustaGrid()
-Indice = 1
+indice = 1
 If Ajustar = 1 Then
-   Do While Indice < GridPessoa.Rows
-      If Indice = 1 Then
-         AcumulaValor = GridPessoa.TextMatrix(Indice, 5)
+   Do While indice < GridPessoa.Rows
+      If indice = 1 Then
+         AcumulaValor = GridPessoa.TextMatrix(indice, 5)
       Else
-         If GridPessoa.TextMatrix(Indice, 7) = GridPessoa.TextMatrix(Indice - 1, 7) Then
-            GridPessoa.TextMatrix(Indice, 1) = Empty
-            GridPessoa.TextMatrix(Indice, 6) = Empty
-            AcumulaValor = AcumulaValor + GridPessoa.TextMatrix(Indice, 5)
+         If GridPessoa.TextMatrix(indice, 7) = GridPessoa.TextMatrix(indice - 1, 7) Then
+            GridPessoa.TextMatrix(indice, 1) = Empty
+            GridPessoa.TextMatrix(indice, 6) = Empty
+            AcumulaValor = AcumulaValor + GridPessoa.TextMatrix(indice, 5)
          Else
-            GridPessoa.TextMatrix(Indice - 1, 6) = Format$(AcumulaValor, "###,##0.00")
-            AcumulaValor = GridPessoa.TextMatrix(Indice, 5)
+            GridPessoa.TextMatrix(indice - 1, 6) = Format$(AcumulaValor, "###,##0.00")
+            AcumulaValor = GridPessoa.TextMatrix(indice, 5)
          End If
       End If
-      Indice = Indice + 1
+      indice = indice + 1
    Loop
-   GridPessoa.TextMatrix(Indice - 1, 6) = Format$(AcumulaValor, "###,##0.00")
+   GridPessoa.TextMatrix(indice - 1, 6) = Format$(AcumulaValor, "###,##0.00")
    AcumulaValor = 0
 End If
 Encontrei = 0

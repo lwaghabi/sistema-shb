@@ -431,7 +431,7 @@ Dim operacao As String
 Dim rotinicial As Byte
 Dim NaoAchei As Byte
 Dim TipoOperacao As Byte '1 = inclusão, 2 = Alteração e 3 = Exclusão
-Dim fim As Byte
+Dim Fim As Byte
 Dim Ind As Integer
 Dim PrimeiraVez As Byte
 Dim Conteudo As String
@@ -444,7 +444,7 @@ cmbUnidadeOperacional.Clear
 
 Call Rotina_AbrirBanco
 
-uoper.Open "Select * from UnidadeOperacional Where chPessoa = ('" & cmbLocacao & "')", db, 3, 3
+uoper.Open "Select * from unidadeoperacional Where chPessoa = ('" & cmbLocacao & "')", db, 3, 3
 If uoper.EOF Then
    MsgBox ("Cadastrar as Unidades Operacionais deste Cliente SHB."), vbCritical
    Call FechaDB
@@ -466,7 +466,7 @@ Private Sub cmdAlterar_Click()
    
    Call Rotina_AbrirBanco
    
-   Prod.Open "Select * from Produto where chProduto = ('" & txtMneumonico & "')", db, 3, 3
+   Prod.Open "Select * from produto where chProduto = ('" & txtMneumonico & "')", db, 3, 3
    If Prod.EOF Then
       Prod.AddNew
    End If
@@ -504,14 +504,14 @@ Call FechaDB
 End Sub
 
 Private Sub cmdExcluir_Click()
-Dim resp As String
+Dim Resp As String
 
-resp = MsgBox("Voce esta prestes a deletar este registro. Confirma???", vbYesNo)
-If resp = vbYes Then
+Resp = MsgBox("Voce esta prestes a deletar este registro. Confirma???", vbYesNo)
+If Resp = vbYes Then
 
    Call Rotina_AbrirBanco
 
-   Prod.Open "Select * from Produto where chProduto = ('" & txtMneumonico & "')", db, 3, 3
+   Prod.Open "Select * from produto where chProduto = ('" & txtMneumonico & "')", db, 3, 3
    If Prod.EOF Then
       MsgBox ("Produto solicitado para exclusão inexistente"), vbCritical
       Call FechaDB
@@ -551,7 +551,7 @@ On Error Resume Next
 
 Call Rotina_AbrirBanco
 
-Prod.Open "Select * from Produto where chProduto = ('" & txtMneumonico & "')", db, 3, 3
+Prod.Open "Select * from produto where chProduto = ('" & txtMneumonico & "')", db, 3, 3
 If Prod.EOF Then
    Prod.AddNew
    
@@ -599,7 +599,7 @@ Private Sub cmdNavega_Click(Index As Integer)
 
    If Prod.State = 0 Then
       Call Rotina_AbrirBanco
-      Prod.Open "select * from Produto", db, 3, 3
+      Prod.Open "select * from produto", db, 3, 3
       If Prod.EOF Then
          MsgBox ("Não há registros em Produto."), vbCritical
          Call FechaDB
@@ -653,7 +653,7 @@ End Select
          uoper.Close: Set uoper = Nothing
       End If
    
-      uoper.Open "Select * from UnidadeOperacional Where chPessoa = ('" & cmbLocacao & "')", db, 3, 3
+      uoper.Open "Select * from unidadeoperacional Where chPessoa = ('" & cmbLocacao & "')", db, 3, 3
       If uoper.EOF Then
          MsgBox ("Cadastrar as Unidades Operacionais deste Cliente SHB."), vbCritical
          'Call FechaDB
@@ -722,20 +722,20 @@ Private Sub Form_Load()
       
       Call Rotina_AbrirBanco
       
-      pes.Open "Select * from Pessoa", db, 3
+      pes.Open "Select * from pessoa", db, 3
             
       pes.MoveFirst
       If pes.EOF Then
-         MsgBox ("Dataset Pessoa sem registro. Informar ao administrador do sistema"), vbCritical
+         MsgBox ("Dataset pessoa sem registro. Informar ao administrador do sistema"), vbCritical
          Exit Sub
       Else
-         Do While fim = 0
+         Do While Fim = 0
             If pes!pestipopessoa = 0 Then
                cmbLocacao.AddItem pes!chPessoa
             End If
             pes.MoveNext
             If pes.EOF Then
-               fim = 1
+               Fim = 1
             End If
          Loop
       End If
@@ -786,7 +786,7 @@ End Sub
 
 Private Sub lstProduto_Click()
 Call Rotina_AbrirBanco
-   Prod.Open "Select * from Produto where chProduto = ('" & lstProduto & "')", db, 3, 3
+   Prod.Open "Select * from produto where chProduto = ('" & lstProduto & "')", db, 3, 3
    
    txtMneumonico = Prod!chProduto
    txtNomeProd = Prod!prdNomeProd
@@ -795,6 +795,11 @@ Call Rotina_AbrirBanco
    cmbUnidadeOperacional = Prod!prdUnidadeOperacional
    cmbUnidade.ListIndex = Prod!prdunidade
    txtDescCompleta = Prod!prdDescCompleta
+   
+   cmdIncluir.Enabled = False
+   cmdExcluir.Enabled = True
+   cmdAlterar.Enabled = True
+   cmdFechar.Enabled = True
    
 FechaDB
 End Sub
@@ -808,7 +813,7 @@ On Error Resume Next
 
 Call Rotina_AbrirBanco
 
-Prod.Open "Select * from Produto where chProduto = ('" & txtMneumonico & "')", db, 3, 3
+Prod.Open "Select * from produto where chProduto = ('" & txtMneumonico & "')", db, 3, 3
 If Prod.EOF Then
    Incluir = 1
 Else
@@ -822,7 +827,7 @@ Else
    cmbUnidade.ListIndex = Prod!prdunidade
    txtDescCompleta = Prod!prdDescCompleta
 
-   fim = 0
+   Fim = 0
     
     
   cmdIncluir.Enabled = False
@@ -854,7 +859,7 @@ End Sub
 Public Sub cargaLista()
    Call Rotina_AbrirBanco
    
-      rs.Open "SELECT chProduto FROM Produto WHERE prdOrdemApresentacao != 1", db, 3, 3
+      rs.Open "SELECT chProduto from produto WHERE prdOrdemApresentacao != 1", db, 3, 3
       
          If rs.EOF Then
             MsgBox "Erro ao listar Produtos", vbCritical

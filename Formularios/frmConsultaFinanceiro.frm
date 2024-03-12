@@ -190,26 +190,26 @@ If txtValorAConsultar = "" Then
    Exit Sub
 End If
 
-Sql = "Select ctp.chDataVencito AS Vencimento, ctp.ctpDataPagamento as Pago_Em, ctp.chNotaFiscal as Documento,"
-Sql = Sql & " ctp.ctpDescricaoOperacao as Descrição, ctp.chPessoa as Colaborador, ctp.ctpValorDaBoleta as Valor"
-Sql = Sql & " from historicoContasPagar ctp where "
+sql = "Select ctp.chDataVencito AS Vencimento, ctp.ctpDataPagamento as Pago_Em, ctp.chNotaFiscal as Documento,"
+sql = sql & " ctp.ctpDescricaoOperacao as Descrição, ctp.chPessoa as Colaborador, ctp.ctpValorDaBoleta as Valor"
+sql = sql & " from historicocontaspagar ctp where "
 
 If cmbTipoConsulta.ListIndex = 0 Then
-   Sql = Sql & " ctp.chpessoa like '%" & txtValorAConsultar & "%'"
+   sql = sql & " ctp.chpessoa like '%" & txtValorAConsultar & "%'"
 Else
    If cmbTipoConsulta.ListIndex = 1 Then
-      Sql = Sql & " ctp.chNotaFiscal like '%" & txtValorAConsultar & "%'"
+      sql = sql & " ctp.chNotaFiscal like '%" & txtValorAConsultar & "%'"
    Else
       If cmbTipoConsulta.ListIndex = 2 Then
-         Sql = Sql & " ctp.ctpValorDaBoleta like '%" & txtValorAConsultar & "%'"
+         sql = sql & " ctp.ctpValorDaBoleta like '%" & txtValorAConsultar & "%'"
       Else
-         Sql = Sql & " ctp.ctpDescricaoOperacao like '%" & txtValorAConsultar & "%'"
+         sql = sql & " ctp.ctpDescricaoOperacao like '%" & txtValorAConsultar & "%'"
       End If
    End If
 End If
-Sql = Sql & " order by ctp.chDataVencito desc"
+sql = sql & " order by ctp.chDataVencito desc"
 'MsgBox Sql
-deBusFinanceiro.Commands.Item("cmdbusFinanceiro").CommandText = Sql
+deBusFinanceiro.Commands.Item("cmdbusFinanceiro").CommandText = sql
 frmResultPesqFinanc.Show vbModal
 deBusFinanceiro.rscmdBusFinanceiro.Close
 End Sub
@@ -227,26 +227,26 @@ If txtValorAConsultar = "" Then
    Exit Sub
 End If
 
-Sql = "Select ctp.chDataVencito AS Vencimento, ctp.ctpDataPagamento as Pago_Em, ctp.chNotaFiscal as Documento,"
-Sql = Sql & " ctp.ctpDescricaoOperacao as Descrição, ctp.chPessoa as Colaborador, ctp.ctpValorDaBoleta as Valor"
-Sql = Sql & " from Contas_A_Pagar ctp where "
+sql = "Select ctp.chDataVencito AS Vencimento, ctp.ctpDataPagamento as Pago_Em, ctp.chNotaFiscal as Documento,"
+sql = sql & " ctp.ctpDescricaoOperacao as Descrição, ctp.chPessoa as Colaborador, ctp.ctpValorDaBoleta as Valor"
+sql = sql & " from contas_a_pagar ctp where "
 
 If cmbTipoConsulta.ListIndex = 0 Then
-   Sql = Sql & " ctp.chpessoa like '%" & txtValorAConsultar & "%'"
+   sql = sql & " ctp.chpessoa like '%" & txtValorAConsultar & "%'"
 Else
    If cmbTipoConsulta.ListIndex = 1 Then
-      Sql = Sql & " ctp.chNotaFiscal like '%" & txtValorAConsultar & "%'"
+      sql = sql & " ctp.chNotaFiscal like '%" & txtValorAConsultar & "%'"
    Else
       If cmbTipoConsulta.ListIndex = 2 Then
-         Sql = Sql & " ctp.ctpValorDaBoleta like '%" & txtValorAConsultar & "%'"
+         sql = sql & " ctp.ctpValorDaBoleta like '%" & txtValorAConsultar & "%'"
       Else
-         Sql = Sql & " ctp.ctpDescricaoOperacao like '%" & txtValorAConsultar & "%'"
+         sql = sql & " ctp.ctpDescricaoOperacao like '%" & txtValorAConsultar & "%'"
       End If
    End If
 End If
-Sql = Sql & " order by ctp.chDataVencito"
-MsgBox Sql
-deBusFinanceiro.Commands.Item("cmdbusFinanceiro").CommandText = Sql
+sql = sql & " order by ctp.chDataVencito"
+MsgBox sql
+deBusFinanceiro.Commands.Item("cmdbusFinanceiro").CommandText = sql
 frmResultPesqFinanc.Show vbModal
 deBusFinanceiro.rscmdBusFinanceiro.Close
 End Sub

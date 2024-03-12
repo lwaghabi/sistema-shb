@@ -704,24 +704,24 @@ Dim Fatura As String
 End Sub
 
 Private Sub cmddrMedicao_Click()
-Dim Sql As String
-Dim rel As Object
+Dim sql As String
+Dim Rel As Object
 Dim txtNome As String
 Dim txtNumPedido As String
 Dim txtPedidoComp As String
 txtNome = "HEFTOS"
 txtPedidoComp = "1"
 txtNumPedido = "HFT4.1"
-Set rel = drMedicao
-Sql = "Select neg.chPessoa, neg.chUnidadeOperacional, neg.chNumPedido, neg.chNumPedidoComp, pes.pesRazaoSocial, "
-Sql = Sql & " det.chDataInicio, det.chDataFim, det.chProduto, det.pedValorDaOperacao, det.pedUnidade, det.pedQuantidadePedida, "
-Sql = Sql & " det.pedPrecoUnidadePedida, det.pedValorDaDiaria, det.pedQtdDias, det.pedValorDaOperacao, prd.prdDescCompleta "
-Sql = Sql & " From Negociacao neg, DetalheNegociacao det, Pessoa pes, Produto prd "
-Sql = Sql & " WHERE neg.chNumPedido = ('" & txtNumPedido & "') and neg.chNumPedidoComp = ('" & txtPedidoComp & "') "
-Sql = Sql & " and det.chNumpedido = neg.chNumpedido and det.chNumpedidoComp = neg.chNumPedidoComp "
-Sql = Sql & " and neg.chPessoa = pes.chPessoa and det.chProduto = prd.chProduto"
+Set Rel = drMedicao
+sql = "Select neg.chPessoa, neg.chUnidadeOperacional, neg.chNumPedido, neg.chNumPedidoComp, pes.pesRazaoSocial, "
+sql = sql & " det.chDataInicio, det.chDataFim, det.chProduto, det.pedValorDaOperacao, det.pedUnidade, det.pedQuantidadePedida, "
+sql = sql & " det.pedPrecoUnidadePedida, det.pedValorDaDiaria, det.pedQtdDias, det.pedValorDaOperacao, prd.prdDescCompleta "
+sql = sql & " from negociacao neg, detalhenegociacao det, pessoa pes, produto prd "
+sql = sql & " WHERE neg.chNumPedido = ('" & txtNumPedido & "') and neg.chNumPedidoComp = ('" & txtPedidoComp & "') "
+sql = sql & " and det.chNumpedido = neg.chNumpedido and det.chNumpedidoComp = neg.chNumPedidoComp "
+sql = sql & " and neg.chPessoa = pes.chPessoa and det.chProduto = prd.chProduto"
 
-AbrirRelatorio Sql, rel
+AbrirRelatorio sql, Rel
 
 End Sub
 
@@ -737,7 +737,7 @@ If hneg.EOF Then
    Exit Sub
 End If
 
-neg.Open "Select * from Negociacao where chNumPedido = ('" & hneg!chNumPedido & "') and chNumPedidoComp = ('" & hneg!chNumPedidoComp & "')", db, 3, 3
+neg.Open "Select * from negociacao where chNumPedido = ('" & hneg!chNumPedido & "') and chNumPedidoComp = ('" & hneg!chNumPedidoComp & "')", db, 3, 3
 If neg.EOF Then
    neg.AddNew
    
@@ -809,7 +809,7 @@ Do While Not dneg.EOF
    If hneg.State = 1 Then
       hneg.Close: Set hneg = Nothing
    End If
-   hneg.Open "Select *from DetalheNegociacao where chNumPedido = ('" & dneg!chNumPedido & "') and chNumPedidoComp = ('" & dneg!chNumPedidoComp & "') and chDataInicio = ('" & dneg!chDataInicio & "')and chDataFim = ('" & dneg!chDataFim & "')", db, 3, 3
+   hneg.Open "Select *from detalhenegociacao where chNumPedido = ('" & dneg!chNumPedido & "') and chNumPedidoComp = ('" & dneg!chNumPedidoComp & "') and chDataInicio = ('" & dneg!chDataInicio & "')and chDataFim = ('" & dneg!chDataFim & "')", db, 3, 3
    If hneg.EOF Then
       hneg.AddNew
       hneg!chNumPedido = dneg!chNumPedido
@@ -835,11 +835,11 @@ Do While Not dneg.EOF
       
       ContaReg = ContaReg + 1
       
-      dneg.MoveNext
-      
+            
    End If
      
-
+   dneg.MoveNext
+   
 Loop
 
 MsgBox ("Total registroos = "), ContaReg
@@ -852,7 +852,7 @@ Private Sub Command11_Click()
 
 Call Rotina_AbrirBanco
 
-hnfd.Open "Select * from NotaFiscalDetProd", db, 3, 3
+hnfd.Open "Select * from notafiscaldetprod", db, 3, 3
 If hnfd.EOF Then
    MsgBox ("Det Prod Vazio")
    Exit Sub
@@ -866,7 +866,7 @@ Do While Not hnfd.EOF
       pes.Close: Set pes = Nothing
    End If
       
-   pes.Open "Select * from Pessoa where chPessoa =  ('" & hnfd!chPessoa & "')", db, 3, 3
+   pes.Open "Select * from pessoa where chPessoa =  ('" & hnfd!chPessoa & "')", db, 3, 3
    If pes.EOF Then
       If (hnfd!chPessoa = "IMPOSTOS") Or (hnfd!chPessoa = "DESPESAS") Then
          Call GeraCentroCustoTratarFornecedor
@@ -894,7 +894,7 @@ Public Sub GeraCentroCustoTratarDespesa()
          ccc.Close: Set ccc = Nothing
       End If
       
-      ccc.Open "Select * from CentroDeCustoConatbil where chProduto = ('" & hnfd!chPessoa & "')", db, 3, 3
+      ccc.Open "Select * from centrodecustoconatbil where chProduto = ('" & hnfd!chPessoa & "')", db, 3, 3
       If ccc.EOF Then
          ccc.AddNew
          ccc!cccClassificacaoCusto = "9.9"
@@ -912,7 +912,7 @@ If ccc.State = 1 Then
    ccc.Close: Set ccc = Nothing
 End If
 
-ccc.Open "Select * from CentroDeCustoConatbil where chProduto = ('" & hnfd!chCodProduto & "')", db, 3, 3
+ccc.Open "Select * from centrodecustoconatbil where chProduto = ('" & hnfd!chCodProduto & "')", db, 3, 3
 If ccc.EOF Then
    ccc.AddNew
    ccc!cccClassificacaoCusto = "9.9"
@@ -924,14 +924,14 @@ End If
 End Sub
 
 Private Sub Command12_Click()
-Dim FornecedorAnterior As String
+Dim fornecedorAnterior As String
 
 
 Call Rotina_AbrirBanco
 
-ProdEntrada.Open "Select * from ProdutoEntrada", db, 3, 3
+ProdEntrada.Open "Select * from produtoentrada", db, 3, 3
 If ProdEntrada.EOF Then
-   MsgBox ("Produto Entrada, Fornecedores DoEvents Produtos e Seviços vazio"), vbInformation
+   MsgBox ("Produto Entrada, fornecedores DoEvents Produtos e Seviços vazio"), vbInformation
    Call FechaDB
    Exit Sub
 End If
@@ -942,7 +942,7 @@ Do While Not ProdEntrada.EOF
    If pes.State = 1 Then
       pes.Close: Set pes = Nothing
    End If
-   pes.Open "Select * from Pessoa where chPessoa = ('" & ProdEntrada!chPessoa & "')", db, 3, 3
+   pes.Open "Select * from pessoa where chPessoa = ('" & ProdEntrada!chPessoa & "')", db, 3, 3
    If Not pes.EOF Then
       Call TratarFornecedor
    Else
@@ -962,7 +962,7 @@ If ProdFornec.State = 1 Then
    ProdFornec.Close: Set ProdFornec = Nothing
 End If
 
-ProdFornec.Open "Select * from ProdutoFornecedor where chTipoProduto = ('" & ProdEntrada!chPessoa & "') and chProdutoFabrica = ('" & ProdEntrada!chTipoProduto & "')", db, 3, 3
+ProdFornec.Open "Select * from produtofornecedor where chTipoProduto = ('" & ProdEntrada!chPessoa & "') and chProdutoFabrica = ('" & ProdEntrada!chTipoProduto & "')", db, 3, 3
 If Not ProdFornec.EOF Then
    ProdFornec.Delete
 End If
@@ -975,7 +975,7 @@ If ProdFornec.State = 1 Then
    ProdFornec.Close: Set ProdFornec = Nothing
 End If
 
-ProdFornec.Open "Select * from ProdutoFornecedor where chTipoProduto = ('" & ProdEntrada!chPessoa & "') and chProdutoFabrica = ('" & ProdEntrada!chTipoProduto & "')", db, 3, 3
+ProdFornec.Open "Select * from produtofornecedor where chTipoProduto = ('" & ProdEntrada!chPessoa & "') and chProdutoFabrica = ('" & ProdEntrada!chTipoProduto & "')", db, 3, 3
 If Not ProdFornec.EOF Then
    ProdEntrada.Delete
 Else
@@ -993,7 +993,7 @@ Private Sub Command13_Click()
 
 Call Rotina_AbrirBanco
 
-hnfd.Open "Select * from NotaFiscalDetProd", db, 3, 3
+hnfd.Open "Select * from notafiscaldetprod", db, 3, 3
 If hnfd.EOF Then
    MsgBox ("Historico Det Prod Vazio"), vbInformation
    Call FechaDB
@@ -1016,13 +1016,13 @@ Do While Not hnfd.EOF
          ccc.Close: Set ccc = Nothing
       End If
 
-      ccc.Open "Select * from CentroDeCustoConatbil where chProduto = ('" & hnfd!chPessoa & "')", db, 3, 3
+      ccc.Open "Select * from centrodecustoconatbil where chProduto = ('" & hnfd!chPessoa & "')", db, 3, 3
       If ccc.EOF Then
          If ccc.State = 1 Then
             ccc.Close: Set ccc = Nothing
          End If
 
-         ccc.Open "Select * from CentroDeCustoConatbil where chProduto = ('" & hnfd!chCodProduto & "')", db, 3, 3
+         ccc.Open "Select * from centrodecustoconatbil where chProduto = ('" & hnfd!chCodProduto & "')", db, 3, 3
          If Not ccc.EOF Then
             ccc!cccValorProduto = ccc!cccValorProduto + hnfd!nfdValorParcela
             ccc.Update
@@ -1047,7 +1047,7 @@ Private Sub Command14_Click()
 
 Call Rotina_AbrirBanco
 
-ccc.Open "Select * from CentroDeCustoConatbil", db, 3, 3
+ccc.Open "Select * from centrodecustoconatbil", db, 3, 3
 If ccc.EOF Then
    MsgBox ("Centro de Custo Contabil Vazio"), vbInformation
    Call FechaDB
@@ -1085,7 +1085,7 @@ Status = 1
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from  Contas_A_Receber where ctrStatus = ('" & Status & "')", db, 3, 3
+ctr.Open "Select * from  contas_a_receber where ctrStatus = ('" & Status & "')", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Contas a Receber Vazio")
    Call FechaDB
@@ -1103,7 +1103,7 @@ If ccc.State = 1 Then
    ccc.Close: Set ccc = Nothing
 End If
       
-ccc.Open "Select * from CentroDeCustoConatbil where cccClassificacaoCusto = ('" & CodClassifCusto & "')", db, 3, 3
+ccc.Open "Select * from centrodecustoconatbil where cccClassificacaoCusto = ('" & CodClassifCusto & "')", db, 3, 3
 If ccc.EOF Then
    ccc.AddNew
 End If
@@ -1119,7 +1119,7 @@ Call Rotina_AbrirBanco
 
 'Produto Entrada
 
-Prod.Open "Select * from ProdutoEntrada", db, 3, 3
+Prod.Open "Select * from produtoentrada", db, 3, 3
 If Prod.EOF Then
    MsgBox ("Produto Entrada vazio"), vbInformation
    Call FechaDB
@@ -1134,7 +1134,7 @@ Do While Not Prod.EOF
       ccc.Close: Set ccc = Nothing
    End If
    
-   ccc.Open "Select * from CentroDeCustoConatbil where chProduto = ('" & Prod!chTipoProduto & "')", db, 3, 3
+   ccc.Open "Select * from centrodecustoconatbil where chProduto = ('" & Prod!chTipoProduto & "')", db, 3, 3
    If Not ccc.EOF Then
       Prod!pinClassificacao = ccc!cccClassificacaoCusto
       Prod.Update
@@ -1152,26 +1152,26 @@ End Sub
 
 Private Sub Command17_Click()
 Dim ChaveAnterior As String
-Dim CentroDeCusto As String
-Dim grupo As String
+Dim centrodecusto As String
+Dim Grupo As String
 Dim SubGrupo As String
 
 Call Rotina_AbrirBanco
 
-ProdFornec.Open "Select * from ProdutoFornecedor", db, 3, 3
+ProdFornec.Open "Select * from produtofornecedor", db, 3, 3
 If Not ProdFornec.EOF Then
    ProdFornec.MoveFirst
    ChaveAnterior = ProdFornec!chTipoProduto
    Do While Not ProdFornec.EOF
       If Not IsNull(ProdFornec!pinCentroDeCusto) Then
          ChaveAnterior = ProdFornec!chTipoProduto
-         CentroDeCusto = ProdFornec!pinCentroDeCusto
-         grupo = ProdFornec!pinGrupoCentroDeCusto
+         centrodecusto = ProdFornec!pinCentroDeCusto
+         Grupo = ProdFornec!pinGrupoCentroDeCusto
          SubGrupo = ProdFornec!pinSubGrupoCentroDeCusto
       End If
       If ChaveAnterior = ProdFornec!chTipoProduto Then
-         ProdFornec!pinCentroDeCusto = CentroDeCusto
-         ProdFornec!pinGrupoCentroDeCusto = grupo
+         ProdFornec!pinCentroDeCusto = centrodecusto
+         ProdFornec!pinGrupoCentroDeCusto = Grupo
          ProdFornec!pinSubGrupoCentroDeCusto = SubGrupo
          ProdFornec.Update
        End If
@@ -1187,26 +1187,26 @@ End Sub
 
 Private Sub Command18_Click()
 Dim ChaveAnterior As String
-Dim CentroDeCusto As String
-Dim grupo As String
+Dim centrodecusto As String
+Dim Grupo As String
 Dim SubGrupo As String
 
 Call Rotina_AbrirBanco
 
-Prod.Open "Select * from ProdutoEntrada", db, 3, 3
+Prod.Open "Select * from produtoentrada", db, 3, 3
 If Not Prod.EOF Then
    Prod.MoveFirst
    ChaveAnterior = Empty
    Do While Not Prod.EOF
       If Not IsNull(Prod!pinCentroDeCusto) Then
          ChaveAnterior = Prod!chPessoa
-         CentroDeCusto = Prod!pinCentroDeCusto
-         grupo = Prod!pinGrupoCentroDeCusto
+         centrodecusto = Prod!pinCentroDeCusto
+         Grupo = Prod!pinGrupoCentroDeCusto
          SubGrupo = Prod!pinSubGrupoCentroDeCusto
       End If
       If (ChaveAnterior = Prod!chPessoa) Then
-         Prod!pinCentroDeCusto = CentroDeCusto
-         Prod!pinGrupoCentroDeCusto = grupo
+         Prod!pinCentroDeCusto = centrodecusto
+         Prod!pinGrupoCentroDeCusto = Grupo
          Prod!pinSubGrupoCentroDeCusto = SubGrupo
          Prod.Update
        End If
@@ -1224,7 +1224,7 @@ Private Sub Command19_Click()
 
 Call Rotina_AbrirBanco
 
-nfd.Open "Select * from HistoricoNotaFiscalDetProd", db, 3, 3
+nfd.Open "Select * from historiconotafiscaldetprod", db, 3, 3
 If nfd.EOF Then
    MsgBox ("Nota Fiscal DetProd vazio"), vbInformation
    Call FechaDB
@@ -1238,7 +1238,7 @@ Do While Not nfd.EOF
       Prod.Close: Set Prod = Nothing
    End If
    
-   Prod.Open "Select * from ProdutoEntrada where chTipoProduto = ('" & nfd!chCodProduto & "')", db, 3, 3
+   Prod.Open "Select * from produtoentrada where chTipoProduto = ('" & nfd!chCodProduto & "')", db, 3, 3
    If Not Prod.EOF Then
       nfd!nfdCentroDeCusto = Prod!pinCentroDeCusto
       nfd!nfdGrupoCentroDeCusto = Prod!pinGrupoCentroDeCusto
@@ -1250,7 +1250,7 @@ Do While Not nfd.EOF
    
 Loop
 
-MsgBox ("Fim da carga de ProdutoEntrada"), vbInformation
+MsgBox ("Fim da carga de produtoentrada"), vbInformation
 
 nfd.MoveFirst
 
@@ -1259,7 +1259,7 @@ Do While Not nfd.EOF
       Prod.Close: Set Prod = Nothing
    End If
    
-   Prod.Open "Select * from ProdutoFornecedor where chTipoProduto = ('" & nfd!chPessoa & "') and chProdutoFabrica = ('" & nfd!chCodProduto & "')", db, 3, 3
+   Prod.Open "Select * from produtofornecedor where chTipoProduto = ('" & nfd!chPessoa & "') and chProdutoFabrica = ('" & nfd!chCodProduto & "')", db, 3, 3
    If Not Prod.EOF Then
       nfd!nfdCentroDeCusto = Prod!pinCentroDeCusto
       nfd!nfdGrupoCentroDeCusto = Prod!pinGrupoCentroDeCusto
@@ -1307,7 +1307,7 @@ AcumulaReg = 0
 
 Call Rotina_AbrirBanco
 
-nfd.Open "Select * from HistoricoNotaFiscalDetProd", db, 3, 3
+nfd.Open "Select * from historiconotafiscaldetprod", db, 3, 3
 If nfd.EOF Then
    MsgBox ("ERRO: Historico nfdDetProd vazio."), vbInformation
    Call FechaDB
@@ -1318,31 +1318,31 @@ nfd.MoveFirst
 
 Do While Not nfd.EOF
 
-   If IsNull(nfd!nfddatapagamento) Then
+   If IsNull(nfd!nfdDataPagamento) Then
       If ctp.State = 1 Then
          ctp.Close: Set ctp = Nothing
       End If
       
-      ctp.Open "Select * from HistoricoContasPagar where chPessoa = ('" & nfd!chPessoa & "') and chNotaFiscal = ('" & nfd!chNotaFiscalEntrada & "')", db, 3, 3
+      ctp.Open "Select * from historicocontaspagar where chPessoa = ('" & nfd!chPessoa & "') and chNotaFiscal = ('" & nfd!chNotaFiscalEntrada & "')", db, 3, 3
       If Not ctp.EOF Then
          If Not IsNull(ctp!ctpDataPagamento) Then
-            nfd!nfddatapagamento = ctp!ctpDataPagamento
+            nfd!nfdDataPagamento = ctp!ctpDataPagamento
             nfd.Update
          End If
       Else
          If ctp.State = 1 Then
             ctp.Close: Set ctp = Nothing
          End If
-         ctp.Open "Select * from Contas_A_Pagar where chPessoa = ('" & nfd!chPessoa & "') and chNotaFiscal = ('" & nfd!chNotaFiscalEntrada & "')", db, 3, 3
+         ctp.Open "Select * from contas_a_pagar where chPessoa = ('" & nfd!chPessoa & "') and chNotaFiscal = ('" & nfd!chNotaFiscalEntrada & "')", db, 3, 3
          If Not ctp.EOF Then
             If Not IsNull(ctp!ctpDataPagamento) Then
-               nfd!nfddatapagamento = ctp!ctpDataPagamento
+               nfd!nfdDataPagamento = ctp!ctpDataPagamento
                nfd.Update
             Else
                AcumulaReg = AcumulaReg + 1
             End If
-         Else
-            MsgBox ("Registro checado - ") & nfd!chPessoa & " - " & nfd!chNotaFiscalEntrada & " - " & nfd!nfdValorParcela
+          'Else
+          '   MsgBox ("Registro checado - ") & nfd!chPessoa & " - " & nfd!chNotaFiscalEntrada & " - " & nfd!nfdValorParcela
          End If
       End If
    End If
@@ -1360,9 +1360,9 @@ Chave = 6
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from DetalheNegociacao", db, 3, 3
+pes.Open "Select * from detalhenegociacao", db, 3, 3
 If pes.EOF Then
-   MsgBox ("Erro no acesso a Pessoa"), vbInformation
+   MsgBox ("Erro no acesso a pessoa"), vbInformation
    Call FechaDB
    Exit Sub
 End If
@@ -1377,7 +1377,7 @@ Do While Not pes.EOF
       neg.Close: Set neg = Nothing
    End If
    
-   neg.Open "Select negContrato, chPessoa from Negociacao where chNumPedido IN (Select chNumPedido from DetalheNegociacao where chProduto = ('" & Nome & "'))", db, 3, 3
+   neg.Open "Select negContrato, chPessoa from negociacao where chNumPedido IN (Select chNumPedido from detalhenegociacao where chProduto = ('" & Nome & "'))", db, 3, 3
    If Not neg.EOF Then
       neg.MoveFirst
       Do While Not neg.EOF
@@ -1399,13 +1399,13 @@ End Sub
 
 Private Sub Command22_Click()
 Call Rotina_AbrirBanco
-Dim inicio As String
-Dim fim As String
+Dim Inicio As String
+Dim Fim As String
 
-inicio = "2023-06-31"
-fim = "2023-08-01"
+Inicio = "2023-06-31"
+Fim = "2023-08-01"
 
-ctp.Open "Select * from historicoContasPagar where ctpDataPagamento > ('" & inicio & "') and ctpDataPagamento < ('" & fim & "')", db, 3, 3
+ctp.Open "Select * from historicocontaspagar where ctpDataPagamento > ('" & Inicio & "') and ctpDataPagamento < ('" & Fim & "')", db, 3, 3
 If ctp.EOF Then
    MsgBox ("ERRO: Historico de Contas a Pagar vazio."), vbCritical
    Call FechaDB
@@ -1419,12 +1419,12 @@ Do While Not ctp.EOF
       nfd.Close: Set nfd = Nothing
    End If
    
-   nfd.Open "Select * from HistoricoNotaFiscalDesdobramento where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "') and nfdFaturaNumero = ('" & ctp!chFatura & "')", db, 3, 3
+   nfd.Open "Select * from historiconotafiscaldesdobramento where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "') and nfdFaturaNumero = ('" & ctp!chFatura & "')", db, 3, 3
    If nfd.EOF Then
       MsgBox ("Nota fiscal não encontrada no Detalhe de Nota Fiscal - ") & ctp!chPessoa & "-" & ctp!chNotafiscal
    Else
       'If IsNull(nfd!nfddatapagamento) Then
-         nfd!nfddatapagamento = Format$(ctp!ctpDataPagamento, "yyyy-mm-dd")
+         nfd!nfdDataPagamento = Format$(ctp!ctpDataPagamento, "yyyy-mm-dd")
          nfd.Update
       'End If
    End If
@@ -1439,7 +1439,7 @@ End Sub
 Private Sub Command24_Click()
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber", db, 3, 3
+ctr.Open "Select * from contas_a_receber", db, 3, 3
 
 ctr.MoveFirst
 Do While Not ctr.EOF
@@ -1469,32 +1469,32 @@ End Sub
 Private Sub Command25_Click()
 Dim FimDet As Integer
 Dim NotaFiscalAnterior As String
-Dim PessoaAnterior As String
+Dim pessoaAnterior As String
 Dim Encontrei As Integer
 
 Call Rotina_AbrirBanco
 
-dnfe.Open "select * from NotaFiscalDetProd", db, 3, 3
+dnfe.Open "select * from notafiscaldetprod", db, 3, 3
 If dnfe.EOF Then
    'MsgBox ("Nota Fiscal sem Detalhe."), vbInformation
    FimDet = 1
 Else
    FimDet = 0
    NotaFiscalAnterior = Empty
-   PessoaAnterior = Empty
+   pessoaAnterior = Empty
    dnfe.MoveFirst
    Do While FimDet = 0
 '      If dnfe!chPessoa = "PROTCAP" Then
 '         MsgBox "PROTCAP"
 '      End If
-      If Not (dnfe!chPessoa = PessoaAnterior And dnfe!chNotaFiscalEntrada = NotaFiscalAnterior) Then
+      If Not (dnfe!chPessoa = pessoaAnterior And dnfe!chNotaFiscalEntrada = NotaFiscalAnterior) Then
          
-         PessoaAnterior = dnfe!chPessoa
+         pessoaAnterior = dnfe!chPessoa
          NotaFiscalAnterior = dnfe!chNotaFiscalEntrada
          If ctp.State = 1 Then
             ctp.Close: Set ctp = Nothing
          End If
-         ctp.Open "Select * from Contas_A_Pagar where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscal = ('" & dnfe!chNotaFiscalEntrada & "') and ctpStatus = 0", db, 3, 3
+         ctp.Open "Select * from contas_a_pagar where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscal = ('" & dnfe!chNotaFiscalEntrada & "') and ctpStatus = 0", db, 3, 3
          If ctp.EOF Then
             Encontrei = 0
          Else
@@ -1505,7 +1505,7 @@ Else
       If hdnfe.State = 1 Then
          hdnfe.Close: Set hdnfe = Nothing
       End If
-      hdnfe.Open "Select * from HistoricoNotaFiscalDetProd where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscalEntrada = ('" & dnfe!chNotaFiscalEntrada & "') and chCodProduto = ('" & dnfe!chCodProduto & "')", db, 3, 3
+      hdnfe.Open "Select * from historiconotafiscaldetprod where chPessoa = ('" & dnfe!chPessoa & "') and chNotaFiscalEntrada = ('" & dnfe!chNotaFiscalEntrada & "') and chCodProduto = ('" & dnfe!chCodProduto & "')", db, 3, 3
       If hdnfe.EOF Then
          hdnfe.AddNew
       End If
@@ -1523,10 +1523,10 @@ Else
       hdnfe!nfdSubGrupoCentroDeCusto = dnfe!nfdSubGrupoCentroDeCusto
       
       If Encontrei = 1 Then
-         hdnfe!nfddatapagamento = ctp!ctpDataPagamento
+         hdnfe!nfdDataPagamento = ctp!ctpDataPagamento
       End If
 
-      UltimoRegistro = "Rotina Grava Det Produto. - " & dnfe!chPessoa & " - " & dnfe!chNotaFiscalEntrada & " - " & dnfe!chCodProduto & " - " & dnfe!chProdutoFabrica
+      ultimoRegistro = "Rotina Grava Det Produto. - " & dnfe!chPessoa & " - " & dnfe!chNotaFiscalEntrada & " - " & dnfe!chCodProduto & " - " & dnfe!chProdutoFabrica
 
       hdnfe.Update
       
@@ -1560,7 +1560,7 @@ AcumulaValor = 0
 
 Call Rotina_AbrirBanco
 
-ctp.Open "Select * from Contas_A_Pagar", db, 3, 3
+ctp.Open "Select * from contas_a_pagar", db, 3, 3
 
 ctp.MoveFirst
 
@@ -1570,14 +1570,14 @@ Do While Not ctp.EOF
       nfd.Close: Set nfd = Nothing
    End If
    
-   nfd.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "')", db, 3, 3
+   nfd.Open "Select * from notafiscaldetprod where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "')", db, 3, 3
    If nfd.EOF Then
       If hnfd.State = 1 Then
          hnfd.Close: Set hnfd = Nothing
       End If
       
-      'hnfd.Open "Select * from HistoricoNotaFiscalDetProd where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotaFiscal & "')", db, 3, 3
-      hnfd.Open "Select * from HistoricoNotaFiscalDetProd where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "')", db, 3, 3
+      'hnfd.Open "Select * from historiconotafiscaldetprod where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotaFiscal & "')", db, 3, 3
+      hnfd.Open "Select * from historiconotafiscaldetprod where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotafiscal & "')", db, 3, 3
       If hnfd.EOF Then
          AcumulaValor = AcumulaValor + ctp!ctpValorDaBoleta
          MsgBox ("Não encontrei o detalhe em histroico ") & ctp!chPessoa & " - " & ctp!chNotafiscal
@@ -1589,7 +1589,7 @@ Do While Not ctp.EOF
                nfd.Close: Set nfd = Nothing
             End If
             
-            nfd.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & hnfd!chPessoa & "') and chNotaFiscalEntrada = ('" & hnfd!chNotaFiscalEntrada & "') and chCodProduto = ('" & hnfd!chCodProduto & "')", db, 3, 3
+            nfd.Open "Select * from notafiscaldetprod where chPessoa = ('" & hnfd!chPessoa & "') and chNotaFiscalEntrada = ('" & hnfd!chNotaFiscalEntrada & "') and chCodProduto = ('" & hnfd!chCodProduto & "')", db, 3, 3
             If nfd.EOF Then
                nfd.AddNew
             End If
@@ -2060,7 +2060,7 @@ Call Rotina_AbrirBanco
 If neg.State = 1 Then
    neg.Close: Set neg = Nothing
 End If
-neg.Open "Select negContrato from Negociacao where chNumPedido IN (Select chNumPedido from DetalheNegociacao where chProduto = ('" & Nome & "'))", db, 3, 3
+neg.Open "Select negContrato from negociacao where chNumPedido IN (Select chNumPedido from detalhenegociacao where chProduto = ('" & Nome & "'))", db, 3, 3
 If neg.EOF Then
    MsgBox ("Não achei"), vbInformation
 End If

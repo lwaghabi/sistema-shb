@@ -4,7 +4,7 @@ Begin VB.Form frmSupProduto
    ClientHeight    =   9510
    ClientLeft      =   60
    ClientTop       =   405
-   ClientWidth     =   14565
+   ClientWidth     =   14820
    BeginProperty Font 
       Name            =   "MS Sans Serif"
       Size            =   12
@@ -16,74 +16,47 @@ Begin VB.Form frmSupProduto
    EndProperty
    LinkTopic       =   "Form1"
    ScaleHeight     =   9510
-   ScaleWidth      =   14565
+   ScaleWidth      =   14820
    StartUpPosition =   2  'CenterScreen
-   Begin VB.Frame Frame1 
-      Caption         =   "Fornecedores"
-      Height          =   2055
-      Left            =   5280
-      TabIndex        =   29
-      Top             =   7200
-      Visible         =   0   'False
-      Width           =   4455
-      Begin VB.CommandButton cmdRetira 
-         Caption         =   "Ret"
-         Height          =   495
-         Left            =   3720
-         TabIndex        =   33
-         Top             =   360
-         Width           =   615
-      End
-      Begin VB.CommandButton cmdIncluir 
-         Caption         =   "Inc"
-         Height          =   495
-         Left            =   3000
-         TabIndex        =   32
-         Top             =   360
-         Width           =   615
-      End
-      Begin VB.ListBox lstFornecedores 
-         Height          =   960
-         Left            =   120
-         TabIndex        =   31
-         Top             =   960
-         Width           =   4095
-      End
-      Begin VB.ComboBox cmbForncedores 
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   13.5
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   480
-         Left            =   120
-         TabIndex        =   30
-         Top             =   360
-         Width           =   2775
-      End
+   Begin VB.TextBox txtEstoqueMaximo 
+      Height          =   420
+      Left            =   9240
+      TabIndex        =   6
+      Top             =   2880
+      Width           =   855
+   End
+   Begin VB.TextBox txtPontoDePedido 
+      Height          =   420
+      Left            =   8040
+      TabIndex        =   5
+      Top             =   2880
+      Width           =   735
+   End
+   Begin VB.ComboBox cmbProduto 
+      Height          =   420
+      Left            =   5400
+      TabIndex        =   2
+      Top             =   1560
+      Width           =   9255
    End
    Begin VB.Frame Frame2 
       Caption         =   "Classificação de Centro de Custo"
       Height          =   2055
       Left            =   240
-      TabIndex        =   26
+      TabIndex        =   24
       Top             =   7200
       Width           =   4935
       Begin VB.ComboBox cmbGrupoCentroDeCusto 
          Height          =   420
          Left            =   1200
-         TabIndex        =   9
+         TabIndex        =   8
          Top             =   480
          Width           =   3615
       End
       Begin VB.ComboBox cmbSubGrupoCentroDeCusto 
          Height          =   420
          Left            =   1200
-         TabIndex        =   10
+         TabIndex        =   9
          Top             =   1320
          Width           =   3615
       End
@@ -91,7 +64,7 @@ Begin VB.Form frmSupProduto
          Caption         =   "Grupo"
          Height          =   375
          Left            =   120
-         TabIndex        =   28
+         TabIndex        =   26
          Top             =   480
          Width           =   975
       End
@@ -99,112 +72,126 @@ Begin VB.Form frmSupProduto
          Caption         =   "Sub Grupo"
          Height          =   615
          Left            =   120
-         TabIndex        =   27
+         TabIndex        =   25
          Top             =   1200
          Width           =   1095
       End
    End
    Begin VB.TextBox txtFlag 
       Height          =   495
-      Left            =   7560
-      TabIndex        =   24
-      Top             =   360
+      Left            =   10440
+      TabIndex        =   22
+      Top             =   840
       Visible         =   0   'False
       Width           =   735
    End
    Begin VB.CommandButton cmdSair 
       Caption         =   "Sair"
       Height          =   975
-      Left            =   13200
-      TabIndex        =   23
-      Top             =   8280
+      Left            =   13320
+      TabIndex        =   13
+      Top             =   8040
       Width           =   1215
-   End
-   Begin VB.ListBox lstProdutos 
-      Height          =   5460
-      Left            =   10080
-      TabIndex        =   4
-      Top             =   1560
-      Width           =   4335
    End
    Begin VB.CommandButton cmbExcluir 
       Caption         =   "Excluir"
       Height          =   975
-      Left            =   11640
-      TabIndex        =   13
-      Top             =   8280
+      Left            =   11760
+      TabIndex        =   12
+      Top             =   8040
       Width           =   1215
    End
    Begin VB.ComboBox cmbStatus 
       Height          =   420
-      Left            =   10080
-      TabIndex        =   11
+      Left            =   5640
+      TabIndex        =   10
       Top             =   7560
       Width           =   3015
    End
    Begin VB.CommandButton cmdSalvar 
       Caption         =   "Salvar"
       Height          =   975
-      Left            =   10200
-      TabIndex        =   12
-      Top             =   8280
+      Left            =   10320
+      TabIndex        =   11
+      Top             =   8040
       Width           =   1095
    End
    Begin VB.TextBox txtEspecTec 
       Height          =   3015
       Left            =   240
       MultiLine       =   -1  'True
-      TabIndex        =   8
-      Top             =   3960
-      Width           =   9615
-   End
-   Begin VB.TextBox txtDescricao 
-      Height          =   420
-      Left            =   4800
       TabIndex        =   7
-      Top             =   2760
-      Width           =   4935
+      Top             =   3960
+      Width           =   14295
    End
    Begin VB.TextBox txtQtdUnid 
       Height          =   420
-      Left            =   2640
-      TabIndex        =   6
-      Top             =   2760
+      Left            =   5520
+      TabIndex        =   4
+      Top             =   2880
       Width           =   2055
    End
    Begin VB.ComboBox cmbUnidProd 
       Height          =   420
-      Left            =   240
-      TabIndex        =   5
-      Top             =   2760
+      Left            =   3120
+      TabIndex        =   3
+      Top             =   2880
       Width           =   2175
    End
    Begin VB.ComboBox cmbClasse 
       Height          =   420
       Left            =   3000
-      TabIndex        =   2
+      TabIndex        =   1
       Top             =   1560
       Width           =   2415
    End
    Begin VB.ComboBox cmbGrupo 
       Height          =   420
       Left            =   240
-      TabIndex        =   1
+      TabIndex        =   0
       Top             =   1560
       Width           =   2535
    End
-   Begin VB.TextBox txtProduto 
-      Height          =   420
-      Left            =   5640
-      TabIndex        =   3
-      Top             =   1560
-      Width           =   3975
+   Begin VB.Label Label13 
+      Caption         =   "Registro e Atualização de Produtos em Estoque"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   17.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   495
+      Left            =   240
+      TabIndex        =   29
+      Top             =   240
+      Width           =   9855
+   End
+   Begin VB.Label Label12 
+      Alignment       =   2  'Center
+      Caption         =   "Estoque Máximo"
+      Height          =   615
+      Left            =   9120
+      TabIndex        =   28
+      Top             =   2280
+      Width           =   1095
+   End
+   Begin VB.Label Label1 
+      Alignment       =   2  'Center
+      Caption         =   "Ponto de Pedido"
+      Height          =   615
+      Left            =   7800
+      TabIndex        =   27
+      Top             =   2280
+      Width           =   1095
    End
    Begin VB.Label Label9 
       Caption         =   "Status"
       Height          =   375
-      Left            =   10080
-      TabIndex        =   25
+      Left            =   5640
+      TabIndex        =   23
       Top             =   7200
       Width           =   1695
    End
@@ -212,32 +199,24 @@ Begin VB.Form frmSupProduto
       Caption         =   "Especificação Técnica"
       Height          =   495
       Left            =   240
-      TabIndex        =   22
+      TabIndex        =   21
       Top             =   3600
       Width           =   9495
-   End
-   Begin VB.Label lblDesc 
-      Caption         =   "Descrição"
-      Height          =   375
-      Left            =   4800
-      TabIndex        =   21
-      Top             =   2280
-      Width           =   4815
    End
    Begin VB.Label Label7 
       Caption         =   "Quantidade da Unidade"
       Height          =   615
-      Left            =   2640
+      Left            =   5520
       TabIndex        =   20
-      Top             =   2160
+      Top             =   2280
       Width           =   1935
    End
    Begin VB.Label Label6 
       Caption         =   "Unidade Produto"
       Height          =   375
-      Left            =   240
+      Left            =   3120
       TabIndex        =   19
-      Top             =   2280
+      Top             =   2400
       Width           =   2055
    End
    Begin VB.Label Label5 
@@ -277,7 +256,7 @@ Begin VB.Form frmSupProduto
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   11760
+      Left            =   12840
       TabIndex        =   15
       Top             =   720
       Width           =   1695
@@ -295,27 +274,10 @@ Begin VB.Form frmSupProduto
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   11760
+      Left            =   13080
       TabIndex        =   14
       Top             =   120
       Width           =   1695
-   End
-   Begin VB.Label Label1 
-      Caption         =   "Registro e Atualização de Produtos"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   17.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   615
-      Left            =   360
-      TabIndex        =   0
-      Top             =   360
-      Width           =   7815
    End
 End
 Attribute VB_Name = "frmSupProduto"
@@ -326,11 +288,12 @@ Attribute VB_Exposed = False
 Option Explicit
 Dim Resp As String
 Dim flagInclusao As Boolean
-Dim grupo As String
-Dim classe As String
+Dim Grupo As String
+Dim Classe As String
 Dim Produto As String
 Private Sub cmbClasse_LostFocus()
-   lstProdutos.Clear
+   
+   cmbProduto.Clear
    
    Call Rotina_AbrirBanco
    
@@ -348,15 +311,14 @@ Private Sub cmbClasse_LostFocus()
    
    Do While Not Prod.EOF
    
-      lstProdutos.AddItem Prod!nomeProd
+      cmbProduto.AddItem Prod!nomeProd
       Prod.MoveNext
    
    Loop
    
-   txtProduto = Empty
+   cmbProduto = Empty
    cmbUnidProd.ListIndex = 0
    txtQtdUnid = Empty
-   txtDescricao = Empty
    txtEspecTec = Empty
    cmbGrupoCentroDeCusto.ListIndex = 0
    
@@ -369,7 +331,7 @@ Call Rotina_AbrirBanco
 
 On Error GoTo TE
 
-db.Execute ("DELETE FROM supproduto WHERE grupo=('" & Format$(cmbGrupo.ListIndex + 1, "00") & "') and classe=('" & Format$(cmbClasse.ListIndex + 1, "000") & "') and nomeProd=('" & txtProduto & "')")
+db.Execute ("DELETE FROM supproduto WHERE grupo=('" & Format$(cmbGrupo.ListIndex + 1, "00") & "') and classe=('" & Format$(cmbClasse.ListIndex + 1, "000") & "') and nomeProd=('" & cmbProduto & "')")
 MsgBox ("Excluido com Sucesso!"), vbInformation
 Call limpaTela
 
@@ -402,11 +364,12 @@ Private Sub cmbGrupo_LostFocus()
    FechaDB
 
    cmbClasse.ListIndex = 0
-   txtProduto = Empty
+   cmbProduto = Empty
    cmbUnidProd.ListIndex = 0
    txtQtdUnid = Empty
-   txtDescricao = Empty
    txtEspecTec = Empty
+   txtPontoDePedido = 0
+   txtEstoqueMaximo = 0
    cmbGrupoCentroDeCusto.ListIndex = 0
    
 End Sub
@@ -421,17 +384,23 @@ Unload Me
 End Sub
 
 Private Sub cmdSalvar_Click()
+   
+   On Error GoTo Erro
+   
    Call Rotina_AbrirBanco
+   
+   db.BeginTrans
+   
    Dim i As Integer
    
-   rs.Open "Select * from supproduto where nomeProd=('" & txtProduto & "') and (grupo!=('" & Format$(cmbGrupo.ListIndex + 1, "00") & "') or classe!=('" & Format$(cmbClasse.ListIndex + 1, "000") & "'))", db, 3, 3
+   rs.Open "Select * from supproduto where nomeProd=('" & cmbProduto & "') and (grupo!=('" & Format$(cmbGrupo.ListIndex + 1, "00") & "') or classe!=('" & Format$(cmbClasse.ListIndex + 1, "000") & "'))", db, 3, 3
    If Not rs.EOF Then
       MsgBox "Produto com mesmo nome já existe em outro grupo ou classe", vbCritical
       FechaDB
       Exit Sub
    End If
    If flagInclusao = True Then
-      pes.Open "Select MAX(codProd) as codigo from supProduto where grupo = ('" & Format$(cmbGrupo.ListIndex + 1, "00") & "') AND classe = ('" & Format$(cmbClasse.ListIndex + 1, "000") & "')", db, 3, 3
+      pes.Open "Select MAX(codProd) as codigo from supproduto where grupo = ('" & Format$(cmbGrupo.ListIndex + 1, "00") & "') AND classe = ('" & Format$(cmbClasse.ListIndex + 1, "000") & "')", db, 3, 3
       
       If Not IsNull(pes!codigo) Then
          
@@ -449,38 +418,41 @@ Private Sub cmdSalvar_Click()
       End If
        
       pes.Close
-   
+      rs.Close
    Else
       rs.Close
-      rs.Open "Select codProd from supproduto where nomeProd=('" & txtProduto & "') and grupo=('" & Format$(cmbGrupo.ListIndex + 1, "00") & "') and classe=('" & Format$(cmbClasse.ListIndex + 1, "000") & "')"
+      rs.Open "Select codProd from supproduto where nomeProd=('" & cmbProduto & "') and grupo=('" & Format$(cmbGrupo.ListIndex + 1, "00") & "') and classe=('" & Format$(cmbClasse.ListIndex + 1, "000") & "')"
          Produto = rs!codProd
       rs.Close
 
    End If
    
-   grupo = cmbGrupo.ListIndex + 1
-   classe = cmbClasse.ListIndex + 1
-   grupo = Format$(grupo, "00")
-   classe = Format$(classe, "000")
+   
+   Grupo = cmbGrupo.ListIndex + 1
+   Classe = cmbClasse.ListIndex + 1
+   Grupo = Format$(Grupo, "00")
+   Classe = Format$(Classe, "000")
    Produto = Format$(Produto, "00000")
    
-   Prod.Open "Select * from supProduto where grupo = ('" & grupo & "') and classe = ('" & classe & "') and codProd = ('" & Produto & "')", db, 3, 3
+   Prod.Open "Select * from supproduto where grupo = ('" & Grupo & "') and classe = ('" & Classe & "') and codProd = ('" & Produto & "')", db, 3, 3
+   
    If Prod.EOF Then
 
       Prod.AddNew
    
    End If
       
-   Prod!grupo = grupo
-   Prod!classe = classe
+   Prod!Grupo = Grupo
+   Prod!Classe = Classe
    Prod!codProd = Produto
-   Prod!nomeProd = txtProduto
+   Prod!nomeProd = cmbProduto
    Prod!unidadeProd = cmbUnidProd.ListIndex
    Prod!qtdUnidade = txtQtdUnid
-   Prod!Descricao = txtDescricao
+   Prod!pontoDePedido = txtPontoDePedido
+   Prod!estoqueMaximo = txtEstoqueMaximo
    Prod!especificacaoTecnica = txtEspecTec
    Prod!Status = cmbStatus.ListIndex
-   Prod!CentroDeCusto = "2"
+   Prod!centrodecusto = "2"
    Prod!GrupoCentroDeCusto = Format$(cmbGrupoCentroDeCusto.ListIndex + 1, "00")
    Prod!SubGrupoCentroDeCusto = Format$(cmbSubGrupoCentroDeCusto.ListIndex + 1, "00")
    Prod.Update
@@ -490,53 +462,42 @@ Private Sub cmdSalvar_Click()
    If txtFlag = 1 Then
       txtFlag = 0
       Unload Me
-      'frmPO.cmbGrupo.SetFocus
    End If
    
-'   db.Execute ("Update supprodutofornecedor set grupo=('" & Grupo & "'),classe=('" & Classe & "'),codProd=('" & Produto & "') WHERE chTipoProduto = ('" & txtProduto & "');")
+   Call geraEstoque
    
-'   i = 0
-'   Do While i < lstFornecedores.ListCount
-'      rs.Open "SELECT * FROM supprodutofornecedor WHERE chPessoa = ('" & lstFornecedores.List(i) & "') and grupo=('" & Format$(cmbGrupo.ListIndex + 1, "00") & "') and classe = ('" & Format$(cmbClasse.ListIndex + 1, "000") & "') and codProd = ('" & Produto & "')", db, 3, 3
-'
-'      If rs.EOF Then
-'
-'         rs.AddNew
-'
-'      End If
-'
-'      rs!chPessoa = lstFornecedores.List(i)
-'      rs!chTipoProduto = txtProduto
-'      rs!Grupo = Format$(cmbGrupo.ListIndex + 1, "00")
-'      rs!Classe = Format$(cmbClasse.ListIndex + 1, "000")
-'      rs!codProd = Produto
-'      rs.Update
-'      rs.Close
-'      i = i + 1
-'   Loop
+   Prod.Close
+   
+   rs.Open "SELECT * FROM supestoque WHERE grupo = ('" & Grupo & "') and classe = ('" & Classe & "') and codProd = ('" & Produto & "')", db, 3, 3
+   If Not rs.EOF And txtPontoDePedido <> Empty And txtEstoqueMaximo <> Empty Then
+      Prod.Open "SELECT * FROM suprequisicaocompra WHERE nomeProd=('" & cmbProduto & "') and status = 0", db, 3, 3
+      If Prod.EOF Then
+         If Not (rs!estoqueMinimo > CInt(txtPontoDePedido)) And Not (rs!qtdEmEstoque > CInt(txtPontoDePedido)) Then
+            Call geraRequisicao(txtEstoqueMaximo, rs!qtdEmEstoque)
+         End If
+      Else
+         MsgBox ("Requisição já feita para este produto, se necessário efetue alteração na requisição de compra"), vbInformation
+      End If
+      rs!estoqueMinimo = txtPontoDePedido
+      rs!estoqueMaximo = txtEstoqueMaximo
+      rs.Update
+   Else
+      MsgBox ("Produto não existe no estoque!"), vbInformation
+   End If
+   rs.Close
+   
+   db.CommitTrans
+   
    Call limpaTela
     
    FechaDB
-End Sub
-
-Private Sub cmdIncluir_Click()
-   lstFornecedores.AddItem cmbForncedores
-End Sub
-
-Private Sub cmdRetira_Click()
-   Call Rotina_AbrirBanco
-   
-   db.Execute ("DELETE FROM supprodutofornecedor WHERE chPessoa = ('" & lstFornecedores.List(lstFornecedores.ListIndex) & "') and grupo=('" & Format$(cmbGrupo.ListIndex + 1, "00") & "') and classe = ('" & Format$(cmbClasse.ListIndex + 1, "000") & "') and chTipoProduto = ('" & txtProduto & "')")
-   
-   FechaDB
-   
-   lstFornecedores.RemoveItem lstFornecedores.ListIndex
-   
+Exit Sub
+Erro: MsgBox ("Erro ao salvar produto: " & Err.Description), vbInformation
+FechaDB
 End Sub
 
 Private Sub Form_Load()
    dtHoje = Date
-   
    cmbGrupo = cmbGrupo
    cmbClasse = cmbClasse
    txtFlag = 0
@@ -559,9 +520,9 @@ Private Sub Form_Load()
    
    cmbGrupo.ListIndex = 0
    
-   Prod.Open "Select * from unidadedemedida", db, 3, 3
+   Prod.Open "Select * from unidadeembalagem", db, 3, 3
    If Prod.EOF Then
-      MsgBox "Erro: Unidades de medidas não cadastradas", vbCritical
+      MsgBox "Erro: Unidades de embalagens não cadastradas", vbCritical
       FechaDB
       Exit Sub
    End If
@@ -570,7 +531,7 @@ Private Sub Form_Load()
    
    Do While Not Prod.EOF
    
-      cmbUnidProd.AddItem Prod!AbreviaturaUnidadeMedida
+      cmbUnidProd.AddItem Prod!AbreviaturaUnidadeEmbalagem
       Prod.MoveNext
    
    Loop
@@ -593,61 +554,26 @@ Private Sub Form_Load()
    
    rs.Close
    
-   rs.Open "SELECT chPessoa from Pessoa where pesTipoPessoa = 2 and pesStatusPessoa = 0", db, 3, 3
-   
-   If rs.EOF Then
-   
-      MsgBox ("Não existem fornecedores cadastrados"), vbInformation
-      FechaDB
-      Exit Sub
-   
-   End If
-   
-   rs.MoveFirst
-   
-   Do While Not rs.EOF
-   
-      cmbForncedores.AddItem rs!chPessoa
-      rs.MoveNext
-   
-   Loop
-   
-   rs.Close
-   
    FechaDB
 End Sub
 
-Private Sub lstProdutos_Click()
-   Call Rotina_AbrirBanco
+Private Sub cmbProduto_LostFocus()
+Dim Verifica As String
 
-   grupo = Format$(cmbGrupo.ListIndex + 1, "00")
-   classe = Format$(cmbClasse.ListIndex + 1, "000")
-
-
-   rs.Open "Select * from supProduto where nomeProd = ('" & lstProdutos & "') and grupo=('" & grupo & "') and classe = ('" & classe & "')", db, 3, 3
-  
-   If rs.EOF Then
-   
-      FechaDB
+   Verifica = Empty
+   Verifica = Mid$(cmbProduto, 51, 5)
+   If Not Verifica = Empty Then
+      MsgBox ("Código do Produto Informado ultrapassa 50 caracteres.")
+      cmdSair.SetFocus
       Exit Sub
-   
    End If
-   Call encherTela
    
-   rs.Close
-   
-   txtQtdUnid.SetFocus
-   
-   FechaDB
-End Sub
-
-Private Sub txtProduto_LostFocus()
    Call Rotina_AbrirBanco
    flagInclusao = False
    
-   If txtProduto <> Empty Then
+   If cmbProduto <> Empty Then
          
-      rs.Open "Select * from supProduto where nomeProd = ('" & txtProduto & "')", db, 3, 3
+      rs.Open "Select * from supproduto where nomeProd = ('" & cmbProduto & "')", db, 3, 3
       
       If rs.EOF Then
       
@@ -657,9 +583,11 @@ Private Sub txtProduto_LostFocus()
             flagInclusao = True
             
          End If
-      End If
+      Else
       
-      txtQtdUnid.SetFocus
+         Call encherTela
+      
+      End If
       
       rs.Close
    End If
@@ -670,13 +598,11 @@ End Sub
 Public Sub encherTela()
    Dim grupoCustoInt As Integer
    Dim subGrupoCustoInt As Integer
-   txtProduto = rs!nomeProd
-   cmbGrupo.ListIndex = rs!grupo - 1
-   cmbClasse.ListIndex = rs!classe - 1
    cmbUnidProd.ListIndex = rs!unidadeProd
    txtQtdUnid = rs!qtdUnidade
-   txtDescricao = rs!Descricao
    txtEspecTec = rs!especificacaoTecnica
+   txtPontoDePedido = rs!pontoDePedido
+   txtEstoqueMaximo = rs!estoqueMaximo
    cmbStatus.ListIndex = rs!Status
    If Not IsNull(rs!GrupoCentroDeCusto) Then
       grupoCustoInt = rs!GrupoCentroDeCusto
@@ -692,39 +618,19 @@ Public Sub encherTela()
       cmbSubGrupoCentroDeCusto = Empty
    End If
    
-   lstFornecedores.Clear
-   
-   Prod.Open "Select chPessoa from supprodutofornecedor where grupo=('" & Format$(cmbGrupo.ListIndex + 1, "00") & "') and classe = ('" & Format$(cmbClasse.ListIndex + 1, "000") & "') and chTipoProduto = ('" & txtProduto & "')", db, 3, 3
-   
-      If Not Prod.EOF Then
-      
-         Do While Not Prod.EOF
-         
-            lstFornecedores.AddItem Prod!chPessoa
-            Prod.MoveNext
-         
-         Loop
-      
-      End If
-   
-   Prod.Close
    cmdSalvar.SetFocus
 End Sub
 
 Public Sub limpaTela()
-   txtProduto = Empty
    cmbGrupo.ListIndex = 0
    cmbClasse = Empty
    cmbUnidProd = Empty
    txtQtdUnid = Empty
-   txtDescricao = Empty
    txtEspecTec = Empty
    cmbStatus = Empty
-   lstProdutos.Clear
    cmbSubGrupoCentroDeCusto.Clear
    cmbGrupoCentroDeCusto.ListIndex = 0
-   lstFornecedores.Clear
-   cmbForncedores = Empty
+
 End Sub
 
 Public Sub carregadoSubGrupo()
@@ -740,6 +646,8 @@ Public Sub carregadoSubGrupo()
    
    pes.MoveFirst
    
+   cmbSubGrupoCentroDeCusto.Clear
+   
    Do While Not pes.EOF
    
       cmbSubGrupoCentroDeCusto.AddItem pes!DescricaoCentroDeCusto
@@ -750,4 +658,60 @@ Public Sub carregadoSubGrupo()
    
    pes.Close
 
+End Sub
+
+Public Sub geraRequisicao(estoqueMaximo As Integer, qtdEstoque As Integer)
+   
+   On Error GoTo Erro
+   
+   pes.Open "SELECT * FROM suprequisicaocompra WHERE nomeProd = ('" & cmbProduto & "') and idRequisicao = ('" & 0 & "')", db, 3, 3
+   
+   If pes.EOF Then
+   
+      pes.AddNew
+      
+   End If
+   
+   pes!nomeProd = cmbProduto
+   pes!idRequisicao = 0
+   pes!qtdRequisitada = 0
+   pes!qtdEmEstoque = qtdEstoque
+   pes!qtdPendente = 0
+   pes!estoqueMaximo = estoqueMaximo
+   pes!qtdComprar = estoqueMaximo - qtdEstoque
+   pes!Status = 0
+   pes.Update
+   
+   pes.Close
+   
+   MsgBox ("Requisição de compra gerada pelo sistema!"), vbInformation
+Exit Sub
+Erro: MsgBox ("Erro ao gerar requisição: " & Err.Description), vbInformation
+pes.Close
+End Sub
+
+Public Sub geraEstoque()
+   On Error GoTo Erro
+   pes.Open "SELECT * FROM supestoque WHERE grupo = ('" & Grupo & "') and classe = ('" & Classe & "') and codProd = ('" & Produto & "')", db, 3, 3
+
+   If pes.EOF Then
+      
+      pes.AddNew
+      pes!Grupo = Grupo
+      pes!Classe = Classe
+      pes!codProd = Produto
+      pes!qtdEmEstoque = 0
+      pes!qtdReservado = 0
+      pes!estoqueMinimo = txtPontoDePedido
+      pes!estoqueMaximo = txtEstoqueMaximo
+      pes!dataUltimaAtualizacao = Date
+      pes.Update
+      MsgBox ("Estoque foi gerado para novo produto!"), vbInformation
+
+   End If
+   
+   pes.Close
+Exit Sub
+Erro:    MsgBox ("Erro ao gerar estoque: " & Err.Description), vbInformation
+pes.Close
 End Sub

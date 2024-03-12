@@ -222,7 +222,7 @@ End If
 
 Call Rotina_AbrirBanco
 
-usu.Open "Select * from Usuario where chNome = ('" & txtNome & "')", db, 3, 3
+usu.Open "Select * from usuario where chNome = ('" & txtNome & "')", db, 3, 3
 If usu.EOF Then
    MsgBox ("Usuario não permitido"), vbCritical
    Call FechaDB
@@ -280,7 +280,7 @@ Dim Resp As String
 
 Call Rotina_AbrirBanco
 
-usu.Open "Select * from Usuario where chNome = ('" & txtNome & "')", db, 3, 3
+usu.Open "Select * from usuario where chNome = ('" & txtNome & "')", db, 3, 3
 If usu.EOF Then
    MsgBox ("Exclusão de usuário não cadastrado"), vbCritical
    Call FechaDB
@@ -331,13 +331,13 @@ End If
 
 
 If cmbPessoa = Empty Then
-   MsgBox ("ERRO: Codigo pessoa não informado. Deve ser informado o codigo para cadastramento em Pessoa."), vbInformation
+   MsgBox ("ERRO: Codigo pessoa não informado. Deve ser informado o codigo para cadastramento em pessoa."), vbInformation
    Exit Sub
 End If
    
 Call Rotina_AbrirBanco
 
-usu.Open "Select * from Usuario where chNome = ('" & txtNome & "')", db, 3, 3
+usu.Open "Select * from usuario where chNome = ('" & txtNome & "')", db, 3, 3
 If usu.EOF Then
    usu.AddNew
 End If
@@ -469,7 +469,7 @@ Administrador = 0
 
 Call Rotina_AbrirBanco
 
-usu.Open "Select * from Usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
+usu.Open "Select * from usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
 If usu.EOF Then
    MsgBox "Usuario não permitido"
    Call FechaDB
@@ -485,9 +485,9 @@ End If
 usu.MoveFirst
 rotinicial = 0
 
-pes.Open "Select chPessoa from Pessoa where pesTipoPessoa = 7 and pesStatusPessoa = 0", db, 3, 3
+pes.Open "Select chPessoa from pessoa where pesTipoPessoa = 7 and pesStatusPessoa = 0", db, 3, 3
 If pes.EOF Then
-   MsgBox ("ERRO: Não encontrado Colaboradores no Pessoa."), vbCritical
+   MsgBox ("ERRO: Não encontrado Colaboradores no pessoa."), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -543,7 +543,7 @@ End If
 
 Call Rotina_AbrirBanco
 
-usu.Open "Select * from Usuario where chNome = ('" & txtNome & "')", db, 3, 3
+usu.Open "Select * from usuario where chNome = ('" & txtNome & "')", db, 3, 3
 If usu.EOF Then
    Incluir = 1
 Else

@@ -374,7 +374,7 @@ Begin VB.Form frmFaturaLocacaoEsp
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   248774657
+      Format          =   392822785
       CurrentDate     =   44328
    End
    Begin MSFlexGridLib.MSFlexGrid GridFatura 
@@ -423,7 +423,7 @@ Begin VB.Form frmFaturaLocacaoEsp
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   248774657
+      Format          =   392822785
       CurrentDate     =   44298
    End
    Begin MSComCtl2.DTPicker dtInicio 
@@ -444,7 +444,7 @@ Begin VB.Form frmFaturaLocacaoEsp
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   248774657
+      Format          =   392822785
       CurrentDate     =   44298
    End
    Begin VB.Label Label1 
@@ -673,16 +673,16 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Dim Sql As String
-Dim rel As Object
+Dim sql As String
+Dim Rel As Object
 Dim Relatorio As String
 Dim txtNome As String
 Dim txtNumPedido As String
 Dim txtPedidoComp As String
 Dim UnidadeOperaional As String
 Dim TipoLocacao As Integer
-Dim DataInicio As Date
-Dim DataFim As Date
+Dim dataInicio As Date
+Dim dataFim As Date
 Dim DataVenc As Date
 Dim TipoProduto As Byte
 Dim MedicaoAnter As String
@@ -724,7 +724,7 @@ Call Rotina_AbrirBanco
 
 'Carrega Negociação
 
-neg.Open "Select * from Negociacao where negStatus = ('" & 1 & "')", db, 3, 3
+neg.Open "Select * from negociacao where negStatus = ('" & 1 & "')", db, 3, 3
 If neg.EOF Then
    'MsgBox ("Não há Medição para Fatura até a presente data"), vbInformation
    'Call FechaDB
@@ -738,12 +738,12 @@ Ind = 0
 If FaturaNoMes = 1 Then
    neg.MoveFirst
    Do While Not neg.EOF
-      If Not neg!chNumpedido = MedicaoAnter Then
-         MedicaoAnter = neg!chNumpedido
+      If Not neg!chNumPedido = MedicaoAnter Then
+         MedicaoAnter = neg!chNumPedido
          If ctr.State = 1 Then
             ctr.Close: Set ctr = Nothing
          End If
-         ctr.Open "Select * from Contas_A_Receber where chNumPedido = ('" & neg!chNumpedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
+         ctr.Open "Select * from contas_a_receber where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
          If ctr.EOF Then
             ctr.Close: Set ctr = Nothing
             Exit Sub
@@ -751,7 +751,7 @@ If FaturaNoMes = 1 Then
          If dneg.State = 1 Then
             dneg.Close: Set dneg = Nothing
          End If
-         dneg.Open "Select * from DetalheNegociacao where chNumPedido = ('" & neg!chNumpedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
+         dneg.Open "Select * from detalhenegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
          If dneg.EOF Then
             dneg.Close: Set dneg = Nothing
             Exit Sub
@@ -760,7 +760,7 @@ If FaturaNoMes = 1 Then
          Ind = Ind + 1
          GridFatura.Rows = Ind + 1
          GridFatura.TextMatrix(Ind, 0) = neg!negNumFatura
-         GridFatura.TextMatrix(Ind, 1) = neg!chNumpedido
+         GridFatura.TextMatrix(Ind, 1) = neg!chNumPedido
          GridFatura.TextMatrix(Ind, 2) = neg!chNumPedidoComp
          GridFatura.TextMatrix(Ind, 3) = neg!chPessoa
          GridFatura.TextMatrix(Ind, 4) = neg!chUnidadeOperacional
@@ -782,7 +782,7 @@ If neg.State = 1 Then
    neg.Close: Set neg = Nothing
 End If
 
-neg.Open "Select * from HistoricoNegociacao where hnegTipoProduto = ('" & 0 & "') and not (negSerieFatura = ('" & "E" & "'))", db, 3, 3
+neg.Open "Select * from historiconegociacao where hnegTipoProduto = ('" & 0 & "') and not (negSerieFatura = ('" & "E" & "'))", db, 3, 3
 If neg.EOF Then
    MsgBox ("Não há Medição para Fatura até a presente data"), vbInformation
    Call FechaDB
@@ -792,17 +792,17 @@ TipoProduto = 0
 'Ind = 0
 neg.MoveFirst
 Do While Not neg.EOF
-   If Not neg!chNumpedido = MedicaoAnter Then
-      MedicaoAnter = neg!chNumpedido
+   If Not neg!chNumPedido = MedicaoAnter Then
+      MedicaoAnter = neg!chNumPedido
       If ctr.State = 1 Then
          ctr.Close: Set ctr = Nothing
       End If
-      ctr.Open "Select * from Contas_A_Receber where chNumPedido = ('" & neg!chNumpedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
+      ctr.Open "Select * from contas_a_receber where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
       If ctr.EOF Then
          If ctr.State = 1 Then
             ctr.Close: Set ctr = Nothing
          End If
-         ctr.Open "Select * from HistoricoContasReceber where chNumPedido = ('" & neg!chNumpedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
+         ctr.Open "Select * from historicocontasreceber where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
          If ctr.EOF Then
             ctr.Close: Set ctr = Nothing
             Exit Sub
@@ -811,7 +811,7 @@ Do While Not neg.EOF
       If dneg.State = 1 Then
          dneg.Close: Set dneg = Nothing
       End If
-      dneg.Open "Select * from HistoricoDetalheNegociacao where chNumPedido = ('" & neg!chNumpedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
+      dneg.Open "Select * from historicodetalhenegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
       If dneg.EOF Then
          dneg.Close: Set dneg = Nothing
          Exit Sub
@@ -820,7 +820,7 @@ Do While Not neg.EOF
       Ind = Ind + 1
       GridFatura.Rows = Ind + 1
       GridFatura.TextMatrix(Ind, 0) = neg!negNumFatura
-      GridFatura.TextMatrix(Ind, 1) = neg!chNumpedido
+      GridFatura.TextMatrix(Ind, 1) = neg!chNumPedido
       GridFatura.TextMatrix(Ind, 2) = neg!chNumPedidoComp
       GridFatura.TextMatrix(Ind, 3) = neg!chPessoa
       GridFatura.TextMatrix(Ind, 4) = neg!chUnidadeOperacional
@@ -866,7 +866,7 @@ End If
 Call Rotina_AbrirBanco
 Relatorio = "drFatura"
 'db.begintrans
-gge.Open "Select * from GeradorGeral where chAlfaNumerica = ('" & Relatorio & "')", db, 3, 3
+gge.Open "Select * from geradorgeral where chAlfaNumerica = ('" & Relatorio & "')", db, 3, 3
 If gge.EOF Then
    gge.AddNew
 End If
@@ -884,55 +884,55 @@ gge!Num3 = txtTaxa
 gge!num2 = txtNumFatura
 gge!Alfa2 = txtUnidadeOperacional
 gge!Alfa3 = txtNumSerie
-gge!Data2 = DataVenc
+gge!data2 = DataVenc
 gge.Update
 
 'db.CommitTrans
 
 Item = 0
 
-Set rel = drFaturaEsp
+Set Rel = drFaturaEsp
 'txtTaxa = txtTaxa
-neg.Open "Select * from Negociacao where chNumPedido = ('" & txtMedicao & "') and negTipoProduto = ('" & TipoProduto & "')", db, 3, 3
+neg.Open "Select * from negociacao where chNumPedido = ('" & txtMedicao & "') and negTipoProduto = ('" & TipoProduto & "')", db, 3, 3
 If neg.EOF Then
    If neg.State = 1 Then
       neg.Close: Set neg = Nothing
    End If
-   neg.Open "Select * from HistoricoNegociacao where chNumPedido = ('" & txtMedicao & "') and hnegTipoProduto = ('" & TipoProduto & "')", db, 3, 3
+   neg.Open "Select * from historiconegociacao where chNumPedido = ('" & txtMedicao & "') and hnegTipoProduto = ('" & TipoProduto & "')", db, 3, 3
    If neg.EOF Then
       MsgBox ("Número do Pedido Inexistente. Comunicar ao analista responsável"), vbCritical
       Call FechaDB
       Exit Sub
    Else
-      Sql = "Select gge.ggeDatahoje, gge.ggeDataIni, gge.ggeDataFim, gge.Alfa2, Alfa3, gge.chNumerica, gge.num2, Unid.AbreviaturaUnidadeMedida, "
-      Sql = Sql & " neg.chPessoa, neg.chUnidadeOperacional, neg.negContrato, neg.negContratoComp, neg.chNumPedido, neg.chNumPedidoComp, gge.Data2, "
-      Sql = Sql & " pes.pesRazaoSocial, pes.pesEndereco, pes.pesBairro, pes.pesCidade, pes.chUF, pes.pesCEP, pes.chCNPJ_CPF, pes.pesInscEst_Ident, pes.pesTelContato, "
-      Sql = Sql & " det.chDataInicio, det.chDataFim, det.chProduto, det.hdnQuantidadePedida / 1 as QtdPedida, "
-      Sql = Sql & " (det.hdnPrecoUnidadePedida - (det.hdnPrecoUnidadePedida * num3) /100) as PrecoUnit, "
-      Sql = Sql & " (det.hdnValorDaDiaria - (det.hdnValorDaDiaria * num3) /100) as PrecoDiaria, det.hdnQtdDias / 1 as QtdDias, det.hdnAtividade, prd.prdDescCompleta, prd.chProduto, prd.prdNomeProd, "
-      Sql = Sql & " ROUND(((det.hdnValorDaDiaria - (det.hdnValorDaDiaria * num3) /100) * det.hdnQtdDias), 1) as PrecoOperacao "
-      Sql = Sql & " From GeradorGeral gge, UnidadeDeMedida Unid, HistoricoNegociacao neg, HistoricoDetalheNegociacao det, Pessoa pes, Produto prd "
-      Sql = Sql & " WHERE neg.chNumpedido = ('" & txtMedicao & "') and neg.hnegTipoProduto = ('" & TipoProduto & "') and gge.chAlfaNumerica = ('" & Relatorio & "') and det.chProduto = prd.chProduto "
-      Sql = Sql & " and det.chNumpedido = neg.chNumpedido and det.chNumpedidoComp = neg.chNumPedidoComp "
-      Sql = Sql & " and neg.chPessoa = pes.chPessoa and Unid.chUnidadeDeMedida = det.hdnUnidade "
-      Sql = Sql & " order by neg.chUnidadeOperacional, prd.chProduto "
+      sql = "Select gge.ggeDatahoje, gge.ggeDataIni, gge.ggeDataFim, gge.Alfa2, Alfa3, gge.chNumerica, gge.num2, Unid.AbreviaturaUnidadeMedida, "
+      sql = sql & " neg.chPessoa, neg.chUnidadeOperacional, neg.negContrato, neg.negContratoComp, neg.chNumPedido, neg.chNumPedidoComp, gge.Data2, "
+      sql = sql & " pes.pesRazaoSocial, pes.pesEndereco, pes.pesBairro, pes.pesCidade, pes.chUF, pes.pesCEP, pes.chCNPJ_CPF, pes.pesInscEst_Ident, pes.pesTelContato, "
+      sql = sql & " det.chDataInicio, det.chDataFim, det.chProduto, det.hdnQuantidadePedida / 1 as QtdPedida, "
+      sql = sql & " (det.hdnPrecoUnidadePedida - (det.hdnPrecoUnidadePedida * num3) /100) as PrecoUnit, "
+      sql = sql & " (det.hdnValorDaDiaria - (det.hdnValorDaDiaria * num3) /100) as PrecoDiaria, det.hdnQtdDias / 1 as QtdDias, det.hdnAtividade, prd.prdDescCompleta, prd.chProduto, prd.prdNomeProd, prdNomeComercial, "
+      sql = sql & " ROUND(((det.hdnValorDaDiaria - (det.hdnValorDaDiaria * num3) /100) * det.hdnQtdDias), 1) as PrecoOperacao "
+      sql = sql & " From geradorgeral gge, unidadedemedida Unid, historiconegociacao neg, historicodetalhenegociacao det, pessoa pes, produto prd "
+      sql = sql & " WHERE neg.chNumpedido = ('" & txtMedicao & "') and neg.hnegTipoProduto = ('" & TipoProduto & "') and gge.chAlfaNumerica = ('" & Relatorio & "') and det.chProduto = prd.chProduto "
+      sql = sql & " and det.chNumpedido = neg.chNumpedido and det.chNumpedidoComp = neg.chNumPedidoComp "
+      sql = sql & " and neg.chPessoa = pes.chPessoa and Unid.chUnidadeDeMedida = det.hdnUnidade "
+      sql = sql & " order by neg.chUnidadeOperacional, prd.chProduto "
    End If
 Else
-   Sql = "Select gge.ggeDatahoje, gge.ggeDataIni, gge.ggeDataFim, gge.Alfa2, Alfa3, gge.chNumerica, gge.num2, Unid.AbreviaturaUnidadeMedida, "
-   Sql = Sql & " neg.chPessoa, neg.chUnidadeOperacional, neg.negContrato, neg.negContratoComp, neg.chNumPedido, neg.chNumPedidoComp, gge.Data2, "
-   Sql = Sql & " pes.pesRazaoSocial, pes.pesEndereco, pes.pesBairro, pes.pesCidade, pes.chUF, pes.pesCEP, pes.chCNPJ_CPF, pes.pesInscEst_Ident, pes.pesTelContato, "
-   Sql = Sql & " det.chDataInicio, det.chDataFim, det.chProduto, det.pedQuantidadePedida / 1 as QtdPedida, "
-   Sql = Sql & " (det.pedPrecoUnidadePedida - (det.pedPrecoUnidadePedida * num3) /100) as PrecoUnit, "
-   Sql = Sql & " (det.pedValorDaDiaria - (det.pedValorDaDiaria * num3) /100) as PrecoDiaria, det.pedQtdDias / 1 as QtdDias, det.pedAtividade, prd.prdDescCompleta, prd.chProduto, prd.prdNomeProd, "
-   Sql = Sql & " ROUND(((det.pedValorDaDiaria - (det.pedValorDaDiaria * num3) /100) * det.pedQtdDias), 1) as PrecoOperacao "
-   Sql = Sql & " From GeradorGeral gge, UnidadeDeMedida Unid, Negociacao neg, DetalheNegociacao det, Pessoa pes, Produto prd "
-   Sql = Sql & " WHERE neg.chNumpedido = ('" & txtMedicao & "') and neg.negTipoProduto = ('" & TipoProduto & "') and gge.chAlfaNumerica = ('" & Relatorio & "') and det.chProduto = prd.chProduto "
-   Sql = Sql & " and det.chNumpedido = neg.chNumpedido and det.chNumpedidoComp = neg.chNumPedidoComp "
-   Sql = Sql & " and neg.chPessoa = pes.chPessoa and Unid.chUnidadeDeMedida = det.pedUnidade "
-   Sql = Sql & " order by neg.chUnidadeOperacional, prd.chProduto "
+   sql = "Select gge.ggeDatahoje, gge.ggeDataIni, gge.ggeDataFim, gge.Alfa2, Alfa3, gge.chNumerica, gge.num2, Unid.AbreviaturaUnidadeMedida, "
+   sql = sql & " neg.chPessoa, neg.chUnidadeOperacional, neg.negContrato, neg.negContratoComp, neg.chNumPedido, neg.chNumPedidoComp, gge.Data2, "
+   sql = sql & " pes.pesRazaoSocial, pes.pesEndereco, pes.pesBairro, pes.pesCidade, pes.chUF, pes.pesCEP, pes.chCNPJ_CPF, pes.pesInscEst_Ident, pes.pesTelContato, "
+   sql = sql & " det.chDataInicio, det.chDataFim, det.chProduto, det.pedQuantidadePedida / 1 as QtdPedida, "
+   sql = sql & " (det.pedPrecoUnidadePedida - (det.pedPrecoUnidadePedida * num3) /100) as PrecoUnit, "
+   sql = sql & " (det.pedValorDaDiaria - (det.pedValorDaDiaria * num3) /100) as PrecoDiaria, det.pedQtdDias / 1 as QtdDias, det.pedAtividade, prd.prdDescCompleta, prd.chProduto, prd.prdNomeProd, prdNomeComercial, "
+   sql = sql & " ROUND(((det.pedValorDaDiaria - (det.pedValorDaDiaria * num3) /100) * det.pedQtdDias), 1) as PrecoOperacao "
+   sql = sql & " From geradorgeral gge, unidadedemedida Unid, negociacao neg, detalhenegociacao det, pessoa pes, produto prd "
+   sql = sql & " WHERE neg.chNumpedido = ('" & txtMedicao & "') and neg.negTipoProduto = ('" & TipoProduto & "') and gge.chAlfaNumerica = ('" & Relatorio & "') and det.chProduto = prd.chProduto "
+   sql = sql & " and det.chNumpedido = neg.chNumpedido and det.chNumpedidoComp = neg.chNumPedidoComp "
+   sql = sql & " and neg.chPessoa = pes.chPessoa and Unid.chUnidadeDeMedida = det.pedUnidade "
+   sql = sql & " order by neg.chUnidadeOperacional, prd.chProduto "
 End If
 
-AbrirRelatorio Sql, rel
+AbrirRelatorio sql, Rel
 
 'Resp = MsgBox("O número da Fatura e a emissão da mesma estão corretos???", vbExclamation + vbYesNo)
 '   If Resp = vbNo Then
@@ -962,7 +962,7 @@ txtPessoa = GridFatura.TextMatrix(IndLinha, 3)
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa where chPessoa = ('" & GridFatura.TextMatrix(IndLinha, 3) & "')", db, 3, 3
+pes.Open "Select * from pessoa where chPessoa = ('" & GridFatura.TextMatrix(IndLinha, 3) & "')", db, 3, 3
 If pes.EOF Then
    MsgBox ("Cliente não encontrado. Comuniicar ao analista responsável."), vbCritical
    Call FechaDB
@@ -987,12 +987,12 @@ Else
    dtEmis = GridFatura.TextMatrix(IndLinha, 9)
 End If
 
-neg.Open "Select * From Negociacao where chNumPedido = ('" & txtNumPedido & "') and negTipoProduto = ('" & 0 & "')", db, 3, 3
+neg.Open "Select * from negociacao where chNumPedido = ('" & txtNumPedido & "') and negTipoProduto = ('" & 0 & "')", db, 3, 3
 If neg.EOF Then
    If neg.State = 1 Then
       neg.Close: Set neg = Nothing
    End If
-   neg.Open "Select * From HistoricoNegociacao where chNumPedido = ('" & txtNumPedido & "') and hnegTipoProduto = ('" & 0 & "')", db, 3, 3
+   neg.Open "Select * From historiconegociacao where chNumPedido = ('" & txtNumPedido & "') and hnegTipoProduto = ('" & 0 & "')", db, 3, 3
    If neg.EOF Then
       MsgBox ("Pedido inexistente. Reportar ao analista responsável"), vbCritical
       Call FechaDB
@@ -1017,7 +1017,7 @@ Else
       MsgBox ("Esta Fatura já foi Impressa. A reimpressão pode ser efetuada"), vbExclamation
       txtNumFatura = neg!negNumFatura
    Else
-      Emp.Open "Select * from Empresa", db, 3, 3
+      Emp.Open "Select * from empresa", db, 3, 3
       If Emp.EOF Then
          MsgBox ("Banco de dados sem registro da empresa. Reportar ao analista responsável"), vbCritical
          Call FechaDB
@@ -1034,8 +1034,8 @@ Else
 End If
 
 Dia = Day(Date)
-Mes = Month(Date)
-Ano = Year(Date)
+mes = Month(Date)
+ano = Year(Date)
 
 txtTaxa.SetFocus
 

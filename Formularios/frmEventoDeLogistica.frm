@@ -159,14 +159,14 @@ Dim IndLinha As Integer
 Private Sub cmdExcluir_Click()
 
 If txtNomeEvento = Empty Then
-   MsgBox ("Solicitação inválida. Atividade não informado"), vbCritical
+   MsgBox ("Solicitação inválida. atividade não informado"), vbCritical
    Call FechaDB
    Exit Sub
 End If
 
 Call Rotina_AbrirBanco
 
-Ativ.Open "Select * from Atividade where atvAtividade = ('" & txtNomeEvento & "')", db, 3, 3
+Ativ.Open "Select * from atividade where atvAtividade = ('" & txtNomeEvento & "')", db, 3, 3
 If Ativ.EOF Then
    MsgBox ("Evento inexistente"), vbCritical
    Call FechaDB
@@ -194,24 +194,24 @@ Private Sub cmdSalvar_Click()
 Call Rotina_AbrirBanco
 
 If txtNomeEvento = Empty Then
-   MsgBox ("Descrição do Atividade para salvar não foi informado"), vbCritical
+   MsgBox ("Descrição do atividade para salvar não foi informado"), vbCritical
    Call FechaDB
    Exit Sub
 End If
 
 If txtCodEvento = Empty Then
-   MsgBox ("Código do Atividade para salvar não foi informado"), vbCritical
+   MsgBox ("Código do atividade para salvar não foi informado"), vbCritical
    Call FechaDB
    Exit Sub
 End If
 
 If txtPrazoEvento = Empty Then
-   MsgBox ("Prazo do Atividade para salvar não foi informado"), vbCritical
+   MsgBox ("Prazo do atividade para salvar não foi informado"), vbCritical
    Call FechaDB
    Exit Sub
 End If
 
-Ativ.Open "Select * from Atividade where atvAtividade = ('" & txtNomeEvento & "')", db, 3, 3
+Ativ.Open "Select * from atividade where atvAtividade = ('" & txtNomeEvento & "')", db, 3, 3
 If Ativ.EOF Then
    Ativ.AddNew
 End If
@@ -240,7 +240,7 @@ CargagridEventos
 
 End Sub
 
-Private Sub gridEventos_MouseUp(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub gridEventos_MouseUp(Button As Integer, Shift As Integer, x As Single, y As Single)
 
 Limite = gridEventos.Rows
 
@@ -264,9 +264,9 @@ Dim IndLinha As Integer
 
 Call Rotina_AbrirBanco
 
-Ativ.Open "Select * from Atividade", db, 3, 3
+Ativ.Open "Select * from atividade", db, 3, 3
 If Ativ.EOF Then
-   MsgBox ("Tabela de Atividade Vazia."), vbCritical
+   MsgBox ("Tabela de atividade Vazia."), vbCritical
    Call FechaDB
    Exit Sub
 End If

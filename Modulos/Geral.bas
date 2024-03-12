@@ -45,7 +45,7 @@ Public fpag As New ADODB.Recordset
 Public uoper As New ADODB.Recordset
 Public gge As New ADODB.Recordset
 Public gdet As New ADODB.Recordset
-Public Unid As New ADODB.Recordset
+Public unid As New ADODB.Recordset
 Public Ativ As New ADODB.Recordset
 Public Rmb As New ADODB.Recordset
 Public RmbDet As New ADODB.Recordset
@@ -129,7 +129,7 @@ Global Funcao As Byte '1=Atualiza producao
                       '2=Atualiza Devolucao
                       '3=Atualiza Vendas
 Global ano As Integer
-Global Mes As Integer
+Global mes As Integer
 Global Dia As Integer
 Global Produto As String
 Global Entra As Currency
@@ -141,11 +141,11 @@ Global Mes_Pedido As Integer
 Global OrdemDeCarga As String
 Global EmissorOrdemDeCarga As String
 
-Global Fornecedor As String
+Global fornecedor As String
 
 Global GeradorCntrl As Byte
 
-Global Producao As Currency
+Global producao As Currency
 Global QtdInicial As Currency
 Global Devolucao As Currency
 Global Venda As Currency
@@ -159,14 +159,12 @@ Global glbUsuario As String
 Global StatusSistema As Byte
 
 Global Transportadora As String
-Global UltimoRegistro As String
+Global ultimoRegistro As String
 
 Global NDias As Integer
 Global DataInformada As Date
 Global DataRetorno As Date
 Global Verifica As String
-Global ChaveCompilando As Byte
-
 
 'Fim da definição de parâmetros para atualização de Estoque
 
@@ -175,12 +173,11 @@ Global Status_Atualiza_Estoque
 Public CON As New ADODB.Connection
 Public rsl As New ADODB.Connection
 
-Public Function Compilando() As Boolean
-Compilando = App.Path Like "*Meus Documentos\SISTEMA*"
-ChaveCompilando = 1
-End Function
+'Public Function Compilando() As Boolean
+'Compilando = App.Path Like "*Meus Documentos\SISTEMA*"
+'End Function
 
-Public Sub AbrirRelatorio(Sql As String, rel As Object)
+Public Sub AbrirRelatorio(sql As String, Rel As Object)
 Dim tentou As Boolean
 Dim server As String
 Dim senha As String
@@ -189,18 +186,18 @@ Dim banco As String
 Dim erroDriver As Boolean
 
 On Error GoTo Erro
-inicio:
+Inicio:
 server = "mysql.sistemaos.com.br;"
 banco = "sistemaos03;"
 usuario = banco
 senha = "zinholui47"
 
-         If Compilando Then
-            server = "localhost;"
-            banco = "Local;"
-            usuario = "root;"
-            senha = ""
-         End If
+'         If Compilando Then
+'            server = "localhost;"
+'            banco = "Local;"
+'            usuario = "root;"
+'            senha = ""
+'         End If
 
          Set CON = CreateObject("ADODB.Connection")
          'Set rel = CreateObject("ADODB.Recordset")
@@ -216,9 +213,9 @@ senha = "zinholui47"
 'MsgBox sConn
 100      CON.Open sConn
          'rsl.CursorLocation = adUseClient
-   With rel
+   With Rel
       .DataControl1.ConnectionString = sConn
-      .DataControl1.Source = Sql
+      .DataControl1.Source = sql
       .Show 1
       'MsgBox ("Mostrei")
    End With
@@ -228,7 +225,7 @@ Erro:
 
 130   If Not tentou Then
          MsgBox ("Vou tentar maiis uma vez")
-         erroDriver = True: GoTo inicio
+         erroDriver = True: GoTo Inicio
       Else
          MsgBox Err.Description
       End If
@@ -245,7 +242,7 @@ Public Function Rotina_AbrirBanco() As Boolean
       Dim tentou As Boolean
       
 10 Mouse: On Error GoTo ConnectMQ_Error
-inicio:
+Inicio:
 20    Driver = "Driver={MySQL ODBC 3.51 Driver};"
 
 30    If erroDriver Then
@@ -256,12 +253,12 @@ inicio:
 80    BDados = "sistemaos03"
 90    NomeUs = "sistemaos03"
 100   PassWD = "zinholui47"
-If Compilando Then
-   server = "localhost;"
-   BDados = "Local;"
-   NomeUs = "root;"
-   PassWD = ""
-End If
+'   If Compilando Then
+'      server = "localhost;"
+'      BDados = "Local;"
+'      NomeUs = "root;"
+'      PassWD = ""
+'   End If
 110  If db.State = 1 Then db.Close: Set db = Nothing
 120   db.Open Driver & server & _
               ";Database= " & BDados & _
@@ -272,7 +269,7 @@ End If
 140 MouseOff:    Exit Function
 ConnectMQ_Error:
 'Se não encontrou o Driver 3.51 tenta com o 5.1 (apenas uma vez)
-150   If Not tentou Then erroDriver = True: GoTo inicio
+150   If Not tentou Then erroDriver = True: GoTo Inicio
 160   Rotina_AbrirBanco = False
 End Function
 Public Sub FechaDB()
@@ -401,8 +398,8 @@ Public Sub FechaDB()
      If gdet.State = 1 Then
         gdet.Close: Set gdet = Nothing
      End If
-     If Unid.State = 1 Then
-        Unid.Close: Set Unid = Nothing
+     If unid.State = 1 Then
+        unid.Close: Set unid = Nothing
      End If
      If Ativ.State = 1 Then
         Ativ.Close: Set Ativ = Nothing

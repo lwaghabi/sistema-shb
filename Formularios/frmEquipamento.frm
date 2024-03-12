@@ -287,7 +287,7 @@ Begin VB.Form frmEquipamento
                   Italic          =   0   'False
                   Strikethrough   =   0   'False
                EndProperty
-               Format          =   248053761
+               Format          =   379060225
                CurrentDate     =   44858
             End
             Begin VB.TextBox txtDocRemessa 
@@ -373,7 +373,7 @@ Begin VB.Form frmEquipamento
                   Italic          =   0   'False
                   Strikethrough   =   0   'False
                EndProperty
-               Format          =   248053761
+               Format          =   379060225
                CurrentDate     =   44858
             End
             Begin VB.Label Label21 
@@ -516,7 +516,7 @@ Begin VB.Form frmEquipamento
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   247857153
+         Format          =   379060225
          CurrentDate     =   44857
       End
       Begin MSComCtl2.DTPicker dtDataCalibracao 
@@ -537,7 +537,7 @@ Begin VB.Form frmEquipamento
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   247857153
+         Format          =   379060225
          CurrentDate     =   44857
       End
       Begin VB.Label Label4 
@@ -738,7 +738,7 @@ Begin VB.Form frmEquipamento
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   247857153
+         Format          =   379060225
          CurrentDate     =   44720
       End
       Begin VB.ComboBox cmbJBX 
@@ -775,7 +775,7 @@ Begin VB.Form frmEquipamento
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   247857153
+         Format          =   378994689
          CurrentDate     =   44720
       End
       Begin MSComCtl2.DTPicker dtDataFabricacao 
@@ -796,7 +796,7 @@ Begin VB.Form frmEquipamento
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   247857153
+         Format          =   390266881
          CurrentDate     =   44720
       End
       Begin VB.TextBox txtNotaFiscal 
@@ -1360,8 +1360,8 @@ Option Explicit
 
 Dim Verifica As String
 Dim Dia As String
-Dim Mes As String
-Dim Ano As String
+Dim mes As String
+Dim ano As String
 
 Dim DiaCalib As String
 Dim MesCalib As String
@@ -1381,17 +1381,17 @@ Dim wsUnidTempoCalibracao As String
 Dim wsQtdTempoCalibracao As Integer
 Dim EquipTipoAnterior As String
 Dim ProdutoSalvo As String
-Dim EquipamentoAux As String
+Dim equipamentoAux As String
 Dim Inclui As Integer
 Dim Exclui As Integer
 
-Dim Indice As Integer
+Dim indice As Integer
 Dim Ind As Integer
 
 
 Private Sub cmbCodequipamento_LostFocus()
 
-Call LimpaCampos
+Call limpaCampos
 
 If Not cmbCodEquipamento = Empty Then
    Call CarregaCampos
@@ -1415,7 +1415,7 @@ Else
    End If
 End If
 
-Prod.Open "Select * from Produto where chProduto = ('" & cmbJBX & "')", db, 3, 3
+Prod.Open "Select * from produto where chProduto = ('" & cmbJBX & "')", db, 3, 3
 
 If Prod.EOF Then
    MsgBox ("Produto não cadastrado. Verificar"), vbCritical
@@ -1436,7 +1436,7 @@ Private Sub cmbTipoequipamento_LostFocus()
 
 Call Rotina_AbrirBanco
 
-teq.Open "Select * from EquipamentoTipo where chTipoDeequipamento = ('" & cmbTipoEquipamento & "')", db, 3, 3
+teq.Open "Select * from equipamentotipo where chTipoDeequipamento = ('" & cmbTipoEquipamento & "')", db, 3, 3
 If teq.EOF Then
    MsgBox ("Tipo de equipamento não encontrado. Informar um código da lista."), vbInformation
    Call FechaDB
@@ -1459,16 +1459,16 @@ Private Sub cmdExcluir_Click()
 
 Call Rotina_AbrirBanco
 
-eqpt.Open "Select * from Equipamento where chCodEquipamento = ('" & cmbCodEquipamento & "')", db, 3, 3
+eqpt.Open "Select * from equipamento where chCodEquipamento = ('" & cmbCodEquipamento & "')", db, 3, 3
 If eqpt.EOF Then
    MsgBox ("Equipamento oara exclusão não encontrado"), vbInformation
    Call FechaDB
    Exit Sub
 End If
 
-Resp = MsgBox("Exclusão de Equipamento. Confirma?", vbExclamation + vbYesNo)
+Resp = MsgBox("Exclusão de equipamento. Confirma?", vbExclamation + vbYesNo)
    If Resp = vbYes Then
-      eqh.Open "Select * from EquipamentoHistorico where chCodEquipamento = ('" & cmbCodEquipamento & "')", db, 3, 3
+      eqh.Open "Select * from equipamentohistorico where chCodEquipamento = ('" & cmbCodEquipamento & "')", db, 3, 3
       If Not eqh.EOF Then
          eqh.MoveFirst
          Do While Not eqh.EOF
@@ -1481,7 +1481,7 @@ Resp = MsgBox("Exclusão de Equipamento. Confirma?", vbExclamation + vbYesNo)
       eqpt.Delete
    End If
    
-   Call LimpaCampos
+   Call limpaCampos
 
    'Call CarregaCampos
    
@@ -1529,9 +1529,9 @@ If Not eqpt.EOF Then
          If teq.State = 1 Then
             teq.Close: Set teq = Nothing
          End If
-         teq.Open "Select * from EquipamentoTipo where chTipoDeEquipamento = ('" & eqpt!eqptTipoEquipamento & "')", db, 3, 3
+         teq.Open "Select * from equipamentotipo where chTipoDeEquipamento = ('" & eqpt!eqptTipoEquipamento & "')", db, 3, 3
          If teq.EOF Then
-            MsgBox ("Erro no acesso a Tipo de Equipamento."), vbCritical
+            MsgBox ("Erro no acesso a Tipo de equipamento."), vbCritical
             Call FechaDB
             Exit Sub
          End If
@@ -1547,7 +1547,7 @@ If Not eqpt.EOF Then
    
       lstEquipamento.AddItem eqpt!chCodEquipamento
    
-      Indice = lstEquipamento.ListCount
+      indice = lstEquipamento.ListCount
    
        eqpt.MoveNext
    
@@ -1645,7 +1645,7 @@ End If
 Call Rotina_AbrirBanco
 
 Inclui = 0
-eqpt.Open "Select * from Equipamento where chCodequipamento = ('" & cmbCodEquipamento & "')", db, 3, 3
+eqpt.Open "Select * from equipamento where chCodequipamento = ('" & cmbCodEquipamento & "')", db, 3, 3
 If eqpt.EOF Then
    Inclui = 1
    eqpt.AddNew
@@ -1699,7 +1699,7 @@ Call CarregaProduto
 
 Call FechaDB
 
-Call LimpaCampos
+Call limpaCampos
 
 'cmbCodEquipamento = Empty
 
@@ -1714,7 +1714,7 @@ End Sub
 
 Private Sub Command1_Click()
 
-Call LimpaCampos
+Call limpaCampos
 
 'cmbCodEquipamento = Empty
 
@@ -1804,7 +1804,7 @@ Call Carregaequipamento
 
 Call Rotina_AbrirBanco
 
-teq.Open "Select * from EquipamentoTipo", db, 3, 3
+teq.Open "Select * from equipamentotipo", db, 3, 3
 If teq.EOF Then
    MsgBox ("Tabela de Tipos de equipamentos vazia."), vbInformation
    Call FechaDB
@@ -1823,7 +1823,7 @@ Loop
 
 cmbTipoDeEquipamento.ListIndex = 0
 
-pes.Open "Select * from Pessoa where pesTipoPessoa = ('" & 1 & "') and pesRamoAtividade = ('" & 1 & "')", db, 3, 3
+pes.Open "Select * from pessoa where pesTipoPessoa = ('" & 1 & "') and pesRamoAtividade = ('" & 1 & "')", db, 3, 3
 If pes.EOF Then
    MsgBox ("Cadastro de fornecedor sem prstador de serviços especializados"), vbCritical
    Call FechaDB
@@ -1858,7 +1858,7 @@ lstEquipamento.Clear
 
 Call Rotina_AbrirBanco
 
-eqpt.Open "Select * from Equipamento", db, 3, 3
+eqpt.Open "Select * from equipamento", db, 3, 3
 If Not eqpt.EOF Then
    eqpt.MoveFirst
    
@@ -1867,9 +1867,9 @@ If Not eqpt.EOF Then
          If teq.State = 1 Then
             teq.Close: Set teq = Nothing
          End If
-         teq.Open "Select * from EquipamentoTipo where chTipoDeEquipamento = ('" & eqpt!eqptTipoEquipamento & "')", db, 3, 3
+         teq.Open "Select * from equipamentotipo where chTipoDeEquipamento = ('" & eqpt!eqptTipoEquipamento & "')", db, 3, 3
          If teq.EOF Then
-            MsgBox ("Erro no acesso a Tipo de Equipamento."), vbCritical
+            MsgBox ("Erro no acesso a Tipo de equipamento."), vbCritical
             Call FechaDB
             Exit Sub
          End If
@@ -1891,7 +1891,7 @@ If Not eqpt.EOF Then
       '   lstEquipamento.BackColor = &H8000000F
       'End If
       
-      Indice = lstEquipamento.ListCount
+      indice = lstEquipamento.ListCount
       
       eqpt.MoveNext
       
@@ -1905,7 +1905,7 @@ End If
 
 End Sub
 
-Public Sub LimpaCampos()
+Public Sub limpaCampos()
 
 frameCalibracao.Visible = True
 frameEnvioCalibracao.Visible = True
@@ -1950,9 +1950,9 @@ Public Sub CarregaCampos()
 
 Call Rotina_AbrirBanco
 
-eqpt.Open "Select * from Equipamento where chCodequipamento = ('" & cmbCodEquipamento & "')", db, 3, 3
+eqpt.Open "Select * from equipamento where chCodequipamento = ('" & cmbCodEquipamento & "')", db, 3, 3
 If eqpt.EOF Then
-   Resp = MsgBox("Inclusão de Equipamento. Confirma?", vbExclamation + vbYesNo)
+   Resp = MsgBox("Inclusão de equipamento. Confirma?", vbExclamation + vbYesNo)
    If Resp = vbYes Then
       cmbTipoEquipamento.SetFocus
    End If
@@ -1979,7 +1979,7 @@ If Not eqpt!eqptStatusCalibracao = Empty Then
    cmbStatusCalibracao = eqpt!eqptStatusCalibracao
 End If
 
-teq.Open "Select * from EquipamentoTipo where chTipoDeequipamento = ('" & cmbTipoEquipamento & "')", db, 3, 3
+teq.Open "Select * from equipamentotipo where chTipoDeequipamento = ('" & cmbTipoEquipamento & "')", db, 3, 3
 If teq.EOF Then
    MsgBox ("Tipo de equipamento não encontrado. Informar um código da lista."), vbInformation
    Call FechaDB
@@ -2014,7 +2014,7 @@ frameCalibracao.Visible = True
 frameEnvioCalibracao.Visible = True
 
 
-Prod.Open "Select * from Produto where chProduto = ('" & cmbJBX & "')", db, 3, 3
+Prod.Open "Select * from produto where chProduto = ('" & cmbJBX & "')", db, 3, 3
 
 If Prod.EOF Then
    MsgBox ("Produto não cadastrado. Verificar"), vbCritical
@@ -2041,7 +2041,7 @@ End Sub
 
 Private Sub lstEquipamento_Click()
 
-Call LimpaCampos
+Call limpaCampos
 
 cmbCodEquipamento = lstEquipamento.List(lstEquipamento.ListIndex)
 
@@ -2156,13 +2156,13 @@ Public Sub GeraHistorico()
 
 Call Rotina_AbrirBanco
 
-Ano = Year(dtDataCalibracao)
-Mes = Month(dtDataCalibracao)
+ano = Year(dtDataCalibracao)
+mes = Month(dtDataCalibracao)
 Dia = Day(dtDataCalibracao)
 
-DataInvertida = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
-eqh.Open "Select * from EquipamentoHistorico where chCodEquipamento = ('" & cmbCodEquipamento & "') and eqhDataCalibracao = ('" & DataInvertida & "')", db, 3, 3
+eqh.Open "Select * from equipamentohistorico where chCodEquipamento = ('" & cmbCodEquipamento & "') and eqhDataCalibracao = ('" & DataInvertida & "')", db, 3, 3
 If eqh.EOF Then
    eqh.AddNew
 End If
@@ -2250,7 +2250,7 @@ If nfd.State = 0 Then
    Call Rotina_AbrirBanco
 End If
 
-Prod.Open "Select * from Produto where prdOrdemApresentacao = ('" & 0 & "')", db, 3, 3
+Prod.Open "Select * from produto where prdOrdemApresentacao = ('" & 0 & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("Produto vazio. Informar ao analista responsável."), vbInformation
    Call FechaDB
@@ -2276,15 +2276,15 @@ Public Sub PoeCorNoList()
 
 Call Rotina_AbrirBanco
 
-For Ind = 1 To Indice
+For Ind = 1 To indice
 
    If eqpt.State = 1 Then
       eqpt.Close: Set eqpt = Nothing
    End If
    
-   EquipamentoAux = lstEquipamento.List(Ind)
+   equipamentoAux = lstEquipamento.List(Ind)
    
-   eqpt.Open "Select * from Equipamento where chCodEquipamento = ('" & EquipamentoAux & "')", db, 3, 3
+   eqpt.Open "Select * from equipamento where chCodEquipamento = ('" & equipamentoAux & "')", db, 3, 3
    If eqpt.EOF Then
       MsgBox ("Erro. Não encontrei o registro apontado no list."), vbCritical
       Call FechaDB
@@ -2297,7 +2297,7 @@ For Ind = 1 To Indice
       teq.Close: Set teq = Nothing
    End If
          
-   teq.Open "Select * from EquipamentoTipo where chTipoDeEquipamento = ('" & eqpt!eqptTipoEquipamento & "')", db, 3, 3
+   teq.Open "Select * from equipamentotipo where chTipoDeEquipamento = ('" & eqpt!eqptTipoEquipamento & "')", db, 3, 3
    If Not teq.EOF Then
          
       If (DataProxManut - teq!teqDiasAntecedencia) < Date Then
@@ -2314,7 +2314,7 @@ Next
 End Sub
 
 Public Sub AcessarTodos()
-eqpt.Open "Select * from Equipamento", db, 3, 3
+eqpt.Open "Select * from equipamento", db, 3, 3
 If eqpt.EOF Then
    MsgBox ("Não há registros com a chave solicitada."), vbCritical
 End If
@@ -2322,7 +2322,7 @@ End Sub
 
 Public Sub TodosComStatus()
 
-eqpt.Open "Select * from Equipamento where eqptStatusCalibracao = ('" & cmbStatus & "')", db, 3, 3
+eqpt.Open "Select * from equipamento where eqptStatusCalibracao = ('" & cmbStatus & "')", db, 3, 3
 If eqpt.EOF Then
    MsgBox ("Não há registros com a chave solicitada."), vbCritical
 End If
@@ -2330,14 +2330,14 @@ End Sub
 
 Public Sub EqptoComTodos()
 
-eqpt.Open "Select * from Equipamento where eqptTipoEquipamento = ('" & cmbTipoDeEquipamento & "')", db, 3, 3
+eqpt.Open "Select * from equipamento where eqptTipoEquipamento = ('" & cmbTipoDeEquipamento & "')", db, 3, 3
 If eqpt.EOF Then
    MsgBox ("Não há registros com a chave solicitada."), vbCritical
 End If
 End Sub
 
 Public Sub EqptocomStatus()
-eqpt.Open "Select * from Equipamento where eqptTipoEquipamento = ('" & cmbTipoDeEquipamento & "') and eqptStatusCalibracao = ('" & cmbStatus & "')", db, 3, 3
+eqpt.Open "Select * from equipamento where eqptTipoEquipamento = ('" & cmbTipoDeEquipamento & "') and eqptStatusCalibracao = ('" & cmbStatus & "')", db, 3, 3
 If eqpt.EOF Then
    MsgBox ("Não há registros com a chave solicitada."), vbCritical
 End If
@@ -2347,7 +2347,7 @@ Public Sub AtualizaStatus()
 
 Call Rotina_AbrirBanco
 
-eqpt.Open "Select * from Equipamento", db, 3, 3
+eqpt.Open "Select * from equipamento", db, 3, 3
 If Not eqpt.EOF Then
    eqpt.MoveFirst
    
@@ -2373,7 +2373,7 @@ If Not eqpt.EOF Then
       
    Loop
 Else
-   MsgBox ("Tabela de Equipamentos vazia. Comunicar ao analista responsável."), vbCritical
+   MsgBox ("Tabela de equipamentos vazia. Comunicar ao analista responsável."), vbCritical
    Call FechaDB
 End If
 

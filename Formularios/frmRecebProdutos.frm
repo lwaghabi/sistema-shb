@@ -3,13 +3,13 @@ Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
 Object = "{86CF1D34-0C5F-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCT2.OCX"
 Begin VB.Form frmRecebProdutos 
    Caption         =   "frmRecebProdutos"
-   ClientHeight    =   9570
+   ClientHeight    =   8685
    ClientLeft      =   60
    ClientTop       =   405
-   ClientWidth     =   14505
+   ClientWidth     =   17340
    LinkTopic       =   "Form1"
-   ScaleHeight     =   9570
-   ScaleWidth      =   14505
+   ScaleHeight     =   8685
+   ScaleWidth      =   17340
    StartUpPosition =   2  'CenterScreen
    Begin VB.TextBox txtTotalRecebido 
       Alignment       =   1  'Right Justify
@@ -23,10 +23,10 @@ Begin VB.Form frmRecebProdutos
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   13200
+      Left            =   15360
       TabIndex        =   27
-      Top             =   5280
-      Width           =   1215
+      Top             =   6240
+      Width           =   1335
    End
    Begin VB.Frame Frame3 
       Caption         =   "Comandos"
@@ -39,11 +39,11 @@ Begin VB.Form frmRecebProdutos
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   3375
-      Left            =   9240
+      Height          =   1695
+      Left            =   9480
       TabIndex        =   23
-      Top             =   6120
-      Width           =   3255
+      Top             =   6840
+      Width           =   7455
       Begin VB.CommandButton cmdSair 
          Caption         =   "Sair"
          BeginProperty Font 
@@ -56,9 +56,9 @@ Begin VB.Form frmRecebProdutos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   615
-         Left            =   480
+         Left            =   4200
          TabIndex        =   25
-         Top             =   2160
+         Top             =   840
          Width           =   2295
       End
       Begin VB.CommandButton txtProcessarEstoque 
@@ -91,10 +91,10 @@ Begin VB.Form frmRecebProdutos
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1455
-      Left            =   2160
+      Left            =   480
       TabIndex        =   18
       Top             =   1560
-      Width           =   9735
+      Width           =   16695
       Begin VB.CommandButton cmdIncluiRecebido 
          Caption         =   "Inclui Recebido"
          BeginProperty Font 
@@ -107,9 +107,9 @@ Begin VB.Form frmRecebProdutos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   735
-         Left            =   8160
+         Left            =   14760
          TabIndex        =   10
-         Top             =   480
+         Top             =   600
          Width           =   1335
       End
       Begin VB.TextBox txtDescricao 
@@ -123,10 +123,10 @@ Begin VB.Form frmRecebProdutos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   495
-         Left            =   840
+         Left            =   120
          TabIndex        =   6
          Top             =   840
-         Width           =   2775
+         Width           =   9015
       End
       Begin VB.TextBox txtQtd 
          BeginProperty Font 
@@ -139,7 +139,7 @@ Begin VB.Form frmRecebProdutos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   495
-         Left            =   3840
+         Left            =   10440
          TabIndex        =   7
          Top             =   840
          Width           =   855
@@ -155,7 +155,7 @@ Begin VB.Form frmRecebProdutos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   495
-         Left            =   4920
+         Left            =   11520
          TabIndex        =   8
          Top             =   840
          Width           =   1215
@@ -171,7 +171,7 @@ Begin VB.Form frmRecebProdutos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   495
-         Left            =   6360
+         Left            =   12960
          TabIndex        =   9
          Top             =   840
          Width           =   1455
@@ -188,9 +188,9 @@ Begin VB.Form frmRecebProdutos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   375
-         Left            =   840
+         Left            =   120
          TabIndex        =   22
-         Top             =   360
+         Top             =   480
          Width           =   2775
       End
       Begin VB.Label Label10 
@@ -205,9 +205,9 @@ Begin VB.Form frmRecebProdutos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   375
-         Left            =   3840
+         Left            =   10440
          TabIndex        =   21
-         Top             =   360
+         Top             =   480
          Width           =   855
       End
       Begin VB.Label Label11 
@@ -222,9 +222,9 @@ Begin VB.Form frmRecebProdutos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   375
-         Left            =   4920
+         Left            =   11520
          TabIndex        =   20
-         Top             =   360
+         Top             =   480
          Width           =   1215
       End
       Begin VB.Label Label12 
@@ -239,24 +239,24 @@ Begin VB.Form frmRecebProdutos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   375
-         Left            =   6360
+         Left            =   12960
          TabIndex        =   19
-         Top             =   360
+         Top             =   480
          Width           =   1455
       End
    End
    Begin MSFlexGridLib.MSFlexGrid tblEquipamentos 
-      Height          =   2415
+      Height          =   2535
       Left            =   480
       TabIndex        =   5
       Top             =   3600
-      Width           =   12615
-      _ExtentX        =   22251
-      _ExtentY        =   4260
+      Width           =   16695
+      _ExtentX        =   29448
+      _ExtentY        =   4471
       _Version        =   393216
       Cols            =   8
       FixedCols       =   0
-      FormatString    =   "Descrição                                                   |Unid|Qtd|Valor Unit|Valor Total|Qtd|Valor Unit|Valor Total"
+      FormatString    =   $"frmRecebProdutos.frx":0000
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
          Size            =   12
@@ -302,7 +302,7 @@ Begin VB.Form frmRecebProdutos
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   243859457
+      Format          =   391708673
       CurrentDate     =   45145
    End
    Begin VB.TextBox txtNotaFiscal 
@@ -355,7 +355,7 @@ Begin VB.Form frmRecebProdutos
       Width           =   1575
    End
    Begin VB.Label Label17 
-      Caption         =   "Total Recebido"
+      Caption         =   "Valor Total Calculado"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   12
@@ -365,11 +365,11 @@ Begin VB.Form frmRecebProdutos
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   615
-      Left            =   13200
+      Height          =   495
+      Left            =   12480
       TabIndex        =   28
-      Top             =   4560
-      Width           =   1215
+      Top             =   6360
+      Width           =   2655
    End
    Begin VB.Label Label16 
       Caption         =   "Recebimento de Nota Fiscal de Fornecedor"
@@ -405,7 +405,7 @@ Begin VB.Form frmRecebProdutos
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   495
-      Left            =   6300
+      Left            =   10260
       TabIndex        =   17
       Top             =   3120
       Width           =   3210
@@ -427,13 +427,13 @@ Begin VB.Form frmRecebProdutos
       EndProperty
       ForeColor       =   &H80000008&
       Height          =   495
-      Left            =   9500
+      Left            =   13455
       TabIndex        =   16
       Top             =   3120
       Width           =   3210
    End
    Begin VB.Label Label5 
-      Caption         =   "Valor Total "
+      Caption         =   "Valor Total da Nota Fiscal"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   12
@@ -444,10 +444,10 @@ Begin VB.Form frmRecebProdutos
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   10440
+      Left            =   10080
       TabIndex        =   14
       Top             =   690
-      Width           =   2295
+      Width           =   3375
    End
    Begin VB.Label Label4 
       Caption         =   "Data Entrega"
@@ -597,11 +597,17 @@ Private Sub cmdSair_Click()
    Unload Me
 End Sub
 
+
+
+Private Sub Form_Load()
+   dtDataEntrega = Date
+End Sub
+
 Private Sub tblEquipamentos_Click()
 
    txtDescricao = tblEquipamentos.TextMatrix(tblEquipamentos.Row, 0)
    txtQtd = tblEquipamentos.TextMatrix(tblEquipamentos.Row, 5)
-   txtValorUnit = tblEquipamentos.TextMatrix(tblEquipamentos.Row, 6)
+   txtValorUnit = tblEquipamentos.TextMatrix(tblEquipamentos.Row, 3)
    txtValorTotalRec = tblEquipamentos.TextMatrix(tblEquipamentos.Row, 7)
    
 End Sub
@@ -621,7 +627,7 @@ Private Sub txtNumPO_LostFocus()
    rs.Open "Select status from suppedidodecompra where id=('" & txtNumPO & "')", db, 3, 3
    
       If Not rs.EOF Then
-         If rs!Status = 1 Then
+         If rs!Status = 2 Then
       
             MsgBox ("PO encerrada!"), vbInformation
             FechaDB
@@ -631,7 +637,7 @@ Private Sub txtNumPO_LostFocus()
       
    rs.Close
    
-   rs.Open "SELECT *,supPedidoDetalhe.status as statusItem FROM supPedidoDetalhe inner join supProduto on supPedidoDetalhe.grupo = supProduto.grupo and supPedidoDetalhe.classe = supProduto.classe and supPedidoDetalhe.codProd = supProduto.codProd WHERE id = ('" & txtNumPO & "')", db, 3, 3
+   rs.Open "SELECT *,suppedidodetalhe.status as statusItem FROM suppedidodetalhe inner join supproduto on suppedidodetalhe.grupo = supproduto.grupo and suppedidodetalhe.classe = supproduto.classe and suppedidodetalhe.codProd = supproduto.codProd WHERE id = ('" & txtNumPO & "')", db, 3, 3
    
       If rs.EOF Then
       
@@ -647,7 +653,7 @@ Private Sub txtNumPO_LostFocus()
       Do While Not rs.EOF
          
          If rs!statusItem = 0 Then
-            tblEquipamentos.AddItem rs!nomeProd & vbTab & rs!Unidade & vbTab & rs!qtdPedida - rs!qtdAtendida & vbTab & Format$(rs!valorUnitario, "##,##0.00") & vbTab & Format$(rs!ValorTotal - (rs!valorUnitario * rs!qtdAtendida), "##,##0.00")
+            tblEquipamentos.AddItem rs!nomeProd & vbTab & rs!unidade & vbTab & rs!qtdPedida - rs!qtdAtendida & vbTab & Format$(rs!valorUnitario, "##,##0.00") & vbTab & Format$(rs!ValorTotal - (rs!valorUnitario * rs!qtdAtendida), "##,##0.00")
          End If
          
          rs.MoveNext
@@ -658,7 +664,7 @@ Private Sub txtNumPO_LostFocus()
    
    rs.Open "SELECT fornecedor FROM suppedidodecompra WHERE id = ('" & txtNumPO & "')", db, 3, 3
    
-      txtFornecedor = rs!Fornecedor
+      txtFornecedor = rs!fornecedor
    
    rs.Close
    
@@ -667,20 +673,22 @@ Private Sub txtNumPO_LostFocus()
 End Sub
 
 Private Sub txtProcessarEstoque_Click()
+   On Error GoTo Erro
    Dim i As Integer
    Call Rotina_AbrirBanco
-   rs.Open "Select status from supPedidoDeCompra where id=('" & txtNumPO & "')", db, 3, 3
-   If rs!Status = 0 Then
+   rs.Open "Select status from suppedidodecompra where id=('" & txtNumPO & "')", db, 3, 3
+   If rs!Status < 2 Then
+      db.BeginTrans
       rs.Close
       Call verificaLista
       If flagVerificacao And txtTotalRecebido = Format$(txtValorTotal, "##,##0.00") Then
          i = 1
-         rs.Open "SELECT * FROM supProduto INNER JOIN suppedidodetalhe ON supPedidoDetalhe.grupo = supProduto.grupo AND supPedidoDetalhe.classe = supProduto.classe AND supPedidoDetalhe.codProd = supProduto.codProd WHERE id = ('" & txtNumPO & "') and suppedidodetalhe.status = 0", db, 3, 3
+         rs.Open "SELECT * FROM supproduto INNER JOIN suppedidodetalhe ON suppedidodetalhe.grupo = supproduto.grupo AND suppedidodetalhe.classe = supproduto.classe AND suppedidodetalhe.codProd = supproduto.codProd WHERE id = ('" & txtNumPO & "') and suppedidodetalhe.status = 0", db, 3, 3
          Do While Not rs.EOF
             
-            Prod.Open "SELECT * FROM supestoque WHERE grupo = ('" & rs!grupo & "') AND classe = ('" & rs!classe & "') AND codProd = ('" & rs!codProd & "')", db, 3, 3
+            Prod.Open "SELECT * FROM supestoque WHERE grupo = ('" & rs!Grupo & "') AND classe = ('" & rs!Classe & "') AND codProd = ('" & rs!codProd & "')", db, 3, 3
             
-            pes.Open "SELECT * from suppedidodetalhe where id=('" & txtNumPO & "') and grupo = ('" & rs!grupo & "') and classe = ('" & rs!classe & "') and codProd = ('" & rs!codProd & "')", db, 3, 3
+            pes.Open "SELECT * from suppedidodetalhe where id=('" & txtNumPO & "') and grupo = ('" & rs!Grupo & "') and classe = ('" & rs!Classe & "') and codProd = ('" & rs!codProd & "')", db, 3, 3
             pes!qtdAtendida = pes!qtdAtendida + tblEquipamentos.TextMatrix(i, 5)
             If pes!qtdAtendida = pes!qtdPedida Then
                
@@ -689,11 +697,14 @@ Private Sub txtProcessarEstoque_Click()
             End If
             If pes!acordo <> "NÃO" Then
                
-               neg.Open "SELECT * FROM supAcordoComercialDetalhe WHERE id = ('" & pes!acordo & "') and grupo = ('" & rs!grupo & "') and classe = ('" & rs!classe & "') and codProd = ('" & rs!codProd & "')", db, 3, 3
+               neg.Open "SELECT * FROM supacordocomercialdetalhe WHERE id = ('" & pes!acordo & "') and codProd = ('" & rs!codProd & "')", db, 3, 3
                
-               neg!qtdEntregue = neg!qtdEntregue + tblEquipamentos.TextMatrix(i, 5)
+               If Not neg.EOF Then
+                  neg!QtdEntregue = neg!QtdEntregue + tblEquipamentos.TextMatrix(i, 5)
                
-               neg.Update
+                  neg.Update
+               End If
+               
                neg.Close
             
             End If
@@ -706,13 +717,15 @@ Private Sub txtProcessarEstoque_Click()
             
             End If
             
-            Prod!grupo = rs!grupo
-            Prod!classe = rs!classe
+            Prod!Grupo = rs!Grupo
+            Prod!Classe = rs!Classe
             Prod!codProd = rs!codProd
             Prod!qtdEmEstoque = Prod!qtdEmEstoque + tblEquipamentos.TextMatrix(i, 5)
             Prod!dataUltimaAtualizacao = Date
             Prod.Update
             Prod.Close
+            
+            Call RegistraMov(rs!Grupo, rs!Classe, rs!codProd, CInt(tblEquipamentos.TextMatrix(i, 5)), "E")
             i = i + 1
             
             rs.MoveNext
@@ -720,24 +733,27 @@ Private Sub txtProcessarEstoque_Click()
          
          rs.Close
          
-         rs.Open "Select * from supPedidoDeCompra where id=('" & txtNumPO & "')", db, 3, 3
-         Prod.Open "SELECT COUNT(status) as atendidos from supPedidoDetalhe WHERE id=('" & txtNumPO & "') and status = 1", db, 3, 3
-         pes.Open "SELECT COUNT(status) as atendidos from supPedidoDetalhe WHERE id=('" & txtNumPO & "')"
+         rs.Open "Select * from suppedidodecompra where id=('" & txtNumPO & "')", db, 3, 3
+         Prod.Open "SELECT COUNT(status) as atendidos from suppedidodetalhe WHERE id=('" & txtNumPO & "') and status = 1", db, 3, 3
+         pes.Open "SELECT COUNT(status) as atendidos from suppedidodetalhe WHERE id=('" & txtNumPO & "')"
             If Prod!atendidos = pes!atendidos Then
-               rs!Status = 1
+               rs!Status = 2
                rs.Update
             End If
-         rs.Close
          Prod.Close
          pes.Close
+         
+         db.Execute ("UPDATE supestoque se,(SELECT (SUM(valorUnitario*qtdAtendida)/SUM(qtdAtendida)) AS mediaPonderada,grupo,classe,codProd FROM suppedidodetalhe GROUP BY grupo,classe,codProd) md SET se.valorMedioEstoque = md.mediaPonderada WHERE se.grupo=md.grupo AND se.classe=md.classe AND se.codProd=md.codProd")
+         
          MsgBox ("Processado com sucesso."), vbInformation
          
-         
-            
+         If rs!formaDePagamento <> "Antecipado" Then
+            Call gerarfinanceiro
+            MsgBox ("Financeiro gerado com sucesso"), vbInformation
+         End If
+         'rs.Close
+         db.CommitTrans
          FechaDB
-         
-         Call gerarfinanceiro
-         
       Else
       
          MsgBox ("Nota fiscal com inconsistência. Será recusada"), vbInformation
@@ -749,32 +765,9 @@ Private Sub txtProcessarEstoque_Click()
       MsgBox ("Pedido já foi processado")
    
    End If
-End Sub
-
-Private Sub txtValorTotal_LostFocus()
-
-   Call Rotina_AbrirBanco
-   
-   rs.Open "SELECT Total FROM suppedidodecompra WHERE id = ('" & txtNumPO & "')", db, 3, 3
-   
-      If rs.EOF Then
-      
-         MsgBox ("Número de PO informado não existe"), vbInformation
-         FechaDB
-         Exit Sub
-      
-      End If
-   
-      If txtValorTotal <> rs!total Then
-      
-         MsgBox ("Valor Total da nota incompatível com o valor total da PO"), vbCritical
-      
-      End If
-   
-   rs.Close
-   
-   FechaDB
-
+Exit Sub
+Erro: MsgBox ("Erro ao processar estoque :" & Err.Description), vbInformation
+db.RollbackTrans
 End Sub
 Public Sub verificaLista()
    Dim i As Integer
@@ -801,97 +794,116 @@ Public Sub verificaLista()
 End Sub
 
 Public Sub gerarfinanceiro()
-   Call Rotina_AbrirBanco
    Dim i As Integer
    
-   rs.Open "Select * from NotaFiscalEntrada where chPessoa=('" & txtFornecedor & "') and chNotaFiscalEntrada=('" & txtNotaFiscal & "')", db, 3, 3
+
    
-   If rs.EOF Then
+   If CInt(txtValorTotal) > 0 Then
    
-      rs.AddNew
+      If rs.State = 1 Then
+         rs.Close: Set rs = Nothing
+      End If
    
-   End If
-   
-   rs!chPessoa = txtFornecedor
-   rs!chNotaFiscalEntrada = txtNotaFiscal
-   rs!nfeFinalidadePagto = 2
-   rs!nfeDataEmissao = Date
-   rs!nfedataLanc = Date
-   rs!nfeValorDaNota = txtValorTotal
-   rs!nfeValorFrete = 0
-   rs!nfePagtoFrete = 0
-   rs!nfeValorICMS = 0
-   rs!nfeValorIPI = 0
-   rs!nfeNF_Boleto = 3
-   Prod.Open "SELECT indice from tipoLancamento where chTipoDocumento = (SELECT metodoPagamento from supPedidoDeCompra where id=('" & txtNumPO & "'))", db, 3, 3
-   rs!nfeTipoLancamento = Prod!Indice
-   Prod.Close
-   rs!nfeStatus = 0
-   rs.Update
-   
-   rs.Close
-   
-   i = 1
-   
-   Do While i < CInt(tblEquipamentos.Rows)
-      
-      rs.Open "Select * from notaFiscalDetProd where chPessoa=('" & txtFornecedor & "') and chNotaFiscalEntrada=('" & txtNotaFiscal & "') and chCodProduto=('" & tblEquipamentos.TextMatrix(i, 0) & "')", db, 3, 3
+      rs.Open "Select * from notafiscalentrada where chPessoa=('" & txtFornecedor & "') and chNotaFiscalEntrada=('" & txtNotaFiscal & "')", db, 3, 3
       
       If rs.EOF Then
       
          rs.AddNew
       
       End If
+      
       rs!chPessoa = txtFornecedor
       rs!chNotaFiscalEntrada = txtNotaFiscal
-      rs!chCodProduto = tblEquipamentos.TextMatrix(i, 0)
-      'rs!chFatura = 1
-      rs!nfdCentroDeCusto = "2"
-      
-      Prod.Open "Select GrupoCentroDeCusto,SubGrupoCentroDeCusto from supProduto where nomeProd = ('" & tblEquipamentos.TextMatrix(i, 0) & "')", db, 3, 3
-         rs!nfdGrupoCentroDeCusto = Prod!GrupoCentroDeCusto
-         rs!nfdSubGrupoCentroDeCusto = Prod!SubGrupoCentroDeCusto
-         pes.Open "SELECT DescricaoCentroDeCusto from centroDeCusto where chCentroDeCusto=2 and chGrupoCentroDeCusto=('" & Prod!GrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto= '00' ", db, 3, 3
-         rs!chProdutoFabrica = pes!DescricaoCentroDeCusto
-         pes.Close
+      rs!nfeFinalidadePagto = 2
+      rs!nfeDataEmissao = Date
+      rs!nfedataLanc = Date
+      rs!nfeValorDaNota = txtValorTotal
+      rs!nfeValorFrete = 0
+      rs!nfePagtoFrete = 0
+      rs!nfeValorICMS = 0
+      rs!nfeValorIPI = 0
+      rs!nfeNF_Boleto = 3
+      Prod.Open "SELECT indice from tipolancamento where chTipoDocumento = (SELECT metodoPagamento from suppedidodecompra where id=('" & txtNumPO & "'))", db, 3, 3
+      If Not Prod.EOF Then
+         rs!nfeTipoLancamento = Prod!indice
+      End If
       Prod.Close
-      
-      rs!nfdQtd = tblEquipamentos.TextMatrix(i, 5)
-      rs!nfdPU = tblEquipamentos.TextMatrix(i, 6)
-      rs!nfdValorDaCompra = tblEquipamentos.TextMatrix(i, 7)
-      
-      'rs!nfdValorDaParcela
-      rs!nfdStatusPagto = 0
+      rs!nfeStatus = 0
       rs.Update
-      i = i + 1
+      
       rs.Close
-   Loop
-   
-   i = 1
-   
-'   Do While i < CInt(tblFaturas.Rows)
-'
-'      rs.Open "SELECT * FROM NotaFiscalDesdobramento WHERE chPessoa = ('" & txtFornecedor & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chDataVencimento = ('" & Format$(tblFaturas.TextMatrix(i, 1), "yyyy-MM-dd") & "')", db, 3, 3
-'
-'      If rs.EOF Then
-'
-'         rs.AddNew
-'
-'      End If
-'
-'      rs!chPessoa = txtFornecedor
-'      rs!chNotaFiscalEntrada = txtNotaFiscal
-'      rs!chDataVencimento = Format$(tblFaturas.TextMatrix(i, 1), "yyyy-MM-dd")
-'      rs!nfdDataVencoriginal = Format$(tblFaturas.TextMatrix(i, 1), "yyyy-MM-dd")
-'      rs!nfdFaturaNumero = tblFaturas.TextMatrix(i, 0)
-'      rs!nfdValorDaFatura = tblFaturas.TextMatrix(i, 2)
-'      rs!nfdStatus = 0
-'      rs!nfdStatusPagto = 0
-'      rs!nfdOrdemBoleto = 0
-'      rs.Update
-'
-'      rs.Close
-'      i = i + 1
-'   Loop
-   FechaDB
+      
+      i = 1
+      
+      Do While i < CInt(tblEquipamentos.Rows)
+         
+         If CInt(tblEquipamentos.TextMatrix(i, 5)) > 0 Then
+         
+            rs.Open "Select * from notafiscaldetprod where chPessoa=('" & txtFornecedor & "') and chNotaFiscalEntrada=('" & txtNotaFiscal & "') and chCodProduto=('" & tblEquipamentos.TextMatrix(i, 0) & "')", db, 3, 3
+            
+            If rs.EOF Then
+            
+               rs.AddNew
+            
+            End If
+            rs!chPessoa = txtFornecedor
+            rs!chNotaFiscalEntrada = txtNotaFiscal
+            rs!chCodProduto = tblEquipamentos.TextMatrix(i, 0)
+            'rs!chFatura = 1
+            rs!nfdCentroDeCusto = "2"
+            
+            Prod.Open "Select GrupoCentroDeCusto,SubGrupoCentroDeCusto from supproduto where nomeProd = ('" & tblEquipamentos.TextMatrix(i, 0) & "')", db, 3, 3
+               rs!nfdGrupoCentroDeCusto = Prod!GrupoCentroDeCusto
+               rs!nfdSubGrupoCentroDeCusto = Prod!SubGrupoCentroDeCusto
+               pes.Open "SELECT DescricaoCentroDeCusto from centrodecusto where chCentroDeCusto=2 and chGrupoCentroDeCusto=('" & Prod!GrupoCentroDeCusto & "') and chSubGrupoCentroDeCusto= '00' ", db, 3, 3
+               rs!chProdutoFabrica = pes!DescricaoCentroDeCusto
+               pes.Close
+            Prod.Close
+            rs!nfdQtd = tblEquipamentos.TextMatrix(i, 5)
+            rs!nfdPU = tblEquipamentos.TextMatrix(i, 6)
+            rs!nfdValorDaCompra = tblEquipamentos.TextMatrix(i, 7)
+            
+            'rs!nfdValorDaParcela
+            rs!nfdStatusPagto = 0
+            rs.Update
+            i = i + 1
+            rs.Close
+         End If
+      Loop
+      
+      i = 1
+      
+   '   Do While i < CInt(tblFaturas.Rows)
+   '
+   '      rs.Open "SELECT * FROM notafiscaldesdobramento WHERE chPessoa = ('" & txtFornecedor & "') and chNotaFiscalEntrada = ('" & txtNotaFiscal & "') and chDataVencimento = ('" & Format$(tblFaturas.TextMatrix(i, 1), "yyyy-MM-dd") & "')", db, 3, 3
+   '
+   '      If rs.EOF Then
+   '
+   '         rs.AddNew
+   '
+   '      End If
+   '
+   '      rs!chPessoa = txtFornecedor
+   '      rs!chNotaFiscalEntrada = txtNotaFiscal
+   '      rs!chDataVencimento = Format$(tblFaturas.TextMatrix(i, 1), "yyyy-MM-dd")
+   '      rs!nfdDataVencoriginal = Format$(tblFaturas.TextMatrix(i, 1), "yyyy-MM-dd")
+   '      rs!nfdFaturaNumero = tblFaturas.TextMatrix(i, 0)
+   '      rs!nfdValorDaFatura = tblFaturas.TextMatrix(i, 2)
+   '      rs!nfdStatus = 0
+   '      rs!nfdStatusPagto = 0
+   '      rs!nfdOrdemBoleto = 0
+   '      rs.Update
+   '
+   '      rs.Close
+   '      i = i + 1
+   '   Loop
+   End If
+End Sub
+
+
+
+Private Sub txtValorUnit_LostFocus()
+   If txtQtd <> Empty And txtValorUnit <> Empty Then
+      txtValorTotalRec = Format$(txtQtd * txtValorUnit, "##,##0.00")
+   End If
 End Sub

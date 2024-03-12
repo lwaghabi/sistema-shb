@@ -306,7 +306,7 @@ Begin VB.Form frmReprogFinanc
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   240975873
+         Format          =   392822785
          CurrentDate     =   38135
       End
       Begin VB.Label Label10 
@@ -502,7 +502,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 Option Explicit
-Dim fim As Byte
+Dim Fim As Byte
 Dim ClienteAnterior As String
 Dim Contador As Integer
 Dim NotaFiscalAnterior As String
@@ -525,7 +525,7 @@ Dim descoperacao As String
 Dim ValorAnterior As Currency
 Dim TipoLancDespAnterior As String
 Dim ano As String
-Dim Mes As String
+Dim mes As String
 Dim Dia  As String
 Dim NumPedido As String
 Dim NumPedidoComp As String
@@ -692,11 +692,11 @@ txtNovoValor = Empty
 End Sub
 
 Public Sub Rotina_010_Carga_Credito()
-fim = 0
+Fim = 0
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber", db, 3, 3
+ctr.Open "Select * from contas_a_receber", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Não há Contas a Receber para reprogramação"), vbInformation
    Call FechaDB
@@ -704,14 +704,14 @@ If ctr.EOF Then
 End If
 
 ctr.MoveFirst
-Do While fim = 0
+Do While Fim = 0
    If Not (ctr!chPessoa = ClienteAnterior) Then
       cmbCliFornec.AddItem ctr!chPessoa
       ClienteAnterior = ctr!chPessoa
    End If
    ctr.MoveNext
    If ctr.EOF Then
-      fim = 1
+      Fim = 1
    End If
 Loop
 
@@ -721,12 +721,12 @@ End Sub
 
 Public Sub Rotina_020_NotaFiscal_Credito()
 
-fim = 0
+Fim = 0
 Contador = 0
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber where chPessoa = ('" & cmbCliFornec & "') and ctrStatus = ('" & 0 & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where chPessoa = ('" & cmbCliFornec & "') and ctrStatus = ('" & 0 & "')", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Não há financeiro parra reprogaramação para este cliente"), vbInformation
    Call FechaDB
@@ -735,18 +735,18 @@ End If
 
 ctr.MoveFirst
 
-Do While fim = 0
+Do While Fim = 0
    Contador = Contador + 1
    GridAtual.Rows = Contador + 1
-   GridAtual.TextMatrix(Contador, 0) = ctr!chNotaFiscal
+   GridAtual.TextMatrix(Contador, 0) = ctr!chNotafiscal
    GridAtual.TextMatrix(Contador, 1) = ctr!chFatura
    GridAtual.TextMatrix(Contador, 2) = ctr!ctrDataVencito
    GridAtual.TextMatrix(Contador, 3) = Format$(ctr!ctrValorDaBoleta, "#,##0.00")
-   NotaFiscalAnterior = ctr!chNotaFiscal
+   NotaFiscalAnterior = ctr!chNotafiscal
 
    ctr.MoveNext
    If ctr.EOF Then
-      fim = 1
+      Fim = 1
    End If
 Loop
 If Contador = 0 Then
@@ -766,7 +766,7 @@ End If
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber where chPessoa = ('" & cmbCliFornec & "') and chNotaFiscal = ('" & NotaFiscal & "') and chFatura = ('" & Fatura & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where chPessoa = ('" & cmbCliFornec & "') and chNotaFiscal = ('" & NotaFiscal & "') and chFatura = ('" & Fatura & "')", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Erro no acesso a Contas a Receber em Reprogramação Financeira"), vbCritical
    Call FechaDB
@@ -779,7 +779,7 @@ datavencoriginal = ctr!ctrDataVencitoOriginal
 descoperacao = ctr!ctrDescricaoOperacao
 ValorAnterior = ctr!ctrValorDaBoleta
 ano = ctr!chAno
-Mes = ctr!chMes
+mes = ctr!chMes
 Dia = ctr!chDia
 NumPedido = ctr!chNumPedido
 NumPedidoComp = ctr!chNumPedidoComp
@@ -796,7 +796,7 @@ For IndLinha = 1 To cmbNVezes
     ctr.AddNew
     ctr!chFabricante = 0
     ctr!chPessoa = cmbCliFornec
-    ctr!chNotaFiscal = NotaFiscal
+    ctr!chNotafiscal = NotaFiscal
     ctr!chFatura = Fatura & "-" & IndLinha
     ctr!ctrDataEmissao = DataEmissao
     ctr!ctrDataVencito = txtNovoVencimento
@@ -830,7 +830,7 @@ For IndLinha = 1 To cmbNVezes
        ctr!ctrValorDaBoleta = ValorParcela
     'End If
     ctr!chAno = ano
-    ctr!chMes = Mes
+    ctr!chMes = mes
     ctr!chDia = Dia
     ctr!chNumPedido = NumPedido
     ctr!chNumPedidoComp = NumPedidoComp
@@ -843,7 +843,7 @@ For IndLinha = 1 To cmbNVezes
     ctr.Update
 Next
 
-neg.Open "SELECT * FROM Negociacao WHERE chNumPedido = ('" & NumPedido & "') AND chNumPedidoComp = ('" & NumPedidoComp & "')", db, 3, 3
+neg.Open "SELECT * from negociacao WHERE chNumPedido = ('" & NumPedido & "') AND chNumPedidoComp = ('" & NumPedidoComp & "')", db, 3, 3
 If neg.EOF Then
    MsgBox ("Erro no acesso a Negociação na rotina de Reprogramação Financeira."), vbCritical
    Call FechaDB
@@ -859,14 +859,14 @@ neg.Update
 
 db.CommitTrans
 
-fim = 0
+Fim = 0
 Contador = 0
 
 If ctr.State = 1 Then
    ctr.Close: Set ctr = Nothing
 End If
 
-ctr.Open "Select * from Contas_A_Receber where chPessoa = ('" & cmbCliFornec & "') and chNotaFiscal = ('" & NotaFiscal & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where chPessoa = ('" & cmbCliFornec & "') and chNotaFiscal = ('" & NotaFiscal & "')", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Erro no acesso a Contas a Receber em Reprogramação Financeira grid da reprogramação"), vbCritical
    Call FechaDB
@@ -875,18 +875,18 @@ End If
 
 ctr.MoveFirst
 
-Do While fim = 0
+Do While Fim = 0
    Contador = Contador + 1
    GridPos.Rows = Contador + 1
-   GridPos.TextMatrix(Contador, 0) = ctr!chNotaFiscal
+   GridPos.TextMatrix(Contador, 0) = ctr!chNotafiscal
    GridPos.TextMatrix(Contador, 1) = ctr!chFatura
    GridPos.TextMatrix(Contador, 2) = ctr!ctrDataVencito
    GridPos.TextMatrix(Contador, 3) = Format$(ctr!ctrValorDaBoleta, "#,##0.00")
-   NotaFiscalAnterior = ctr!chNotaFiscal
+   NotaFiscalAnterior = ctr!chNotafiscal
 
    ctr.MoveNext
    If ctr.EOF Then
-      fim = 1
+      Fim = 1
    End If
 Loop
 
@@ -898,11 +898,11 @@ cmdCancelar.Enabled = False
 cmdConfirmar.Enabled = False
 End Sub
 Public Sub Rotina_060_Carga_Debito()
-fim = 0
+Fim = 0
 
 Call Rotina_AbrirBanco
 
-ctp.Open "Select * from Contas_A_Pagar", db, 3, 3
+ctp.Open "Select * from contas_a_pagar", db, 3, 3
 If ctp.EOF Then
    MsgBox ("Não há contas a pagar para reprogramação."), vbInformation
    Call FechaDB
@@ -913,7 +913,7 @@ ClienteAnterior = Empty
 
 ctp.MoveFirst
 
-Do While fim = 0
+Do While Fim = 0
    If ctp!ctpStatus = 0 Then
       If Not ctp!chPessoa = ClienteAnterior Then
          cmbCliFornec.AddItem ctp!chPessoa
@@ -922,7 +922,7 @@ Do While fim = 0
    End If
    ctp.MoveNext
    If ctp.EOF Then
-      fim = 1
+      Fim = 1
    End If
 Loop
 
@@ -932,13 +932,13 @@ End Sub
 
 Public Sub Rotina_070_NotaFiscal_Debito()
 
-fim = 0
+Fim = 0
 Contador = 0
 NotaFiscalAnterior = Empty
 
 Call Rotina_AbrirBanco
 
-ctp.Open "Select * from Contas_A_Pagar", db, 3, 3
+ctp.Open "Select * from contas_a_pagar", db, 3, 3
 If ctp.EOF Then
    MsgBox ("Não há Nota fiscal para reprogramação"), vbInformation
    Call FechaDB
@@ -946,19 +946,19 @@ If ctp.EOF Then
 End If
 
 ctp.MoveFirst
-Do While fim = 0
+Do While Fim = 0
    If ctp!chPessoa = cmbCliFornec And ctp!ctpStatus = 0 Then
       Contador = Contador + 1
       GridAtual.Rows = Contador + 1
-      GridAtual.TextMatrix(Contador, 0) = ctp!chNotaFiscal
+      GridAtual.TextMatrix(Contador, 0) = ctp!chNotafiscal
       GridAtual.TextMatrix(Contador, 1) = ctp!chFatura
       GridAtual.TextMatrix(Contador, 2) = ctp!chDataVencito
       GridAtual.TextMatrix(Contador, 3) = Format$(ctp!ctpValorDaBoleta, "#,##0.00")
-      NotaFiscalAnterior = ctp!chNotaFiscal
+      NotaFiscalAnterior = ctp!chNotafiscal
    End If
    ctp.MoveNext
    If ctp.EOF Then
-      fim = 1
+      Fim = 1
    End If
 Loop
 If Contador = 0 Then
@@ -978,7 +978,7 @@ Call Rotina_AbrirBanco
 
 DataInvertida = Year(GridAtual.TextMatrix(IndLinha, 2)) & Format$(Month(GridAtual.TextMatrix(IndLinha, 2)), "00") & Format$(Day(GridAtual.TextMatrix(IndLinha, 2)), "00")
 
-ctp.Open "Select * from Contas_A_Pagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbCliFornec & "') and chNotaFiscal = ('" & NotaFiscal & "') and chFatura = ('" & Fatura & "') and chDataVencito = ('" & DataInvertida & "')", db, 3, 3
+ctp.Open "Select * from contas_a_pagar where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbCliFornec & "') and chNotaFiscal = ('" & NotaFiscal & "') and chFatura = ('" & Fatura & "') and chDataVencito = ('" & DataInvertida & "')", db, 3, 3
 If ctp.EOF Then
    MsgBox ("Fatura não encontrada. Verifique o numero e tente denovo"), vbCritical
    Call FechaDB
@@ -989,7 +989,7 @@ End If
 
 DataInvertida = Year(GridAtual.TextMatrix(IndLinha, 2)) & Format$(Month(GridAtual.TextMatrix(IndLinha, 2)), "00") & Format$(Day(GridAtual.TextMatrix(IndLinha, 2)), "00")
 
-nfd.Open "Select * from NotaFiscalDesdobramento where chPessoa = ('" & cmbCliFornec & "') and chNotaFiscalEntrada = ('" & NotaFiscal & "') and chDataVencimento = ('" & DataInvertida & "')", db, 3, 3
+nfd.Open "Select * from notafiscaldesdobramento where chPessoa = ('" & cmbCliFornec & "') and chNotaFiscalEntrada = ('" & NotaFiscal & "') and chDataVencimento = ('" & DataInvertida & "')", db, 3, 3
 If nfd.EOF Then
    MsgBox ("Desdobramento da Nota não encontrada"), vbInformation
    SemDesd = 1
@@ -997,14 +997,14 @@ End If
 
 
 primeirovencito = txtNovoVencimento
-DataEmissao = ctp!ctpdataemissao
-datavencoriginal = ctp!ctpdatavencOriginal
+DataEmissao = ctp!ctpDataEmissao
+datavencoriginal = ctp!ctpDataVencOriginal
 descoperacao = ctp!ctpdescricaooperacao
 ValorAnterior = ctp!ctpValorDaBoleta
 TipoLancDespAnterior = ctp!ctpTipoLancamentoDesc
 
 ano = ctp!chAno
-Mes = ctp!chMes
+mes = ctp!chMes
 Dia = ctp!chDia
 banco = ctp!chCodBcoLart
 
@@ -1022,21 +1022,21 @@ For IndLinha = 1 To cmbNVezes
         ctp.AddNew
         ctp!chFabricante = 0
         ctp!chPessoa = cmbCliFornec
-        ctp!chNotaFiscal = NotaFiscal
+        ctp!chNotafiscal = NotaFiscal
         If IndLinha > 1 Then
            ctp!chFatura = IndLinha
         Else
            ctp!chFatura = Fatura
         End If
-        ctp!ctpdataemissao = DataEmissao
-        ctp!ctpdatalanc = DataEmissao
+        ctp!ctpDataEmissao = DataEmissao
+        ctp!ctpDataLanc = DataEmissao
         ctp!chDataVencito = txtNovoVencimento
         ctp!ctpdatabanco = txtNovoVencimento
         ctp!ctpValorDaBoleta = txtNovoValor
         ctp!ctpValorLart = txtNovoValor
-        ctp!ctpdatavencOriginal = datavencoriginal
+        ctp!ctpDataVencOriginal = datavencoriginal
         ctp!chCodBcoLart = banco
-        ctp!ctpdataproc = Date
+        ctp!ctpDataProc = Date
         ctp!ctpdescricaooperacao = descoperacao
         ctp!ctpTipoLancamentoDesc = TipoLancDespAnterior
         
@@ -1060,11 +1060,11 @@ For IndLinha = 1 To cmbNVezes
             nfd!chPessoa = cmbCliFornec
             nfd!chNotaFiscalEntrada = NotaFiscal
             nfd!chDataVencimento = txtNovoVencimento
-            nfd!nfdDataVencoriginal = datavencoriginal
+            nfd!nfdDataVencOriginal = datavencoriginal
             nfd!nfdFaturaNumero = "RF.NF-" & NotaFiscal & "-" & IndLinha & "/" & cmbNVezes
             nfd!nfdValorDaFatura = ValorParcela
             nfd!nfdStatus = 0
-            nfd!nfdstatuspagto = 0
+            nfd!nfdStatusPagto = 0
             nfd.Update
         End If
         txtNovoVencimento = txtNovoVencimento + txtIntervalo
@@ -1073,14 +1073,14 @@ Next
 
 db.CommitTrans
 txtNovoVencimento = primeirovencito
-fim = 0
+Fim = 0
 Contador = 0
 
 If ctp.State = 1 Then
    ctp.Close: Set ctp = Nothing
 End If
 
-ctp.Open "Select * from Contas_A_Pagar", db, 3, 3
+ctp.Open "Select * from contas_a_pagar", db, 3, 3
 If ctp.EOF Then
    MsgBox ("Erro no acesso a Contas a Pagar em Reprogramação Financeira."), vbCritical
    Call FechaDB
@@ -1090,19 +1090,19 @@ End If
 
 
 ctp.MoveFirst
-Do While fim = 0
-   If ctp!chPessoa = cmbCliFornec And ctp!chNotaFiscal = NotaFiscal Then
+Do While Fim = 0
+   If ctp!chPessoa = cmbCliFornec And ctp!chNotafiscal = NotaFiscal Then
       Contador = Contador + 1
       GridPos.Rows = Contador + 1
-      GridPos.TextMatrix(Contador, 0) = ctp!chNotaFiscal
+      GridPos.TextMatrix(Contador, 0) = ctp!chNotafiscal
       GridPos.TextMatrix(Contador, 1) = ctp!chFatura
       GridPos.TextMatrix(Contador, 2) = ctp!chDataVencito
       GridPos.TextMatrix(Contador, 3) = Format$(ctp!ctpValorDaBoleta, "#,##0.00")
-      NotaFiscalAnterior = ctp!chNotaFiscal
+      NotaFiscalAnterior = ctp!chNotafiscal
    End If
    ctp.MoveNext
    If ctp.EOF Then
-      fim = 1
+      Fim = 1
    End If
 Loop
 

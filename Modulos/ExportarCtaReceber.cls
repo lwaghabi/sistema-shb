@@ -41,7 +41,7 @@ Public Sub ExportarCtaReceber()
             
             'Do any modifications to the workbook.
             Rotina_AbrirBanco
-            rs.Open "SELECT * FROM ContasReceber", db, 2, 4
+            rs.Open "SELECT * FROM contasreceber", db, 3, 3
             Do Until rs.EOF
                oApp.Cells(i, 1) = rs(0)
                oApp.Cells(i, 2) = rs(1)

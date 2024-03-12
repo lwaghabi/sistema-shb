@@ -4,10 +4,10 @@ Begin VB.Form frmEmpenho
    ClientHeight    =   8490
    ClientLeft      =   60
    ClientTop       =   345
-   ClientWidth     =   18255
+   ClientWidth     =   18090
    LinkTopic       =   "Form1"
    ScaleHeight     =   8490
-   ScaleWidth      =   18255
+   ScaleWidth      =   18090
    StartUpPosition =   2  'CenterScreen
    Begin VB.TextBox txtMesExtenso 
       Height          =   375
@@ -1168,7 +1168,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Dim Dia As Integer
-Dim Mes As Integer
+Dim mes As Integer
 Dim ano As Integer
 Dim dataInicio As Date
 Dim DataInicioDeb As Date
@@ -1208,6 +1208,7 @@ Dim oWB As Excel.Workbook
    
 
 Dim AcumulaNaoProcessado As Currency
+Dim SdoSisipag As Currency
 
 Private Sub cmbAtualizaExtrato_Click()
 Call converte_csv
@@ -1246,7 +1247,7 @@ AcumAtrasados = 0
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber", db, 3, 3
+ctr.Open "Select * from contas_a_receber", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Sem Contas a receber registradas."), vbInformation
    Call FechaDB
@@ -1297,7 +1298,7 @@ AcumEmpenho = 0
 
 Call Rotina_AbrirBanco
 
-ctp.Open "Select * from Contas_A_Pagar", db, 3, 3
+ctp.Open "Select * from contas_a_pagar", db, 3, 3
 If ctp.EOF Then
    MsgBox ("Sem contas a pagar registradas"), vbInformation
    Call FechaDB
@@ -1361,15 +1362,15 @@ End Sub
 Public Sub GeraDataInicioDataFim()
 Dim MesProximo As Integer
 
-Mes = Format$(Month(Date), "00")
+mes = Format$(Month(Date), "00")
 ano = Year(Date)
 Dia = Format$(1, "00")
 
-DataInicioInvertida = Format$(ano & "-" & Mes & "-" & Dia, "yyyy-mm-dd")
+DataInicioInvertida = Format$(ano & "-" & mes & "-" & Dia, "yyyy-mm-dd")
 
-MesProximo = Format$(Mes, "00")
+MesProximo = Format$(mes, "00")
 DataHoje = Date
-Do While Mes = MesProximo
+Do While mes = MesProximo
    DataHoje = DataHoje + 1
    MesProximo = Format$(Month(DataHoje), "00")
 Loop
@@ -1386,7 +1387,7 @@ Call Rotina_AbrirBanco
 
 AcumulaNaoProcessado = 0
    
-neg.Open "Select * from Negociacao", db, 3, 3
+neg.Open "Select * from negociacao", db, 3, 3
 If neg.EOF Then
    txtLocacaoNaoProcessada = Format$(0, "0.00")
    txtSaldoGeralProjetado = Format$((lblSaldoProjetado + AcumulaNaoProcessado + AcumAtrasados), "##,##0.00")
@@ -1402,7 +1403,7 @@ Do While Not neg.EOF
             dneg.Close: Set dneg = Nothing
          End If
       
-         dneg.Open "Select * from DetalheNegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
+         dneg.Open "Select * from detalhenegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
          If Not dneg.EOF Then
             dneg.MoveFirst
             Do While Not dneg.EOF
@@ -1418,7 +1419,7 @@ Do While Not neg.EOF
 Loop
       
 txtLocacaoNaoProcessada = Format$(AcumulaNaoProcessado, "##,##0.00")
-txtSaldoGeralProjetado = Format$((lblSaldoProjetado + AcumulaNaoProcessado + AcumAtrasados), , "##,##0.00")
+txtSaldoGeralProjetado = Format$((lblSaldoProjetado + AcumulaNaoProcessado + AcumAtrasados), "##,##0.00")
       
 
 'txtLocacaoNaoProcessada.ForeColor = vbBlue
@@ -1427,6 +1428,7 @@ txtSaldoGeralProjetado.ForeColor = vbBlue
 End Sub
 
 Public Sub Carga_Load()
+SdoSisipag = 0
 txtHoje = Date
 txtMesExtenso = UCase$(Format$(Date, "MMMM"))
 
@@ -1435,15 +1437,15 @@ RendimentosBancarios = 0
 TarifasBancarias = 0
 
 ano = Year(Date)
-Mes = Month(Date)
+mes = Month(Date)
 Dia = Day(Date)
 
-DataHojeInvertida = Format$(ano & "-" & Mes & "-" & Dia, "yyyy-mm-dd")
+DataHojeInvertida = Format$(ano & "-" & mes & "-" & Dia, "yyyy-mm-dd")
 Call GeraDataInicioDataFim
 
 Call Rotina_AbrirBanco
 
-ext.Open "Select * from Extrato", db, 3, 3
+ext.Open "Select * from extrato", db, 3, 3
 If ext.EOF Then
    MsgBox ("Extrato incorreto. A função será descontinuada"), vbCritical
    Call FechaDB
@@ -1478,7 +1480,7 @@ Do While Not ext.EOF
    'If PosicaoPesquisa = "TAR CONT" Or PosicaoPesquisa = "TAR CTA " Or PosicaoPesquisa = "INT PR" Or PosicaoPesquisa = "TAR ADAP" Then
    '   TarifasBancarias = TarifasBancarias + Format$(ext!F4, "###,##0.00")
    'End If
-   
+
    TarifasBancarias = 0
    
    If PosicaoPesquisa = "SDO CTA/" Then
@@ -1493,10 +1495,20 @@ Do While Not ext.EOF
       End If
    End If
    
+   If Not IsNull(ext!F2) Then
+      PosicaoPesquisa = Mid$(ext!F2, 1, 6)
+   End If
+   If PosicaoPesquisa = "SISPAG" Or PosicaoPesquisa = "BUSINE" Then
+      If Not IsNull(ext!F5) Then
+         SdoSisipag = SdoSisipag + Format$(ext!F4, "###,##0.00")
+      End If
+   End If
+   
    ext.MoveNext
    
 Loop
 
+'MsgBox ("Somatorio SISPAG = ") & SdoSisipag
 txtSaldoAtual0 = Format$(UltimoSaldo, "##,##0.00")
 txtSaldoAtual1 = Format$(UltimoSaldo, "##,##0.00")
 
@@ -1514,9 +1526,9 @@ Public Sub converte_csv()
 
    Call Rotina_AbrirBanco
    
-   usu.Open "Select * from Usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
+   usu.Open "Select * from usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
    If usu.EOF Then
-      MsgBox ("ERRO: Usuário não habilitado para atualização e/ou consulta de Extrato."), vbCritical
+      MsgBox ("ERRO: Usuário não habilitado para atualização e/ou consulta de extrato."), vbCritical
       Call FechaDB
       Exit Sub
    End If
@@ -1546,7 +1558,7 @@ Public Sub converte_csv()
    
    oWB.Sheets.Copy
    
-   oWB.SaveAs FileName:=caminhoArquivo & nomeArquivoNovo, FileFormat:=xlCSV, local:=True
+   oWB.SaveAs FileName:=caminhoArquivo & nomeArquivoNovo, FileFormat:=xlCSV, Local:=True
    
     oWB.Close
 520 Set oWB = Nothing
@@ -1564,13 +1576,14 @@ Dim nomeCompleto As String
 
    db.BeginTrans
    
-   rs.Open "Delete from Extrato", db, 3, 3
+   rs.Open "Delete from extrato", db, 3, 3
    
-   db.Execute ("LOAD DATA LOCAL INFILE '" & nomeCompleto & "' INTO TABLE Extrato FIELDS TERMINATED BY ';' LINES TERMINATED BY '\n'; ")
+   db.Execute ("LOAD DATA LOCAL INFILE '" & nomeCompleto & "' INTO TABLE extrato FIELDS TERMINATED BY ';' LINES TERMINATED BY '\n'; ")
 
    db.CommitTrans
    
 FechaDB
 End Sub
+
 
 

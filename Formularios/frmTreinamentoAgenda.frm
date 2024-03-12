@@ -6,11 +6,27 @@ Begin VB.Form frmTreinamentoAgenda
    ClientHeight    =   9690
    ClientLeft      =   60
    ClientTop       =   405
-   ClientWidth     =   18225
+   ClientWidth     =   20370
    LinkTopic       =   "Form1"
    ScaleHeight     =   9690
-   ScaleWidth      =   18225
+   ScaleWidth      =   20370
    StartUpPosition =   2  'CenterScreen
+   Begin VB.ComboBox cmbIncidencia 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   480
+      Left            =   120
+      TabIndex        =   18
+      Top             =   1440
+      Width           =   2055
+   End
    Begin VB.ComboBox cmbPessoa 
       BeginProperty Font 
          Name            =   "MS Sans Serif"
@@ -22,7 +38,7 @@ Begin VB.Form frmTreinamentoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   480
-      Left            =   240
+      Left            =   2400
       Sorted          =   -1  'True
       Style           =   2  'Dropdown List
       TabIndex        =   0
@@ -40,7 +56,7 @@ Begin VB.Form frmTreinamentoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   480
-      Left            =   6120
+      Left            =   8280
       Style           =   2  'Dropdown List
       TabIndex        =   1
       Top             =   1440
@@ -58,7 +74,7 @@ Begin VB.Form frmTreinamentoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   495
-      Left            =   15840
+      Left            =   18000
       TabIndex        =   12
       Text            =   "Text1"
       Top             =   360
@@ -76,7 +92,7 @@ Begin VB.Form frmTreinamentoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1695
-      Left            =   15840
+      Left            =   18000
       TabIndex        =   11
       Top             =   840
       Width           =   2175
@@ -150,12 +166,12 @@ Begin VB.Form frmTreinamentoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1695
-      Left            =   13440
+      Left            =   15600
       TabIndex        =   7
       Top             =   840
       Width           =   2415
       Begin VB.OptionButton optNormal 
-         Caption         =   "Normal"
+         Caption         =   "Atualiza Cada"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   9.75
@@ -172,7 +188,7 @@ Begin VB.Form frmTreinamentoAgenda
          Width           =   1815
       End
       Begin VB.OptionButton optGeral 
-         Caption         =   "Geral"
+         Caption         =   "Carrega Todos"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   9.75
@@ -186,7 +202,7 @@ Begin VB.Form frmTreinamentoAgenda
          Left            =   120
          TabIndex        =   9
          Top             =   1080
-         Width           =   1815
+         Width           =   1935
       End
       Begin VB.OptionButton optStatusRealizado 
          Caption         =   "Status Realizado"
@@ -208,9 +224,9 @@ Begin VB.Form frmTreinamentoAgenda
    End
    Begin MSFlexGridLib.MSFlexGrid grdTreinamento 
       Height          =   6975
-      Left            =   360
+      Left            =   2280
       TabIndex        =   10
-      Top             =   2640
+      Top             =   2520
       Width           =   17895
       _ExtentX        =   31565
       _ExtentY        =   12303
@@ -230,7 +246,7 @@ Begin VB.Form frmTreinamentoAgenda
    End
    Begin MSComCtl2.DTPicker dtDataTreinamento 
       Height          =   420
-      Left            =   11520
+      Left            =   13680
       TabIndex        =   2
       Top             =   1440
       Width           =   1935
@@ -248,6 +264,23 @@ Begin VB.Form frmTreinamentoAgenda
       EndProperty
       Format          =   243204097
       CurrentDate     =   44667
+   End
+   Begin VB.Label Label6 
+      Caption         =   "Incidência"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   120
+      TabIndex        =   19
+      Top             =   1080
+      Width           =   2055
    End
    Begin VB.Label Label1 
       Caption         =   "Agenda de Cursos e Treinamento de Funcionários"
@@ -278,7 +311,7 @@ Begin VB.Form frmTreinamentoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   240
+      Left            =   2400
       TabIndex        =   16
       Top             =   1080
       Width           =   4455
@@ -295,7 +328,7 @@ Begin VB.Form frmTreinamentoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   6120
+      Left            =   8280
       TabIndex        =   15
       Top             =   1080
       Width           =   3615
@@ -313,7 +346,7 @@ Begin VB.Form frmTreinamentoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   11520
+      Left            =   13680
       TabIndex        =   14
       Top             =   1080
       Width           =   1815
@@ -331,7 +364,7 @@ Begin VB.Form frmTreinamentoAgenda
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   16200
+      Left            =   18360
       TabIndex        =   13
       Top             =   -120
       Width           =   1815
@@ -349,8 +382,8 @@ Dim DataTreinamentoInv As String
 Dim DataProxCurso As Date
 Dim DataProxCursoInv As String
 Dim Dia As Integer
-Dim Mes As Integer
-Dim Ano As Integer
+Dim mes As Integer
+Dim ano As Integer
 Dim IndLinha As Integer
 Dim IndCol As Integer
 Dim ColaboradorAnterior As String
@@ -359,7 +392,100 @@ Dim IndCurso As Integer
 Dim Ind As Integer
 Dim IndCmb As Integer
 Dim Encontrei As Integer
-Dim PessoaCmb(50) As String
+Dim pessoaCmb(50) As String
+
+Private Sub cmbIncidencia_LostFocus()
+   
+   Dim tipoPes As Integer
+   
+   grdTreinamento.Rows = 1
+   
+   If cmbIncidencia.ListIndex = 0 Then
+      tipoPes = 7
+   Else
+      tipoPes = 6
+   End If
+   
+   cmbPessoa.Clear
+
+   Call Rotina_AbrirBanco
+   
+   pes.Open "Select * from pessoa where pesRazaoSocial > ('" & Empty & "') and pesTipoPessoa = ('" & tipoPes & "') and pesStatusPessoa = ('" & 0 & "')", db, 3, 3
+   If pes.EOF Then
+      MsgBox ("Cadastro pessoa sem funcionário cadastrado."), vbInformation
+      Call FechaDB
+      Exit Sub
+   End If
+   
+   pes.MoveFirst
+   
+   Ind = 0
+   IndCmb = 0
+   
+   Encontrei = 0
+   
+   Do While Encontrei = 0
+      If pessoaCmb(Ind) = Empty Then
+         Encontrei = 1
+      Else
+         pessoaCmb(Ind) = Empty
+         Ind = Ind + 1
+      End If
+   Loop
+   
+   Encontrei = 0
+   
+   Do While Not pes.EOF
+      
+      For IndCmb = 0 To Ind
+          If pes!pesRazaoSocial = pessoaCmb(IndCmb) Then
+             Encontrei = 1
+             IndCmb = Ind
+          Else
+             If pessoaCmb(IndCmb) = Empty Then
+                pessoaCmb(IndCmb) = pes!pesRazaoSocial
+                Encontrei = 0
+                IndCmb = Ind
+             End If
+          End If
+      Next
+      If Encontrei = 1 Then
+         Encontrei = 0
+      Else
+         cmbPessoa.AddItem pes!pesRazaoSocial
+         Ind = Ind + 1
+      End If
+   
+      pes.MoveNext
+      
+   Loop
+   
+   cmbNomeCurso.Clear
+
+
+   cto.Open "Select * from treinamento where incidencia = " & cmbIncidencia.ListIndex & " or incidencia = 2", db, 3, 3
+   If cto.EOF Then
+      MsgBox ("Cadastro Curso/Treinamento vazio."), vbInformation
+      Call FechaDB
+      Exit Sub
+   End If
+   
+   IndCurso = 0
+   
+   cto.MoveFirst
+   
+   Do While Not cto.EOF
+      cmbNomeCurso.AddItem cto!chNomeCurso
+      cto.MoveNext
+      IndCurso = IndCurso + 1
+   Loop
+   
+   cmbNomeCurso.ListIndex = 0
+   cmbPessoa.ListIndex = 0
+   
+Call FechaDB
+
+End Sub
 
 Private Sub cmbPessoa_LostFocus()
 NomeCurso = cmbNomeCurso
@@ -368,7 +494,7 @@ optGeral = False
 
 Call Rotina_AbrirBanco
 
-agcto.Open "Select * from TreinamentoAgenda where chPessoa = ('" & cmbPessoa & "')", db, 3, 3
+agcto.Open "Select * from treinamentoagenda where chPessoa = ('" & cmbPessoa & "') and status = 1", db, 3, 3
 If Not agcto.EOF Then
    Call CarregaGridTreinamento
 Else
@@ -408,12 +534,12 @@ DataTreinamento = dtDataTreinamento
 NomeCurso = cmbNomeCurso
 
 Dia = Day(DataTreinamento)
-Mes = Month(DataTreinamento)
-Ano = Year(DataTreinamento)
+mes = Month(DataTreinamento)
+ano = Year(DataTreinamento)
 
-DataTreinamentoInv = (Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00"))
+DataTreinamentoInv = (ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00"))
 
-agcto.Open "Select * from TreinamentoAgenda where chPessoa = ('" & cmbPessoa & "') and chDataTreinamento = ('" & DataTreinamentoInv & "') and chNomeCurso = ('" & NomeCurso & "') and agctoStatus = ('" & 0 & "')", db, 3, 3
+agcto.Open "Select * from treinamentoagenda where chPessoa = ('" & cmbPessoa & "') and chDataTreinamento = ('" & DataTreinamentoInv & "') and chNomeCurso = ('" & NomeCurso & "') and agctoStatus = ('" & 0 & "')", db, 3, 3
 If agcto.EOF Then
    agcto.AddNew
 Else
@@ -433,9 +559,9 @@ If cto.State = 1 Then
    cto.Close: Set cto = Nothing
 End If
 
-cto.Open "Select * from Treinamento where chNomeCurso = ('" & NomeCurso & "')", db, 3, 3
+cto.Open "Select * from treinamento where chNomeCurso = ('" & NomeCurso & "')", db, 3, 3
 If cto.EOF Then
-   MsgBox ("Curso/Treinamento não encontrado. Erro grave. Avisar  ao analista responsável."), vbCritical
+   MsgBox ("Curso/Treinamento não encontrado. Erro grave. Avisar  ao analista responsável. Treinamento: " & NomeCurso), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -444,20 +570,20 @@ If cto!chTipoPrazo = 0 Then
    DataProxCursoInv = DataTreinamento + cto!chPrazoValidade
 Else
    If cto!chTipoPrazo = 1 Then
-      Mes = Mes + cto!chPrazoValidade
-      If Mes > 12 Then
-         Mes = Format$(Mes - 12, "00")
-         Ano = Format$(Ano + 1, "00")
+      mes = mes + cto!chPrazoValidade
+      If mes > 12 Then
+         mes = Format$(mes - 12, "00")
+         ano = Format$(ano + 1, "00")
       End If
    Else
-      Ano = Ano + cto!chPrazoValidade
+      ano = ano + cto!chPrazoValidade
    End If
    
    If Dia > 28 Then
       Call CriticaData
    End If
    
-   DataProxCursoInv = (Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00"))
+   DataProxCursoInv = (ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00"))
    
 End If
 
@@ -484,12 +610,12 @@ Call Rotina_AbrirBanco
 DataTreinamento = dtDataTreinamento
 
 Dia = Day(DataTreinamento)
-Mes = Month(DataTreinamento)
-Ano = Year(DataTreinamento)
+mes = Month(DataTreinamento)
+ano = Year(DataTreinamento)
 
-DataTreinamentoInv = (Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00"))
+DataTreinamentoInv = (ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00"))
 
-agcto.Open "Select * from TreinamentoAgenda where chPessoa = ('" & cmbPessoa & "') and chDataTreinamento = ('" & DataTreinamentoInv & "') and chNomeCurso = ('" & cmbNomeCurso & "')", db, 3, 3
+agcto.Open "Select * from treinamentoagenda where chPessoa = ('" & cmbPessoa & "') and chDataTreinamento = ('" & DataTreinamentoInv & "') and chNomeCurso = ('" & cmbNomeCurso & "')", db, 3, 3
 If agcto.EOF Then
    MsgBox ("Exclusão inválida. Registro não consta da lista."), vbCritical
    Call FechaDB
@@ -515,6 +641,10 @@ End Sub
 
 Private Sub Form_Load()
 
+cmbIncidencia.AddItem "Administrativo"
+cmbIncidencia.AddItem "Operacional"
+cmbIncidencia.AddItem "Adm/Oper"
+
 txtHoje = Date
 dtDataTreinamento = Date
 ColaboradorAnterior = Empty
@@ -522,85 +652,6 @@ ColaboradorAnterior = Empty
 optStatusRealizado = False
 optNormal = True
 optGeral = False
-
-cmbPessoa.Clear
-
-Call Rotina_AbrirBanco
-
-pes.Open "Select * from Pessoa where pesRazaoSocial > ('" & Empty & "') and pesTipoPessoa = ('" & 6 & "') and pesStatusPessoa = ('" & 0 & "')", db, 3, 3
-If pes.EOF Then
-   MsgBox ("Cadastro Pessoa sem funcionário cadastrado."), vbInformation
-   Call FechaDB
-   Exit Sub
-End If
-
-pes.MoveFirst
-
-Ind = 0
-IndCmb = 0
-
-Encontrei = 0
-
-Do While Encontrei = 0
-   If PessoaCmb(Ind) = Empty Then
-      Encontrei = 1
-   Else
-      PessoaCmb(Ind) = Empty
-      Ind = Ind + 1
-   End If
-Loop
-
-Encontrei = 0
-
-Do While Not pes.EOF
-   
-   For IndCmb = 0 To Ind
-       If pes!pesRazaoSocial = PessoaCmb(IndCmb) Then
-          Encontrei = 1
-          IndCmb = Ind
-       Else
-          If PessoaCmb(IndCmb) = Empty Then
-             PessoaCmb(IndCmb) = pes!pesRazaoSocial
-             Encontrei = 0
-             IndCmb = Ind
-          End If
-       End If
-   Next
-   If Encontrei = 1 Then
-      Encontrei = 0
-   Else
-      cmbPessoa.AddItem pes!pesRazaoSocial
-      Ind = Ind + 1
-   End If
-
-   pes.MoveNext
-   
-Loop
-
-cmbNomeCurso.Clear
-
-
-cto.Open "Select * from Treinamento", db, 3, 3
-If cto.EOF Then
-   MsgBox ("Cadastro Curso/Treinamento vazio."), vbInformation
-   Call FechaDB
-   Exit Sub
-End If
-
-IndCurso = 0
-
-cto.MoveFirst
-
-Do While Not cto.EOF
-   cmbNomeCurso.AddItem cto!chNomeCurso
-   cto.MoveNext
-   IndCurso = IndCurso + 1
-Loop
-
-cmbNomeCurso.ListIndex = 0
-cmbPessoa.ListIndex = 0
-
-Call FechaDB
 
 End Sub
 
@@ -610,7 +661,7 @@ Call LimpaGrid
 
 Call Rotina_AbrirBanco
 
-agcto.Open "Select * from TreinamentoAgenda where chPessoa = ('" & cmbPessoa & "') and agctoStatus = ('" & 0 & "')", db, 3, 3
+agcto.Open "Select * from treinamentoagenda where chPessoa = ('" & cmbPessoa & "') and agctoStatus = ('" & 0 & "')and status = 1", db, 3, 3
 If agcto.EOF Then
    Call FechaDB
    Exit Sub
@@ -629,16 +680,15 @@ grdTreinamento.Col = 4
 grdTreinamento.Row = IndLinha
 grdTreinamento.CellBackColor = Empty
 
-
 Do While Not agcto.EOF
    
    If cto.State = 1 Then
       cto.Close: Set cto = Nothing
    End If
 
-   cto.Open "Select * from Treinamento where chNomeCurso = ('" & agcto!chNomeCurso & "')", db, 3, 3
+   cto.Open "Select * from treinamento where chNomeCurso = ('" & agcto!chNomeCurso & "')", db, 3, 3
    If cto.EOF Then
-      MsgBox ("Curso/Treinamento não encontrado. Erro grave. Avisar  ao analista responsável."), vbCritical
+      MsgBox ("Curso/Treinamento não encontrado. Erro grave. Avisar  ao analista responsável. Treinamento: " & agcto!chNomeCurso), vbCritical
       Call FechaDB
       Exit Sub
    End If
@@ -676,9 +726,9 @@ If cto.State = 1 Then
    cto.Close: Set cto = Nothing
 End If
 
-cto.Open "Select * from Treinamento", db, 3, 3
+cto.Open "Select * from treinamento where status = 1", db, 3, 3
 If cto.EOF Then
-   MsgBox ("Tabela de Treinamento vazia."), vbCritical
+   MsgBox ("Tabela de treinamento vazia."), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -689,7 +739,7 @@ Do While Not cto.EOF
    If agcto.State = 1 Then
       agcto.Close: Set agcto = Nothing
    End If
-   agcto.Open "Select * from TreinamentoAgenda where chPessoa = ('" & cmbPessoa & "') and chNomeCurso = ('" & cto!chNomeCurso & "') and agctoStatus = ('" & 0 & "')", db, 3, 3
+   agcto.Open "Select * from treinamentoagenda where chPessoa = ('" & cmbPessoa & "') and chNomeCurso = ('" & cto!chNomeCurso & "') and agctoStatus = ('" & 0 & "') and status = 1", db, 3, 3
    If agcto.EOF Then
       IndLinha = IndLinha + 1
       grdTreinamento.Rows = IndLinha + 1
@@ -725,7 +775,7 @@ Public Sub LimpaGrid()
    grdTreinamento.CellBackColor = Empty
  End Sub
  
-Private Sub grdTreinamento_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub grdTreinamento_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
 
 IndLinha = grdTreinamento.Row
 IndCol = grdTreinamento.Col
@@ -764,12 +814,12 @@ End If
 DataTreinamento = dtDataTreinamento
 
 Dia = Day(DataTreinamento)
-Mes = Month(DataTreinamento)
-Ano = Year(DataTreinamento)
+mes = Month(DataTreinamento)
+ano = Year(DataTreinamento)
 
-DataTreinamentoInv = (Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00"))
+DataTreinamentoInv = (ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00"))
 
-agcto.Open "Select * from TreinamentoAgenda where chPessoa = ('" & cmbPessoa & "') and chDataTreinamento = ('" & DataTreinamentoInv & "') and chNomeCurso = ('" & NomeCurso & "')", db, 3, 3
+agcto.Open "Select * from treinamentoagenda where chPessoa = ('" & cmbPessoa & "') and chDataTreinamento = ('" & DataTreinamentoInv & "') and chNomeCurso = ('" & NomeCurso & "')", db, 3, 3
 If agcto.EOF Then
    agcto.AddNew
 End If
@@ -778,7 +828,7 @@ If agcto.State = 1 Then
    agcto.Close: Set agcto = Nothing
 End If
 
-agcto.Open "Select * from AsoExame where chNomeCurso = ('" & NomeCurso & "')", db, 3, 3
+agcto.Open "Select * from asoexame where chNomeCurso = ('" & NomeCurso & "')", db, 3, 3
 If agcto.EOF Then
    MsgBox ("Exame não encontrado. Erro grave. Avisar  ao analista responsável."), vbCritical
    Call FechaDB
@@ -789,20 +839,20 @@ If cto!chTipoPrazo = 0 Then
    DataProxCursoInv = DataTreinamento + cto!chPrazoValidade
 Else
    If cto!chTipoPrazo = 1 Then
-      Mes = Mes + cto!chPrazoValidade
-      If Mes > 12 Then
-         Mes = Format$(Mes - 12, "00")
-         Ano = Format$(Ano + 1, "00")
+      mes = mes + cto!chPrazoValidade
+      If mes > 12 Then
+         mes = Format$(mes - 12, "00")
+         ano = Format$(ano + 1, "00")
       End If
    Else
-      Ano = Ano + cto!chPrazoValidade
+      ano = ano + cto!chPrazoValidade
    End If
    
    If Dia > 28 Then
       Call CriticaData
    End If
       
-   DataProxCursoInv = (Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00"))
+   DataProxCursoInv = (ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00"))
    
 End If
 
@@ -817,20 +867,20 @@ agcto.Update
 End Sub
 
 Public Sub CriticaData()
-If Not Mes = 2 Then
+If Not mes = 2 Then
    If Dia = 31 Then
-      If Mes = 4 Or Mes = 6 Or Mes = 9 Or Mes = 11 Then
+      If mes = 4 Or mes = 6 Or mes = 9 Or mes = 11 Then
          Dia = Dia - 1
       End If
    End If
 Else
    If Dia > 28 Then
-      Mes = Mes + 1
+      mes = mes + 1
       Dia = 1
-      DataProxCurso = (Format$(Dia, "00") & "/" & Format$(Mes, "00") & "/" & Ano)
+      DataProxCurso = (Format$(Dia, "00") & "/" & Format$(mes, "00") & "/" & ano)
       DataProxCurso = DataProxCurso - 1
       Dia = Day(DataProxCurso)
-      Mes = Month(DataProxCurso)
+      mes = Month(DataProxCurso)
    End If
 End If
 End Sub

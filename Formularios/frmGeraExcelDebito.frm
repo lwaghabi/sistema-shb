@@ -170,8 +170,8 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Dim Ind As Integer
-Dim Ano As Integer
-Dim Mes As Integer
+Dim ano As Integer
+Dim mes As Integer
 Dim Dia As Integer
 Dim AnoInicioOperacao
 Dim DataHoje As Date
@@ -186,11 +186,11 @@ Dim ValorAcumulado As Currency
 
 Dim TipoDeLancamento As String
 
-Dim DataInicio As String
-Dim DataFim As String
+Dim dataInicio As String
+Dim dataFim As String
 
 Private Sub cmdGerarExcel_Click()
-Dim ContabilidadePagto As String
+Dim contabilidadepagto As String
 Call DeletaTabExcel
 
 ValorAcumulado = 0
@@ -217,9 +217,9 @@ End If
 Call Rotina_AbrirBanco
 
 If Periodo = 0 Then
-   ctp.Open "Select * from Contas_A_Pagar where ctpStatus = ('" & 1 & "') and ctpDataPagamento > ('" & DataInicioInvertida & "') and ctpDataPagamento < ('" & DataFinalInvertida & "')", db, 3, 3
+   ctp.Open "Select * from contas_a_pagar where ctpStatus = ('" & 1 & "') and ctpDataPagamento > ('" & DataInicioInvertida & "') and ctpDataPagamento < ('" & DataFinalInvertida & "')", db, 3, 3
 Else
-   ctp.Open "Select * from HistoricoContasPagar where ctpStatus = ('" & 1 & "') and ctpDataPagamento > ('" & DataInicioInvertida & "') and ctpDataPagamento < ('" & DataFinalInvertida & "')", db, 3, 3
+   ctp.Open "Select * from historicocontaspagar where ctpStatus = ('" & 1 & "') and ctpDataPagamento > ('" & DataInicioInvertida & "') and ctpDataPagamento < ('" & DataFinalInvertida & "')", db, 3, 3
 End If
 
 If ctp.EOF Then
@@ -237,7 +237,7 @@ Do While Not ctp.EOF
       acContab = 0
    End If
    
-   contab.Open "Select * from ContabilidadePagto where FornecedorSacado = ('" & ctp!chPessoa & "') and NDocumento = ('" & ctp!chNotaFiscal & "')", db, 3, 3
+   contab.Open "Select * from contabilidadepagto where fornecedorSacado = ('" & ctp!chPessoa & "') and NDocumento = ('" & ctp!chNotaFiscal & "')", db, 3, 3
    If contab.EOF Then
 
       contab.AddNew
@@ -247,7 +247,7 @@ Do While Not ctp.EOF
       contab!Descricao = ctp!ctpdescricaooperacao
       contab!FornecedorSacado = ctp!chPessoa
       contab!NDocumento = ctp!chNotaFiscal
-      contab!Valor = Format$(ctp!ctpValorDaBoleta, "##,##0.00")
+      contab!valor = Format$(ctp!ctpValorDaBoleta, "##,##0.00")
       contab!DataPagamento = ctp!ctpDataPagamento
       
       If nfd.State = 1 Then
@@ -256,15 +256,17 @@ Do While Not ctp.EOF
       
       
       If Periodo = 0 Then
-         nfd.Open "Select * from NotaFiscalDetProd where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotaFiscal & "')", db, 3, 3
+         nfd.Open "Select * from notafiscaldetprod where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotaFiscal & "')", db, 3, 3
       Else
-         nfd.Open "Select * from HistoricoNotaFiscalDetProd where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotaFiscal & "')", db, 3, 3
+         nfd.Open "Select * from historiconotafiscaldetprod where chPessoa = ('" & ctp!chPessoa & "') and chNotaFiscalEntrada = ('" & ctp!chNotaFiscal & "')", db, 3, 3
       End If
       If nfd.EOF Then
          MsgBox ("Não encontrei o Centro de Custo no Detalhe Produto."), vbInformation
          contab!Categoria = Empty
       Else
          contab!Categoria = nfd!chProdutoFabrica
+         contab!Grupo = nfd!nfdCentroDeCusto & nfd!nfdGrupoCentroDeCusto & "00"
+         contab!Despesa = nfd!nfdCentroDeCusto & nfd!nfdGrupoCentroDeCusto & nfd!nfdSubGrupoCentroDeCusto
       End If
       
       contab.Update
@@ -301,7 +303,7 @@ lblHoje = Date
 
 AnoInicioOperacao = 2019
 
-Ano = Year(Date)
+ano = Year(Date)
 
 For Ind = 1 To 12
     cmbMes.AddItem Format$(Ind, "00")
@@ -309,9 +311,9 @@ Next
 
 cmbMes.ListIndex = 0
 
-Do While (Ano + 1) > AnoInicioOperacao
-   cmbAno.AddItem Ano
-   Ano = Ano - 1
+Do While (ano + 1) > AnoInicioOperacao
+   cmbAno.AddItem ano
+   ano = ano - 1
 Loop
 
 cmbAno.ListIndex = 0
@@ -320,18 +322,18 @@ End Sub
 
 Public Sub CriaDatasPesquisa()
 
-Mes = Format$(cmbMes, "00")
-Ano = cmbAno
+mes = Format$(cmbMes, "00")
+ano = cmbAno
 Dia = Format$(1, "00")
 
-DataHoje = Format$(Dia, "00") & "/" & Format$(Mes, "00") & "/" & Ano
+DataHoje = Format$(Dia, "00") & "/" & Format$(mes, "00") & "/" & ano
 DataInicioOperacao = DataHoje
 DataHoje = DataHoje - 1
 Dia = Day(DataHoje)
-Mes = Month(DataHoje)
-Ano = Year(DataHoje)
+mes = Month(DataHoje)
+ano = Year(DataHoje)
 
-DataInicioInvertida = Format$(Ano & "-" & Mes & "-" & Dia, "yyyy-mm-dd")
+DataInicioInvertida = Format$(ano & "-" & mes & "-" & Dia, "yyyy-mm-dd")
 
 DataHoje = DataHoje + 1
 MesProximo = Month(DataHoje)
@@ -350,7 +352,7 @@ Public Sub DeletaTabExcel()
 
 Call Rotina_AbrirBanco
 
-contab.Open "Select * from ContabilidadePagto", db, 3, 3
+contab.Open "Select * from contabilidadepagto", db, 3, 3
 If Not contab.EOF Then
 
    contab.MoveFirst

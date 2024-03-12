@@ -1,4 +1,5 @@
 VERSION 5.00
+Object = "{6B7E6392-850A-101B-AFC0-4210102A8DA7}#1.3#0"; "COMCTL32.OCX"
 Begin VB.MDIForm mdiSHB 
    Appearance      =   0  'Flat
    BackColor       =   &H00C0C0C0&
@@ -6,12 +7,249 @@ Begin VB.MDIForm mdiSHB
    ClientHeight    =   8190
    ClientLeft      =   1395
    ClientTop       =   -1170
-   ClientWidth     =   15960
+   ClientWidth     =   11400
+   Icon            =   "mdiHabilitacaoAoSistema.frx":0000
    LinkTopic       =   "MDIForm1"
    LockControls    =   -1  'True
-   Picture         =   "mdiHabilitacaoAoSistema.frx":0000
+   Picture         =   "mdiHabilitacaoAoSistema.frx":0442
+   StartUpPosition =   2  'CenterScreen
    WhatsThisHelp   =   -1  'True
    WindowState     =   2  'Maximized
+   Begin SHB.ACPRibbon ACPRibbon1 
+      Align           =   1  'Align Top
+      Height          =   1740
+      Left            =   0
+      TabIndex        =   0
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   11400
+      _ExtentX        =   20108
+      _ExtentY        =   3069
+      BackColor       =   4210752
+      ForeColor       =   -2147483630
+   End
+   Begin ComctlLib.ImageList ImageList1 
+      Left            =   720
+      Top             =   2160
+      _ExtentX        =   1005
+      _ExtentY        =   1005
+      BackColor       =   -2147483643
+      ImageWidth      =   32
+      ImageHeight     =   32
+      MaskColor       =   12632256
+      _Version        =   327682
+      BeginProperty Images {0713E8C2-850A-101B-AFC0-4210102A8DA7} 
+         NumListImages   =   52
+         BeginProperty ListImage1 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":8BE2
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage2 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":8EFC
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage3 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":9216
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage4 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":9530
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage5 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":984A
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage6 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":9B64
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage7 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":9E7E
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage8 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":A198
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage9 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":A4B2
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage10 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":A7CC
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage11 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":AAE6
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage12 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":AE00
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage13 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":B11A
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage14 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":B434
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage15 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":B74E
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage16 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":BA68
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage17 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":BD82
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage18 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":C09C
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage19 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":C3B6
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage20 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":C6D0
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage21 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":C9EA
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage22 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":CD04
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage23 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":D01E
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage24 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":D338
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage25 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":D652
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage26 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":D96C
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage27 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":DC86
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage28 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":DFA0
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage29 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":E2BA
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage30 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":E5D4
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage31 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":E8EE
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage32 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":EC08
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage33 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":EF22
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage34 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":F23C
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage35 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":F556
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage36 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":F870
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage37 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":FB8A
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage38 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":FEA4
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage39 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":101BE
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage40 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":104D8
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage41 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":107F2
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage42 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":10B0C
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage43 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":10E26
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage44 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":11140
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage45 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":1145A
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage46 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":11774
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage47 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":11A8E
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage48 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":11DA8
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage49 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":120C2
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage50 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":123DC
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage51 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":126F6
+            Key             =   ""
+         EndProperty
+         BeginProperty ListImage52 {0713E8C3-850A-101B-AFC0-4210102A8DA7} 
+            Picture         =   "mdiHabilitacaoAoSistema.frx":12A10
+            Key             =   ""
+         EndProperty
+      EndProperty
+   End
    Begin VB.Menu mdiAdministrativo 
       Caption         =   "Administrativo"
       Begin VB.Menu mdiPessoa 
@@ -321,6 +559,7 @@ Begin VB.MDIForm mdiSHB
                End
                Begin VB.Menu mdiNFSuprimentos 
                   Caption         =   "Nota Fiscal de Suprimentos"
+                  Visible         =   0   'False
                End
                Begin VB.Menu mdiReembolo 
                   Caption         =   "Reembolso de Pagamentos de Despesas"
@@ -381,6 +620,7 @@ Begin VB.MDIForm mdiSHB
             End
             Begin VB.Menu mdiCentroDeCustoNew 
                Caption         =   "Contas Pagas por Centro de Custo"
+               Visible         =   0   'False
             End
             Begin VB.Menu mdiCtaPagarReceber 
                Caption         =   "Contas a Pagar e a Receber"
@@ -473,37 +713,91 @@ Begin VB.MDIForm mdiSHB
    End
    Begin VB.Menu mdiMateriaisEst 
       Caption         =   "Suprimentos"
-      Begin VB.Menu mdiCadastroProdutos 
-         Caption         =   "Cadastro de Produtos"
-         Begin VB.Menu mdiClassificaProduto 
-            Caption         =   "Classificação de Produtos em Estoque"
+      Begin VB.Menu mdiMateriais 
+         Caption         =   "Materiais"
+         Begin VB.Menu mdiCadastroProdutos 
+            Caption         =   "Supervisão de Suprimentos"
+            Begin VB.Menu mdiInventario 
+               Caption         =   "Inventário"
+            End
+            Begin VB.Menu mdiFornecProduto 
+               Caption         =   "Registro e Atualização de Produtos e Equipamentos"
+            End
+            Begin VB.Menu mdiAcordoComercial 
+               Caption         =   "Registro de Acordo Comercial"
+            End
          End
-         Begin VB.Menu mdiFornecProduto 
-            Caption         =   "Registro e Atualização de Produtos e Equipamentos"
+         Begin VB.Menu mdiConsultaMateriais 
+            Caption         =   "Movimentação de Materiais"
+            Begin VB.Menu mdiReqMateriais 
+               Caption         =   "Requisição de Materiais"
+            End
+            Begin VB.Menu mdiReqCompra 
+               Caption         =   "Requisição de Compras"
+            End
+            Begin VB.Menu mdiPedidoDeCompra 
+               Caption         =   "Pedido de Compra"
+            End
+         End
+         Begin VB.Menu mdiAlmoxarifado 
+            Caption         =   "Almoxarifado"
+            Begin VB.Menu mdiBaixaReqEstoque 
+               Caption         =   "Entrega de Produtos Requisitados"
+            End
+            Begin VB.Menu mdiRecebeMateriais 
+               Caption         =   "Recebimento de Materiais"
+            End
+         End
+         Begin VB.Menu mdiConsultaSuprimentos 
+            Caption         =   "Consulta a Materiais"
+            Begin VB.Menu mdiMovimentacaoMateriais 
+               Caption         =   "Consulta a Estoque"
+            End
+            Begin VB.Menu mdiConsultaPO 
+               Caption         =   "Posição Atual de Ordem de Compra"
+            End
+            Begin VB.Menu mdiConsultaReq 
+               Caption         =   "Consulta à Requisições"
+            End
          End
       End
-      Begin VB.Menu mdiConsultaMateriais 
-         Caption         =   "Movimentação de Materiais"
-         Begin VB.Menu mdiReqMateriais 
-            Caption         =   "Requisição de Materiais"
+      Begin VB.Menu mdiServ 
+         Caption         =   "Serviços"
+         Begin VB.Menu mdiSuperServ 
+            Caption         =   "Supervisão de Serviços"
+            Begin VB.Menu mdiServico 
+               Caption         =   "Registro e Atualização de Serviços"
+            End
+            Begin VB.Menu mdiAcordoDeServico 
+               Caption         =   "Registro e Atualização de Acordo Comercial de Serviços"
+            End
+            Begin VB.Menu mdiParametrosDeServico 
+               Caption         =   "Registro de Grupo/Classe/Serviços"
+            End
          End
-         Begin VB.Menu mdiReqCompra 
-            Caption         =   "Requisição de Compras"
+         Begin VB.Menu mdiMo9vtoServiços 
+            Caption         =   "Movimentação de Serviços"
+            Begin VB.Menu mdiReqServ 
+               Caption         =   "Registro e Atualização de Requisição de Serviços"
+            End
+            Begin VB.Menu mdiCompraDeServico 
+               Caption         =   "Registro e Atualização de Compra de Serviços"
+            End
+            Begin VB.Menu mdiPOServicos 
+               Caption         =   "Ordem de Compra de Serviço"
+            End
          End
-         Begin VB.Menu mdiAcordoComercial 
-            Caption         =   "Registro de Acordo Comercial"
+         Begin VB.Menu mdiConclusaoServico 
+            Caption         =   "Conclusão de Serviço"
          End
-         Begin VB.Menu mdiPedidoDeCompra 
-            Caption         =   "Pedido de Compra"
-         End
-         Begin VB.Menu mdiRecebeMateriais 
-            Caption         =   "Recebimento de Materiais"
-         End
-      End
-      Begin VB.Menu mdiAlmoxarifado 
-         Caption         =   "Almoxarifado"
-         Begin VB.Menu mdiBaixaReqEstoque 
-            Caption         =   "Entrega"
+         Begin VB.Menu mdiConsServ 
+            Caption         =   "Consulta a Serviços"
+            Begin VB.Menu mdiPosAtuOrdServ 
+               Caption         =   "Posição Atual de Ordem de Serviço"
+            End
+            Begin VB.Menu mdiConsReqServ 
+               Caption         =   "Consulta a Requisição de Serviços"
+            End
          End
       End
       Begin VB.Menu mdiParameto 
@@ -552,6 +846,7 @@ Begin VB.MDIForm mdiSHB
       End
       Begin VB.Menu mdiCalculadora 
          Caption         =   "Calculadora"
+         Visible         =   0   'False
       End
       Begin VB.Menu mdiUsuarioSenha 
          Caption         =   "Usuário Senha"
@@ -559,6 +854,9 @@ Begin VB.MDIForm mdiSHB
       Begin VB.Menu mdiModelo 
          Caption         =   "Modelo"
          Visible         =   0   'False
+      End
+      Begin VB.Menu mdiTesteCEP 
+         Caption         =   "Teste CEP"
       End
    End
    Begin VB.Menu mdiSair 
@@ -573,7 +871,7 @@ Attribute VB_Exposed = False
 Option Explicit
 Dim Data_Hoje_Mdi As Date
 Dim ano As Integer
-Dim Mes As Integer
+Dim mes As Integer
 Dim Dia As Integer
 Dim AnoDb As Integer
 Dim MesDb As Integer
@@ -582,85 +880,203 @@ Dim DataHojeInvertida As String
 Dim DataInvertida As String
 Dim DataDias As String
 Dim DataBase As String
-Dim UsuarioLocal As String
+Dim usuarioLocal As String
 Dim EncontreiAviso As Integer
-Dim PessoaAnterior As String
+Dim pessoaAnterior As String
 
-Private Sub mdiConsltaParametros_Click()
 
+
+Private Sub mdiCompraDeServico_Click()
+frmReqServCompra.Show
 End Sub
 
-Private Sub mdiAcordoComercial_Click()
+Private Sub mdiConclusaoServico_Click()
+frmConclusaoServ.Show
+End Sub
+
+'Private Sub mdiCompraDeServico_Click()
+'frmReqServCompra.Show
+'End Sub
+
+Private Sub MDIForm_Load()
+Dim usuarioLocal As String
+frmUsuarioSenha.Show vbModal
+If Not glbUsuario = Empty Then
+    'If Not Compilando Then _
+    MsgBox ("Você esta logado no SHB através da Máquina ") & glbMaquina & ", endereço IP " & glbEnderecoIP
+
+    mdiHabilitacaoSistema.Enabled = True
+    ano = Year(Date)
+    mes = Month(Date)
+    Dia = Day(Date)
+    Data_Hoje = Date
+
+    
+    Call Rotina_AbrirBanco
+       
+    DataHojeInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
+       
+    usu.Open "Select * from usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
+    If usu.EOF Then
+       MsgBox ("Erro no acesso a usuario na rotina de atualização de mostrar aviso. Comunicar Analista responsável"), vbCritical
+       End
+    End If
+    
+    usuarioLocal = usu!usuMostrarAviso
+    
+    EncontreiAviso = 0
+    
+    If usu!usuMostrarAviso = 1 Then
+       Call VerificaASO
+       If EncontreiAviso = 1 Then
+          frmAviso.Show vbModal
+       End If
+    End If
+    
+    EncontreiAviso = 0
+    
+    If usu!usuAvisoTreinamento = 1 Then
+       Call VerificaTreinamento
+      
+       If EncontreiAviso = 1 Then
+          frmAvisoTreinamento.Show vbModal
+       End If
+    End If
+    
+    EncontreiAviso = 0
+    
+    If usu!usuAvisoReembolso = 1 Then
+      Call VerificaReembolso
+      
+      If EncontreiAviso = 1 Then
+         frmAvisoReembolso.Show vbModal
+      End If
+    End If
+    
+    EncontreiAviso = 0
+    
+    Call VerificaEquipamento
+    
+    If EncontreiAviso = 1 Then
+       frmAvisoEquipamentos.Show vbModal
+    End If
+        
+    ' MsgBox ("Data Hoje Invertida "), DataHojeInvertida
+    frmControleTempo.Show
+    frmControleTempo.Visible = False
+    Inicio Me, ACPRibbon1, ImageList1
+    
+Else
+   End
+End If
+End Sub
+
+Private Sub ACPRibbon1_ButtonClick(ByVal Id As String, ByVal Caption As String)
+   Dim s As cRibbon: Set s = New cRibbon
+   s.Ribbon_ButtonClick Id, Caption, ACPRibbon1, Me: Set s = Nothing
+End Sub
+
+Sub mdiAcordoComercial_Click()
 frmAcordoComercial.Show
 End Sub
 
+Private Sub mdiAcordoDeServico_Click()
+frmAcordoDeServico.Show
+End Sub
 
-
-Private Sub mdiBaixaReqEstoque_Click()
+Sub mdiBaixaReqEstoque_Click()
 frmBaixaReqEstoque.Show
+End Sub
+
+Sub mdiConsultaPO_Click()
+frmConsultaPO.Show
+End Sub
+
+Sub mdiConsultaReq_Click()
+frmConsultaRequisicoes.Show
 End Sub
 
 Private Sub mdiEndereco_Click()
 frmEndereco.Show
 End Sub
 
-Private Sub mdiGeraCustoExcel_Click()
+Sub mdiGeraCustoExcel_Click()
 frmGeraCustoExcel.Show
 End Sub
 
-Private Sub mdiAtuCursosTreinamentos_Click()
+Sub mdiAtuCursosTreinamentos_Click()
 frmTreinamentoAgenda.Show
 End Sub
 
-Private Sub mdiCadEquipto_Click()
+Sub mdiCadEquipto_Click()
 frmEquipamentoTipo.Show
 End Sub
 
-Private Sub mdiConsultaCentroDeCusto_Click()
+Sub mdiConsultaCentroDeCusto_Click()
 frmConsultaCentroDeCusto.Show
 End Sub
 
-Private Sub mdiConsultaFaturamento_Click()
+Sub mdiConsultaFaturamento_Click()
 frmConsultaFaturamento.Show
 End Sub
 
-Private Sub mdiConsultaProgCusrsos_Click()
+Sub mdiConsultaProgCusrsos_Click()
 frmTreinamentoConsulta.Show
 End Sub
 
-Private Sub mdiContasReceber_Click()
+Sub mdiContasReceber_Click()
 frmGeraExcelCredito.Show
 End Sub
 
-Private Sub mdiEquipamento_Click()
+Sub mdiEquipamento_Click()
 frmEquipamento.Show
 End Sub
 
-Private Sub mdiGeraExcelDebito_Click()
+Sub mdiGeraExcelDebito_Click()
 frmGeraExcelDebito.Show
 End Sub
 
-Private Sub mdiInizEquip_Click()
+Sub mdiInizEquip_Click()
 frmIndenizEquip.Show
+End Sub
+
+Sub mdiInventario_Click()
+frmInventario.Show
+End Sub
+
+Sub mdiMovimentacaoMateriais_Click()
+frmEstoqueMovimentMat.Show
 End Sub
 
 Private Sub mdiNFSuprimentos_Click()
 frmNFSuprimentos.Show
 End Sub
 
-Private Sub mdiOS_Click()
+Sub mdiOS_Click()
 frmOS.Show
 End Sub
 
-Private Sub mdiPedidoDeCompra_Click()
+Private Sub mdiParametrosDeServico_Click()
+frmParametrosServico.Show
+End Sub
+
+Sub mdiPedidoDeCompra_Click()
 frmPO.Show
 End Sub
 
-Private Sub mdiProposta_Click()
+Private Sub mdiPosAtuOrdServ_Click()
+frmConsultaServicosPO.Show
+End Sub
+
+Private Sub mdiPOServicos_Click()
+frmPOServicos.Show
+End Sub
+
+Sub mdiProposta_Click()
 frmProposta.Show
 End Sub
 
-Private Sub mdiRecebeMateriais_Click()
+Sub mdiRecebeMateriais_Click()
 frmRecebProdutos.Show
 End Sub
 
@@ -668,51 +1084,67 @@ Private Sub mdiReqCompra_Click()
 frmReqCompra.Show
 End Sub
 
-Private Sub mdiReqMateriais_Click()
+Sub mdiReqMateriais_Click()
 frmRequisicao.Show
 End Sub
 
-Private Sub mdiSerieHistoricaMedicao_Click()
+Private Sub mdiReqServ_Click()
+frmReqServ.Show
+End Sub
+
+Sub mdiSerieHistoricaMedicao_Click()
 frmSerieHistoricaMedicao.Show
 End Sub
 
-Private Sub mdiSevicoNaoFaturado_Click()
+Private Sub mdiServico_Click()
+frmParmServico.Show
+End Sub
+
+Private Sub mdiServicos_Click()
+frmParmServico.Show
+End Sub
+
+Sub mdiSevicoNaoFaturado_Click()
 frmLocacaoeServicoNaoFaturado.Show
 End Sub
 
-Private Sub mdiTreinamentos_Click()
+'Private Sub mdiTesteCEP_Click()
+'TesteCEP.Show
+'End Sub
+
+Sub mdiTreinamentos_Click()
 frmTreinamentos.Show
 End Sub
 
-Private Sub mdiAsoConsulta_Click()
+Sub mdiAsoConsulta_Click()
 frmAsoConsulta.Show
 End Sub
 
-Private Sub mdiAsoExames_Click()
+Sub mdiAsoExames_Click()
 frmAsoExames.Show
 End Sub
 
-Private Sub mdiAsoProgramacao_Click()
+Sub mdiAsoProgramacao_Click()
 frmAsoAgenda.Show
 End Sub
 
-Private Sub mdiAtuEscala_Click()
+Sub mdiAtuEscala_Click()
 frmEscalaDePessoal.Show
 End Sub
 
-Private Sub mdiConsultalogisticaGeral_Click()
+Sub mdiConsultalogisticaGeral_Click()
 frmConsultaLogGeral.Show
 End Sub
 
-Private Sub mdiEmpenho_Click()
+Sub mdiEmpenho_Click()
 frmEmpenho.Show
 End Sub
 
-Private Sub mdiEventos_Click()
+Sub mdiEventos_Click()
 frmEventoDeLogistica.Show
 End Sub
 
-Private Sub mdiPagamentosRecebimentos_Click()
+Sub mdiPagamentosRecebimentos_Click()
 frmPagamentosRecebimentos.Show
 End Sub
 
@@ -724,11 +1156,11 @@ Else
 End If
 End Sub
 
-Private Sub mdiProdutoAtividadePreco_Click()
+Sub mdiProdutoAtividadePreco_Click()
 frmProdutoAtividadePreco.Show
 End Sub
 
-Private Sub mdiReembolo_Click()
+Sub mdiReembolo_Click()
 frmReembolso.Show
 End Sub
 Private Sub mdiAcompVendasAnual_Click()
@@ -755,11 +1187,11 @@ Private Sub mdiCalculadora_Click()
 frmCalculadora.Show
 End Sub
 
-Private Sub mdiCentroDeCusto_Click()
+Sub mdiCentroDeCusto_Click()
 frmCentroDeCusto.Show
 End Sub
 
-Private Sub mdiCentroDeCustoNew_Click()
+Sub mdiCentroDeCustoNew_Click()
 frmCentroDeCustoNew.Show
 End Sub
 
@@ -816,7 +1248,7 @@ Private Sub mdiFinancCliPeriodo_Click()
 MsgBox "Função em desenvolvimento" 'frmImpFinancCliPeriodo.Show
 End Sub
 
-Private Sub mdiFaturaLocacao_Click()
+Sub mdiFaturaLocacao_Click()
 frmFaturaLocacao.Show
 End Sub
 
@@ -824,11 +1256,11 @@ Private Sub mdiFaturamentoAnual_Click()
 MsgBox "Função em desenvolvimento" 'frmImpFaturamentoAnual.Show vbModal
 End Sub
 
-Private Sub mdiFornecProduto_Click()
+Sub mdiFornecProduto_Click()
 frmSupProduto.Show
 End Sub
 
-Private Sub mdiGeraCredito_Click()
+Sub mdiGeraCredito_Click()
 frmGeraCredito.Show vbModal
 End Sub
 
@@ -892,14 +1324,14 @@ End Sub
 'Private Sub mdiatualizaTabPrecoFrete_Click()
 'MsgBox "Função em desenvolvimento" 'frmAtualizaPrecoFrete.Show
 'End Sub
-Private Sub mdiAtuTabPrecoProduto_Click()
+Sub mdiAtuTabPrecoProduto_Click()
 frmAtualizaPrecoProd.Show
 End Sub
-Private Sub mdiCadCli_Click()
 
+Sub mdiCadCli_Click()
 Call Rotina_AbrirBanco
 
-glb.Open "Select * from Global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
+glb.Open "Select * from global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
 
 If glb.EOF Then
    MsgBox ("Atenção: O sistema encontra-se fechado. Esta função só pode ser usada após a sua abertura."), vbInformation
@@ -923,7 +1355,7 @@ Private Sub mdiCliRep_Click()
 MsgBox "Função em desenvolvimento" 'frmCliRep.Show
 End Sub
 
-Private Sub mdiConsolidSemanal_Click()
+Sub mdiConsolidSemanal_Click()
 frmConsolidadoFinanc.Show
 End Sub
 'Private Sub mdiConsultaCliente_Click()
@@ -934,10 +1366,10 @@ Private Sub mdiControleFaturamento_Click()
 MsgBox "Função em desenvolvimento" 'frmControleFaturamentoNew.Show
 End Sub
 
-Private Sub mdiCtaPgRec_Click()
+Sub mdiCtaPgRec_Click()
 frmCtaReceb.Show
 End Sub
-Private Sub mdiCtaPagarReceber_Click()
+Sub mdiCtaPagarReceber_Click()
 frmCtaPagar.Show
 End Sub
 'Private Sub mdiDevolucaoNegociacao_Click()
@@ -952,7 +1384,7 @@ Private Sub mdiEvolucaoEntregas_Click()
 MsgBox "Função em desenvolvimento" 'frmEvolucaoEntregas.Show
 End Sub
 
-Private Sub mdiFinancAnalitico_Click()
+Sub mdiFinancAnalitico_Click()
 frmFinancAnalitico.Show
 End Sub
 
@@ -960,80 +1392,10 @@ Private Sub mdiFinancCliente_Click()
 frmFinancCliente.Show
 End Sub
 
-Private Sub mdiFinancVendas_Click()
+Sub mdiFinancVendas_Click()
 frmConsultaMovFinanc.Show
 End Sub
 
-Private Sub MDIForm_Load()
-Dim UsuarioLocal As String
-frmUsuarioSenha.Show vbModal
-If Not glbUsuario = Empty Then
-    If Not Compilando Then _
-    MsgBox ("Você esta logado no SHB através da Máquina ") & glbMaquina & ", endereço IP " & glbEnderecoIP
-
-    mdiHabilitacaoSistema.Enabled = True
-    ano = Year(Date)
-    Mes = Month(Date)
-    Dia = Day(Date)
-    Data_Hoje = Date
-
-    
-    Call Rotina_AbrirBanco
-       
-    DataHojeInvertida = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
-       
-    usu.Open "Select * from Usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
-    If usu.EOF Then
-       MsgBox ("Erro no acesso a Usuario na rotina de atualização de mostrar aviso. Comunicar Analista responsável"), vbCritical
-       End
-    End If
-    
-    UsuarioLocal = usu!usuMostrarAviso
-    
-    EncontreiAviso = 0
-    
-    If usu!usuMostrarAviso = 1 Then
-       Call VerificaASO
-       If EncontreiAviso = 1 Then
-          frmAviso.Show vbModal
-       End If
-    End If
-    
-    EncontreiAviso = 0
-    
-    If usu!usuAvisoTreinamento = 1 Then
-       Call VerificaTreinamento
-      
-       If EncontreiAviso = 1 Then
-          frmAvisoTreinamento.Show vbModal
-       End If
-    End If
-    
-    EncontreiAviso = 0
-    
-    If usu!usuAvisoReembolso = 1 Then
-      Call VerificaReembolso
-      
-      If EncontreiAviso = 1 Then
-         frmAvisoReembolso.Show vbModal
-      End If
-    End If
-    
-    EncontreiAviso = 0
-    
-    Call VerificaEquipamento
-    
-    If EncontreiAviso = 1 Then
-       frmAvisoEquipamentos.Show vbModal
-    End If
-        
-    ' MsgBox ("Data Hoje Invertida "), DataHojeInvertida
-    frmControleTempo.Show
-    frmControleTempo.Visible = False
-Else
-   End
-End If
-End Sub
 
 'Private Sub mdiHabilitacaoSistema_Click()
 
@@ -1071,7 +1433,7 @@ Private Sub mdiMostruario_Click()
 MsgBox "Função não disponível" 'frmMostruario.Show
 End Sub
 
-Private Sub mdiMedicao_Click()
+Sub mdiMedicao_Click()
 frmMedicao.Show
 End Sub
 
@@ -1119,7 +1481,7 @@ MsgBox ("Função não Disponível") 'impNegMesConsig.Show vbModal
 'deNegMesConsig.rscmdNegMesConsig.Close
 End Sub
 
-Private Sub mdiNfEntrada_Click()
+Sub mdiNfEntrada_Click()
 frmNotaFiscalEntrada.Show
 End Sub
 
@@ -1127,10 +1489,10 @@ Private Sub mdiNotaFiscal_Click()
 MsgBox "Função não disponível" 'frmImpNotaFiscal.Show
 End Sub
 
-Private Sub mdiPagamentos_Click()
+Sub mdiPagamentos_Click()
 Call Rotina_AbrirBanco
 
-glb.Open "Select * from Global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
+glb.Open "Select * from global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
 
 If glb.EOF Then
    MsgBox ("Atenção: O sistema encontra-se fechado. Esta função só pode ser usada após a abertura do sitema."), vbInformation
@@ -1151,9 +1513,9 @@ Private Sub mdiPedCompra_Click()
 MsgBox ("Função não Disponível") 'frmPedidoDeCompra.Show
 End Sub
 
-Private Sub mdiPedido_Click()
+Sub mdiPedido_Click()
 Call Rotina_AbrirBanco
-glb.Open "Select * from Global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
+glb.Open "Select * from global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
 If glb.EOF Then
    MsgBox ("Atenção: O sistema encontra-se fechado. Esta função só pode ser usada após a abertura do sitema."), vbInformation
    Exit Sub
@@ -1208,7 +1570,7 @@ Private Sub mdiProdUnidadeFabril_Click()
 MsgBox "Função não disponível" 'frmProdGalpao.Show
 End Sub
 
-Private Sub mdiProduto_Click()
+Sub mdiProduto_Click()
 frmProduto.Show
 End Sub
 
@@ -1220,15 +1582,15 @@ Private Sub mdiProdutoPeriodo_Click()
 MsgBox "Função não disponível " 'frmProdutoPeriodo.Show
 End Sub
 
-Private Sub mdiProdutosIn_Click()
+Sub mdiProdutosIn_Click()
 frmProdutosDeEntrada.Show
 End Sub
 
-Private Sub mdiRecebimentos_Click()
+Sub mdiRecebimentos_Click()
 
 Call Rotina_AbrirBanco
 
-glb.Open "Select * from Global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
+glb.Open "Select * from global where chDataAbertura = ('" & DataHojeInvertida & "')", db, 3, 3
 If glb.EOF Then
    MsgBox ("Atenção: O sistema encontra-se fechado. Esta função só pode ser usada após a abertura do sitema."), vbInformation
    Exit Sub
@@ -1249,7 +1611,7 @@ Private Sub mdiRelPessoa_Click()
 MsgBox "Função não disponível" 'impRelPessoa.Show
 End Sub
 
-Private Sub mdiReprogFinanc_Click()
+Sub mdiReprogFinanc_Click()
 'MsgBox ("Função em manutenção")
 frmReprogFinanc.Show
 End Sub
@@ -1263,7 +1625,7 @@ Private Sub mdiSaidasprodutos_Click()
 MsgBox "Função não disponível" 'frmProdutoSaida.Show
 End Sub
 
-Private Sub mdiSair_Click()
+Sub mdiSair_Click()
 Dim Resp As String
 
 Resp = MsgBox("Saída do sistema solicitada. Confirma???", vbExclamation + vbYesNo)
@@ -1271,7 +1633,7 @@ Resp = MsgBox("Saída do sistema solicitada. Confirma???", vbExclamation + vbYesN
 If Resp = vbYes Then
    Call Rotina_AbrirBanco
       
-   rs.Open "select * from Usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
+   rs.Open "select * from usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
    If rs.EOF Then
       Call FechaDB
    Else
@@ -1296,15 +1658,15 @@ Else
 End If
 End Sub
 
-Private Sub mdiUnidadeEmbalagem_Click()
-MsgBox ("Função não Disponível") 'frmUnidadeEmbalagem.Show
+Sub mdiUnidadeEmbalagem_Click()
+frmUnidadeDeEmbalagem.Show
 End Sub
 
-Private Sub mdiUnidadeMedida_Click()
+Sub mdiUnidadeMedida_Click()
 MsgBox "Função não disponível " 'frmUnidadeMedida.Show
 End Sub
 
-Private Sub mdiUnidadeOperacional_Click()
+Sub mdiUnidadeOperacional_Click()
 frmUnidadeOperacional.Show
 End Sub
 
@@ -1319,7 +1681,7 @@ frmUsuarioSenha.Show vbModal
 'Set TabUsuario = dbSHB.OpenRecordset("Usuario")
 '    TabUsuario.Index = "IndUsuario"
 Call Rotina_AbrirBanco
-usu.Open "Select * from Usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
+usu.Open "Select * from usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
 If usu.EOF Then
    MsgBox ("Usuario não cadastrado"), vbCritical
    Call FechaDB
@@ -1334,14 +1696,11 @@ mdiColaboradores = False
 mdiParametros.Enabled = False
 mdiFinanceiro.Enabled = False
 mdiProducao.Enabled = False
-If ChaveCompilando = 1 Then
-   mdiMateriaisEst.Enabled = True
-Else
-   mdiMateriaisEst.Enabled = False
-End If
+mdiMateriaisEst.Enabled = True
 mdiRelatorios.Enabled = False
 mdiHabilitacao.Enabled = True
 mdiSupervisor.Enabled = False
+
 'TabUsuario.Close
 End Sub
 
@@ -1356,7 +1715,7 @@ Private Sub MDIForm_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 If Resp = vbYes Then
    Call Rotina_AbrirBanco
       
-   usu.Open "select * from Usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
+   usu.Open "select * from usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
    acUsu = acUsu + 1
    If usu.EOF Then
       Call FechaDB
@@ -1374,37 +1733,36 @@ End Sub
 
 Public Sub VerificaASO()
 
-PessoaAnterior = Empty
 
 ano = Year(Date)
-Mes = Month(Date)
+mes = Month(Date)
 Dia = Day(Date)
 
-DataHojeInvertida = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataHojeInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 EncontreiAviso = 0
 
 'Call Rotina_AbrirBanco
 
-asoa.Open "Select * from AsoAgenda where asoaStatus = ('" & 0 & "')", db, 3, 3
+asoa.Open "Select * from asoagenda where asoaStatus = ('" & 0 & "')", db, 3, 3
 If asoa.EOF Then
    Call FechaDB
    Exit Sub
 End If
 
-PessoaAnterior = Empty
+pessoaAnterior = Empty
 
 asoa.MoveFirst
 
 Do While (Not asoa.EOF) And EncontreiAviso = 0
 
-   If Not asoa!chPessoa = PessoaAnterior Then
-      If Not asoa!chPessoa = PessoaAnterior Then
+   If Not asoa!chPessoa = pessoaAnterior Then
+      If Not asoa!chPessoa = pessoaAnterior Then
          If pes.State = 1 Then
             pes.Close: Set pes = Nothing
          End If
          
-         pes.Open "Select * from Pessoa where pesRazaoSocial = ('" & asoa!chPessoa & "')", db, 3, 3
+         pes.Open "Select * from pessoa where pesRazaoSocial = ('" & asoa!chPessoa & "')", db, 3, 3
          If pes.EOF Then
             MsgBox ("Pessoa não encontrado. Comunicar ao analista responsável."), vbCritical
             Call FechaDB
@@ -1418,32 +1776,32 @@ Do While (Not asoa.EOF) And EncontreiAviso = 0
          asoe.Close: Set asoe = Nothing
       End If
       
-      asoe.Open "Select * from AsoExame where chNomeExame = ('" & asoa!chNomeExame & "')", db, 3, 3
+      asoe.Open "Select * from asoexame where chNomeExame = ('" & asoa!chNomeExame & "')", db, 3, 3
       If Not asoe.EOF Then
          If asoe!exmUnidTempo = 0 Then
             DataDias = Date + asoe!exmPrazoAviso
             ano = Year(DataDias)
-            Mes = Month(DataDias)
+            mes = Month(DataDias)
             Dia = Day(DataDias)
-            DataBase = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+            DataBase = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
          Else
             If asoe!exmUnidTempo = 1 Then
                ano = Year(Date)
-               Mes = Month(Date)
-               Mes = Mes + asoe!exmPrazoAviso
-               If Mes > 12 Then
+               mes = Month(Date)
+               mes = mes + asoe!exmPrazoAviso
+               If mes > 12 Then
                   ano = Year(Date)
                   ano = ano + 1
-                  Mes = Mes - 12
+                  mes = mes - 12
                End If
                Dia = Day(Date)
-               DataBase = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+               DataBase = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
             Else
                ano = Year(Date)
                ano = ano + asoe!exmPrazoAviso
-               Mes = Month(Date)
+               mes = Month(Date)
                Dia = Day(Date)
-               DataBase = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+               DataBase = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
             End If
          End If
          
@@ -1477,16 +1835,16 @@ End Sub
 
 Public Sub VerificaTreinamento()
 ano = Year(Date)
-Mes = Month(Date)
+mes = Month(Date)
 Dia = Day(Date)
 
-DataHojeInvertida = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataHojeInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 EncontreiAviso = 0
 
 'Call Rotina_AbrirBanco
 
-agcto.Open "Select * from TreinamentoAgenda where agctoStatus = ('" & 0 & "')", db, 3, 3
+agcto.Open "Select * from treinamentoagenda where agctoStatus = ('" & 0 & "')", db, 3, 3
 If agcto.EOF Then
    Call FechaDB
    Exit Sub
@@ -1496,19 +1854,19 @@ agcto.MoveFirst
 
 Do While Not agcto.EOF And EncontreiAviso = 0
 
-   If Not agcto!chPessoa = PessoaAnterior Then
+   If Not agcto!chPessoa = pessoaAnterior Then
       
       If cto.State = 1 Then
          cto.Close: Set cto = Nothing
       End If
       
-      cto.Open "Select * from Treinamento where chNomeCurso = ('" & agcto!chNomeCurso & "')", db, 3, 3
+      cto.Open "Select * from treinamento where chNomeCurso = ('" & agcto!chNomeCurso & "')", db, 3, 3
       If Not cto.EOF Then
          DataDias = Date + cto!ctoAvisoEm
          ano = Year(DataDias)
-         Mes = Month(DataDias)
+         mes = Month(DataDias)
          Dia = Day(DataDias)
-         DataBase = ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+         DataBase = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
    
          AnoDb = Year(agcto!agctoDataProxCurso)
          MesDb = Month(agcto!agctoDataProxCurso)
@@ -1522,7 +1880,7 @@ Do While Not agcto.EOF And EncontreiAviso = 0
                   pes.Close: Set pes = Nothing
                End If
          
-               pes.Open "Select * from Pessoa where pesRazaoSocial = ('" & agcto!chPessoa & "')", db, 3, 3
+               pes.Open "Select * from pessoa where pesRazaoSocial = ('" & agcto!chPessoa & "')", db, 3, 3
                If Not pes.EOF Then
                   If Not pes!pesStatusPessoa = 3 Then
                         EncontreiAviso = 1
@@ -1530,7 +1888,7 @@ Do While Not agcto.EOF And EncontreiAviso = 0
                End If
             End If
           End If
-          PessoaAnterior = agcto!chPessoa
+          pessoaAnterior = agcto!chPessoa
       End If
    End If
 
@@ -1545,7 +1903,7 @@ EncontreiAviso = 0
 
 'Call Rotina_AbrirBanco
 
-Rmb.Open "Select * from Reembolso where rmbStatusReembolso = ('" & 0 & "')", db, 3, 3
+Rmb.Open "Select * from reembolso where rmbStatusReembolso = ('" & 0 & "')", db, 3, 3
 If Rmb.EOF Then
    Call FechaDB
    Exit Sub
@@ -1569,9 +1927,9 @@ ChaveAuxiliar = "VENCIDO"
 
 Call Rotina_AbrirBanco
 
-eqpt.Open "Select * from Equipamento", db, 3, 3
+eqpt.Open "Select * from equipamento", db, 3, 3
 If eqpt.EOF Then
-   MsgBox ("Cadastro de Equipamentos vazio. Comunicar ao analista responsável."), vbCritical
+   MsgBox ("Cadastro de equipamentos vazio. Comunicar ao analista responsável."), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -1584,9 +1942,9 @@ Do While Not eqpt.EOF And EncontreiAviso = 0
       If teq.State = 1 Then
          teq.Close: Set teq = Nothing
       End If
-      teq.Open "Select * from EquipamentoTipo where chTipoDeEquipamento = ('" & eqpt!eqptTipoEquipamento & "')", db, 3, 3
+      teq.Open "Select * from equipamentotipo where chTipoDeEquipamento = ('" & eqpt!eqptTipoEquipamento & "')", db, 3, 3
       If teq.EOF Then
-         MsgBox ("Erro no acesso a Tipo de Equipamento."), vbCritical
+         MsgBox ("Erro no acesso a Tipo de equipamento."), vbCritical
          Call FechaDB
          Exit Sub
       End If

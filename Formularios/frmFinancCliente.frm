@@ -428,7 +428,7 @@ Option Explicit
 
 Dim i As Long
 Dim QtdReg As Long
-Dim fim As Byte
+Dim Fim As Byte
 Dim RegMes As Byte
 Dim Linha As Long
 Dim IndVencer As Integer
@@ -458,9 +458,9 @@ i = 1
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa", db, 3, 3
+pes.Open "Select * from pessoa", db, 3, 3
 If pes.EOF Then
-   MsgBox ("Tabele de Pessoa vazia. Verificar."), vbCritical
+   MsgBox ("Tabele de pessoa vazia. Verificar."), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -510,7 +510,7 @@ End Sub
 
 Private Sub cmdConsulta_Click()
 
-fim = 0
+Fim = 0
 
 Call Rotina_030_Limpa_Vencer
 Call Rotina_035_Limpa_Vencido
@@ -575,9 +575,9 @@ cmbTipoConsulta.ListIndex = 0
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa", db, 3, 3
+pes.Open "Select * from pessoa", db, 3, 3
 If pes.EOF Then
-   MsgBox ("Tabele de Pessoa vazia. Verificar."), vbCritical
+   MsgBox ("Tabele de pessoa vazia. Verificar."), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -639,7 +639,7 @@ Public Sub Rotina_060_Consulta_Cliente()
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber", db, 3, 3
+ctr.Open "Select * from contas_a_receber", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Tabele de Contas a Receber vazia. Verificar."), vbCritical
    Call FechaDB
@@ -649,15 +649,15 @@ End If
 
 ctr.MoveFirst
    
-Do While fim = 0
+Do While Fim = 0
    If ctr!chPessoa < cmbFiltro Then
       ctr.MoveNext
       If ctr.EOF Then
-         fim = 1
+         Fim = 1
       End If
    Else
       If ctr!chPessoa > cmbFiltro Then
-         fim = 1
+         Fim = 1
       Else
          If ctr!ctrDataVencito < Date Then
             RegMes = 1
@@ -667,7 +667,7 @@ Do While fim = 0
          End If
          ctr.MoveNext
          If ctr.EOF Then
-            fim = 1
+            Fim = 1
          End If
       End If
    End If
@@ -675,9 +675,9 @@ Loop
 
 txtTotalAVencer = Format$(AcumulaVencer, "#,##0.00")
 
-fim = 0
+Fim = 0
 
-hctr.Open "Select * from HistoricoContasReceber", db, 3, 3
+hctr.Open "Select * from historicocontasreceber", db, 3, 3
 If hctr.EOF Then
    MsgBox ("Tabele de Historico Contas a Receber vazia. Verificar."), vbCritical
    Call FechaDB
@@ -688,21 +688,21 @@ End If
 hctr.MoveFirst
    
 
-Do While fim = 0
+Do While Fim = 0
    If hctr!chPessoa > cmbFiltro Then
       hctr.MovePrevious
       If hctr.BOF Then
-         fim = 1
+         Fim = 1
       End If
    Else
       If hctr!chPessoa < cmbFiltro Then
-         fim = 1
+         Fim = 1
       Else
          RegMes = 0
          Call Rotina_064_Carga_Vencidos
          hctr.MovePrevious
          If hctr.BOF Then
-            fim = 1
+            Fim = 1
          End If
       End If
    End If
@@ -728,7 +728,7 @@ AnoInv = Year(ctr!ctrDataVencito)
 MesInv = Month(ctr!ctrDataVencito)
 DiaInv = Day(ctr!ctrDataVencito)
 GridAVencer.TextMatrix(IndVencer, 4) = AnoInv & Format(MesInv, "00") & Format(DiaInv, "00")
-GridAVencer.TextMatrix(IndVencer, 1) = ctr!chNotaFiscal
+GridAVencer.TextMatrix(IndVencer, 1) = ctr!chNotafiscal
 GridAVencer.TextMatrix(IndVencer, 2) = ctr!ctrDescricaoOperacao
 GridAVencer.TextMatrix(IndVencer, 3) = Format$(ctr!ctrValorDaBoleta, "#,##0.00")
 
@@ -756,7 +756,7 @@ MesInv = Month(ctr!ctrDataVencito)
 DiaInv = Day(ctr!ctrDataVencito)
 GridVencidos.TextMatrix(IndVencido, 6) = AnoInv & Format(MesInv, "00") & Format(DiaInv, "00")
 
-GridVencidos.TextMatrix(IndVencido, 1) = ctr!chNotaFiscal
+GridVencidos.TextMatrix(IndVencido, 1) = ctr!chNotafiscal
 GridVencidos.TextMatrix(IndVencido, 2) = ctr!chFatura & "-" & ctr!ctrDescricaoOperacao
 GridVencidos.TextMatrix(IndVencido, 3) = Format$(ctr!ctrValorDaBoleta, "#,##0.00")
 
@@ -780,7 +780,7 @@ End If
 AcumulaVencido = AcumulaVencido + ctr!ctrValorDaBoleta
 
 If IndVencido = 99 Then
-   fim = 1
+   Fim = 1
 End If
 
 End Sub
@@ -807,7 +807,7 @@ DiaInv = Day(hctr!ctrDataVencito)
 GridVencidos.Rows = IndVencido + 1
 GridVencidos.TextMatrix(IndVencido, 6) = AnoInv & Format(MesInv, "00") & Format(DiaInv, "00")
 
-GridVencidos.TextMatrix(IndVencido, 1) = hctr!chNotaFiscal
+GridVencidos.TextMatrix(IndVencido, 1) = hctr!chNotafiscal
 GridVencidos.TextMatrix(IndVencido, 2) = hctr!chFatura & "-" & hctr!ctrDescricaoOperacao
 GridVencidos.TextMatrix(IndVencido, 3) = Format$(hctr!ctrValorDaBoleta, "#,##0.00")
 
@@ -835,7 +835,7 @@ Public Sub Rotina_070_Consulta_Colaborador()
 
 Call Rotina_AbrirBanco
 
-ctp.Open "Select * from Contas_A_Receber", db, 3, 3
+ctp.Open "Select * from contas_a_receber", db, 3, 3
 If ctp.EOF Then
    MsgBox ("Tabele de Contas a Receber vazia. Verificar."), vbCritical
    Call FechaDB
@@ -844,15 +844,15 @@ End If
 
 
 ctp.MoveFirst
-Do While fim = 0
+Do While Fim = 0
    If ctp!chPessoa < cmbFiltro Then
       ctp.MoveNext
       If ctp.EOF Then
-         fim = 1
+         Fim = 1
       End If
    Else
       If ctp!chPessoa > cmbFiltro Then
-         fim = 1
+         Fim = 1
       Else
          If ctp!chDataVencito < Date Then
             RegMes = 1
@@ -862,7 +862,7 @@ Do While fim = 0
          End If
          ctp.MoveNext
          If ctp.EOF Then
-            fim = 1
+            Fim = 1
          End If
       End If
    End If
@@ -870,10 +870,10 @@ Loop
 
 txtTotalAVencer = Format$(AcumulaVencer, "#,##0.00")
 
-fim = 0
+Fim = 0
 
 
-hctp.Open "Select * from Contas_A_Receber", db, 3, 3
+hctp.Open "Select * from contas_a_receber", db, 3, 3
 If hctp.EOF Then
    MsgBox ("Tabele de Contas a Receber vazia. Verificar."), vbCritical
    Call FechaDB
@@ -882,27 +882,27 @@ End If
 
 
 hctp.MoveFirst
-Do While fim = 0
+Do While Fim = 0
    If hctp!chFabricante = 1 Then
       hctp.MovePrevious
       If hctp.BOF Then
-         fim = 1
+         Fim = 1
       End If
    Else
       If hctp!chPessoa > cmbFiltro Then
          hctp.MovePrevious
          If hctp.BOF Then
-            fim = 1
+            Fim = 1
          End If
       Else
          If hctp!chPessoa < cmbFiltro Then
-            fim = 1
+            Fim = 1
          Else
             RegMes = 0
             Call Rotina_074_Carga_Vencidos
             hctp.MovePrevious
             If hctp.BOF Then
-               fim = 1
+               Fim = 1
             End If
          End If
       End If
@@ -927,7 +927,7 @@ AnoInv = Year(ctp!chDataVencito)
 MesInv = Month(ctp!chDataVencito)
 DiaInv = Day(ctp!chDataVencito)
 GridAVencer.TextMatrix(IndVencer, 4) = AnoInv & Format(MesInv, "00") & Format(DiaInv, "00")
-GridAVencer.TextMatrix(IndVencer, 1) = ctp!chNotaFiscal
+GridAVencer.TextMatrix(IndVencer, 1) = ctp!chNotafiscal
 GridAVencer.TextMatrix(IndVencer, 2) = ctp!ctpdescricaooperacao
 GridAVencer.TextMatrix(IndVencer, 3) = Format$(ctp!ctpValorDaBoleta, "#,##0.00")
 
@@ -955,7 +955,7 @@ MesInv = Month(ctp!chDataVencito)
 DiaInv = Day(ctp!chDataVencito)
 GridVencidos.TextMatrix(IndVencido, 6) = AnoInv & Format(MesInv, "00") & Format(DiaInv, "00")
 
-GridVencidos.TextMatrix(IndVencido, 1) = ctp!chNotaFiscal
+GridVencidos.TextMatrix(IndVencido, 1) = ctp!chNotafiscal
 GridVencidos.TextMatrix(IndVencido, 2) = ctp!ctpdescricaooperacao
 GridVencidos.TextMatrix(IndVencido, 3) = Format$(ctp!ctpValorDaBoleta, "#,##0.00")
 
@@ -1002,7 +1002,7 @@ DiaInv = Day(hctp!chDataVencito)
 GridVencidos.Rows = IndVencido + 1
 GridVencidos.TextMatrix(IndVencido, 6) = AnoInv & Format(MesInv, "00") & Format(DiaInv, "00")
 
-GridVencidos.TextMatrix(IndVencido, 1) = hctp!chNotaFiscal
+GridVencidos.TextMatrix(IndVencido, 1) = hctp!chNotafiscal
 GridVencidos.TextMatrix(IndVencido, 2) = hctp!ctpdescricaooperacao
 GridVencidos.TextMatrix(IndVencido, 3) = Format$(hctp!ctpValorDaBoleta, "#,##0.00")
 
@@ -1051,7 +1051,7 @@ Public Sub Restaura_Recebimentos()
 
 Linha = GridVencidos.Row
 Pos = 0
-fim = 0
+Fim = 0
 For Pos = 1 To 3
    Resp = Mid$(GridVencidos.TextMatrix(Linha, 2), Pos, 1)
    If Resp = "-" Then
@@ -1065,9 +1065,9 @@ Next
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbFiltro & "') and chNotaFiscal = ('" & GridVencidos.TextMatrix(Linha, 1) & "') and  chFatura = ('" & Fatura & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbFiltro & "') and chNotaFiscal = ('" & GridVencidos.TextMatrix(Linha, 1) & "') and  chFatura = ('" & Fatura & "')", db, 3, 3
 If ctr.EOF Then
-   hctr.Open "Select * from HistoricoContasReceber where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbFiltro & "') and chNotaFiscal = ('" & GridVencidos.TextMatrix(Linha, 1) & "') and  chFatura = ('" & Fatura & "')", db, 3, 3
+   hctr.Open "Select * from historicocontasreceber where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbFiltro & "') and chNotaFiscal = ('" & GridVencidos.TextMatrix(Linha, 1) & "') and  chFatura = ('" & Fatura & "')", db, 3, 3
    If hctr.EOF Then
       MsgBox ("Atenção: Restauração solicitada não foi realizada"), vbInformation
       Call FechaDB
@@ -1076,7 +1076,7 @@ If ctr.EOF Then
       ctr.AddNew
       ctr!chFabricante = hctr!chFabricante
       ctr!chPessoa = hctr!chPessoa
-      ctr!chNotaFiscal = hctr!chNotaFiscal
+      ctr!chNotafiscal = hctr!chNotafiscal
       ctr!chFatura = hctr!chFatura
       ctr!ctrDataEmissao = hctr!ctrDataEmissao
       ctr!ctrDataVencito = hctr!ctrDataVencito

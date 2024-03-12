@@ -543,14 +543,14 @@ Dim CidadeAnterior As String
 Dim GrupoAnterior As String
 Dim chaveatualiza As Integer
 Dim StatusAtual As Integer
-Dim PessoaAnterior As String
-Dim fim As Integer
+Dim pessoaAnterior As String
+Dim Fim As Integer
 
 Private Sub cmbAtividade_LostFocus()
 
 Call Rotina_AbrirBanco
 
-ProdPreco.Open "Select * from ProdutoPreco where chPessoa = ('" & cmbTabPreco & "') and chProduto = ('" & cmbProduto & "') and chAtividade = ('" & cmbAtividade & "') and pdpStatus = ('" & 0 & "')", db, 3, 3
+ProdPreco.Open "Select * from produtopreco where chPessoa = ('" & cmbTabPreco & "') and chProduto = ('" & cmbProduto & "') and chAtividade = ('" & cmbAtividade & "') and pdpStatus = ('" & 0 & "')", db, 3, 3
 If ProdPreco.EOF Then
    txtPrecoAnterior = Format$(0, "#0.00")
 Else
@@ -579,7 +579,7 @@ If cmbProduto = " Todos" Then
 Else
    Call Rotina_AbrirBanco
 
-   Prod.Open "Select * from Produto where chProduto = ('" & cmbProduto & "')", db, 3, 3
+   Prod.Open "Select * from produto where chProduto = ('" & cmbProduto & "')", db, 3, 3
    
    If Prod.EOF Then
       MsgBox ("Entre com um código da lista"), vbInformation
@@ -589,7 +589,7 @@ Else
    txtDescProduto = Prod!prdNomeProd
 
 End If
-'ProdPreco.Open "Select * from ProdutoPreco where chPessoa = ('" & cmbTabPreco & "') and chProduto = ('" & cmbProduto & "') and chAtividade = ('" & cmbAtividade & "') and pdpStatus = ('" & 0 & "')", db, 3, 3
+'ProdPreco.Open "Select * from produtopreco where chPessoa = ('" & cmbTabPreco & "') and chProduto = ('" & cmbProduto & "') and chAtividade = ('" & cmbAtividade & "') and pdpStatus = ('" & 0 & "')", db, 3, 3
 'If ProdPreco.EOF Then
 '   txtPrecoAnterior = Format$(0, "#0.00")
 'Else
@@ -610,9 +610,9 @@ cmbProduto.Clear
 
 Call Rotina_AbrirBanco
 
-Prod.Open "Select * from Produto where prdLocadora = ('" & cmbTabPreco & "') and prdOrdemApresentacao = ('" & 0 & "')", db, 3, 3
+Prod.Open "Select * from produto where prdLocadora = ('" & cmbTabPreco & "') and prdOrdemApresentacao = ('" & 0 & "')", db, 3, 3
 If Prod.EOF Then
-   MsgBox ("Cliente sem contrato e sem Equipamentos cadastrados."), vbCritical
+   MsgBox ("Cliente sem contrato e sem equipamentos cadastrados."), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -658,16 +658,16 @@ End Sub
 '
 '   Call Rotina_AbrirBanco
 '
-'   pes.Open "Select * from Pessoa", db, 3, 3
+'   pes.Open "Select * from pessoa", db, 3, 3
 '
 '
 ''   pes.MoveFirst
 '   Do While Not pes.EOF
 '      'If cmbTipoTabPreco.ListIndex = 1 Then
 '         If pes!pestipopessoa = 0 And pes!pesStatusPessoa = 0 Then
-'            If Not pes!chPessoa = PessoaAnterior Then
+'            If Not pes!chPessoa = pessoaAnterior Then
 '                   cmbTabPreco.AddItem pes!chPessoa
-'                   PessoaAnterior = pes!chPessoa
+'                   pessoaAnterior = pes!chPessoa
 '                   pes.MoveNext
 '            Else
 '               pes.MoveNext
@@ -687,7 +687,7 @@ Private Sub cmdExcluir_Click()
 
 Call Rotina_AbrirBanco
 
-ProdPreco.Open "Select * from ProdutoPreco where chPessoa = ('" & cmbTabPreco & "') and chProduto = ('" & cmbProduto & "') and chAtividade = ('" & cmbAtividade & "')", db, 3, 3
+ProdPreco.Open "Select * from produtopreco where chPessoa = ('" & cmbTabPreco & "') and chProduto = ('" & cmbProduto & "') and chAtividade = ('" & cmbAtividade & "')", db, 3, 3
 If ProdPreco.EOF Then
    MsgBox ("Erro na deleção do Produto Preço. Comunicar ao analista responsável"), vbCritical
    Call FechaDB
@@ -720,7 +720,7 @@ StatusAtual = 0
 
 Call Rotina_AbrirBanco
 
-TabPreco.Open "Select * from TipoTabPreco", db, 3, 3
+TabPreco.Open "Select * from tipotabpreco", db, 3, 3
 
 TabPreco.MoveFirst
 Do While Not TabPreco.EOF
@@ -731,7 +731,7 @@ cmbTipoTabPreco.ListIndex = 0
 
 cmbProduto.AddItem "GERAL"
 
-'Prod.Open "Select * from Produto", db, 3, 3
+'Prod.Open "Select * from produto", db, 3, 3
 
 
 'Prod.MoveFirst
@@ -743,7 +743,7 @@ cmbProduto.AddItem "GERAL"
 '   Prod.MoveNext
 'Loop
 
-Ativ.Open "Select * from Atividade", db, 3, 3
+Ativ.Open "Select * from atividade", db, 3, 3
 If Ativ.EOF Then
    MsgBox ("Erro na tabela Produto"), vbCritical
    Call FechaDB
@@ -771,7 +771,7 @@ cmbTipoAjuste = Empty
 cmbTabPreco = Empty
 cmbProduto.ListIndex = 0
 txtDescProduto = Empty
-PessoaAnterior = Empty
+pessoaAnterior = Empty
 'cmbTipoTabPreco.ListIndex = 1
 
 'If cmbTipoTabPreco.ListIndex = 0 Then
@@ -785,16 +785,16 @@ PessoaAnterior = Empty
    
    Call Rotina_AbrirBanco
    
-   pes.Open "Select * from Pessoa", db, 3, 3
+   pes.Open "Select * from pessoa", db, 3, 3
    
    
    pes.MoveFirst
    Do While Not pes.EOF
       'If cmbTipoTabPreco.ListIndex = 1 Then
          If pes!pestipopessoa = 0 And pes!pesStatusPessoa = 0 Then
-            If Not pes!chPessoa = PessoaAnterior Then
+            If Not pes!chPessoa = pessoaAnterior Then
                    cmbTabPreco.AddItem pes!chPessoa
-                   PessoaAnterior = pes!chPessoa
+                   pessoaAnterior = pes!chPessoa
                    pes.MoveNext
             Else
                pes.MoveNext
@@ -839,7 +839,7 @@ End If
 'Else
    Call Rotina_AbrirBanco
 
-   ProdPreco.Open "Select * from ProdutoPreco where chpessoa = ('" & cmbTabPreco & "') and chProduto = ('" & cmbProduto & "') and chAtividade = ('" & cmbAtividade & "') and pdpstatus = ('" & 0 & "')", db, 3, 3
+   ProdPreco.Open "Select * from produtopreco where chpessoa = ('" & cmbTabPreco & "') and chProduto = ('" & cmbProduto & "') and chAtividade = ('" & cmbAtividade & "') and pdpstatus = ('" & 0 & "')", db, 3, 3
    If ProdPreco.EOF Then
       If cmbTipoAjuste.ListIndex < 2 Then
          MsgBox ("Não há preço nesta tabela para ser atualizado"), vbInformation
@@ -861,7 +861,7 @@ Public Sub Rotina_010_Atualiza_Preco_Prod()
 
 Call Rotina_AbrirBanco
 
-ProdPreco.Open "Select * from ProdutoPreco where chPessoa = ('" & cmbTabPreco & "') and chproduto = ('" & cmbProduto & "') and chAtividade = ('" & cmbAtividade & "') and pdpStatus = ('" & 0 & "')", db, 3, 3
+ProdPreco.Open "Select * from produtopreco where chPessoa = ('" & cmbTabPreco & "') and chproduto = ('" & cmbProduto & "') and chAtividade = ('" & cmbAtividade & "') and pdpStatus = ('" & 0 & "')", db, 3, 3
 If ProdPreco.EOF Then
    ProdPreco.AddNew
    Call Rotina_014_Gera_Novo_Preco
@@ -892,14 +892,14 @@ Public Sub Rotina_012_Novo_Com_Anterior()
 If chaveatualiza = 1 Then
    chaveatualiza = 0
    
-   PessoaAnterior = cmbTabPreco
-   fim = 0
+   pessoaAnterior = cmbTabPreco
+   Fim = 0
    Call Rotina_15_Reposiciona_Ordem_Atualizacao
 End If
 
 Call Rotina_AbrirBanco
 
-ProdPreco.Open "Select * from ProdutoPreco where chPessoa = ('" & PessoaAnterior & "') and chproduto = ('" & cmbProduto & "') and chAtividade =('" & cmbAtividade & "') and pdpStatus = ('" & 0 & "')", db, 3, 3
+ProdPreco.Open "Select * from produtopreco where chPessoa = ('" & pessoaAnterior & "') and chproduto = ('" & cmbProduto & "') and chAtividade =('" & cmbAtividade & "') and pdpStatus = ('" & 0 & "')", db, 3, 3
 If ProdPreco.EOF Then
    MsgBox ("Erro acesso ProdutooPreço em Rotina 12 Novo com Anterior."), vbCritical
    Call FechaDB
@@ -977,7 +977,7 @@ Public Sub Rotina_15_Reposiciona_Ordem_Atualizacao()
 '      fim = 1
 '   Else
 '      StatusAtual = tabProdutoPreco("pdpstatus")
-'      If (tabProdutoPreco("chpessoa") = PessoaAnterior) Then
+'      If (tabProdutoPreco("chpessoa") = pessoaAnterior) Then
 '         fim = 0
 '      Else
 '         fim = 1
@@ -985,11 +985,11 @@ Public Sub Rotina_15_Reposiciona_Ordem_Atualizacao()
 '   End If
 'Loop
 
-fim = 0
+Fim = 0
 
 Call Rotina_AbrirBanco
    
-ProdPreco.Open "Select * from ProdutoPreco where chPessoa = ('" & PessoaAnterior & "') and chproduto = ('" & cmbProduto & "') and chAtividade = ('" & cmbAtividade & "')", db, 3, 3
+ProdPreco.Open "Select * from produtopreco where chPessoa = ('" & pessoaAnterior & "') and chproduto = ('" & cmbProduto & "') and chAtividade = ('" & cmbAtividade & "')", db, 3, 3
 If ProdPreco.EOF Then
    MsgBox ("Erro acesso tabprodutopreco"), vbCritical
    Call FechaDB
@@ -999,7 +999,7 @@ End If
 ProdPreco.MoveLast
 'ProdPreco.MovePrevious
 
-Do While fim = 0
+Do While Fim = 0
 
    If ProdPreco!chPessoa = cmbTabPreco And ProdPreco!pdpstatus > 0 Then
 
@@ -1010,10 +1010,10 @@ Do While fim = 0
       
       ProdPreco.MovePrevious
       If ProdPreco.BOF Then
-         fim = 1
+         Fim = 1
       End If
     Else
-      fim = 1
+      Fim = 1
     End If
 Loop
   

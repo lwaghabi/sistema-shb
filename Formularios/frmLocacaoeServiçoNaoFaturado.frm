@@ -133,7 +133,7 @@ DataHoje = Format$(Date, "yyyy-mm-dd")
 
 Call Rotina_AbrirBanco
 
-neg.Open "Select * from Negociacao where not negStatus = ('" & 1 & "') and negFinalMedicao < ('" & DataHoje & "')", db, 3, 3
+neg.Open "Select * from negociacao where not negStatus = ('" & 1 & "') and negFinalMedicao < ('" & DataHoje & "')", db, 3, 3
 If neg.EOF Then
    MsgBox ("Não há Locações e Serviços sem processamento."), vbInformation
    Call FechaDB
@@ -151,7 +151,7 @@ Do While Not neg.EOF
       dneg.Close: Set dneg = Nothing
    End If
 
-   dneg.Open "Select * from DetalheNegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
+   dneg.Open "Select * from detalhenegociacao where chNumPedido = ('" & neg!chNumPedido & "') and chNumPedidoComp = ('" & neg!chNumPedidoComp & "')", db, 3, 3
    If dneg.EOF Then
       MsgBox ("ERRO: Comunicar ao analista responsável."), vbCritical
       Call FechaDB

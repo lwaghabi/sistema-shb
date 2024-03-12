@@ -64,7 +64,7 @@ Begin VB.Form frmMapaPagamentos
          _ExtentX        =   2355
          _ExtentY        =   661
          _Version        =   393216
-         Format          =   260505601
+         Format          =   412680193
          CurrentDate     =   38202
       End
       Begin MSComCtl2.DTPicker DTDE 
@@ -76,7 +76,7 @@ Begin VB.Form frmMapaPagamentos
          _ExtentX        =   2566
          _ExtentY        =   661
          _Version        =   393216
-         Format          =   260505601
+         Format          =   412680193
          CurrentDate     =   38202
       End
       Begin VB.Label Label2 
@@ -114,7 +114,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Dim Sql As String
+Dim sql As String
 Dim DataDe As String
 Dim DataAte As String
 
@@ -128,11 +128,11 @@ Private Sub cmdVisualizar_Click()
 DataDe = Format$(CDate(DTDE), "mm/dd/yyyy")
 DataAte = Format$(CDate(DTATE), "mm/dd/yyyy")
 
-Sql = "Select pg.chpessoa, pg.chcodbcolart,pg.chfatura, pg.ctpDescricaoOperacao,"
-Sql = Sql & " pg.ctpValorDaBoleta, pg.chDataVencito, pg.ctpdatapagamento from Contas_A_Pagar pg "
-Sql = Sql & " where pg.ctpStatus = 1 and pg.ctptipolancamento < 99 "
-Sql = Sql & " and pg.ctpdataproc between #" & DataDe & "# and #" & DataAte & "#"
-Sql = Sql & " order by pg.ctpdatapagamento, pg.chpessoa"
+sql = "Select pg.chpessoa, pg.chcodbcolart,pg.chfatura, pg.ctpDescricaoOperacao,"
+sql = sql & " pg.ctpValorDaBoleta, pg.chDataVencito, pg.ctpdatapagamento from contas_a_pagar pg "
+sql = sql & " where pg.ctpStatus = 1 and pg.ctptipolancamento < 99 "
+sql = sql & " and pg.ctpdataproc between #" & DataDe & "# and #" & DataAte & "#"
+sql = sql & " order by pg.ctpdatapagamento, pg.chpessoa"
 'If TabCtaPagar("chcodbcolart") = "UNIBANCO" Then
 '   SQL = SQL & " and pg.chcodbcolart like '" & "UB" & "'"
 'Else

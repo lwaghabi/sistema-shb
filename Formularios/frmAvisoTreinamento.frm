@@ -125,8 +125,8 @@ Dim DataInvertida As String
 Dim DataHojeInvertida As String
 
 Dim Dia As Integer
-Dim Mes As Integer
-Dim Ano As Integer
+Dim mes As Integer
+Dim ano As Integer
 Dim DiaDb As Integer
 Dim MesDb As Integer
 Dim AnoDb As Integer
@@ -143,9 +143,9 @@ End If
 
 Call Rotina_AbrirBanco
 
-usu.Open "Select * from Usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
+usu.Open "Select * from usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
 If usu.EOF Then
-   MsgBox ("Erro no acesso a Usuario na rotina de atualização de tREINAMENTO. Mostrar aviso. Comunicar Analista responsável"), vbCritical
+   MsgBox ("Erro no acesso a usuario na rotina de atualização de treinamento. Mostrar aviso. Comunicar Analista responsável"), vbCritical
    End
 End If
 
@@ -172,15 +172,15 @@ ColaboradorAnterior = Empty
 DataAnterior = Empty
 optAviso = False
 
-Ano = Year(Date)
-Mes = Month(Date)
+ano = Year(Date)
+mes = Month(Date)
 Dia = Day(Date)
 
-DataHojeInvertida = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataHojeInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 Call Rotina_AbrirBanco
 
-usu.Open "Select * from Usuario where  chNome = ('" & glbUsuario & "')", db, 3, 3
+usu.Open "Select * from usuario where  chNome = ('" & glbUsuario & "')", db, 3, 3
 If usu.EOF Then
    MsgBox ("Usuário inexistente. Comunicar ao analista responsável."), vbCritical
    Call FechaDB
@@ -195,7 +195,7 @@ End If
 
 Call LimpaGridAviso
 
-agcto.Open "Select * from TreinamentoAgenda where agctoStatus = ('" & 0 & "')", db, 3, 3
+agcto.Open "Select * from treinamentoagenda where agctoStatus = ('" & 0 & "')", db, 3, 3
 If agcto.EOF Then
    Call FechaDB
    Exit Sub
@@ -210,9 +210,9 @@ Do While Not agcto.EOF
    If pes.State = 1 Then
       pes.Close: Set pes = Nothing
    End If
-   pes.Open "Select * from Pessoa where pesRazaoSocial = ('" & agcto!chPessoa & "')", db, 3, 3
+   pes.Open "Select * from pessoa where pesRazaoSocial = ('" & agcto!chPessoa & "')", db, 3, 3
    If pes.EOF Then
-      MsgBox ("Registro em Agenda de Treinamento não encontrado em Pessoa."), vbInformation
+      MsgBox ("Registro em Agenda de treinamento não encontrado em pessoa."), vbInformation
       Call FechaDB
       Exit Sub
    End If
@@ -223,13 +223,13 @@ Do While Not agcto.EOF
          cto.Close: Set cto = Nothing
       End If
       
-      cto.Open "Select * from Treinamento where chNomeCurso = ('" & agcto!chNomeCurso & "')", db, 3, 3
+      cto.Open "Select * from treinamento where chNomeCurso = ('" & agcto!chNomeCurso & "')", db, 3, 3
       If Not cto.EOF Then
          DataDias = Date + cto!ctoAvisoEm
-         Ano = Year(DataDias)
-         Mes = Month(DataDias)
+         ano = Year(DataDias)
+         mes = Month(DataDias)
          Dia = Day(DataDias)
-         DataBase = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+         DataBase = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
    
          AnoDb = Year(agcto!agctoDataProxCurso)
          MesDb = Month(agcto!agctoDataProxCurso)
@@ -244,7 +244,7 @@ Do While Not agcto.EOF
                      pes.Close: Set pes = Nothing
                   End If
          
-                  pes.Open "Select * from Pessoa where pesRazaoSocial = ('" & agcto!chPessoa & "')", db, 3, 3
+                  pes.Open "Select * from pessoa where pesRazaoSocial = ('" & agcto!chPessoa & "')", db, 3, 3
                   If Not pes.EOF Then
                      If Not pes!pesStatusPessoa = 3 Then
                         grdAviso.Rows = Linha + 1

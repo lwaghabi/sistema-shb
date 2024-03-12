@@ -599,7 +599,7 @@ Dim ImagemEqpto As String
 Private Sub cmdExcluir_Click()
 Call Rotina_AbrirBanco
 
-teq.Open "Select * from EquipamentoTipo where chTipoDeEquipamento = ('" & TipoDeEquipamento & "')", db, 3, 3
+teq.Open "Select * from equipamentotipo where chTipoDeEquipamento = ('" & TipoDeEquipamento & "')", db, 3, 3
 If teq.EOF Then
    MsgBox ("Tipo de equipamento não cadastrado."), vbInformation
    Call FechaDB
@@ -717,7 +717,7 @@ End If
 
 Call Rotina_AbrirBanco
 
-teq.Open "Select * from EquipamentoTipo where chTipoDeEquipamento = ('" & txtTipoEquipamento & "')", db, 3, 3
+teq.Open "Select * from equipamentotipo where chTipoDeEquipamento = ('" & txtTipoEquipamento & "')", db, 3, 3
 If teq.EOF Then
    teq.AddNew
 End If
@@ -796,7 +796,7 @@ lstEquipamentos.Clear
 
 Call Rotina_AbrirBanco
 
-teq.Open "Select * from EquipamentoTipo", db, 3, 3
+teq.Open "Select * from equipamentotipo", db, 3, 3
 If Not teq.EOF Then
    teq.MoveFirst
    Do While Not teq.EOF
@@ -834,7 +834,7 @@ Public Sub CarregaEquipamentoTipo()
 
 Call Rotina_AbrirBanco
 
-teq.Open "Select * from EquipamentoTipo where chTipoDeEquipamento = ('" & TipoDeEquipamento & "')", db, 3, 3
+teq.Open "Select * from equipamentotipo where chTipoDeEquipamento = ('" & TipoDeEquipamento & "')", db, 3, 3
 If teq.EOF Then
    'MsgBox ("Tipo de equipamento não cadastrado."), vbInformation
    Call FechaDB
@@ -874,7 +874,7 @@ txtDiasAntecedencia = teq!teqDiasAntecedencia
 
 ImagemEqpto = teq!chTipoDeEquipamento
 
-usu.Open "Select * from Usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
+usu.Open "Select * from usuario where chNome = ('" & glbUsuario & "')", db, 3, 3
 If usu.EOF Then
    MsgBox ("Usuario não encontrado. Comunicar ao analista responsável."), vbCritical
    Call FechaDB

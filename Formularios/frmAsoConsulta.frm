@@ -200,8 +200,8 @@ Dim QtdDiasHoje As Double
 Dim QtdDias As Double
 Dim PercentDecorrido As Double
 
-Dim Ano As Integer
-Dim Mes As Integer
+Dim ano As Integer
+Dim mes As Integer
 Dim Dia As Integer
 
 Dim AnoDb As Integer
@@ -215,7 +215,7 @@ Dim Ind As Integer
 Dim IndCol As Integer
 Dim IndCmb As Integer
 
-Dim PessoaCmb(50) As String
+Dim pessoaCmb(50) As String
 Dim Encontrei As Integer
 
 Private Sub cmdConsultar_Click()
@@ -224,7 +224,7 @@ Call LimpaGrdAgenda
 
 Call Rotina_AbrirBanco
 
-asoa.Open "Select * from AsoAgenda where chPessoa = ('" & cmbPessoa & "') and asoaStatus = ('" & 0 & "')", db, 3, 3
+asoa.Open "Select * from asoagenda where chPessoa = ('" & cmbPessoa & "') and asoaStatus = ('" & 0 & "')", db, 3, 3
 If asoa.EOF Then
    MsgBox ("Funcionário sem agenda de exames."), vbInformation
    Call FechaDB
@@ -292,11 +292,11 @@ txtHoje = Date
 optTodos = False
 optSeleciona = False
 
-Ano = Year(Date)
-Mes = Month(Date)
+ano = Year(Date)
+mes = Month(Date)
 Dia = Day(Date)
 
-DataHojeInvertida = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataHojeInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 End Sub
 
@@ -305,11 +305,11 @@ txtHoje = Date
 ColaboradorAnterior = Empty
 DataAnterior = Empty
 
-Ano = Year(Date)
-Mes = Month(Date)
+ano = Year(Date)
+mes = Month(Date)
 Dia = Day(Date)
 
-DataHojeInvertida = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+DataHojeInvertida = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
 
 cmbPessoa.Clear
 
@@ -317,7 +317,7 @@ Call Rotina_AbrirBanco
 
 Call LimpaGrdAgenda
 
-asoa.Open "Select * from AsoAgenda where asoaStatus = ('" & 0 & "')", db, 3, 3
+asoa.Open "Select * from asoagenda where asoaStatus = ('" & 0 & "')", db, 3, 3
 If asoa.EOF Then
    Call FechaDB
    Exit Sub
@@ -332,32 +332,32 @@ Do While Not asoa.EOF
       asoe.Close: Set asoe = Nothing
    End If
    
-   asoe.Open "Select * from AsoExame where chNomeExame = ('" & asoa!chNomeExame & "')", db, 3, 3
+   asoe.Open "Select * from asoexame where chNomeExame = ('" & asoa!chNomeExame & "')", db, 3, 3
    If Not asoe.EOF Then
       If asoe!exmUnidTempo = 0 Then
          DataDias = Date + asoe!exmPrazoAviso
-         Ano = Year(DataDias)
-         Mes = Month(DataDias)
+         ano = Year(DataDias)
+         mes = Month(DataDias)
          Dia = Day(DataDias)
-         DataBase = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+         DataBase = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
       Else
          If asoe!exmUnidTempo = 1 Then
-            Ano = Year(Date)
-            Mes = Month(Date)
-            Mes = Mes + asoe!exmPrazoAviso
-            If Mes > 12 Then
-               Ano = Year(Date)
-               Ano = Ano + 1
-               Mes = Mes - 12
+            ano = Year(Date)
+            mes = Month(Date)
+            mes = mes + asoe!exmPrazoAviso
+            If mes > 12 Then
+               ano = Year(Date)
+               ano = ano + 1
+               mes = mes - 12
             End If
             Dia = Day(Date)
-            DataBase = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+            DataBase = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
          Else
-            Ano = Year(Date)
-            Ano = Ano + asoe!exmPrazoAviso
-            Mes = Month(Date)
+            ano = Year(Date)
+            ano = ano + asoe!exmPrazoAviso
+            mes = Month(Date)
             Dia = Day(Date)
-            DataBase = Ano & "-" & Format$(Mes, "00") & "-" & Format$(Dia, "00")
+            DataBase = ano & "-" & Format$(mes, "00") & "-" & Format$(Dia, "00")
          End If
       End If
    End If
@@ -388,9 +388,9 @@ Call Rotina_AbrirBanco
 
    cmbPessoa.Clear
 
-pes.Open "Select * from Pessoa where pesRazaoSocial > ('" & Empty & "') and pesTipoPessoa = ('" & 6 & "') and pesStatusPessoa = ('" & 0 & "')", db, 3, 3
+pes.Open "Select * from pessoa where pesRazaoSocial > ('" & Empty & "') and pesTipoPessoa = ('" & 6 & "') and pesStatusPessoa = ('" & 0 & "')", db, 3, 3
 If pes.EOF Then
-   MsgBox ("Cadastro Pessoa sem funcionário cadastrado."), vbInformation
+   MsgBox ("Cadastro pessoa sem funcionário cadastrado."), vbInformation
    Call FechaDB
    Exit Sub
 End If
@@ -403,10 +403,10 @@ IndCmb = 0
 Encontrei = 0
 
 Do While Encontrei = 0
-   If PessoaCmb(Ind) = Empty Then
+   If pessoaCmb(Ind) = Empty Then
       Encontrei = 1
    Else
-      PessoaCmb(Ind) = Empty
+      pessoaCmb(Ind) = Empty
       Ind = Ind + 1
    End If
 Loop
@@ -416,12 +416,12 @@ Encontrei = 0
 Do While Not pes.EOF
    
    For IndCmb = 0 To Ind
-       If pes!pesRazaoSocial = PessoaCmb(IndCmb) Then
+       If pes!pesRazaoSocial = pessoaCmb(IndCmb) Then
           Encontrei = 1
           IndCmb = Ind
        Else
-          If PessoaCmb(IndCmb) = Empty Then
-             PessoaCmb(IndCmb) = pes!pesRazaoSocial
+          If pessoaCmb(IndCmb) = Empty Then
+             pessoaCmb(IndCmb) = pes!pesRazaoSocial
              Encontrei = 0
              IndCmb = Ind
           End If

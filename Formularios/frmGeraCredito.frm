@@ -120,7 +120,7 @@ Begin VB.Form frmGeraCredito
          _ExtentX        =   2355
          _ExtentY        =   450
          _Version        =   393216
-         Format          =   118292481
+         Format          =   238747649
          CurrentDate     =   39307
       End
       Begin VB.ComboBox cmbTipoCredito 
@@ -277,7 +277,7 @@ cmbLancamento.Clear
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber", db, 3, 3
+ctr.Open "Select * from contas_a_receber", db, 3, 3
 If ctr.EOF Then
    MsgBox ("Não há Contas a Receber disponível até presente momento."), vbInformation
    Call FechaDB
@@ -287,7 +287,7 @@ End If
 ctr.MoveFirst
   Do While Not ctr.EOF
      If ctr!chPessoa = cmbColaborador Then
-        cmbLancamento.AddItem ctr!chNotaFiscal
+        cmbLancamento.AddItem ctr!chNotafiscal
      End If
      ctr.MoveNext
   Loop
@@ -309,7 +309,7 @@ End If
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbColaborador & "') and chNotaFiscal = ('" & cmbLancamento & "') and chFatura = ('" & "CREDITO" & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbColaborador & "') and chNotaFiscal = ('" & cmbLancamento & "') and chFatura = ('" & "CREDITO" & "')", db, 3, 3
 If Not (ctr.EOF) Then
    txtDescricaoCredito = ctr!ctrDescricaoOperacao
    cmbTipoCredito.ListIndex = ctr!chNumPedido
@@ -336,7 +336,7 @@ Private Sub cmdExcluir_Click()
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbColaborador & "') and chNotaFiscal = ('" & cmbLancamento & "') and chFatura = ('" & "CREDITO" & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbColaborador & "') and chNotaFiscal = ('" & cmbLancamento & "') and chFatura = ('" & "CREDITO" & "')", db, 3, 3
 If Not (ctr.EOF) Then
    Resp = MsgBox("Solicitação de exclusão de Registro. Confirma???", vbYesNo)
    If vbYes Then
@@ -356,12 +356,12 @@ Private Sub cmdSalvar_Click()
 
 Call Rotina_AbrirBanco
 
-ctr.Open "Select * from Contas_A_Receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbColaborador & "') and chNotaFiscal = ('" & cmbLancamento & "') and chFatura = ('" & "CREDITO" & "')", db, 3, 3
+ctr.Open "Select * from contas_a_receber where chFabricante = ('" & 0 & "') and chPessoa = ('" & cmbColaborador & "') and chNotaFiscal = ('" & cmbLancamento & "') and chFatura = ('" & "CREDITO" & "')", db, 3, 3
 If ctr.EOF Then
     ctr.AddNew
     ctr!chFabricante = 0
     ctr!chPessoa = cmbColaborador
-    ctr!chNotaFiscal = cmbLancamento
+    ctr!chNotafiscal = cmbLancamento
     ctr!chFatura = "CREDITO"
     ctr!ctrDescricaoOperacao = "APORTE "  'cmbTipoCredito & " " & cmbLancamento
     ctr!ctrDescricaoOperacao = cmbLancamento & " " & cmbTipoCredito
@@ -404,9 +404,9 @@ dtDataCredito = Date
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa", db, 3, 3
+pes.Open "Select * from pessoa", db, 3, 3
 If pes.EOF Then
-   MsgBox ("Erro. Não há cadastro de Pessoa."), vbCritical
+   MsgBox ("Erro. Não há cadastro de pessoa."), vbCritical
    Call FechaDB
    Exit Sub
 End If
@@ -422,7 +422,7 @@ Loop
 cmbColaborador.ListIndex = 0
 
 
-Bco.Open "Select * from Banco", db, 3, 3
+Bco.Open "Select * from banco", db, 3, 3
 
 Bco.MoveFirst
 Do While Not Bco.EOF

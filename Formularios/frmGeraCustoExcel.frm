@@ -265,13 +265,13 @@ Public Sub GerarExcel()
         
         Call Rotina_AbrirBanco
 
-'        rs.Open "SELECT COUNT(*) as total FROM HistoricoNotaFiscalDetProd", db, 3, 3
+'        rs.Open "SELECT COUNT(*) as total FROM historiconotafiscaldetprod", db, 3, 3
 '        TotRegCtaRec = rs!Total
 '
 '        Call Rotina_AbrirBanco
 7
 
-'        usu.Open "select usuEnderecoOneDrive from Usuario where  chnome = ('" & glbUsuario & "')", db, 3, 3
+'        usu.Open "select usuEnderecoOneDrive from usuario where  chnome = ('" & glbUsuario & "')", db, 3, 3
 '
 '        If usu!usuEnderecoOneDrive = Null Then
 '         MsgBox ("Não autorizada a impressão de proposta")
@@ -322,27 +322,27 @@ Public Sub GerarExcel()
             
             Call Rotina_AbrirBanco
             'Do any modifications to the workbook.
-            rs.Open "SELECT HistoricoNotaFiscalDetProd.chPessoa," & _
-             " HistoricoNotaFiscalDetProd.chNotaFiscalEntrada," & _
-             " HistoricoContasPagar.chFatura,chDataVencito,ctpDataPagamento," & _
+            rs.Open "SELECT historiconotafiscaldetprod.chPessoa," & _
+             " historiconotafiscaldetprod.chNotaFiscalEntrada," & _
+             " historicocontaspagar.chFatura,chDataVencito,ctpDataPagamento," & _
              " nfdValorParcela,nfdCentroDeCusto,nfdGrupoCentroDeCusto," & _
-             " nfdSubGrupoCentroDeCusto FROM HistoricoNotaFiscalDetProd INNER JOIN" & _
-             " HistoricoContasPagar ON HistoricoContasPagar.chPessoa =" & _
-             " HistoricoNotaFiscalDetProd.chPessoa AND" & _
-             " HistoricoNotaFiscalDetProd.chNotaFiscalEntrada=" & _
-             " HistoricoContasPagar.chNotaFiscal WHERE nfdCentroDeCusto = 2 AND" & _
-             " nfdGrupoCentroDeCusto > 00 AND HistoricoContasPagar.ctpStatus=1" & _
+             " nfdSubGrupoCentroDeCusto FROM historiconotafiscaldetprod INNER JOIN" & _
+             " historicocontaspagar ON historicocontaspagar.chPessoa =" & _
+             " historiconotafiscaldetprod.chPessoa AND" & _
+             " historiconotafiscaldetprod.chNotaFiscalEntrada=" & _
+             " historicocontaspagar.chNotaFiscal WHERE nfdCentroDeCusto = 2 AND" & _
+             " nfdGrupoCentroDeCusto > 00 AND historicocontaspagar.ctpStatus=1" & _
              " and ctpDataPagamento>= ('" & dataInicio & "') and ctpDataPagamento <= ('" & dataFim & "')" & _
-             " UNION ALL SELECT NotaFiscalDetProd.chPessoa," & _
-             " NotaFiscalDetProd.chNotaFiscalEntrada," & _
-             " Contas_A_Pagar.chFatura,chDataVencito,ctpDataPagamento," & _
+             " UNION ALL SELECT notafiscaldetprod.chPessoa," & _
+             " notafiscaldetprod.chNotaFiscalEntrada," & _
+             " contas_a_pagar.chFatura,chDataVencito,ctpDataPagamento," & _
              " nfdValorParcela,nfdCentroDeCusto,nfdGrupoCentroDeCusto," & _
-             " nfdSubGrupoCentroDeCusto FROM NotaFiscalDetProd INNER JOIN" & _
-             " Contas_A_Pagar ON Contas_A_Pagar.chPessoa =" & _
-             " NotaFiscalDetProd.chPessoa AND" & _
-             " NotaFiscalDetProd.chNotaFiscalEntrada=" & _
-             " Contas_A_Pagar.chNotaFiscal WHERE nfdCentroDeCusto = 2 AND" & _
-             " nfdGrupoCentroDeCusto > 00 AND Contas_A_Pagar.ctpStatus=1" & _
+             " nfdSubGrupoCentroDeCusto FROM notafiscaldetprod INNER JOIN" & _
+             " contas_a_pagar ON contas_a_pagar.chPessoa =" & _
+             " notafiscaldetprod.chPessoa AND" & _
+             " notafiscaldetprod.chNotaFiscalEntrada=" & _
+             " contas_a_pagar.chNotaFiscal WHERE nfdCentroDeCusto = 2 AND" & _
+             " nfdGrupoCentroDeCusto > 00 AND contas_a_pagar.ctpStatus=1" & _
              " and ctpDataPagamento>= ('" & dataInicio & "') and ctpDataPagamento <= ('" & dataFim & "')" & _
              " order by ctpDataPagamento", db, 3, 3
             
@@ -369,8 +369,8 @@ Public Sub GerarExcel()
             MsgBox ("Foram geradas ") & ContaReg & " linhas no Valores a pagar"
             
             
-            rs.Open "SELECT chPessoa,chNotaFiscal,chFatura,ctrDataVencito,ctrDataVencitoOriginal,ctrDataRecebimento,ctrValorLart,ctrValorDaBoleta,ctrCentroDeCusto,ctrGrupoCentroDeCusto,ctrSubGrupoCentroDeCusto FROM Contas_A_Receber WHERE ctrStatus=1 AND ctrDataRecebimento>=('" & dataInicio & "') AND ctrDataRecebimento<=('" & dataFim & "')" & _
-                    "UNION ALL SELECT chPessoa,chNotaFiscal,chFatura,ctrDataVencito,ctrDataVencOriginal,ctrDataRecebimento,ctrValorLart,ctrValorDaBoleta,ctrCentroDeCusto,ctrGrupoCentroDeCusto,ctrSubGrupoCentroDeCusto FROM HistoricoContasReceber WHERE ctrStatus = 1 AND ctrDataRecebimento>=('" & dataInicio & "') AND ctrDataRecebimento<=('" & dataFim & "') order by ctrDataRecebimento", db, 3, 3
+            rs.Open "SELECT chPessoa,chNotaFiscal,chFatura,ctrDataVencito,ctrDataVencitoOriginal,ctrDataRecebimento,ctrValorLart,ctrValorDaBoleta,ctrCentroDeCusto,ctrGrupoCentroDeCusto,ctrSubGrupoCentroDeCusto FROM contas_a_receber WHERE ctrStatus=1 AND ctrDataRecebimento>=('" & dataInicio & "') AND ctrDataRecebimento<=('" & dataFim & "')" & _
+                    "UNION ALL SELECT chPessoa,chNotaFiscal,chFatura,ctrDataVencito,ctrDataVencOriginal,ctrDataRecebimento,ctrValorLart,ctrValorDaBoleta,ctrCentroDeCusto,ctrGrupoCentroDeCusto,ctrSubGrupoCentroDeCusto FROM historicocontasreceber WHERE ctrStatus = 1 AND ctrDataRecebimento>=('" & dataInicio & "') AND ctrDataRecebimento<=('" & dataFim & "') order by ctrDataRecebimento", db, 3, 3
             i = 2
             ContaReg = 0
             
@@ -397,8 +397,8 @@ Public Sub GerarExcel()
             
             rs.Close
             
-            rs.Open "select chPessoa,chNotaFiscal,chFatura,ctrDataVencito,ctrDataVencitoOriginal,ctrDataRecebimento,ctrValorLart,ctrValorDaBoleta,ctrCentroDeCusto,ctrGrupoCentroDeCusto,ctrSubGrupoCentroDeCusto from Contas_A_Receber where ctrDataVencito>=('" & dataInicio & "') and ctrDataVencito<=('" & dataFim & "')" & _
-                    "UNION ALL SELECT chPessoa,chNotaFiscal,chFatura,ctrDataVencito,ctrDataVencOriginal,ctrDataRecebimento,ctrValorLart,ctrValorDaBoleta,ctrCentroDeCusto,ctrGrupoCentroDeCusto,ctrSubGrupoCentroDeCusto FROM HistoricoContasReceber WHERE ctrStatus = 1 AND ctrDataVencito>=('" & dataInicio & "') AND ctrDataVencito<=('" & dataFim & "') order by ctrDataVencito", db, 3, 3
+            rs.Open "select chPessoa,chNotaFiscal,chFatura,ctrDataVencito,ctrDataVencitoOriginal,ctrDataRecebimento,ctrValorLart,ctrValorDaBoleta,ctrCentroDeCusto,ctrGrupoCentroDeCusto,ctrSubGrupoCentroDeCusto from contas_a_receber where ctrDataVencito>=('" & dataInicio & "') and ctrDataVencito<=('" & dataFim & "')" & _
+                    "UNION ALL SELECT chPessoa,chNotaFiscal,chFatura,ctrDataVencito,ctrDataVencOriginal,ctrDataRecebimento,ctrValorLart,ctrValorDaBoleta,ctrCentroDeCusto,ctrGrupoCentroDeCusto,ctrSubGrupoCentroDeCusto FROM historicocontasreceber WHERE ctrStatus = 1 AND ctrDataVencito>=('" & dataInicio & "') AND ctrDataVencito<=('" & dataFim & "') order by ctrDataVencito", db, 3, 3
             
             i = 2
             ContaReg = 0

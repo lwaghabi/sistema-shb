@@ -236,7 +236,7 @@ Begin VB.Form frmMedicao
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   124452865
+         Format          =   391380993
          CurrentDate     =   44298
       End
       Begin MSComCtl2.DTPicker dtInicio 
@@ -257,7 +257,7 @@ Begin VB.Form frmMedicao
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   124452865
+         Format          =   391380993
          CurrentDate     =   44298
       End
       Begin VB.TextBox txtRazaoSocial 
@@ -513,16 +513,16 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Dim Sql As String
-Dim rel As Object
+Dim sql As String
+Dim Rel As Object
 Dim Relatorio As String
 Dim txtNome As String
 Dim txtNumPedido As String
 Dim txtPedidoComp As String
 Dim UnidadeOperaional As String
 Dim TipoLocacao As Integer
-Dim DataInicio As Date
-Dim DataFim As Date
+Dim dataInicio As Date
+Dim dataFim As Date
 Dim TipoProduto As Byte
 Dim Resp As String
 Dim Ind As Integer
@@ -547,7 +547,7 @@ Call Rotina_AbrirBanco
 
 Relatorio = "drMedicaoEqptoPes"
 db.BeginTrans
-gge.Open "Select * from GeradorGeral where chAlfaNumerica = ('" & Relatorio & "')", db, 3, 3
+gge.Open "Select * from geradorgeral where chAlfaNumerica = ('" & Relatorio & "')", db, 3, 3
 If gge.EOF Then
    gge.AddNew
 End If
@@ -574,17 +574,17 @@ db.CommitTrans
 
 Call FechaDB
 
-Set rel = drMedicaoEqptoPes
-Sql = "Select gge.ggeDatahoje, gge.ggeDataIni, gge.ggeDataFim, gge.Alfa2, gge.chNumerica, Unid.AbreviaturaUnidadeMedida, "
-Sql = Sql & " neg.chPessoa, neg.chUnidadeOperacional, neg.chNumPedido, neg.negContrato, neg.chNumPedidoComp, pes.pesRazaoSocial, "
-Sql = Sql & " det.chDataInicio, det.chDataFim, det.chProduto, det.pedValorDaOperacao, det.pedQuantidadePedida, "
-Sql = Sql & " det.pedPrecoUnidadePedida, det.pedValorDaDiaria, det.pedQtdDias, det.pedValorDaOperacao, det.pedAtividade, prd.prdDescCompleta "
-Sql = Sql & " From GeradorGeral gge, UnidadeDeMedida Unid, Negociacao neg, DetalheNegociacao det, Pessoa pes, Produto prd "
-Sql = Sql & " WHERE neg.negStatus = ('" & 0 & "') and neg.chNumpedido = ('" & txtMedicao & "') and gge.chAlfaNumerica = ('" & Relatorio & "') and prd.prdOrdemApresentacao = ('" & TipoLocacao & "') and det.chProduto = prd.chProduto "
-Sql = Sql & " and det.chNumpedido = neg.chNumpedido and det.chNumpedidoComp = neg.chNumPedidoComp "
-Sql = Sql & " and neg.chPessoa = pes.chPessoa and det.chProduto = prd.chProduto and Unid.chUnidadeDeMedida = det.pedUnidade "
-Sql = Sql & " order by neg.chUnidadeOperacional, det.chDataInicio, prd.chProduto"
-AbrirRelatorio Sql, rel
+Set Rel = drMedicaoEqptoPes
+sql = "Select gge.ggeDatahoje, gge.ggeDataIni, gge.ggeDataFim, gge.Alfa2, gge.chNumerica, Unid.AbreviaturaUnidadeMedida, "
+sql = sql & " neg.chPessoa, neg.chUnidadeOperacional, neg.chNumPedido, neg.negContrato, neg.chNumPedidoComp, pes.pesRazaoSocial, "
+sql = sql & " det.chDataInicio, det.chDataFim, det.chProduto, det.pedValorDaOperacao, det.pedQuantidadePedida, "
+sql = sql & " det.pedPrecoUnidadePedida, det.pedValorDaDiaria, det.pedQtdDias, det.pedValorDaOperacao, det.pedAtividade, prd.prdDescCompleta "
+sql = sql & " From geradorgeral gge, unidadedemedida Unid, negociacao neg, detalhenegociacao det, pessoa pes, produto prd "
+sql = sql & " WHERE neg.negStatus = ('" & 0 & "') and neg.chNumpedido = ('" & txtMedicao & "') and gge.chAlfaNumerica = ('" & Relatorio & "') and prd.prdOrdemApresentacao = ('" & TipoLocacao & "') and det.chProduto = prd.chProduto "
+sql = sql & " and det.chNumpedido = neg.chNumpedido and det.chNumpedidoComp = neg.chNumPedidoComp "
+sql = sql & " and neg.chPessoa = pes.chPessoa and det.chProduto = prd.chProduto and Unid.chUnidadeDeMedida = det.pedUnidade "
+sql = sql & " order by neg.chUnidadeOperacional, det.chDataInicio, prd.chProduto"
+AbrirRelatorio sql, Rel
 
 End Sub
 
@@ -599,7 +599,7 @@ Relatorio = "drMedicao"
 
 db.BeginTrans
 
-gge.Open "Select * from GeradorGeral where chAlfaNumerica = ('" & Relatorio & "')", db, 3, 3
+gge.Open "Select * from geradorgeral where chAlfaNumerica = ('" & Relatorio & "')", db, 3, 3
 If gge.EOF Then
    gge.AddNew
 End If
@@ -616,17 +616,17 @@ db.CommitTrans
 
 Call FechaDB
 
-Set rel = drMedicao
-Sql = "Select gge.ggeDatahoje, gge.ggeDataIni, gge.ggeDataFim, gge.Alfa2, gge.chNumerica, Unid.AbreviaturaUnidadeMedida, "
-Sql = Sql & " neg.chPessoa, neg.chUnidadeOperacional, neg.chNumPedido, neg.chNumPedidoComp, pes.pesRazaoSocial, "
-Sql = Sql & " det.chDataInicio, det.chDataFim, det.chProduto, det.pedValorDaOperacao, det.pedQuantidadePedida, "
-Sql = Sql & " det.pedPrecoUnidadePedida, det.pedValorDaDiaria, det.pedQtdDias, det.pedValorDaOperacao, det.pedAtividade, prd.prdDescCompleta "
-Sql = Sql & " From GeradorGeral gge, UnidadeDeMedida Unid, Negociacao neg, DetalheNegociacao det, Pessoa pes, Produto prd "
-Sql = Sql & " WHERE neg.negStatus = ('" & 0 & "') and neg.chNumpedido = ('" & txtMedicao & "') and neg.chNumpedidoComp = ('" & txtComplemento & "') and gge.chAlfaNumerica = ('" & Relatorio & "') and det.chProduto = prd.chProduto "
-Sql = Sql & " and det.chNumpedido = neg.chNumpedido and det.chNumpedidoComp = neg.chNumPedidoComp "
-Sql = Sql & " and neg.chPessoa = pes.chPessoa and Unid.chUnidadeDeMedida = det.pedUnidade "
-Sql = Sql & " order by det.chDataInicio, prd.chProduto"
-AbrirRelatorio Sql, rel
+Set Rel = drMedicao
+sql = "Select gge.ggeDatahoje, gge.ggeDataIni, gge.ggeDataFim, gge.Alfa2, gge.chNumerica, Unid.AbreviaturaUnidadeMedida, "
+sql = sql & " neg.chPessoa, neg.chUnidadeOperacional, neg.chNumPedido, neg.chNumPedidoComp, pes.pesRazaoSocial, "
+sql = sql & " det.chDataInicio, det.chDataFim, det.chProduto, det.pedValorDaOperacao, det.pedQuantidadePedida, "
+sql = sql & " det.pedPrecoUnidadePedida, det.pedValorDaDiaria, det.pedQtdDias, det.pedValorDaOperacao, det.pedAtividade, prd.prdDescCompleta "
+sql = sql & " From geradorgeral gge, unidadedemedida Unid, Negociacao neg, detalhenegociacao det, pessoa pes, produto prd "
+sql = sql & " WHERE neg.negStatus = ('" & 0 & "') and neg.chNumpedido = ('" & txtMedicao & "') and neg.chNumpedidoComp = ('" & txtComplemento & "') and gge.chAlfaNumerica = ('" & Relatorio & "') and det.chProduto = prd.chProduto "
+sql = sql & " and det.chNumpedido = neg.chNumpedido and det.chNumpedidoComp = neg.chNumPedidoComp "
+sql = sql & " and neg.chPessoa = pes.chPessoa and Unid.chUnidadeDeMedida = det.pedUnidade "
+sql = sql & " order by det.chDataInicio, prd.chProduto"
+AbrirRelatorio sql, Rel
 End Sub
 
 
@@ -648,7 +648,7 @@ End If
 Resp = MsgBox(("Envio de Medição - ") & txtMedicao & (" para aprovação. Confirma???"), vbYesNo)
 
 If Resp = vbYes Then
-   neg.Open "Select * from Negociacao where chNumPedido = ('" & txtMedicao & "')", db, 3, 3
+   neg.Open "Select * from negociacao where chNumPedido = ('" & txtMedicao & "')", db, 3, 3
    If neg.EOF Then
       MsgBox ("Medição inexistente. Comunicar ao analista reponsável."), vbCritical
       Call FechaDB
@@ -681,11 +681,11 @@ dtInicio = Date
 dtFim = Date
 Relatorio = "drMedicao"
 dtHoje = Date
-GridMedicao.Rows = 2
-GridMedicao.TextMatrix(1, 0) = Empty
-GridMedicao.TextMatrix(1, 1) = Empty
-GridMedicao.TextMatrix(1, 2) = Empty
-GridMedicao.TextMatrix(1, 3) = Empty
+gridMedicao.Rows = 2
+gridMedicao.TextMatrix(1, 0) = Empty
+gridMedicao.TextMatrix(1, 1) = Empty
+gridMedicao.TextMatrix(1, 2) = Empty
+gridMedicao.TextMatrix(1, 3) = Empty
 
 optEquipamento = False
 optPessoal = False
@@ -699,20 +699,20 @@ Private Sub GridMedicao_Click()
 Dim Limite As Integer
 Dim IndLinha As Integer
 
-Limite = GridMedicao.Rows
+Limite = gridMedicao.Rows
 
-IndLinha = GridMedicao.Row
+IndLinha = gridMedicao.Row
 
-If GridMedicao.TextMatrix(IndLinha, 0) = "" Then
+If gridMedicao.TextMatrix(IndLinha, 0) = "" Then
    MsgBox "Clicar em linha com conteúdo."
    Exit Sub
 End If
 
-txtPessoa = GridMedicao.TextMatrix(IndLinha, 2)
+txtPessoa = gridMedicao.TextMatrix(IndLinha, 2)
 
 Call Rotina_AbrirBanco
 
-pes.Open "Select * from Pessoa where chPessoa = ('" & GridMedicao.TextMatrix(IndLinha, 2) & "')", db, 3, 3
+pes.Open "Select * from pessoa where chPessoa = ('" & gridMedicao.TextMatrix(IndLinha, 2) & "')", db, 3, 3
 If pes.EOF Then
    MsgBox ("Cliente não encontrado. Comuniicar ao analista responsável."), vbCritical
    Call FechaDB
@@ -721,14 +721,14 @@ End If
 
 
 txtRazaoSocial = pes!pesRazaoSocial
-txtUnidadeOperacional = GridMedicao.TextMatrix(IndLinha, 3)
+txtUnidadeOperacional = gridMedicao.TextMatrix(IndLinha, 3)
 txtNome = txtPessoa
-txtPedidoComp = GridMedicao.TextMatrix(IndLinha, 1)
-txtComplemento = GridMedicao.TextMatrix(IndLinha, 1)
-txtNumPedido = GridMedicao.TextMatrix(IndLinha, 0)
-txtMedicao = GridMedicao.TextMatrix(IndLinha, 0)
+txtPedidoComp = gridMedicao.TextMatrix(IndLinha, 1)
+txtComplemento = gridMedicao.TextMatrix(IndLinha, 1)
+txtNumPedido = gridMedicao.TextMatrix(IndLinha, 0)
+txtMedicao = gridMedicao.TextMatrix(IndLinha, 0)
 
-neg.Open "Select * from Negociacao where chNumPedido = ('" & txtNumPedido & "') AND chNumPedidoComp = ('" & txtPedidoComp & "')", db, 3, 3
+neg.Open "Select * from negociacao where chNumPedido = ('" & txtNumPedido & "') AND chNumPedidoComp = ('" & txtPedidoComp & "')", db, 3, 3
 If neg.EOF Then
    MsgBox ("Negociação não encontrada. Comuniicar ao analista responsável."), vbCritical
    Call FechaDB
@@ -739,8 +739,8 @@ dtInicio = neg!negInicioMedicao
 dtFim = neg!negFinalMedicao
 
 Dia = Day(Date)
-Mes = Month(Date)
-Ano = Year(Date)
+mes = Month(Date)
+ano = Year(Date)
 
 Call FechaDB
 
@@ -752,13 +752,13 @@ Call Rotina_AbrirBanco
 
 PedidoAnterior = Empty
 
-GridMedicao.Rows = 2
-GridMedicao.TextMatrix(1, 0) = Empty
-GridMedicao.TextMatrix(1, 1) = Empty
-GridMedicao.TextMatrix(1, 2) = Empty
-GridMedicao.TextMatrix(1, 3) = Empty
+gridMedicao.Rows = 2
+gridMedicao.TextMatrix(1, 0) = Empty
+gridMedicao.TextMatrix(1, 1) = Empty
+gridMedicao.TextMatrix(1, 2) = Empty
+gridMedicao.TextMatrix(1, 3) = Empty
 
-neg.Open "Select * from Negociacao where negStatus = ('" & 0 & "')", db, 3, 3
+neg.Open "Select * from negociacao where negStatus = ('" & 0 & "')", db, 3, 3
 If neg.EOF Then
    MsgBox ("Não há Medição até a presente data"), vbInformation
    Call FechaDB
@@ -770,11 +770,11 @@ neg.MoveFirst
 Do While Not neg.EOF
    If Not neg!chNumPedido = PedidoAnterior Then
       Ind = Ind + 1
-      GridMedicao.Rows = Ind + 1
-      GridMedicao.TextMatrix(Ind, 0) = neg!chNumPedido
-      GridMedicao.TextMatrix(Ind, 1) = neg!chNumPedidoComp
-      GridMedicao.TextMatrix(Ind, 2) = neg!chPessoa
-      GridMedicao.TextMatrix(Ind, 3) = neg!chUnidadeOperacional
+      gridMedicao.Rows = Ind + 1
+      gridMedicao.TextMatrix(Ind, 0) = neg!chNumPedido
+      gridMedicao.TextMatrix(Ind, 1) = neg!chNumPedidoComp
+      gridMedicao.TextMatrix(Ind, 2) = neg!chPessoa
+      gridMedicao.TextMatrix(Ind, 3) = neg!chUnidadeOperacional
       PedidoAnterior = neg!chNumPedido
    End If
    neg.MoveNext
