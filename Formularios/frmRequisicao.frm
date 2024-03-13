@@ -416,7 +416,7 @@ Dim codigo As String
 
 Private Sub cmbClasse_LostFocus()
    Call Rotina_AbrirBanco
-      
+    'TESTE PARA O GITHUB
          pes.Open "Select nomeProd from supproduto where grupo = ('" & Format$((cmbGrupo.ListIndex + 1), "00") & "') and classe = ('" & Format$((cmbClasse.ListIndex + 1), "000") & "') order by nomeProd", db, 3, 3
 
          If pes.EOF Then
