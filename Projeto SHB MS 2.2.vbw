@@ -1,6 +1,6 @@
 frmUsuarioSenha = 156, 156, 844, 576, C, 20, 8, 1087, 631, C
 mdiSHB = 52, 52, 718, 472, C, 26, 26, 692, 446, C
-frmNotaFiscalEntrada = 18, 49, 834, 574, C, 70, 63, 758, 483, C
+frmNotaFiscalEntrada = 18, 49, 834, 574, Z, 70, 63, 758, 483, C
 frmProcessaPedido = 52, 52, 714, 472, C, 130, 130, 818, 550, C
 frmProduto = 78, 78, 751, 498, C, 156, 156, 844, 576, C
 frmProgressao = 156, 156, 1039, 576, C, 26, 26, 714, 446, C
