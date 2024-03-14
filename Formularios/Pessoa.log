@@ -1,6 +1,4 @@
-Line 417: Class TabDlg.SSTab of control SSTab1 was not a loaded control class.
-Line 494: Class MSFlexGridLib.MSFlexGrid of control GridContato was not a loaded control class.
-Line 694: Class MSMask.MaskEdBox of control txtCNPJCPF was not a loaded control class.
-Line 1052: Class MSMask.MaskEdBox of control txtDataEncerra was not a loaded control class.
-Line 1528: Class MSMask.MaskEdBox of control txtCEP was not a loaded control class.
-Line 2063: Class MSMask.MaskEdBox of control txtDataCadastro was not a loaded control class.
+Line 671: Cannot load control txtCNPJCPF; license not found.
+Line 1102: Cannot load control txtDataEncerra; license not found.
+Line 1390: Cannot load control txtCEP; license not found.
+Line 1985: Cannot load control txtDataCadastro; license not found.

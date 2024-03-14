@@ -1,7 +1,1 @@
-Line 16: Class MSFlexGridLib.MSFlexGrid of control GridPedido was not a loaded control class.
-Line 36: Class MSComCtl2.DTPicker of control txtDataProces was not a loaded control class.
-Line 48: Class MSComCtl2.DTPicker of control txtDataProc was not a loaded control class.
-Line 61: Class MSComCtl2.DTPicker of control txtDataPedido was not a loaded control class.
-Line 74: Class MSMask.MaskEdBox of control txtCNPJCPF was not a loaded control class.
-Line 1499: Class MSMask.MaskEdBox of control MaskEdBox1 was not a loaded control class.
-Line 2115: Class MSFlexGridLib.MSFlexGrid of control Grid was not a loaded control class.
+Line 268: Cannot load control txtCNPJCPF; license not found.

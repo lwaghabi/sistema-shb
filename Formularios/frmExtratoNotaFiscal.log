@@ -1,4 +1,4 @@
-Line 275: Class MSMask.MaskEdBox of control txtDataPedido was not a loaded control class.
-Line 289: Class MSMask.MaskEdBox of control txtDataEmissao was not a loaded control class.
-Line 483: Class MSMask.MaskEdBox of control txtDataPrimParc was not a loaded control class.
-Line 592: Class MSMask.MaskEdBox of control txtDataFrete was not a loaded control class.
+Line 368: Cannot load control txtDataPedido; license not found.
+Line 391: Cannot load control txtDataEmissao; license not found.
+Line 621: Cannot load control txtDataPrimParc; license not found.
+Line 748: Cannot load control txtDataFrete; license not found.

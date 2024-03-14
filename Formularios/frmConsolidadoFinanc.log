@@ -1,10 +1,5 @@
-Line 82: Class MSMask.MaskEdBox of control txtDataHoje was not a loaded control class.
-Line 156: Class MSMask.MaskEdBox of control txtDataCtaPagDe was not a loaded control class.
-Line 178: Class MSMask.MaskEdBox of control txtDataCtaPagAte was not a loaded control class.
-Line 255: Class MSFlexGridLib.MSFlexGrid of control GrdCtaPagar was not a loaded control class.
-Line 272: Class MSFlexGridLib.MSFlexGrid of control GrdCtaReceber was not a loaded control class.
-Line 323: Class MSFlexGridLib.MSFlexGrid of control GridSemana was not a loaded control class.
-Line 357: Class MSMask.MaskEdBox of control txtDataAte was not a loaded control class.
-Line 380: Class MSMask.MaskEdBox of control txtDataDE was not a loaded control class.
-Line 874: Class MSFlexGridLib.MSFlexGrid of control GridMensal was not a loaded control class.
-Line 1361: Class MSFlexGridLib.MSFlexGrid of control GridDistrib was not a loaded control class.
+Line 82: Cannot load control txtDataHoje; license not found.
+Line 156: Cannot load control txtDataCtaPagDe; license not found.
+Line 178: Cannot load control txtDataCtaPagAte; license not found.
+Line 556: Cannot load control txtDataAte; license not found.
+Line 580: Cannot load control txtDataDE; license not found.

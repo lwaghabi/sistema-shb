@@ -1,6 +1,2 @@
-Line 286: Class MSFlexGridLib.MSFlexGrid of control GridAtrasados was not a loaded control class.
-Line 319: Class MSFlexGridLib.MSFlexGrid of control GridConfirmados was not a loaded control class.
-Line 352: Class MSFlexGridLib.MSFlexGrid of control GridPendentes was not a loaded control class.
-Line 416: Class MSComCtl2.DTPicker of control txtDataInformada was not a loaded control class.
-Line 458: Class MSMask.MaskEdBox of control txtDataConsulta was not a loaded control class.
-Line 472: Class MSMask.MaskEdBox of control txtDataHoje was not a loaded control class.
+Line 449: Cannot load control txtDataConsulta; license not found.
+Line 472: Cannot load control txtDataHoje; license not found.

@@ -1,6 +1,4 @@
-Line 41: Class MSFlexGridLib.MSFlexGrid of control GridNegocio was not a loaded control class.
-Line 138: Class MSFlexGridLib.MSFlexGrid of control GridFatura was not a loaded control class.
-Line 422: Class MSMask.MaskEdBox of control txtDataFrete was not a loaded control class.
-Line 457: Class MSMask.MaskEdBox of control txtDataPrimParc was not a loaded control class.
-Line 606: Class MSMask.MaskEdBox of control txtDataPedido was not a loaded control class.
-Line 620: Class MSMask.MaskEdBox of control txtDataEmissao was not a loaded control class.
+Line 437: Cannot load control txtDataFrete; license not found.
+Line 472: Cannot load control txtDataPrimParc; license not found.
+Line 621: Cannot load control txtDataPedido; license not found.
+Line 635: Cannot load control txtDataEmissao; license not found.
