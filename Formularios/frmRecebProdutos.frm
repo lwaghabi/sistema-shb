@@ -302,7 +302,7 @@ Begin VB.Form frmRecebProdutos
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   391708673
+      Format          =   51773441
       CurrentDate     =   45145
    End
    Begin VB.TextBox txtNotaFiscal 
@@ -866,9 +866,10 @@ Public Sub gerarfinanceiro()
             'rs!nfdValorDaParcela
             rs!nfdStatusPagto = 0
             rs.Update
-            i = i + 1
             rs.Close
          End If
+         i = i + 1
+         
       Loop
       
       i = 1
