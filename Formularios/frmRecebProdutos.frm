@@ -302,7 +302,7 @@ Begin VB.Form frmRecebProdutos
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   391708673
+      Format          =   242745345
       CurrentDate     =   45145
    End
    Begin VB.TextBox txtNotaFiscal 
@@ -871,7 +871,7 @@ Public Sub gerarfinanceiro()
          End If
       Loop
       
-      i = 1
+      i = i + 1
       
    '   Do While i < CInt(tblFaturas.Rows)
    '

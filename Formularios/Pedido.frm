@@ -158,7 +158,7 @@ Begin VB.Form frmPedido
             Strikethrough   =   0   'False
          EndProperty
          CalendarBackColor=   16777215
-         Format          =   242352129
+         Format          =   242089985
          CurrentDate     =   44656
       End
       Begin MSComCtl2.DTPicker dtInicioMedicao 
@@ -179,7 +179,7 @@ Begin VB.Form frmPedido
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   242352129
+         Format          =   242089985
          CurrentDate     =   44656
       End
       Begin VB.ComboBox cmbContrato 
@@ -226,7 +226,7 @@ Begin VB.Form frmPedido
          _ExtentX        =   2355
          _ExtentY        =   661
          _Version        =   393216
-         Format          =   242352129
+         Format          =   242089985
          CurrentDate     =   43969
       End
       Begin MSComCtl2.DTPicker txtDataProc 
@@ -239,7 +239,7 @@ Begin VB.Form frmPedido
          _ExtentX        =   2355
          _ExtentY        =   661
          _Version        =   393216
-         Format          =   242352129
+         Format          =   242155521
          CurrentDate     =   43967
       End
       Begin MSComCtl2.DTPicker txtDataPedido 
@@ -262,7 +262,7 @@ Begin VB.Form frmPedido
          EndProperty
          CalendarBackColor=   12648447
          CalendarForeColor=   0
-         Format          =   242352129
+         Format          =   242155521
          CurrentDate     =   43902
       End
       Begin MSMask.MaskEdBox txtCNPJCPF 
@@ -1473,7 +1473,7 @@ Begin VB.Form frmPedido
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   243728385
+         Format          =   344653825
          CurrentDate     =   44268
       End
       Begin MSComCtl2.DTPicker dtInicio 
@@ -1494,7 +1494,7 @@ Begin VB.Form frmPedido
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   243728385
+         Format          =   344653825
          CurrentDate     =   44268
       End
       Begin VB.ComboBox txtUnidade 
@@ -2316,6 +2316,10 @@ Dim Contrato As String
 Private Sub cmbAtividade_LostFocus()
 If cmbAtividade = "HORA EXTRA" Then
    txtUnidade.ListIndex = 2
+Else
+   If cmbAtividade = "HORA EXTRA NOTU" Then
+      txtUnidade.ListIndex = 3
+   End If
 End If
    
 End Sub
@@ -2365,7 +2369,7 @@ If Not ((dtFim + 1) > dtInicio) Then
    Exit Sub
 End If
 
-If Not (txtUnidade.ListIndex = 2) Then
+If Not (txtUnidade.ListIndex = 2 Or txtUnidade.ListIndex = 3) Then
    txtQtdDias = (dtFim - dtInicio) + 1
 Else
    txtQtdDias = 1
@@ -3676,6 +3680,7 @@ dtFim = Date
 txtUnidade.AddItem "M2"
 txtUnidade.AddItem "Un"
 txtUnidade.AddItem "Hr"
+txtUnidade.AddItem "HrN"
 txtUnidade.ListIndex = 1
 
 cmbStatusPedido.AddItem "PENDENTE"
@@ -4349,18 +4354,21 @@ Else
    If txtUnidade = "Un" Then
       txtUnidade.ListIndex = 1
    Else
-      txtUnidade.ListIndex = 2
+      If txtUnidade = "Hr" Then
+         txtUnidade.ListIndex = 2
+      Else
+         txtUnidade.ListIndex = 3
+      End If
    End If
 End If
 
 dneg!pedunidade = txtUnidade.ListIndex
 dneg!pedPUCheio = txtPUCheio
 
-If Not (txtUnidade.ListIndex = 2) Then
-   'dneg!pedValorDaDiaria = txtPreçoUnit * txtQtd
-   dneg!pedValorDaDiaria = precoUnit * txtQtd
-Else
+If (txtUnidade.ListIndex = 2) Or (txtUnidade.ListIndex = 3) Then
    dneg!pedValorDaDiaria = txtValorDiaria
+Else
+   dneg!pedValorDaDiaria = precoUnit * txtQtd
 End If
 
 dneg!pedqtddias = txtQtdDias
@@ -4633,10 +4641,10 @@ Do While Fim_Carga = 0
          txtUnidade.ListIndex = dneg!pedunidade
          Grid.TextMatrix(Linha, 3) = dneg!pedAtividade
          Grid.TextMatrix(Linha, 4) = txtUnidade
-         If Not (txtUnidade.ListIndex = 2) Then
-            Grid.TextMatrix(Linha, 5) = Format$((dneg!pedquantidadePedida), "##0")
-         Else
+         If (txtUnidade.ListIndex = 2) Or (txtUnidade.ListIndex = 3) Then
             Grid.TextMatrix(Linha, 5) = Format$((dneg!pedquantidadePedida), "#0.00")
+         Else
+            Grid.TextMatrix(Linha, 5) = Format$((dneg!pedquantidadePedida), "##0")
          End If
          Grid.TextMatrix(Linha, 6) = Format$((dneg!pedPUCheio), "##0.00")
          Grid.TextMatrix(Linha, 7) = Format$(dneg!pedDesconto, "##0.00")
@@ -4732,8 +4740,10 @@ If txtDesconto > 0 Then
    txtValorDiaria = Format((precoUnit * txtQtd), "##0.00")
 Else
    If Not (txtUnidade = "Hr") Then
-      txtPreçoUnit = Format(txtPUCheio, "##0.00")
-      txtValorDiaria = Format((txtPreçoUnit * txtQtd), "##0.00")
+      If Not (txtUnidade = "HrN") Then
+         txtPreçoUnit = Format(txtPUCheio, "##0.00")
+         txtValorDiaria = Format((txtPreçoUnit * txtQtd), "##0.00")
+      End If
    End If
 End If
 End Sub
@@ -4762,7 +4772,7 @@ End Sub
 
 Private Sub txtQtd_LostFocus()
 
-If txtUnidade.ListIndex = 2 Then
+If txtUnidade.ListIndex = 2 Or txtUnidade.ListIndex = 3 Then
    Call CalculaMinutos
    'ValorHora = ValorHora * QtdHoras-
    'ValorMinuto = ValorMinuto * QtdMinutos
@@ -4859,16 +4869,20 @@ Private Sub txtUnidade_LostFocus()
           '   txtQtd.SetFocus
           'End If
        Else
-          If Not (txtUnidade.ListIndex = 2) Then
-              txtPUCheio = Format(ProdPco!pdpPrecoDoProduto, "##0.00")
-              txtPreçoUnit = Format(ProdPco!pdpPrecoDoProduto - ((ProdPco!pdpPrecoDoProduto * ProdPco!pdpDesconto) / 100), "###,##0.00")
-              precoUnit = txtPreçoUnit
-           Else
+          If (txtUnidade.ListIndex = 2) Or (txtUnidade.ListIndex = 3) Then
               ValorHora = Format$(((ProdPco!pdpPrecoDoProduto / 12) * 2), "#,##0.00")
+              If (txtUnidade.ListIndex = 3) Then
+                  ValorHora = Format$(ValorHora + ((ValorHora * 20 / 100)), "##0.00")
+              End If
               ValorMinuto = ValorHora / 60
               txtPUCheio = Format$(ValorHora, "##0.00")
               txtDesconto = Format$(ProdPco!pdpDesconto, "##0.00")
-              txtPreçoUnit = Format$((ProdPco!pdpPrecoDoProduto) - (txtDesconto), "###,##0.00")
+
+              'txtPreçoUnit = Format$((ProdPco!pdpPrecoDoProduto) - (txtDesconto), "###,##0.00")
+           Else
+              txtPUCheio = Format(ProdPco!pdpPrecoDoProduto, "##0.00")
+              txtPreçoUnit = Format(ProdPco!pdpPrecoDoProduto - ((ProdPco!pdpPrecoDoProduto * ProdPco!pdpDesconto) / 100), "###,##0.00")
+              precoUnit = txtPreçoUnit
            End If
         End If
 
