@@ -1,0 +1,19 @@
+*.vbp text eol=crlf
+*.frm text eol=crlf
+*.cls text eol=crlf
+*.bas text eol=crlf
+*.dsr text eol=crlf
+*.ini text eol=crlf
+*.log text eol=crlf
+*.vbw text eol=crlf
+
+*.frx binary
+*.exe binary
+*.dll binary
+*.ocx binary
+*.res binary
+*.RES binary
+*.exe binary
+*.bin binary
+*.ico binary
+*.tlb binary
