@@ -159,6 +159,7 @@ Form=Formularios\frmConclusaoServ.frm
 Designer=Relatorios\drOrdemDeCompraServico.Dsr
 Form=Formularios\frmConsultaServicosPO.frm
 Form=Formularios\frmParametrosServico.frm
+Form=Formularios\frmAtualizaFinanceiro.frm
 ResFile32="Controles\Themes.res"
 IconForm="mdiSHB"
 Startup="mdiSHB"

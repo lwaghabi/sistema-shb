@@ -557,6 +557,9 @@ Begin VB.MDIForm mdiSHB
                Begin VB.Menu mdiNfEntrada 
                   Caption         =   "Notas Fiscais de Entrada"
                End
+               Begin VB.Menu mdiAtualizaContasBancarias 
+                  Caption         =   "Atualização de Contas Bancárias"
+               End
                Begin VB.Menu mdiNFSuprimentos 
                   Caption         =   "Nota Fiscal de Suprimentos"
                   Visible         =   0   'False
@@ -885,6 +888,10 @@ Dim EncontreiAviso As Integer
 Dim pessoaAnterior As String
 
 
+
+Private Sub mdiAtualizaContasBancarias_Click()
+frmAtualizaFinanceiro.Show
+End Sub
 
 Private Sub mdiCompraDeServico_Click()
 frmReqServCompra.Show

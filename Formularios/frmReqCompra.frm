@@ -354,6 +354,7 @@ Private Sub cmdCotacao_Click()
    rs.Close
    Call geraTabela("SELECT * FROM suprequisicaocompra WHERE status = 0 ORDER BY nomeProd")
    Call FechaDB
+   Call geraPDF
 Exit Sub
 Erro: MsgBox ("Erro ao gerar cotação: " & Err.Description), vbInformation
 FechaDB
@@ -815,4 +816,13 @@ End Function
 
 Public Sub validaLinha(i As Integer)
       db.Execute ("UPDATE suprequisicaocompra SET status = 1 WHERE nomeProd =  '" & tblProdutos.TextMatrix(i, 0) & "'  AND idRequisicao =  '" & tblProdutos.TextMatrix(i, 5) & "'")
+End Sub
+
+Public Sub geraPDF()
+On Error GoTo Erro
+Call Rotina_AbrirBanco
+FechaDB
+Exit Sub
+Erro: MsgBox ("Erro ao gerar PDF de cotação"), vbInformation
+FechaDB
 End Sub
