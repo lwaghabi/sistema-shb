@@ -431,10 +431,10 @@ txtSenha = Empty
 
 DataLogin = Date
 
-If Compilando Then
-   txtUsuario = "lwaghabi"
-   txtSenha = "morena"
-End If
+'If Compilando Then
+'   txtUsuario = "lwaghabi"
+'   txtSenha = "morena"
+'End If
 
 Call Rotina_AbrirBanco
 
