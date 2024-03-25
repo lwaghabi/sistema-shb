@@ -1,6 +1,11 @@
 frmUsuarioSenha = 156, 156, 844, 576, , 20, 8, 1087, 631, C
+<<<<<<< HEAD
 mdiSHB = 52, 52, 718, 472, C, 26, 26, 692, 446, C
 frmNotaFiscalEntrada = 18, 49, 834, 574, I, 70, 63, 758, 483, C
+=======
+mdiSHB = 52, 52, 718, 472, , 26, 26, 692, 446, C
+frmNotaFiscalEntrada = 18, 49, 834, 574, C, 70, 63, 758, 483, C
+>>>>>>> 139f2f846bb18a2271da8fedfc7c43032d8c5b8b
 frmProcessaPedido = 52, 52, 714, 472, C, 130, 130, 818, 550, C
 frmProduto = 78, 78, 751, 498, C, 156, 156, 844, 576, C
 frmProgressao = 156, 156, 1039, 576, C, 26, 26, 714, 446, C
@@ -15,7 +20,7 @@ frmProdutosDeEntrada = 78, 78, 766, 498, C, 24, 74, 712, 494, C
 frmMapaPagamentos = 0, 0, 836, 420, C, 52, 52, 740, 472, C
 frmUnidadeOperacional = 52, 52, 1024, 425, C, 104, 104, 792, 524, C
 frmCentroDeCusto = 156, 156, 1039, 567, C, 130, 130, 818, 550, C
-drCtaRecebidas = 156, 156, 819, 576, C, 52, 52, 1085, 575, C
+drCtaRecebidas = 156, 156, 819, 576, C, 52, 52, 1077, 567, C
 frmMedicao = 104, 104, 970, 506, C, 78, 78, 766, 498, C
 drMedicaoEqptoPes = 130, 130, 818, 550, C, 12, 4, 1386, 780, C
 drMedicao = 0, 0, 0, 0, C, 104, 104, 1478, 880, C
@@ -28,7 +33,11 @@ frmReembolso = 78, 78, 766, 498, C, 52, 52, 740, 472, C
 drReciboReembolso = 0, 0, 0, 0, C, 208, 208, 1272, 871, C
 frmMostraIPTE = 0, 0, 0, 0, C, 104, 104, 792, 524, C
 frmPessoa = 52, 52, 931, 486, C, 182, 182, 870, 602, C
+<<<<<<< HEAD
 frmPedido = 156, 156, 792, 576, Z, 6, -3, 694, 417, C
+=======
+frmPedido = 156, 156, 792, 576, C, 6, -3, 694, 417, C
+>>>>>>> 139f2f846bb18a2271da8fedfc7c43032d8c5b8b
 frmAjustaCobranca = 130, 130, 1012, 541, C, 208, 208, 874, 628, C
 frmAtualizaPrecoProd = 19, 5, 1078, 548, C, 0, 0, 666, 624, C
 frmCalculadora = 104, 104, 792, 524, C, 104, 104, 792, 524, C
@@ -39,7 +48,7 @@ frmConsultaFinanceiro = 182, 182, 996, 602, C, 156, 156, 822, 576, C
 CalculaDiaUtil = 130, 130, 818, 550, C
 DiaUtilAnterior = 182, 182, 870, 602, C
 IDMaquina = 104, 104, 792, 524, C
-Geral = 322, 39, 1010, 459, 
+Geral = 322, 39, 1010, 459, Z
 AcharEnderecoIP = 104, 104, 792, 524, C
 frmAbre_Fecha = 78, 78, 742, 498, C, 130, 130, 818, 550, C
 frmCtaPagar = 78, 78, 741, 498, C, 52, 52, 715, 472, C
@@ -51,7 +60,11 @@ drCtaPagar = 182, 182, 844, 602, C, 104, 104, 947, 699, C
 frmProdutoAtividadePreco = 45, 45, 823, 546, C, 10, 56, 892, 610, C
 ValoresExtenso = 0, 0, 879, 434, C
 frmFaturaLocacaoEsp = 26, 26, 927, 403, C, 78, 78, 979, 455, C
+<<<<<<< HEAD
 drFaturaEsp = 0, 0, 0, 0, C, 130, 130, 1007, 743, C
+=======
+drFaturaEsp = 52, 52, 1024, 390, C, 130, 130, 999, 735, C
+>>>>>>> 139f2f846bb18a2271da8fedfc7c43032d8c5b8b
 frmPagamentosRecebimentos = 182, 182, 1048, 587, C, 39, 0, 1009, 576, C
 frmEmpenho = 38, 111, 1029, 548, C, 0, 0, 908, 411, C
 frmEventoDeLogistica = 104, 104, 1088, 516, C, 26, 26, 943, 438, C
@@ -64,8 +77,13 @@ frmAsoConsulta = 208, 208, 1091, 628, C, 182, 182, 1065, 602, C
 frmTreinamentos = 130, 130, 1011, 550, C, 52, 52, 933, 472, C
 frmTreinamentoAgenda = 104, 104, 1004, 524, C, 52, 52, 952, 472, C
 frmTreinamentoConsulta = 182, 182, 1082, 602, C, 104, 104, 1004, 524, C
+<<<<<<< HEAD
 frmAvisoTreinamento = 104, 104, 1004, 524, , 52, 52, 952, 472, C
 frmEquipamentoTipo = 130, 130, 1024, 550, C, 156, 156, 1050, 576, C
+=======
+frmAvisoTreinamento = 104, 104, 1004, 524, C, 52, 52, 952, 472, C
+frmEquipamentoTipo = 130, 130, 1024, 550, , 156, 156, 1050, 576, C
+>>>>>>> 139f2f846bb18a2271da8fedfc7c43032d8c5b8b
 frmSerieHistoricaMedicao = 130, 130, 1024, 550, C, 104, 104, 1002, 550, C
 frmAvisoReembolso = 104, 104, 1015, 524, C, 78, 78, 989, 498, C
 frmConsultaFaturamento = 182, 182, 1094, 602, C, 156, 156, 1072, 602, C
@@ -94,11 +112,16 @@ frmPO = 182, 182, 868, 602, , 130, 130, 820, 576, C
 frmControleTempo = 182, 182, 878, 602, C, 156, 156, 852, 576, C
 frmEndereco = 156, 156, 967, 576, C, 130, 130, 941, 550, C
 frmAcordoComercial = 156, 156, 877, 576, C, 130, 130, 851, 550, C
-frmRecebProdutos = 130, 130, 853, 550, , 104, 104, 827, 524, C
+frmRecebProdutos = 130, 130, 853, 550, C, 104, 104, 827, 524, C
 frmNFSuprimentos = 156, 156, 877, 576, C, 130, 130, 851, 550, C
 frmProdutoFornecedor = 130, 130, 843, 550, C, 182, 182, 895, 602, C
+<<<<<<< HEAD
 frmRequisicao = 104, 104, 811, 524, , 78, 78, 785, 498, C
 drCentroDeCusto = 0, 0, 0, 0, C, 78, 78, 1452, 854, C
+=======
+frmRequisicao = 104, 104, 811, 524, C, 78, 78, 785, 498, C
+drCentroDeCusto = 0, 0, 0, 0, C, 78, 78, 1444, 846, C
+>>>>>>> 139f2f846bb18a2271da8fedfc7c43032d8c5b8b
 frmReqCompra = 26, 26, 772, 446, , 156, 156, 902, 576, C
 frmEspecTec = 156, 156, 902, 576, C, 130, 130, 876, 550, C
 frmBaixaReqEstoque = 104, 104, 725, 524, C, 52, 52, 673, 472, C
@@ -122,8 +145,16 @@ mRibbon = 26, 26, 608, 446, C
 cVersao = 52, 52, 599, 472, 
 mVersao = 78, 78, 625, 498, C
 frmPOServicos = 78, 78, 688, 498, C, 52, 52, 662, 472, C
+<<<<<<< HEAD
 drOrdemDeCompra = 0, 0, 0, 0, C, 0, 0, 1374, 776, C
 frmConclusaoServ = 182, 182, 818, 602, C, 182, 182, 900, 602, C
 drOrdemDeCompraServico = 26, 26, 705, 446, C, 130, 130, 1504, 906, C
+=======
+drOrdemDeCompra = 182, 182, 690, 602, C, 0, 0, 1366, 768, C
+frmConclusaoServ = 182, 182, 818, 602, C, 182, 182, 900, 602, C
+drImprimeCotacao = 26, 26, 998, 364, C, 208, 208, 1574, 976, C
+>>>>>>> 139f2f846bb18a2271da8fedfc7c43032d8c5b8b
 frmConsultaServicosPO = 182, 182, 861, 602, C, 208, 208, 887, 628, C
 frmParametrosServico = 156, 156, 835, 576, C, 130, 130, 809, 550, C
+DTCDesigner1 = 0, 0, 0, 0, C, 182, 182, 1074, 841, C
+drOrdemDeCompraServico = 104, 104, 612, 524, C, 26, 26, 1392, 794, C

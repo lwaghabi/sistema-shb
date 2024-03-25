@@ -65,7 +65,7 @@ Begin VB.Form frmPO
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   378404865
+      Format          =   241958913
       CurrentDate     =   45125
    End
    Begin VB.ComboBox cmbEndEntrega 
@@ -124,7 +124,7 @@ Begin VB.Form frmPO
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   378404865
+         Format          =   242941953
          CurrentDate     =   45155
       End
       Begin VB.CommandButton cmdEmitePO 
@@ -1312,7 +1312,7 @@ End Sub
 
 Private Sub cmbNumPO_LostFocus()
    
-   If glbUsuario = "pablo" Or glbUsuario = "lwaghabi" Or glbUsuario = "raphael" Then
+   If glbUsuario = "pablo" Or glbUsuario = "lwaghabi" Or glbUsuario = "raphael" Or glbUsuario = "miriam" Then
    
       cmdEmitePO.Enabled = True
       cmdExcluiDaLista.Enabled = True
@@ -1793,7 +1793,7 @@ End Sub
 
 Private Sub Form_Load()
    
-   If glbUsuario = "pablo" Or glbUsuario = "lwaghabi" Or glbUsuario = "raphael" Then
+   If glbUsuario = "pablo" Or glbUsuario = "lwaghabi" Or glbUsuario = "raphael" Or glbUsuario = "miriam" Then
    
       cmdEmitePO.Enabled = True
       cmdExcluiDaLista.Enabled = True

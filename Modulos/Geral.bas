@@ -173,9 +173,9 @@ Global Status_Atualiza_Estoque
 Public CON As New ADODB.Connection
 Public rsl As New ADODB.Connection
 
-'Public Function Compilando() As Boolean
-'Compilando = App.Path Like "*Meus Documentos\SISTEMA*"
-'End Function
+Public Function Compilando() As Boolean
+Compilando = App.Path Like "*Meus Documentos\SISTEMA*"
+End Function
 
 Public Sub AbrirRelatorio(sql As String, Rel As Object)
 Dim tentou As Boolean
@@ -192,12 +192,12 @@ banco = "sistemaos03;"
 usuario = banco
 senha = "zinholui47"
 
-'         If Compilando Then
-'            server = "localhost;"
-'            banco = "Local;"
-'            usuario = "root;"
-'            senha = ""
-'         End If
+         If Compilando Then
+            server = "localhost;"
+            banco = "Local;"
+            usuario = "root;"
+            senha = ""
+         End If
 
          Set CON = CreateObject("ADODB.Connection")
          'Set rel = CreateObject("ADODB.Recordset")
@@ -253,12 +253,12 @@ Inicio:
 80    BDados = "sistemaos03"
 90    NomeUs = "sistemaos03"
 100   PassWD = "zinholui47"
-'   If Compilando Then
-'      server = "localhost;"
-'      BDados = "Local;"
-'      NomeUs = "root;"
-'      PassWD = ""
-'   End If
+   If Compilando Then
+      server = "localhost;"
+      BDados = "Local;"
+      NomeUs = "root;"
+      PassWD = ""
+   End If
 110  If db.State = 1 Then db.Close: Set db = Nothing
 120   db.Open Driver & server & _
               ";Database= " & BDados & _
