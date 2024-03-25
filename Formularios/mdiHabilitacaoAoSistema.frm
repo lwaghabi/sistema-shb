@@ -884,8 +884,6 @@ Dim usuarioLocal As String
 Dim EncontreiAviso As Integer
 Dim pessoaAnterior As String
 
-
-
 Private Sub mdiCompraDeServico_Click()
 frmReqServCompra.Show
 End Sub
@@ -902,7 +900,7 @@ Private Sub MDIForm_Load()
 Dim usuarioLocal As String
 frmUsuarioSenha.Show vbModal
 If Not glbUsuario = Empty Then
-    'If Not Compilando Then _
+    If Not Compilando Then _
     MsgBox ("Você esta logado no SHB através da Máquina ") & glbMaquina & ", endereço IP " & glbEnderecoIP
 
     mdiHabilitacaoSistema.Enabled = True

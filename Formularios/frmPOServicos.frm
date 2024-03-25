@@ -61,7 +61,7 @@ Begin VB.Form frmPOServicos
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Format          =   242941953
+      Format          =   243466241
       CurrentDate     =   45264
    End
    Begin VB.ComboBox cmbClasse 
@@ -178,7 +178,7 @@ Begin VB.Form frmPOServicos
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Format          =   242941953
+         Format          =   243466241
          CurrentDate     =   45275
       End
       Begin VB.TextBox txtValorTotal 

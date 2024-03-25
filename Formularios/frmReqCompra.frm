@@ -11,22 +11,91 @@ Begin VB.Form frmReqCompra
    ScaleHeight     =   10380
    ScaleWidth      =   20370
    WindowState     =   2  'Maximized
-   Begin VB.CommandButton cmdCotacao 
+   Begin VB.Frame Frame3 
       Caption         =   "Cotação"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
-         Size            =   9.75
+         Size            =   13.5
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   855
-      Left            =   19200
+      Height          =   3495
+      Left            =   18840
       TabIndex        =   20
-      Top             =   2880
-      Width           =   1095
+      Top             =   2845
+      Width           =   1575
+      Begin VB.CommandButton cmdImprimeCotacao 
+         Caption         =   "Imprimir Cotação"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   855
+         Left            =   120
+         TabIndex        =   24
+         Top             =   2400
+         Width           =   1335
+      End
+      Begin VB.TextBox txtSelecaoCotacao 
+         Alignment       =   2  'Center
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   375
+         Left            =   360
+         TabIndex        =   23
+         Top             =   1920
+         Width           =   855
+      End
+      Begin VB.CommandButton cmdCotacao 
+         Caption         =   "Gerar Cotação"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   855
+         Left            =   120
+         TabIndex        =   21
+         Top             =   360
+         Width           =   1215
+      End
+      Begin VB.Label Label3 
+         Alignment       =   2  'Center
+         Caption         =   "Cotação p/Impressão"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   495
+         Left            =   120
+         TabIndex        =   22
+         Top             =   1320
+         Width           =   1335
+      End
    End
    Begin VB.CommandButton cmdExcluir 
       Caption         =   "Excluir"
@@ -40,10 +109,10 @@ Begin VB.Form frmReqCompra
          Strikethrough   =   0   'False
       EndProperty
       Height          =   855
-      Left            =   19200
+      Left            =   19080
       TabIndex        =   19
-      Top             =   3960
-      Width           =   1095
+      Top             =   6720
+      Width           =   1215
    End
    Begin VB.CommandButton cmdFiltro 
       Caption         =   "Filtrar"
@@ -178,10 +247,10 @@ Begin VB.Form frmReqCompra
          Strikethrough   =   0   'False
       EndProperty
       Height          =   735
-      Left            =   19200
+      Left            =   19080
       TabIndex        =   8
-      Top             =   9240
-      Width           =   1095
+      Top             =   9360
+      Width           =   1215
    End
    Begin MSFlexGridLib.MSFlexGrid tblAcordo 
       Height          =   1935
@@ -208,10 +277,10 @@ Begin VB.Form frmReqCompra
          Strikethrough   =   0   'False
       EndProperty
       Height          =   855
-      Left            =   19200
+      Left            =   19080
       TabIndex        =   5
-      Top             =   5280
-      Width           =   1095
+      Top             =   8040
+      Width           =   1215
    End
    Begin VB.Frame Frame1 
       BeginProperty Font 
@@ -227,7 +296,7 @@ Begin VB.Form frmReqCompra
       Left            =   0
       TabIndex        =   3
       Top             =   2880
-      Width           =   18975
+      Width           =   18855
       Begin MSFlexGridLib.MSFlexGrid tblProdutos 
          Height          =   6615
          Left            =   120
@@ -329,6 +398,16 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Dim fornecedor As String
+Dim indice As Integer
+Dim Limite As Integer
+Dim Item As Integer
+Dim sql As String
+Dim Rel As Object
+Dim Relatorio As String
+Dim espTec As String
+Dim indiceembalagem As String
+Dim UnidadeEmb As String
+
 Private Sub cmdCotacao_Click()
    Dim i As Integer
    Dim cotacao As Integer
@@ -510,6 +589,105 @@ db.RollbackTrans
 FechaDB
 End Sub
 
+Private Sub cmdImprimeCotacao_Click()
+
+Call Rotina_AbrirBanco
+
+If txtSelecaoCotacao = Empty Then
+   MsgBox ("Número da cotação a ser impressa não informada"), vbInformation
+   Exit Sub
+End If
+
+indice = 0
+Limite = tblProdutos.Rows
+
+rs.Open "Select * from geradorgeral where chalfanumerica = ('" & "drImprimeCotacao" & "')", db, 3, 3
+If Not rs.EOF Then
+   rs.MoveFirst
+   Do While Not rs.EOF
+      rs.Delete
+      rs.MoveNext
+   Loop
+End If
+
+rs.Close
+
+indice = 1
+Item = 0
+
+Do While indice < Limite
+
+   If (tblProdutos.TextMatrix(indice, 11) = "OK") And (tblProdutos.TextMatrix(indice, 12) = txtSelecaoCotacao) Then
+      Call GeraCotacaoTemp
+   End If
+
+   indice = indice + 1
+
+Loop
+
+If Item > 0 Then
+   Call RotinaImpressaCotacao
+End If
+
+End Sub
+Public Sub GeraCotacaoTemp()
+
+Call Rotina_AbrirBanco
+
+Prod.Open "Select especificacaoTecnica, unidadeProd FROM supproduto where nomeProd = ('" & tblProdutos.TextMatrix(indice, 1) & "')", db, 3, 3
+If Prod.EOF Then
+   MsgBox ("Produto não consta do cadastro de Produtos"), vbCritical
+   Call FechaDB
+   Exit Sub
+End If
+
+espTec = Prod!especificacaoTecnica
+indiceembalagem = Prod!unidadeProd
+
+Prod.Close
+
+Prod.Open "Select UnidadeEmbalagem FROM unidadeembalagem where indice = ('" & indiceembalagem & "')", db, 3, 3
+If Prod.EOF Then
+   MsgBox ("Produto não consta do cadastro de Produtos"), vbCritical
+   Call FechaDB
+   Exit Sub
+End If
+
+UnidadeEmb = Prod!UnidadeEmbalagem
+
+Prod.Close
+
+rs.Open "Select * from geradorgeral where chalfanumerica = ('" & "drImprimeCotacao" & "') AND chNumerica = ('" & indice & "')", db, 3, 3
+If rs.EOF Then
+   rs.AddNew
+   Item = Item + 1
+   rs!chNumerica = Item
+   rs!chAlfaNumerica = "drImprimeCotacao"
+   rs!Alfa2 = tblProdutos.TextMatrix(indice, 1)
+   rs!Alfa3 = espTec
+   rs!Alfa4 = UnidadeEmb
+   rs!num2 = tblProdutos.TextMatrix(indice, 6)
+   rs!Num3 = txtSelecaoCotacao
+   rs!chChaveData = Date
+   rs.Update
+   rs.Close
+End If
+
+End Sub
+
+Public Sub RotinaImpressaCotacao()
+
+Relatorio = "drImprimeCotacao"
+
+Set Rel = drImprimeCotacao
+
+sql = "Select emp.empEmpresa, emp.empEndereco, emp.empCidade, emp.empBairro, emp.empUF, emp.empCEP, emp.empCNPJ, emp.empInscEst, emp.empEMAIL, "
+sql = sql & " gge.chAlfaNumerica, gge.chNumerica, gge.Alfa2, gge.Alfa3, gge.Alfa4, gge.Num2, gge.Num3, gge.chChaveData FROM empresa emp, geradorgeral gge "
+sql = sql & " WHERE gge.chAlfaNumerica = ('" & Relatorio & "')"
+
+AbrirRelatorio sql, Rel
+
+End Sub
 Private Sub cmdSair_Click()
 Unload Me
 End Sub
@@ -543,7 +721,7 @@ Private Sub Form_Load()
    Dim agregado As Integer
    Dim nomeAnterior As String
    
-   If glbUsuario = "pablo" Or glbUsuario = "lwaghabi" Or glbUsuario = "raphael" Then
+   If glbUsuario = "pablo" Or glbUsuario = "lwaghabi" Or glbUsuario = "raphael" Or glbUsuario = "miriam" Then
       cmdExcluir.Enabled = True
       cmdGeraPO.Enabled = True
    Else
@@ -816,3 +994,5 @@ End Function
 Public Sub validaLinha(i As Integer)
       db.Execute ("UPDATE suprequisicaocompra SET status = 1 WHERE nomeProd =  '" & tblProdutos.TextMatrix(i, 0) & "'  AND idRequisicao =  '" & tblProdutos.TextMatrix(i, 5) & "'")
 End Sub
+
+

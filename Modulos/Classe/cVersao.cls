@@ -40,7 +40,7 @@ End Function
 Private Sub AtualizaDados()
 10 On Local Error GoTo Erro
 '20
-      'If Not (Compilando) Then Exit Sub
+      If Not (Compilando) Then Exit Sub
 30    'If Not (ConfirmaAcao("Deseja atualizar a versão do servidor para: " & _
          strVSLocal & "?")) Then Exit Sub
 40   Rotina_AbrirBanco
