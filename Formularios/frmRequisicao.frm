@@ -1,15 +1,33 @@
 VERSION 5.00
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
 Begin VB.Form frmRequisicao 
+   AutoRedraw      =   -1  'True
    Caption         =   "frmRequisicao"
    ClientHeight    =   9120
    ClientLeft      =   60
    ClientTop       =   405
-   ClientWidth     =   17550
+   ClientWidth     =   17610
    LinkTopic       =   "Form1"
    ScaleHeight     =   9120
-   ScaleWidth      =   17550
+   ScaleWidth      =   17610
    StartUpPosition =   2  'CenterScreen
+   WindowState     =   2  'Maximized
+   Begin VB.ComboBox cmbTipoRequisicao 
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   13.5
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   480
+      Left            =   480
+      TabIndex        =   0
+      Top             =   1080
+      Width           =   3855
+   End
    Begin VB.CommandButton cmdCancelaRequisicao 
       Caption         =   "Cancela Requisição"
       BeginProperty Font 
@@ -23,7 +41,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   735
       Left            =   16080
-      TabIndex        =   22
+      TabIndex        =   23
       Top             =   7440
       Width           =   1335
    End
@@ -40,7 +58,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   495
       Left            =   15360
-      TabIndex        =   21
+      TabIndex        =   22
       Text            =   "Text1"
       Top             =   600
       Width           =   2055
@@ -56,8 +74,8 @@ Begin VB.Form frmRequisicao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   480
-      Left            =   2160
-      TabIndex        =   2
+      Left            =   6120
+      TabIndex        =   3
       Top             =   1080
       Width           =   4575
    End
@@ -74,7 +92,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   615
       Left            =   16080
-      TabIndex        =   11
+      TabIndex        =   12
       Top             =   8280
       Width           =   1335
    End
@@ -92,14 +110,14 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   735
       Left            =   16080
-      TabIndex        =   10
+      TabIndex        =   11
       Top             =   6600
       Width           =   1335
    End
    Begin MSFlexGridLib.MSFlexGrid tblProdutos 
       Height          =   4575
       Left            =   480
-      TabIndex        =   17
+      TabIndex        =   18
       Top             =   4440
       Width           =   15495
       _ExtentX        =   27331
@@ -132,7 +150,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   480
       Left            =   10080
-      TabIndex        =   6
+      TabIndex        =   7
       Top             =   3840
       Width           =   1335
    End
@@ -148,7 +166,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   480
       Left            =   480
-      TabIndex        =   5
+      TabIndex        =   6
       Top             =   3840
       Width           =   9570
    End
@@ -164,7 +182,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   480
       Left            =   480
-      TabIndex        =   4
+      TabIndex        =   5
       Top             =   2880
       Width           =   4455
    End
@@ -180,7 +198,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   480
       Left            =   480
-      TabIndex        =   3
+      TabIndex        =   4
       Top             =   1920
       Width           =   3375
    End
@@ -195,8 +213,8 @@ Begin VB.Form frmRequisicao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   480
-      Left            =   480
-      TabIndex        =   1
+      Left            =   4440
+      TabIndex        =   2
       Top             =   1080
       Width           =   1575
    End
@@ -213,7 +231,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   2535
       Left            =   16080
-      TabIndex        =   19
+      TabIndex        =   20
       Top             =   3720
       Width           =   1335
       Begin VB.CommandButton cmdVerificaEstoque 
@@ -229,7 +247,7 @@ Begin VB.Form frmRequisicao
          EndProperty
          Height          =   615
          Left            =   360
-         TabIndex        =   9
+         TabIndex        =   10
          Top             =   1800
          Width           =   855
       End
@@ -246,7 +264,7 @@ Begin VB.Form frmRequisicao
          EndProperty
          Height          =   615
          Left            =   360
-         TabIndex        =   8
+         TabIndex        =   9
          Top             =   1080
          Width           =   855
       End
@@ -263,10 +281,27 @@ Begin VB.Form frmRequisicao
          EndProperty
          Height          =   615
          Left            =   360
-         TabIndex        =   7
+         TabIndex        =   8
          Top             =   360
          Width           =   855
       End
+   End
+   Begin VB.Label Label9 
+      Caption         =   "Tipo de Requisição"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   12
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   375
+      Left            =   480
+      TabIndex        =   24
+      Top             =   720
+      Width           =   2535
    End
    Begin VB.Label Label8 
       Alignment       =   2  'Center
@@ -282,7 +317,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   375
       Left            =   15360
-      TabIndex        =   20
+      TabIndex        =   21
       Top             =   120
       Width           =   1935
    End
@@ -298,8 +333,8 @@ Begin VB.Form frmRequisicao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   2160
-      TabIndex        =   18
+      Left            =   6120
+      TabIndex        =   19
       Top             =   720
       Width           =   1815
    End
@@ -316,7 +351,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   375
       Left            =   9840
-      TabIndex        =   16
+      TabIndex        =   17
       Top             =   3480
       Width           =   1455
    End
@@ -333,7 +368,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   495
       Left            =   480
-      TabIndex        =   15
+      TabIndex        =   16
       Top             =   3480
       Width           =   3735
    End
@@ -350,7 +385,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   495
       Left            =   480
-      TabIndex        =   14
+      TabIndex        =   15
       Top             =   2520
       Width           =   2295
    End
@@ -367,7 +402,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   495
       Left            =   480
-      TabIndex        =   13
+      TabIndex        =   14
       Top             =   1560
       Width           =   2535
    End
@@ -383,8 +418,8 @@ Begin VB.Form frmRequisicao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   375
-      Left            =   480
-      TabIndex        =   12
+      Left            =   4440
+      TabIndex        =   13
       Top             =   720
       Width           =   1575
    End
@@ -401,7 +436,7 @@ Begin VB.Form frmRequisicao
       EndProperty
       Height          =   615
       Left            =   480
-      TabIndex        =   0
+      TabIndex        =   1
       Top             =   120
       Width           =   4575
    End
@@ -525,6 +560,19 @@ Private Sub cmbIdReq_Click()
    rs.Close
    
    FechaDB
+End Sub
+
+
+Private Sub cmbTipoRequisicao_LostFocus()
+
+If cmbTipoRequisicao.ListIndex = 1 Then
+   cmdGeraRequisicao.Enabled = True
+   cmdVerificaEstoque.Enabled = False
+Else
+   cmdGeraRequisicao.Enabled = False
+   cmdVerificaEstoque.Enabled = True
+End If
+
 End Sub
 
 Private Sub cmbUnidOper_LostFocus()
@@ -670,26 +718,41 @@ Private Sub cmdGeraRequisicao_Click()
       
       rs.Close
       
-      If tblProdutos.TextMatrix(i, 5) = 1 And tblProdutos.TextMatrix(i, 2) = 0 And Prod!Status = 1 And CInt(tblProdutos.TextMatrix(i, 3)) > 0 Then
+     If cmbTipoRequisicao.ListIndex = 1 Then
       
-         rs.Open "SELECT * FROM suprequisicaocompra WHERE nomeProd = ('" & tblProdutos.TextMatrix(i, 0) & "') and idRequisicao=('" & cmbIdReq & "')", db, 3, 3
+        tblProdutos.TextMatrix(i, 5) = "1"
+        tblProdutos.TextMatrix(i, 3) = tblProdutos.TextMatrix(i, 1)
          
-            If rs.EOF Then
-            
-               rs.AddNew
-            
-            End If
+     End If
+      
+     If CInt(tblProdutos.TextMatrix(i, 5)) = 1 And CInt(tblProdutos.TextMatrix(i, 2)) = 0 And Prod!Status = 1 And CInt(tblProdutos.TextMatrix(i, 3)) > 0 Then
+      
+        rs.Open "SELECT * FROM suprequisicaocompra WHERE nomeProd = ('" & tblProdutos.TextMatrix(i, 0) & "') and idRequisicao=('" & cmbIdReq & "')", db, 3, 3
          
-            rs!nomeProd = tblProdutos.TextMatrix(i, 0)
-            rs!idRequisicao = cmbIdReq
-            rs!qtdRequisitada = tblProdutos.TextMatrix(i, 1)
-            rs!qtdEmEstoque = tblProdutos.TextMatrix(i, 2)
-            rs!qtdPendente = tblProdutos.TextMatrix(i, 3)
-            rs!estoqueMaximo = Prod!estoqueMaximo
-            rs!qtdComprar = rs!estoqueMaximo + rs!qtdPendente
-            rs.Update
+        If rs.EOF Then
             
-         rs.Close
+           rs.AddNew
+            
+        End If
+         
+        rs!nomeProd = tblProdutos.TextMatrix(i, 0)
+        rs!idRequisicao = cmbIdReq
+        rs!qtdRequisitada = tblProdutos.TextMatrix(i, 1)
+        rs!qtdEmEstoque = tblProdutos.TextMatrix(i, 2)
+        rs!qtdPendente = tblProdutos.TextMatrix(i, 3)
+        rs!estoqueMaximo = Prod!estoqueMaximo
+      
+        If cmbTipoRequisicao.ListIndex = 1 Then
+           rs!qtdComprar = rs!qtdPendente
+        Else
+           rs!qtdComprar = rs!estoqueMaximo + rs!qtdPendente
+        End If
+            
+'            rs!qtdComprar = rs!estoqueMaximo + rs!qtdPendente
+        rs!tipoRequisicao = cmbTipoRequisicao.ListIndex
+        rs.Update
+            
+        rs.Close
       
       End If
       pes.Close
@@ -909,6 +972,11 @@ Private Sub Form_Load()
       rs.MoveNext
    
    Loop
+   
+   cmbTipoRequisicao.Clear
+   
+   cmbTipoRequisicao.AddItem "Com Baixa de Estoque"
+   cmbTipoRequisicao.AddItem "Sem Baixa de Estoque"
    
    rs.Close
    

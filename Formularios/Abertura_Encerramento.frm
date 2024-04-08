@@ -32,7 +32,7 @@ Begin VB.Form frmAbre_Fecha
       _ExtentX        =   2355
       _ExtentY        =   661
       _Version        =   393216
-      Format          =   243793921
+      Format          =   253755393
       CurrentDate     =   43883
    End
    Begin VB.Frame Frame3 
@@ -182,7 +182,7 @@ Begin VB.Form frmAbre_Fecha
          _ExtentX        =   2355
          _ExtentY        =   661
          _Version        =   393216
-         Format          =   243859457
+         Format          =   253755393
          CurrentDate     =   43883
       End
       Begin VB.TextBox txtHoraEvento 
@@ -300,6 +300,8 @@ Dim mes As Integer
 Dim Dia As Integer
 
 Dim FSys As New FileSystemObject
+Dim Status1 As Integer
+Dim Contador As Integer
 Dim Servidor As String
 Dim DriveDestino As String
 Dim TabIndex As Index
@@ -419,6 +421,7 @@ If glb.EOF Then
          End If
       End If
    End If
+   
 Else
    If glb!glostatussistema = 1 And optAbre = True Then
       MsgBox ("O Sistema já está aberto"), vbInformation
@@ -1051,6 +1054,9 @@ nfe.MoveFirst
 ' nfd = Nota Fiscal Desdobramento.
 
 Do While FimNfe = 0
+'   If nfe!chPessoa = "VIVO TEL" Then
+'      MsgBox ("cHEGUEI"), vbInformation
+'   End If
    nfd.Open "select * from notafiscaldesdobramento where chPessoa = ('" & nfe!chPessoa & "') and chNotaFiscalEntrada = ('" & nfe!chNotaFiscalEntrada & "')", db, 3, 3
    If nfd.EOF Then
       MsgBox ("Não há Notas Fiscais de Entrada - Desdobramento") & nfe!chPessoa & " - " & nfe!chNotaFiscalEntrada, vbInformation
@@ -1103,9 +1109,7 @@ Do While FimNfe = 0
    If hnfe.EOF Then
       hnfe.AddNew
    End If
-'   If nfe!chPessoa = "VIVO TEL" Then
-'      MsgBox ("Chegou"), vbInformation
-'   End If
+
    hnfe!chPessoa = nfe!chPessoa
    hnfe!chNotaFiscalEntrada = nfe!chNotaFiscalEntrada
    hnfe!nfelartmerco = nfe!nfelartmerco
@@ -1150,6 +1154,7 @@ Loop
 'MsgBox ("Total Deletado da Nota Fiscal = "), , ContaDelNF
 
 
+ultimoRegistro = "Rotina notafiscaldetprod"
 
  'dnfe = Detalhe Nota Fiscal de Entrada - Produtos.
       
@@ -1164,6 +1169,9 @@ Else
    pessoaAnterior = Empty
    dnfe.MoveFirst
    Do While FimDet = 0
+'      If dnfe!chPessoa = "ENTER MOVEIS" Then
+'         MsgBox ("Chegou"), vbInformation
+'      End If
       If Not (dnfe!chPessoa = pessoaAnterior And dnfe!chNotaFiscalEntrada = NotaFiscalAnterior) Then
          pessoaAnterior = dnfe!chPessoa
          NotaFiscalAnterior = dnfe!chNotaFiscalEntrada
@@ -1174,13 +1182,24 @@ Else
          If ctp.EOF Then
             WsStatus = 0
             Encontrei = 0
+            Status1 = 0
+            Contador = 0
          Else
             Encontrei = 1
-            WsStatus = ctp!ctpStatus
+            Contador = 0
+            Status1 = 0
+            ctp.MoveFirst
+            Do While Not ctp.EOF
+               Contador = Contador + 1
+               If ctp!ctpStatus = 1 Then
+                  Status1 = Status1 + 1
+               End If
+               ctp.MoveNext
+            Loop
          End If
       End If
       
-      If Encontrei = 1 And WsStatus = 1 Then
+      If (Encontrei = 0) Or (Status1 > 0 And Contador < 2) Then
      
          If hdnfe.State = 1 Then
             hdnfe.Close: Set hdnfe = Nothing

@@ -1,14 +1,15 @@
 VERSION 5.00
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
 Begin VB.Form frmReqCompra 
+   AutoRedraw      =   -1  'True
    Caption         =   "frmReqCompra     "
-   ClientHeight    =   10380
+   ClientHeight    =   10335
    ClientLeft      =   60
    ClientTop       =   405
    ClientWidth     =   20370
    LinkTopic       =   "Form1"
    MDIChild        =   -1  'True
-   ScaleHeight     =   10380
+   ScaleHeight     =   10335
    ScaleWidth      =   20370
    WindowState     =   2  'Maximized
    Begin VB.Frame Frame3 
@@ -22,11 +23,28 @@ Begin VB.Form frmReqCompra
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   3495
+      Height          =   4455
       Left            =   18840
       TabIndex        =   20
       Top             =   2845
       Width           =   1575
+      Begin VB.CommandButton cmdCancelaCotacao 
+         Caption         =   "Cancelar Cotação"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   12
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   735
+         Left            =   120
+         TabIndex        =   25
+         Top             =   2520
+         Width           =   1335
+      End
       Begin VB.CommandButton cmdImprimeCotacao 
          Caption         =   "Imprimir Cotação"
          BeginProperty Font 
@@ -41,7 +59,7 @@ Begin VB.Form frmReqCompra
          Height          =   855
          Left            =   120
          TabIndex        =   24
-         Top             =   2400
+         Top             =   3360
          Width           =   1335
       End
       Begin VB.TextBox txtSelecaoCotacao 
@@ -80,7 +98,7 @@ Begin VB.Form frmReqCompra
       End
       Begin VB.Label Label3 
          Alignment       =   2  'Center
-         Caption         =   "Cotação p/Impressão"
+         Caption         =   "Cotação Comandos"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   9.75
@@ -111,7 +129,7 @@ Begin VB.Form frmReqCompra
       Height          =   855
       Left            =   19080
       TabIndex        =   19
-      Top             =   6720
+      Top             =   7560
       Width           =   1215
    End
    Begin VB.CommandButton cmdFiltro 
@@ -249,7 +267,7 @@ Begin VB.Form frmReqCompra
       Height          =   735
       Left            =   19080
       TabIndex        =   8
-      Top             =   9360
+      Top             =   9480
       Width           =   1215
    End
    Begin MSFlexGridLib.MSFlexGrid tblAcordo 
@@ -279,7 +297,7 @@ Begin VB.Form frmReqCompra
       Height          =   855
       Left            =   19080
       TabIndex        =   5
-      Top             =   8040
+      Top             =   8520
       Width           =   1215
    End
    Begin VB.Frame Frame1 
@@ -292,19 +310,19 @@ Begin VB.Form frmReqCompra
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   7215
+      Height          =   7455
       Left            =   0
       TabIndex        =   3
       Top             =   2880
       Width           =   18855
       Begin MSFlexGridLib.MSFlexGrid tblProdutos 
-         Height          =   6615
+         Height          =   6975
          Left            =   120
          TabIndex        =   4
          Top             =   480
          Width           =   18735
          _ExtentX        =   33046
-         _ExtentY        =   11668
+         _ExtentY        =   12303
          _Version        =   393216
          Cols            =   14
          FixedCols       =   0
@@ -399,6 +417,7 @@ Attribute VB_Exposed = False
 Option Explicit
 Dim fornecedor As String
 Dim indice As Integer
+Dim IndiceAuxiliar As Integer
 Dim Limite As Integer
 Dim Item As Integer
 Dim sql As String
@@ -407,6 +426,43 @@ Dim Relatorio As String
 Dim espTec As String
 Dim indiceembalagem As String
 Dim UnidadeEmb As String
+
+Private Sub cmdCancelaCotacao_Click()
+
+Call Rotina_AbrirBanco
+
+If txtSelecaoCotacao = Empty Then
+   MsgBox ("Número da cotação a ser CANCELADA não informada"), vbInformation
+   Exit Sub
+End If
+
+indice = 0
+Limite = tblProdutos.Rows
+
+indice = 1
+Item = 0
+
+Do While indice < Limite
+
+   If (tblProdutos.TextMatrix(indice, 11) = "OK") And (tblProdutos.TextMatrix(indice, 12) = txtSelecaoCotacao) Then
+      rs.Open "SELECT * FROM suprequisicaocompra where nomeProd = ('" & tblProdutos.TextMatrix(indice, 0) & "')", db, 3, 3
+      If rs.EOF Then
+         MsgBox ("Produto não encontrado para cancelamento de Cotação."), vbInformation
+         Call FechaDB
+         Exit Sub
+      Else
+         rs!codCotacao = Empty
+         rs.Update
+      End If
+   End If
+
+   indice = indice + 1
+
+Loop
+
+Call geraTabela("SELECT src.nomeProd, src.tipoRequisicao, src.idRequisicao,src.qtdRequisitada,se.qtdEmEstoque,src.qtdPendente,sp.estoqueMaximo,src.qtdComprar,src.status,src.codCotacao FROM suprequisicaocompra src INNER JOIN supproduto sp ON src.nomeProd = sp.nomeProd LEFT JOIN supestoque se ON sp.grupo=se.grupo AND sp.classe=se.classe AND sp.codProd=se.codProd WHERE src.status = 0 ORDER BY nomeProd")
+
+End Sub
 
 Private Sub cmdCotacao_Click()
    Dim i As Integer
@@ -431,7 +487,7 @@ Private Sub cmdCotacao_Click()
       i = i + 1
    Loop
    rs.Close
-   Call geraTabela("SELECT * FROM suprequisicaocompra WHERE status = 0 ORDER BY nomeProd")
+   Call geraTabela("SELECT src.nomeProd, src.tipoRequisicao, src.idRequisicao,src.qtdRequisitada,se.qtdEmEstoque,src.qtdPendente,sp.estoqueMaximo,src.qtdComprar,src.status,src.codCotacao FROM suprequisicaocompra src INNER JOIN supproduto sp ON src.nomeProd = sp.nomeProd LEFT JOIN supestoque se ON sp.grupo=se.grupo AND sp.classe=se.classe AND sp.codProd=se.codProd WHERE src.status = 0 ORDER BY nomeProd")
    Call FechaDB
 Exit Sub
 Erro: MsgBox ("Erro ao gerar cotação: " & Err.Description), vbInformation
@@ -513,15 +569,29 @@ Private Sub cmdGeraPO_Click()
             If rs.EOF Then
                rs.AddNew
             End If
-            
+       
             db.Execute ("UPDATE suprequisicaocompra SET PO='" & Id & "' WHERE idRequisicao='" & tblProdutos.TextMatrix(i, 5) & "' AND nomeProd = '" & tblProdutos.TextMatrix(i, 0) & "'")
       
             rs!Id = Id
             rs!Grupo = Prod!Grupo
             rs!Classe = Prod!Classe
             rs!codProd = Prod!codProd
-            rs!qtdPedida = acumulado + tblProdutos.TextMatrix(i, 4) - tblProdutos.TextMatrix(i, 2)
-            If tblProdutos.TextMatrix(i, 9) <> "S/Acordo" And tblProdutos.TextMatrix(i, 9) <> Empty Then
+            
+            ctp.Open "SELECT tipoRequisicao FROM suprequisicaocompra WHERE idRequisicao='" & tblProdutos.TextMatrix(i, 5) & "' AND nomeProd = '" & tblProdutos.TextMatrix(i, 0) & "'", db, 3, 3
+            If ctp.EOF Then
+               MsgBox ("ERRO: Suprequisicaocompra não encontrado"), vbCritical
+               Call FechaDB
+               Exit Sub
+            End If
+            
+            If ctp!tipoRequisicao = 0 Then
+               rs!qtdPedida = acumulado + tblProdutos.TextMatrix(i, 4) - tblProdutos.TextMatrix(i, 2)
+            Else
+               rs!qtdPedida = acumulado
+            End If
+            ctp.Close
+            
+             If tblProdutos.TextMatrix(i, 9) <> "S/Acordo" And tblProdutos.TextMatrix(i, 9) <> Empty Then
                rs!valorUnitario = tblProdutos.TextMatrix(i, 10)
                rs!acordo = tblProdutos.TextMatrix(i, 13)
                pes.Open "SELECT * FROM suppedidodecompra WHERE id=('" & Id & "')", db, 3, 3
@@ -552,14 +622,27 @@ Private Sub cmdGeraPO_Click()
          If rs.EOF Then
             rs.AddNew
          End If
-         
+          
          db.Execute ("UPDATE suprequisicaocompra SET PO='" & Id & "' WHERE idRequisicao='" & tblProdutos.TextMatrix(i, 5) & "' AND nomeProd = '" & tblProdutos.TextMatrix(i, 0) & "'")
          
          rs!Id = Id
          rs!Grupo = Prod!Grupo
          rs!Classe = Prod!Classe
          rs!codProd = Prod!codProd
-         rs!qtdPedida = acumulado + tblProdutos.TextMatrix(i, 4) - tblProdutos.TextMatrix(i, 2)
+         ctp.Open "SELECT tipoRequisicao FROM suprequisicaocompra WHERE idRequisicao='" & tblProdutos.TextMatrix(i, 5) & "' AND nomeProd = '" & tblProdutos.TextMatrix(i, 0) & "')", db, 3, 3
+         If ctp.EOF Then
+            MsgBox ("ERRO: Suprequisicaocompra não encontrado"), vbCritical
+            Call FechaDB
+            Exit Sub
+         End If
+         
+         If ctp!tipoRequisicao = 0 Then
+            rs!qtdPedida = acumulado + tblProdutos.TextMatrix(i, 4) - tblProdutos.TextMatrix(i, 2)
+         Else
+            rs!qtdPedida = acumulado
+         End If
+         ctp.Close
+         
          If tblProdutos.TextMatrix(i, 9) <> "S/Acordo" And tblProdutos.TextMatrix(i, 9) <> Empty Then
             rs!valorUnitario = tblProdutos.TextMatrix(i, 10)
             rs!acordo = tblProdutos.TextMatrix(i, 13)
@@ -634,7 +717,7 @@ Public Sub GeraCotacaoTemp()
 
 Call Rotina_AbrirBanco
 
-Prod.Open "Select especificacaoTecnica, unidadeProd FROM supproduto where nomeProd = ('" & tblProdutos.TextMatrix(indice, 1) & "')", db, 3, 3
+Prod.Open "Select especificacaoTecnica, unidadeProd FROM supproduto where nomeProd = ('" & tblProdutos.TextMatrix(indice, 0) & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("Produto não consta do cadastro de Produtos"), vbCritical
    Call FechaDB
@@ -646,14 +729,14 @@ indiceembalagem = Prod!unidadeProd
 
 Prod.Close
 
-Prod.Open "Select UnidadeEmbalagem FROM unidadeembalagem where indice = ('" & indiceembalagem & "')", db, 3, 3
+Prod.Open "Select AbreviaturaUnidadeEmbalagem FROM unidadeembalagem where indice = ('" & indiceembalagem & "')", db, 3, 3
 If Prod.EOF Then
    MsgBox ("Produto não consta do cadastro de Produtos"), vbCritical
    Call FechaDB
    Exit Sub
 End If
 
-UnidadeEmb = Prod!UnidadeEmbalagem
+UnidadeEmb = Prod!AbreviaturaUnidadeEmbalagem
 
 Prod.Close
 
@@ -663,10 +746,18 @@ If rs.EOF Then
    Item = Item + 1
    rs!chNumerica = Item
    rs!chAlfaNumerica = "drImprimeCotacao"
-   rs!Alfa2 = tblProdutos.TextMatrix(indice, 1)
+   rs!Alfa2 = tblProdutos.TextMatrix(indice, 0)
    rs!Alfa3 = espTec
    rs!Alfa4 = UnidadeEmb
-   rs!num2 = tblProdutos.TextMatrix(indice, 6)
+   If tblProdutos.TextMatrix(indice, 8) = Empty Then
+      IndiceAuxiliar = indice
+      Do While tblProdutos.TextMatrix(IndiceAuxiliar, 8) = Empty
+         IndiceAuxiliar = IndiceAuxiliar + 1
+      Loop
+      rs!num2 = tblProdutos.TextMatrix(IndiceAuxiliar, 8)
+   Else
+      rs!num2 = tblProdutos.TextMatrix(indice, 8)
+   End If
    rs!Num3 = txtSelecaoCotacao
    rs!chChaveData = Date
    rs.Update
@@ -699,15 +790,15 @@ Private Sub cmdFiltro_Click()
    
    If lstContrato = "Com Contrato" Then
    
-      Call geraTabela(montaQuery("SELECT src.nomeProd,src.idRequisicao,src.qtdRequisitada,se.qtdEmEstoque,src.qtdPendente,sp.estoqueMaximo,src.qtdComprar,src.status,src.codCotacao FROM suprequisicaocompra src INNER JOIN supproduto sp ON src.nomeProd = sp.nomeProd INNER JOIN supestoque se ON sp.grupo=se.grupo AND sp.classe=se.classe AND sp.codProd=se.codProd INNER JOIN supacordocomercial sac ON sac.grupo=sp.grupo AND sac.classe = sp.classe INNER JOIN supacordocomercialdetalhe sacd ON sacd.codProd = sp.codProd WHERE src.status = 0"))
+      Call geraTabela(montaQuery("SELECT src.nomeProd, src.tipoRequisicao, src.idRequisicao,src.qtdRequisitada,se.qtdEmEstoque,src.qtdPendente,sp.estoqueMaximo,src.qtdComprar,src.status,src.codCotacao FROM suprequisicaocompra src INNER JOIN supproduto sp ON src.nomeProd = sp.nomeProd INNER JOIN supestoque se ON sp.grupo=se.grupo AND sp.classe=se.classe AND sp.codProd=se.codProd INNER JOIN supacordocomercial sac ON sac.grupo=sp.grupo AND sac.classe = sp.classe INNER JOIN supacordocomercialdetalhe sacd ON sacd.codProd = sp.codProd WHERE src.status = 0"))
       
    ElseIf lstContrato = "Sem Contrato" Then
       
-      Call geraTabela(montaQuery("SELECT src.nomeProd,src.idRequisicao,src.qtdRequisitada,se.qtdEmEstoque,src.qtdPendente,sp.estoqueMaximo,src.qtdComprar,src.status,src.codCotacao FROM suprequisicaocompra src INNER JOIN supproduto sp ON src.nomeProd = sp.nomeProd INNER JOIN supestoque se ON sp.grupo=se.grupo AND sp.classe=se.classe AND sp.codProd=se.codProd WHERE (src.nomeProd,idRequisicao) NOT IN (SELECT src.nomeProd,src.idRequisicao FROM suprequisicaocompra src INNER JOIN supproduto sp ON src.nomeProd = sp.nomeProd INNER JOIN supestoque se ON sp.grupo=se.grupo AND sp.classe=se.classe AND sp.codProd=se.codProd INNER JOIN supacordocomercial sac ON sac.grupo=sp.grupo AND sac.classe = sp.classe INNER JOIN supacordocomercialdetalhe sacd ON sacd.codProd = sp.codProd AND sac.id=sacd.id WHERE src.status = 0) AND src.status = 0 "))
+      Call geraTabela(montaQuery("SELECT src.nomeProd, src.tipoRequisicao, src.idRequisicao,src.qtdRequisitada,se.qtdEmEstoque,src.qtdPendente,sp.estoqueMaximo,src.qtdComprar,src.status,src.codCotacao FROM suprequisicaocompra src INNER JOIN supproduto sp ON src.nomeProd = sp.nomeProd INNER JOIN supestoque se ON sp.grupo=se.grupo AND sp.classe=se.classe AND sp.codProd=se.codProd WHERE (src.nomeProd,idRequisicao) NOT IN (SELECT src.nomeProd,src.idRequisicao FROM suprequisicaocompra src INNER JOIN supproduto sp ON src.nomeProd = sp.nomeProd INNER JOIN supestoque se ON sp.grupo=se.grupo AND sp.classe=se.classe AND sp.codProd=se.codProd INNER JOIN supacordocomercial sac ON sac.grupo=sp.grupo AND sac.classe = sp.classe INNER JOIN supacordocomercialdetalhe sacd ON sacd.codProd = sp.codProd AND sac.id=sacd.id WHERE src.status = 0) AND src.status = 0 "))
       
    Else
       
-      Call geraTabela(montaQuery("SELECT src.nomeProd,src.idRequisicao,src.qtdRequisitada,se.qtdEmEstoque,src.qtdPendente,sp.estoqueMaximo,src.qtdComprar,src.status,src.codCotacao FROM suprequisicaocompra src INNER JOIN supproduto sp ON src.nomeProd = sp.nomeProd LEFT JOIN supestoque se ON sp.grupo=se.grupo AND sp.classe=se.classe AND sp.codProd=se.codProd WHERE src.status = 0"))
+      Call geraTabela(montaQuery("SELECT src.nomeProd, src.tipoRequisicao, src.idRequisicao,src.qtdRequisitada,se.qtdEmEstoque,src.qtdPendente,sp.estoqueMaximo,src.qtdComprar,src.status,src.codCotacao FROM suprequisicaocompra src INNER JOIN supproduto sp ON src.nomeProd = sp.nomeProd LEFT JOIN supestoque se ON sp.grupo=se.grupo AND sp.classe=se.classe AND sp.codProd=se.codProd WHERE src.status = 0"))
    
    End If
    FechaDB
@@ -756,7 +847,7 @@ Private Sub Form_Load()
    
    fornecedor = Empty
    
-   Call geraTabela("SELECT src.nomeProd,src.idRequisicao,src.qtdRequisitada,se.qtdEmEstoque,src.qtdPendente,sp.estoqueMaximo,src.qtdComprar,src.status,src.codCotacao FROM suprequisicaocompra src INNER JOIN supproduto sp ON src.nomeProd = sp.nomeProd LEFT JOIN supestoque se ON sp.grupo=se.grupo AND sp.classe=se.classe AND sp.codProd=se.codProd WHERE src.status = 0 ORDER BY nomeProd")
+   Call geraTabela("SELECT src.nomeProd, src.tipoRequisicao, src.idRequisicao,src.qtdRequisitada,se.qtdEmEstoque,src.qtdPendente,sp.estoqueMaximo,src.qtdComprar,src.status,src.codCotacao FROM suprequisicaocompra src INNER JOIN supproduto sp ON src.nomeProd = sp.nomeProd LEFT JOIN supestoque se ON sp.grupo=se.grupo AND sp.classe=se.classe AND sp.codProd=se.codProd WHERE src.status = 0 ORDER BY nomeProd")
    
    FechaDB
 End Sub
@@ -931,16 +1022,29 @@ Public Sub geraTabela(query As String)
       Prod.Open "SELECT chPessoa FROM suprequisicao WHERE id = ('" & rs!idRequisicao & "')", db, 3, 3
          
       If rs!nomeProd = nomeAnterior Then
-         agregado = agregado + rs!qtdPendente
+         If rs!tipoRequisicao = 0 Then
+            agregado = rs!estoqueMaximo + rs!qtdPendente - rs!qtdEmEstoque
+         Else
+            agregado = rs!qtdPendente
+         End If
+'         agregado = agregado + rs!qtdPendente
          tblProdutos.AddItem rs!nomeProd & vbTab & "" & vbTab & rs!qtdEmEstoque & vbTab & rs!qtdPendente & vbTab & rs!estoqueMaximo & vbTab & rs!idRequisicao & vbTab & rs!qtdRequisitada & vbTab & Prod!chPessoa & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & rs!codCotacao
       
       Else
+
          nomeAnterior = rs!nomeProd
+         
          If tblProdutos.Rows > 1 Then
             tblProdutos.TextMatrix(tblProdutos.Rows - 1, 8) = agregado
          End If
-         agregado = rs!estoqueMaximo + rs!qtdPendente - rs!qtdEmEstoque
+         
          tblProdutos.AddItem rs!nomeProd & vbTab & rs!nomeProd & vbTab & rs!qtdEmEstoque & vbTab & rs!qtdPendente & vbTab & rs!estoqueMaximo & vbTab & rs!idRequisicao & vbTab & rs!qtdRequisitada & vbTab & Prod!chPessoa & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & rs!codCotacao
+      
+         If rs!tipoRequisicao = 0 Then
+            agregado = rs!estoqueMaximo + rs!qtdPendente - rs!qtdEmEstoque
+         Else
+            agregado = rs!qtdPendente
+         End If
       
       End If
       
@@ -994,5 +1098,6 @@ End Function
 Public Sub validaLinha(i As Integer)
       db.Execute ("UPDATE suprequisicaocompra SET status = 1 WHERE nomeProd =  '" & tblProdutos.TextMatrix(i, 0) & "'  AND idRequisicao =  '" & tblProdutos.TextMatrix(i, 5) & "'")
 End Sub
+
 
 
